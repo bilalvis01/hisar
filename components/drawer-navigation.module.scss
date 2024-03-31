@@ -1,0 +1,63 @@
+.dialog {
+    height: 100%;
+    width: 67%;
+    background-color: var(--drawer-navigation-bg);
+    opacity: 1;
+}
+
+.trigger {
+    border: none;
+    grid-area: menu;
+    justify-self: center;
+    align-self: center;
+    background-color: transparent;
+    color: var(--navigation-color);
+}
+
+@media (min-width: 992px) {
+    .trigger {
+        display: none;
+    }
+}
+
+.header {
+    display: grid;
+    grid-template-areas: "logo close";
+    grid-template-columns: 10rem 1fr;
+    grid-template-rows: 6rem;
+    border-bottom: 2px solid var(--drawer-navigation-outline);
+}
+
+.close {
+    border: none;
+    grid-area: close;
+    justify-self: end;
+    align-self: center;
+    background-color: transparent;
+    padding: 2rem;
+}
+
+.logo {
+    grid-area: logo;
+    justify-self: center;
+    align-self: center;
+}
+
+.navigationBar {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-family-sans);
+}
+
+.navigationItem {
+    display: inline-block;
+    padding: 1.5rem 3rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--drawer-navigation-color);
+}
+
+.overlay {
+    background-color: var(--dialog-overlay);
+}

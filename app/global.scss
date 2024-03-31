@@ -1,0 +1,36 @@
+@use 'reset';
+@use 'palette';
+
+
+$font-family-sans: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+$app-bg: linear-gradient(
+    to bottom,
+    var(--primary) 22rem,
+    var(--surface) 22rem,
+);
+$footer-bg: var(--surface-dim);
+$navigation-color: var(--on-primary);
+$footer-color: var(--on-surface-variant);
+$dialog-overlay: rgba(var(--scrim-rgb), 0.8);
+$drawer-navigation-bg: var(--surface);
+$drawer-navigation-outline: var(--outline-variant);
+$drawer-navigation-color: var(--on-surface);
+
+$layout: (
+    "font-family-sans": $font-family-sans,
+    "app-bg": $app-bg,
+    "footer-bg": $footer-bg,
+    "navigation-color": $navigation-color,
+    "footer-color": $footer-color,
+    "dialog-overlay": $dialog-overlay,
+    "drawer-navigation-bg": $drawer-navigation-bg,
+    "drawer-navigation-outline": $drawer-navigation-outline,
+    "drawer-navigation-color": $drawer-navigation-color,
+);
+
+:root {
+    @each $key, $value in $layout {
+        --#{$key}: #{$value};
+    }
+}

@@ -1,0 +1,81 @@
+.app {
+    display: grid;
+    grid-template-areas: 
+        "header"
+        "main"
+        "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: 6rem 1fr 4rem;
+    background: var(--app-bg);
+    font-family: var(--font-family-sans);
+    min-height: 100vh;
+}  
+
+.header {
+    grid-area: header;
+    display: grid;
+    grid-template-areas: "menu logo";
+    grid-template-columns: 6rem 1fr;
+}
+
+@media (min-width: 992px) {
+    .header {
+        display: grid;
+        grid-template-areas: "logo menu";
+        grid-template-columns: 10rem 1fr;
+    }
+}
+
+.main {
+    grid-area: main;
+    position: relative;
+    padding: 8rem;
+}
+
+.footer {
+    grid-area: footer;
+    background-color: var(--footer-bg);
+    color: var(--footer-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.logo {
+    grid-area: logo;
+    align-self: center;
+    justify-self: left;
+}
+
+@media (min-width: 992px) {
+    .logo {
+        justify-self: center;
+    }
+}
+
+.mainNavigation {
+    grid-area: menu;
+    display: none;
+    align-self: center;
+    justify-self: end;
+    margin: 0 4rem;
+}
+
+@media (min-width: 992px) {
+    .mainNavigation {
+        display: block;
+    }
+}
+
+.mainNavigationBar {
+    display: flex;
+}
+
+.mainNavigationItem {
+    margin: 0 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--navigation-color);
+}
