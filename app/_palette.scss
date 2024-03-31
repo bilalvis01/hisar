@@ -4,8 +4,8 @@ $primary-key: #8b5cf6 !default;
 $secondary-key: #76D95B !default;
 
 $neutral: #94a3b8;
-$neutral-key: mix($primary-key, $neutral, 30%) !default;
-$neutral-variant-key: mix($primary-key, scale-color($neutral, $lightness: 10%), 30%) !default;
+$neutral-key: mix($primary-key, $neutral, 20%) !default;
+$neutral-variant-key: mix($primary-key, scale-color($neutral, $lightness: 10%), 20%) !default;
 
 $primary-100: scale-color($primary-key, $lightness: 100%) !default;
 $primary-99: scale-color($primary-key, $lightness: 98%) !default;
