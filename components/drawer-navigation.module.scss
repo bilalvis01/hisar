@@ -26,7 +26,7 @@
     grid-template-areas: "logo close";
     grid-template-columns: 10rem 1fr;
     grid-template-rows: 6rem;
-    border-bottom: 2px solid var(--drawer-navigation-outline);
+    border-bottom: 1px solid var(--drawer-navigation-outline);
 }
 
 .close {
