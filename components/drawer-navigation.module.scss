@@ -15,10 +15,8 @@
     border: none;
     background-color: transparent;
     color: var(--navigation-color);
-}
 
-@media (min-width: 992px) {
-    .trigger {
+    @media (min-width: 992px) {
         display: none;
     }
 }
