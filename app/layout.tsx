@@ -16,7 +16,9 @@ export default function RootLayout({
                 <div className={style.app}>
                     <header className={style.header}>
                         <DrawerNavigation />
-                        <Logo className={style.logo} />
+                        <nav className={style.logo}>
+                            <Logo />
+                        </nav>
                         <nav className={style.mainNavigation} aria-label="Main Navigation">
                             <Navigation 
                                 role="menubar" 

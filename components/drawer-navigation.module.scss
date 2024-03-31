@@ -1,3 +1,9 @@
+.nav {
+    grid-area: menu;
+    justify-self: center;
+    align-self: center;
+}
+
 .dialog {
     height: 100%;
     width: 67%;
@@ -7,9 +13,6 @@
 
 .trigger {
     border: none;
-    grid-area: menu;
-    justify-self: center;
-    align-self: center;
     background-color: transparent;
     color: var(--navigation-color);
 }

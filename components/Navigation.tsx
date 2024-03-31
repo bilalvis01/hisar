@@ -1,15 +1,17 @@
 import React from "react";
 import Link from "next/link";
 
+interface NavigationProps {
+    role: string;
+    ariaLabel: string;
+    classes: { root: string, menuItem: string, };
+}
+
 export default function Navigation({ 
     role,
     ariaLabel,
     classes 
-}: {
-    role: string,
-    ariaLabel: string,
-    classes: { root: string, menuItem: string, }
-}) {
+}: NavigationProps) {
     return (
         <ul className={classes.root} role={role} aria-label={ariaLabel}>
             <li role="none">
