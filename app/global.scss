@@ -1,15 +1,14 @@
 @use 'reset';
 @use 'box-sizing';
 @use 'palette';
-@use 'breakpoints';
 
 
 $font-family-sans: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
 $app-bg: linear-gradient(
     to bottom,
-    var(--primary) 22rem,
-    var(--surface) 22rem,
+    var(--primary) 21rem,
+    var(--surface) 21rem,
 );
 $footer-bg: var(--surface-dim);
 $navigation-color: var(--on-primary);

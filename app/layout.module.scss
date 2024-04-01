@@ -9,6 +9,7 @@
     background: var(--app-bg);
     font-family: var(--font-family-sans);
     min-height: 100vh;
+    max-width: 100%;
 }  
 
 .header {
@@ -27,7 +28,15 @@
 .main {
     grid-area: main;
     position: relative;
-    margin: 8rem;
+    margin: 6rem 3rem;
+
+    @media (min-width: 992px) {
+        margin: 6rem 4rem;
+    }
+
+    @media (min-width: 1200px) {
+        margin: 6rem;
+    }
 }
 
 .footer {
