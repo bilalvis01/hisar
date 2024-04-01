@@ -1,0 +1,46 @@
+.wrapper {
+    grid-area: body;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border: 1px solid var(--outline-variant);
+}
+
+%row {
+    background: var(--surface-container-low);
+}
+
+%cell {
+    vertical-align: middle;
+    text-align: center;
+    padding: 1rem 1.5rem;
+    min-width: 10rem;
+}
+
+.head {
+    @extend %row;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--on-primary);
+    background: var(--primary);
+}
+
+.headCell {
+    @extend %cell;
+}
+
+.body {
+    @extend %row;
+  
+    &:nth-of-type(odd) {
+        background: var(--surface-container-highest);
+        color: var(--on-surface);
+    }
+}
+
+.bodyCell {
+    @extend %cell;
+}

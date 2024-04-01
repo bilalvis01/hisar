@@ -1,0 +1,20 @@
+.card {
+    display: grid;
+    grid-template-areas: 
+        "header"
+        "body"
+        "footer";
+    grid-template-rows: 4rem 1fr 4rem;
+    grid-template-columns: 1fr;
+    width: 100%;
+    background-color: var(--surface-container);
+    color: var(--on-surface);
+    border: 1px solid var(--outline-variant);
+    border-radius: 0.5rem;
+    padding: 4rem;
+}
+
+.header {
+    grid-area: header;
+    justify-self: end;
+}
