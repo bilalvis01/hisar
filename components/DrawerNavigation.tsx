@@ -14,6 +14,7 @@ import {
     FloatingOverlay,
     useId,
 } from "@floating-ui/react";
+import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import Navigation from "./Navigation";
 
@@ -174,6 +175,9 @@ export default function DrawerNavigation() {
     const [open, setOpen] = React.useState(false);
     const drawer = useDrawer({ open, onOpenChange: setOpen });
 
+    const pathname = usePathname()
+    const [prevPathname, setPrevPathname] = React.useState(pathname);
+
     const handleResize = React.useCallback(() => {
         if (window.innerWidth >= 992) {
             setOpen(false);
@@ -185,6 +189,13 @@ export default function DrawerNavigation() {
 
         return () => window.removeEventListener("resize", handleResize);
     }, [handleResize]);
+
+    React.useEffect(() => {
+        if (prevPathname != pathname) {
+            setPrevPathname(pathname);
+            setOpen(false);
+        }
+    }, [setOpen, setPrevPathname, pathname, prevPathname]);
 
     return (
         <DrawerContext.Provider value={drawer}>
