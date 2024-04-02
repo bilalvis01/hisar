@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import clsx from "clsx";
+import style from "./navigation.module.scss";
 
 interface NavigationProps {
     role: string;
@@ -13,7 +15,7 @@ export default function Navigation({
     classes 
 }: NavigationProps) {
     return (
-        <ul className={classes.root} role={role} aria-label={ariaLabel}>
+        <ul className={clsx(style.root, classes.root)} role={role} aria-label={ariaLabel}>
             <li role="none">
                 <Link role="menuitem" className={classes.menuItem} href="/">Home</Link>
             </li>
