@@ -7,17 +7,11 @@
 .table {
     width: 100%;
     border: 1px solid var(--outline-variant);
+    border-collapse: collapse;
 }
 
 %row {
     background: var(--surface-container-low);
-}
-
-%cell {
-    vertical-align: middle;
-    text-align: center;
-    padding: 1rem 1.5rem;
-    min-width: 10rem;
 }
 
 .head {
@@ -26,10 +20,13 @@
     font-size: 1.2rem;
     color: var(--on-primary);
     background: var(--primary);
-}
 
-.headCell {
-    @extend %cell;
+    .cell {
+        padding: {
+            top: 0.5rem;
+            bottom: 0.5rem;
+        };
+    }
 }
 
 .body {
@@ -39,8 +36,38 @@
         background: var(--surface-container-highest);
         color: var(--on-surface);
     }
+
+    .cell {
+        padding: {
+            top: 0.5rem;
+            bottom: 0.5rem; 
+        };
+    }
 }
 
-.bodyCell {
-    @extend %cell;
+.select {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.description {
+    width: 100%;
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    };
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.currency {
+    width: 100%;
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    };
+    display: inline-block;
+    vertical-align: middle;
+    text-align: end;
 }

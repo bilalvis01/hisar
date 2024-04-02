@@ -7,6 +7,7 @@ import {
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import clsx from "clsx";
 import style from "./table.module.scss";
 
 interface Budget {
@@ -40,17 +41,57 @@ const defaultData: Budget[] = [
 const columnHelper = createColumnHelper<Budget>();
 
 const columns = [
+    columnHelper.display({
+        id: "select",
+        header: ({ table }) => (
+            <IndeterminateCheckbox 
+                checked={table.getIsAllRowsSelected()}
+                indeterminate={table.getIsSomeRowsSelected()}
+                onChange={table.getToggleAllRowsSelectedHandler()}
+            />
+        ),
+        cell: ({ row }) => (
+            <div className={style.select}>
+                <IndeterminateCheckbox 
+                    checked={row.getIsSelected()}
+                    disabled={!row.getCanSelect()}
+                    indeterminate={row.getIsSomeSelected()}
+                    onChange={row.getToggleSelectedHandler()}
+                />
+            </div>
+        )
+    }),
     columnHelper.accessor("deskripsi", {
-        cell: info => info.getValue(),
+        header: "DESKRIPSI",
+        cell: info => (
+            <span className={style.description}>
+                {info.getValue()}
+            </span>
+        ),
     }),
     columnHelper.accessor("budget", {
-        cell: info => info.getValue(),
+        header: "BUDGET",
+        cell: info => (
+            <span className={style.currency}>
+                {info.getValue()}
+            </span>
+        ),
     }),
     columnHelper.accessor("terpakai", {
-        cell: info => info.getValue(),
+        header: "TERPAKAI",
+        cell: info => (
+            <span className={style.currency}>
+                {info.getValue()}
+            </span>
+        ),
     }),
     columnHelper.accessor("sisa", {
-        cell: info => info.getValue(),
+        header: "SISA",
+        cell: info => (
+            <span className={style.currency}>
+                {info.getValue()}
+            </span>
+        ),
     })
 ];
 
@@ -62,6 +103,7 @@ export default function Table() {
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        enableRowSelection: true,
     });
 
     return (
@@ -69,9 +111,9 @@ export default function Table() {
             <table className={style.table}>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
-                        <tr className={style.head} key={headerGroup.id}>
+                        <tr key={headerGroup.id} className={style.head}>
                             {headerGroup.headers.map(header => (
-                                <th className={style.headCell} key={header.id}>
+                                <th key={header.id} className={style.cell}>
                                     {header.isPlaceholder
                                         ? null
                                         : flexRender(
@@ -86,9 +128,9 @@ export default function Table() {
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map(row => (
-                        <tr className={style.body} key={row.id}>
+                        <tr key={row.id}  className={style.body}>
                             {row.getVisibleCells().map(cell => (
-                                <td className={style.bodyCell} key={cell.id}>
+                                <td key={cell.id} className={style.cell}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
@@ -98,4 +140,27 @@ export default function Table() {
             </table>
         </div>
     );
+}
+
+function IndeterminateCheckbox({
+    indeterminate,
+    className = "",
+    ...rest
+}: { indeterminate?: boolean } & React.HTMLProps<HTMLInputElement>) {
+    const ref = React.useRef<HTMLInputElement>(null!);
+
+    React.useEffect(() => {
+        if (typeof indeterminate === "boolean") {
+            ref.current.indeterminate = !rest.checked && indeterminate
+        }
+    }, [ref, indeterminate])
+
+    return (
+        <input 
+            type="checkbox"
+            ref={ref}
+            className={clsx(className, style.cursorPointer)}
+            {...rest}
+        />
+    )
 }
