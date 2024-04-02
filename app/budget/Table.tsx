@@ -10,6 +10,8 @@ import {
 import clsx from "clsx";
 import style from "./table.module.scss";
 
+const currency = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" });
+
 interface Budget {
     deskripsi: string;
     budget: number;
@@ -73,7 +75,7 @@ const columns = [
         header: "BUDGET",
         cell: info => (
             <span className={style.currency}>
-                {info.getValue()}
+                {currency.format(info.getValue())}
             </span>
         ),
     }),
@@ -81,7 +83,7 @@ const columns = [
         header: "TERPAKAI",
         cell: info => (
             <span className={style.currency}>
-                {info.getValue()}
+                {currency.format(info.getValue())}
             </span>
         ),
     }),
@@ -89,7 +91,7 @@ const columns = [
         header: "SISA",
         cell: info => (
             <span className={style.currency}>
-                {info.getValue()}
+                {currency.format(info.getValue())}
             </span>
         ),
     })
