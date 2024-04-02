@@ -1,6 +1,8 @@
-@use 'reset';
+@use 'normalize';
 @use 'box-sizing';
 @use 'palette';
+
+@include normalize.normalize();
 
 
 $font-family-sans: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
