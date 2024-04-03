@@ -1,39 +1,29 @@
 import React from "react";
 import clsx from "clsx";
 
-export interface Variant {
-    solid: string;
-    outlined: string;
-}
-
-export interface Color {
-    primary: string;
-    secondary: string;
-}
-
-export interface Size {
-    sm: string;
-    md: string;
-    lg: string;
-}
-
 export interface Classes {
-    root: string;
-    variant: Variant;
-    color: Color;
-    size: Size;
+    button?: string;
+    plain?: string;
+    solid?: string;
+    outlined?: string;
+    soft?: string;
+    primary?: string;
+    secondary?: string;
+    sm?: string;
+    md?: string;
+    lg?: string;
 }
 
-export type VariantKey = keyof Variant;
+export type Variant = "plain" | "solid" | "outlined" | "solid";
 
-export type ColorKey = keyof Color;
+export type Color = "primary" | "secondary";
 
-export type SizeKey = keyof Size;
+export type Size = "sm" | "md" | "lg";
 
 export interface ButtonBaseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: VariantKey;
-    color?: ColorKey;
-    size?: SizeKey;
+    variant?: Variant;
+    color?: Color;
+    size?: Size;
     classes?: Classes;
 }
 
@@ -48,10 +38,10 @@ export default function ButtonBase({
     return (
         <button 
             className={clsx(
-                classes.root,
-                classes.variant[variant],
-                classes.color[color],
-                classes.size[size],
+                classes.button,
+                classes[variant],
+                classes[color],
+                classes[size],
             )}
             {...props}
         >
