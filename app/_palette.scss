@@ -1,12 +1,12 @@
 @use "sass:color";
 @use "functions" as fn;
 
-$primary-key: #8b5cf6 !default;
-$secondary-key: #76D95B !default;
+$primary-key: #7c3aed !default;
+$secondary-key: #0d9488 !default;
 
-$neutral: #94a3b8;
+$neutral: #525252;
 $neutral-key: color.mix($primary-key, $neutral, 20%) !default;
-$neutral-variant-key: color.mix($primary-key, color.scale($neutral, $lightness: 10%), 20%) !default;
+$neutral-variant-key: color.mix($primary-key, color.scale($neutral, $lightness: 30%), 15%) !default;
 
 $primary-100: color.scale($primary-key, $lightness: 100%) !default;
 $primary-99: color.scale($primary-key, $lightness: 98%) !default;
