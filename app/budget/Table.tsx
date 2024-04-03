@@ -9,8 +9,7 @@ import {
 } from "@tanstack/react-table";
 import clsx from "clsx";
 import style from "./table.module.scss";
-
-const currency = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" });
+import format from "../../utils/format";
 
 interface Budget {
     deskripsi: string;
@@ -75,7 +74,7 @@ const columns = [
         header: "BUDGET",
         cell: info => (
             <span className={style.currency}>
-                {currency.format(info.getValue())}
+                {format.currency(info.getValue())}
             </span>
         ),
     }),
@@ -83,7 +82,7 @@ const columns = [
         header: "TERPAKAI",
         cell: info => (
             <span className={style.currency}>
-                {currency.format(info.getValue())}
+                {format.currency(info.getValue())}
             </span>
         ),
     }),
@@ -91,7 +90,7 @@ const columns = [
         header: "SISA",
         cell: info => (
             <span className={style.currency}>
-                {currency.format(info.getValue())}
+                {format.currency(info.getValue())}
             </span>
         ),
     })
