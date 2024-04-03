@@ -32,7 +32,7 @@ export default function Add({
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <Button type="button" onClick={handleOpen} color="secondary">
+            <Button type="button" onClick={handleOpen} color="primary" variant="soft">
                 Tambah
             </Button>
             <DialogContent overlay={style.overlay} className={style.dialog}>
