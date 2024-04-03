@@ -666,3 +666,5 @@ $_normalize-exclude: () !default;
     }
   }
 }
+
+@include normalize();
