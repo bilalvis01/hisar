@@ -1,5 +1,5 @@
 import React from "react";
-import "./global.scss";
+import "../style/style.scss";
 import style from "./layout.module.scss";
 import Logo from "../components/Logo";
 import Navigation from "../components/Navigation";
