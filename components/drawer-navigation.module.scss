@@ -1,3 +1,7 @@
+.overlay {
+    background-color: var(--dialog-overlay);
+}
+
 .nav {
     grid-area: menu;
     justify-self: center;
@@ -47,7 +51,6 @@
 .navigationBar {
     display: flex;
     flex-direction: column;
-    font-family: var(--font-family-sans);
 }
 
 .navigationItem {

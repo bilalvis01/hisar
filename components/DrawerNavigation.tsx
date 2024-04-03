@@ -47,7 +47,7 @@ export default function DialogNavigation() {
                         <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
                     </svg>
                 </DialogTrigger>
-                <DialogContent className={style.dialog}>
+                <DialogContent overlay={style.overlay} className={style.dialog}>
                     <header className={style.header}>
                         <Logo className={style.logo} />
                         <DialogClose className={style.close}>
