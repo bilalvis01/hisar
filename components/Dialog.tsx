@@ -1,7 +1,6 @@
 "use client";
 
 import React, { ReactHTML } from "react";
-import style from "./dialog.module.scss";
 import {
     useFloating,
     useClick,
@@ -128,17 +127,16 @@ export const DialogTrigger = React.forwardRef<
 
 export const DialogContent = React.forwardRef<
     HTMLDivElement,
-    React.HTMLProps<HTMLDivElement>
+    { overlay?: string } & React.HTMLProps<HTMLDivElement>
 >(function DialogContent(props, propRef) {
     const { context: floatingContext, ...context } = useDialogContext();
     const ref = useMergeRefs([context.refs.setFloating, propRef]);
-    const id = useId();
 
     if (!floatingContext.open) return null;
 
     return (
         <FloatingPortal>
-            <FloatingOverlay className={style.overlay} lockScroll>
+            <FloatingOverlay className={props.overlay} lockScroll>
                 <FloatingFocusManager context={floatingContext}>
                     <div
                         ref={ref}
