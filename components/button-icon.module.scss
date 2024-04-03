@@ -1,0 +1,24 @@
+$btn-p-md: .5rem;
+
+.button {
+    border: none;
+
+    &.solid {
+        &.primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+        }
+
+        &.secondary {
+            background-color: var(--secondary);
+            color: var(--on-secondary);
+        }
+    }
+
+    &.md {
+        border-radius: var(--btn-rounded-md);
+        font-size: var(--btn-fontsz-md);
+        font-weight: var(--btn-fontw-md);
+        padding: var(--btn-py-md) var(--btn-px-md);
+    }
+}
