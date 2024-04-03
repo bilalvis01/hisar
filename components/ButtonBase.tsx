@@ -14,7 +14,7 @@ export interface Classes {
     lg?: string;
 }
 
-export type Variant = "plain" | "solid" | "outlined" | "solid";
+export type Variant = "plain" | "solid" | "outlined" | "soft";
 
 export type Color = "primary" | "secondary";
 
