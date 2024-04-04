@@ -47,7 +47,51 @@ $colors: (
     "outline-variant": $outline-variant,
 ) !default;
 
-$colors-rgb: fn.map-loop($colors, to-rgb, "$value") !default;
+$primary-rgb: fn.to-rgb($primary) !default;
+$on-primary-rgb: fn.to-rgb($on-primary) !default;
+$primary-container-rgb: fn.to-rgb($primary-container) !default;
+$on-primary-container-rgb: fn.to-rgb($on-primary-container) !default;
+
+$secondary-rgb: fn.to-rgb($secondary) !default;
+$on-secondary-rgb: fn.to-rgb($on-secondary) !default;
+$secondary-container-rgb: fn.to-rgb($secondary-container) !default;
+$on-secondary-container-rgb: fn.to-rgb($on-secondary-container) !default;
+
+$surface-dim-rgb: fn.to-rgb($surface-dim) !default;
+$surface-rgb: fn.to-rgb($surface) !default;
+$surface-bright-rgb: fn.to-rgb($surface-bright) !default;
+$surface-container-lowest-rgb: fn.to-rgb($surface-container-lowest) !default;
+$surface-container-low-rgb: fn.to-rgb($surface-container-low) !default;
+$surface-container-rgb: fn.to-rgb($surface-container) !default;
+$surface-container-high-rgb: fn.to-rgb($surface-container-high) !default;
+$surface-container-highest-rgb: fn.to-rgb($surface-container-highest) !default;
+$on-surface-rgb: fn.to-rgb($on-surface) !default;
+$on-surface-variant-rgb: fn.to-rgb($on-surface-variant) !default;
+$outline-rgb: fn.to-rgb($outline) !default;
+$outline-variant-rgb: fn.to-rgb($outline-variant) !default;
+
+$colors-rgb: (
+    "primary": $primary-rgb,
+    "on-primary": $on-primary-rgb,
+    "primary-container": $primary-container-rgb,
+    "on-primary-container": $on-primary-container-rgb,
+    "secondary": $secondary-rgb,
+    "on-secondary": $on-secondary-rgb,
+    "secondary-container": $secondary-container-rgb,
+    "on-secondary-container": $on-secondary-container-rgb,
+    "surface-dim": $surface-dim-rgb,
+    "surface": $surface-rgb,
+    "surface-bright": $surface-bright-rgb,
+    "on-surface": $on-surface-rgb,
+    "on-surface-variant": $on-surface-variant-rgb,
+    "surface-container-lowest": $surface-container-lowest-rgb,
+    "surface-container-low": $surface-container-low-rgb,
+    "surface-container": $surface-container-rgb,
+    "surface-container-high": $surface-container-high-rgb,
+    "surface-container-highest": $surface-container-highest-rgb,
+    "outline": $outline-rgb,
+    "outline-variant": $outline-variant-rgb,
+) !default;
 
 $primary-dark: ref.$primary80 !default;
 $on-primary-dark: ref.$primary20 !default;
@@ -95,7 +139,51 @@ $colors-dark: (
     "outline-variant": $outline-variant-dark,
 ) !default;
 
-$colors-dark-rgb: fn.map-loop($colors-dark, to-rgb, "$value") !default;
+$primary-dark-rgb: fn.to-rgb($primary-dark) !default;
+$on-primary-dark-rgb: fn.to-rgb($on-primary-dark) !default;
+$primary-container-dark-rgb: fn.to-rgb($primary-container-dark) !default;
+$on-primary-container-dark-rgb: fn.to-rgb($on-primary-container-dark) !default;
+
+$secondary-dark-rgb: fn.to-rgb($secondary-dark) !default;
+$on-secondary-dark-rgb: fn.to-rgb($on-secondary-dark) !default;
+$secondary-container-dark-rgb: fn.to-rgb($secondary-container-dark) !default;
+$on-secondary-container-dark-rgb: fn.to-rgb($on-secondary-container-dark) !default;
+
+$surface-dim-dark-rgb: fn.to-rgb($surface-dim-dark) !default;
+$surface-dark-rgb: fn.to-rgb($surface-dark) !default;
+$surface-bright-dark-rgb: fn.to-rgb($surface-bright-dark) !default;
+$surface-container-lowest-dark-rgb: fn.to-rgb($surface-container-lowest-dark) !default;
+$surface-container-low-dark-rgb: fn.to-rgb($surface-container-low-dark) !default;
+$surface-container-dark-rgb: fn.to-rgb($surface-container-dark) !default;
+$surface-container-high-dark-rgb: fn.to-rgb($surface-container-high-dark) !default;
+$surface-container-highest-dark-rgb: fn.to-rgb($surface-container-highest-dark) !default;
+$on-surface-dark-rgb: fn.to-rgb($on-surface-dark) !default;
+$on-surface-variant-dark-rgb: fn.to-rgb($on-surface-variant-dark) !default;
+$outline-dark-rgb: fn.to-rgb($outline-dark) !default;
+$outline-variant-dark-rgb: fn.to-rgb($outline-variant-dark) !default;
+
+$colors-dark-rgb: (
+    "primary": $primary-dark-rgb,
+    "on-primary": $on-primary-dark-rgb,
+    "primary-container": $primary-container-dark-rgb,
+    "on-primary-container": $on-primary-container-dark-rgb,
+    "secondary": $secondary-dark-rgb,
+    "on-secondary": $on-secondary-dark-rgb,
+    "secondary-container": $secondary-container-dark-rgb,
+    "on-secondary-container": $on-secondary-container-dark-rgb,
+    "surface-dim": $surface-dim-dark-rgb,
+    "surface": $surface-dark-rgb,
+    "surface-bright": $surface-bright-dark-rgb,
+    "on-surface": $on-surface-dark-rgb,
+    "on-surface-variant": $on-surface-variant-dark-rgb,
+    "surface-container-lowest": $surface-container-lowest-dark-rgb,
+    "surface-container-low": $surface-container-low-dark-rgb,
+    "surface-container": $surface-container-dark-rgb,
+    "surface-container-high": $surface-container-high-dark-rgb,
+    "surface-container-highest": $surface-container-highest-dark-rgb,
+    "outline": $outline-dark-rgb,
+    "outline-variant": $outline-variant-dark-rgb,
+) !default;
 
 $scrim: ref.$neutral0 !default;
 $scrim-rgb: fn.to-rgb($scrim) !default;
@@ -131,12 +219,16 @@ $elevations: (
 
 $state-hover-state-layer-opacity: 0.08 !default;
 $state-focus-state-layer-opacity: 0.1 !default;
+$state-focus-indicator-thickness: 3px !default;
+$state-focus-indicator-offset: 2px !default;
 $state-press-state-layer-opacity: 0.1 !default;
 $state-drag-state-layer-opacity: 0.16 !default;
 
 $states: (
     "state-hover-state-layer-opacity": $state-hover-state-layer-opacity,
     "state-focus-state-layer-opacity": $state-focus-state-layer-opacity,
+    "state-focus-indicator-thickness": $state-focus-indicator-thickness,
+    "state-focus-indicator-offset": $state-focus-indicator-offset,
     "state-press-state-layer-opacity": $state-press-state-layer-opacity,
     "state-drag-state-layer-opacity": $state-drag-state-layer-opacity,
 ) !default;

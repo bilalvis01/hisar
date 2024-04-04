@@ -63,6 +63,10 @@
     @each $shape, $value in sys.$shape {
         --system-#{$shape}: #{$value};
     }
+
+    @each $key, $value in comp.$filled-button {
+        --component-filled-button-#{$key}: #{$value};
+    }
 }
 
 [data-theme="dark"] {
