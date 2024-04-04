@@ -17,9 +17,9 @@
 .card {
     width: 100%;
     height: 16rem;
-    background-color: var(--surface-container);
-    color: var(--on-surface);
-    border: 1px solid var(--outline-variant);
+    background-color: var(--system-color-surface-container);
+    color: var(--system-color-on-surface);
+    border: 1px solid var(--system-color-outline-variant);
     border-radius: 0.5rem;
     display: flex;
     justify-content: center;

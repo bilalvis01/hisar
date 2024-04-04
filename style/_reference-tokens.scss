@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "sass:string";
 @use "functions" as fn;
 
 $primary-key: #7c3aed !default;
@@ -832,164 +833,181 @@ $neutral-variants: (
     "neutral-variant-0": $neutral-variant-0,
 ) !default;
 
-$primary: $primary-40 !default;
-$on-primary: $primary-100 !default;
-$primary-container: $primary-90 !default;
-$on-primary-container: $primary-10 !default;
+$spacer: 1.5rem !default;
+$spacer-2: $spacer * 2 !default;
+$spacer-3: $spacer * 3 !default;
+$spacer-4: $spacer * 4 !default;
+$spacer-5: $spacer * 5 !default;
+$spacer-6: $spacer * 6 !default;
+$spacer-7: $spacer * 7 !default;
+$spacer-8: $spacer * 8 !default;
+$spacer-9: $spacer * 9 !default;
+$spacer-10: $spacer * 10 !default;
+$spacer-11: $spacer * 11 !default;
+$spacer-12: $spacer * 12 !default;
+$spacer-13: $spacer * 13 !default;
+$spacer-14: $spacer * 14 !default;
+$spacer-15: $spacer * 15 !default;
+$spacer-16: $spacer * 16 !default;
+$spacer-17: $spacer * 17 !default;
+$spacer-18: $spacer * 18 !default;
+$spacer-19: $spacer * 19 !default;
+$spacer-20: $spacer * 20 !default;
+$spacer-21: $spacer * 21 !default;
+$spacer-22: $spacer * 22 !default;
+$spacer-23: $spacer * 23 !default;
+$spacer-24: $spacer * 24 !default;
+$spacer-25: $spacer * 25 !default;
+$spacer-26: $spacer * 26 !default;
+$spacer-27: $spacer * 27 !default;
+$spacer-28: $spacer * 28 !default;
+$spacer-29: $spacer * 29 !default;
+$spacer-30: $spacer * 30 !default;
+$spacer-31: $spacer * 31 !default;
+$spacer-32: $spacer * 32 !default;
+$spacer-33: $spacer * 33 !default;
+$spacer-34: $spacer * 34 !default;
+$spacer-35: $spacer * 35 !default;
+$spacer-36: $spacer * 36 !default;
+$spacer-36: $spacer * 36 !default;
+$spacer-37: $spacer * 37 !default;
+$spacer-38: $spacer * 38 !default;
+$spacer-39: $spacer * 27 !default;
+$spacer-40: $spacer * 40 !default;
 
-$primary-dark: $primary-80 !default;
-$on-primary-dark: $primary-20 !default;
-$primary-container-dark: $primary-30 !default;
-$on-primary-container-dark: $primary-90 !default;
-
-$secondary: $secondary-40 !default;
-$on-secondary: $secondary-100 !default;
-$secondary-container: $secondary-90 !default;
-$on-secondary-container: $secondary-10 !default;
-
-$secondary-dark: $secondary-80 !default;
-$on-secondary-dark: $secondary-20 !default;
-$secondary-container-dark: $secondary-30 !default;
-$on-secondary-container-dark: $secondary-90 !default;
-
-$surface-dim: $neutral-87 !default;
-$surface: $neutral-98 !default;
-$surface-bright: $neutral-98 !default;
-$surface-container-lowest: $neutral-100 !default;
-$surface-container-low: $neutral-96 !default;
-$surface-container: $neutral-94 !default;
-$surface-container-high: $neutral-92 !default;
-$surface-container-highest: $neutral-90 !default;
-$on-surface: $neutral-10 !default;
-$on-surface-variant: $neutral-variant-30 !default;
-$outline: $neutral-variant-50 !default;
-$outline-variant: $neutral-variant-80 !default;
-
-$surface-dim-dark: $neutral-6 !default;
-$surface-dark: $neutral-6 !default;
-$surface-bright-dark: $neutral-24 !default;
-$surface-container-lowest-dark: $neutral-4 !default;
-$surface-container-low-dark: $neutral-10 !default;
-$surface-container-dark: $neutral-12 !default;
-$surface-container-high-dark: $neutral-17 !default;
-$surface-container-highest-dark: $neutral-22 !default;
-$on-surface-dark: $neutral-90 !default;
-$on-surface-variant-dark: $neutral-variant-80 !default;
-$outline-dark: $neutral-variant-60 !default;
-$outline-variant-dark: $neutral-variant-30 !default;
-
-$scrim: $neutral-0 !default;
-$shadow: $neutral-0 !default;
-
-$palette: (
-    "primary": $primary,
-    "on-primary": $on-primary,
-    "primary-container": $primary-container,
-    "on-primary-container": $on-primary-container,
-    "secondary": $secondary,
-    "on-secondary": $on-secondary,
-    "secondary-container": $secondary-container,
-    "on-secondary-container": $on-secondary-container,
-    "surface-dim": $surface-dim,
-    "surface": $surface,
-    "surface-bright": $surface-bright,
-    "on-surface": $on-surface,
-    "on-surface-variant": $on-surface-variant,
-    "surface-container-lowest": $surface-container-lowest,
-    "surface-container-low": $surface-container-low,
-    "surface-container": $surface-container,
-    "surface-container-high": $surface-container-high,
-    "surface-container-highest": $surface-container-highest,
-    "outline": $outline,
-    "outline-variant": $outline-variant,
-    "scrim": $scrim,
-    "shadow": $shadow,
+$spacers: (
+    "spacer": $spacer,
+    "spacer-2": $spacer-2,
+    "spacer-3": $spacer-3,
+    "spacer-4": $spacer-4,
+    "spacer-5": $spacer-5,
+    "spacer-6": $spacer-6,
+    "spacer-7": $spacer-7,
+    "spacer-8": $spacer-8,
+    "spacer-9": $spacer-9,
+    "spacer-10": $spacer-10,
+    "spacer-11": $spacer-11,
+    "spacer-12": $spacer-12,
+    "spacer-13": $spacer-13,
+    "spacer-14": $spacer-14,
+    "spacer-15": $spacer-15,
+    "spacer-16": $spacer-16,
+    "spacer-17": $spacer-17,
+    "spacer-18": $spacer-18,
+    "spacer-19": $spacer-19,
+    "spacer-20": $spacer-20,
+    "spacer-21": $spacer-21,
+    "spacer-22": $spacer-22,
+    "spacer-23": $spacer-23,
+    "spacer-24": $spacer-24,
+    "spacer-25": $spacer-25,
+    "spacer-26": $spacer-26,
+    "spacer-27": $spacer-27,
+    "spacer-28": $spacer-28,
+    "spacer-29": $spacer-29,
+    "spacer-30": $spacer-30,
+    "spacer-31": $spacer-31,
+    "spacer-32": $spacer-32,
+    "spacer-33": $spacer-33,
+    "spacer-34": $spacer-34,
+    "spacer-35": $spacer-35,
+    "spacer-36": $spacer-36,
+    "spacer-37": $spacer-37,
+    "spacer-38": $spacer-38,
+    "spacer-39": $spacer-39,
+    "spacer-40": $spacer-40,
 ) !default;
 
-$palette-rgb: fn.map-loop($palette, to-rgb, "$value") !default;
+$padding: 0.25rem !default;
+$padding-2: $padding * 2 !default;
+$padding-3: $padding * 3 !default;
+$padding-4: $padding * 4 !default;
+$padding-5: $padding * 5 !default;
+$padding-6: $padding * 6 !default;
+$padding-7: $padding * 7 !default;
+$padding-8: $padding * 8 !default;
+$padding-9: $padding * 9 !default;
+$padding-10: $padding * 10 !default;
+$padding-11: $padding * 11 !default;
+$padding-12: $padding * 12 !default;
+$padding-13: $padding * 13 !default;
+$padding-14: $padding * 14 !default;
+$padding-15: $padding * 15 !default;
+$padding-16: $padding * 16 !default;
+$padding-17: $padding * 17 !default;
+$padding-18: $padding * 18 !default;
+$padding-19: $padding * 19 !default;
+$padding-20: $padding * 20 !default;
+$padding-21: $padding * 21 !default;
+$padding-22: $padding * 22 !default;
+$padding-23: $padding * 23 !default;
+$padding-24: $padding * 24 !default;
+$padding-25: $padding * 25 !default;
+$padding-26: $padding * 26 !default;
+$padding-27: $padding * 27 !default;
+$padding-28: $padding * 28 !default;
+$padding-29: $padding * 29 !default;
+$padding-30: $padding * 30 !default;
+$padding-31: $padding * 31 !default;
+$padding-32: $padding * 32 !default;
+$padding-33: $padding * 33 !default;
+$padding-34: $padding * 34 !default;
+$padding-35: $padding * 35 !default;
+$padding-36: $padding * 36 !default;
+$padding-36: $padding * 36 !default;
+$padding-37: $padding * 37 !default;
+$padding-38: $padding * 38 !default;
+$padding-39: $padding * 27 !default;
+$padding-40: $padding * 40 !default;
 
-$palette-dark: (
-    "primary": $primary-dark,
-    "on-primary": $on-primary-dark,
-    "primary-container": $primary-container-dark,
-    "on-primary-container": $on-primary-container-dark,
-    "secondary": $secondary-dark,
-    "on-secondary": $on-secondary-dark,
-    "secondary-container": $secondary-container-dark,
-    "on-secondary-container": $on-secondary-container-dark,
-    "surface-dim": $surface-dim-dark,
-    "surface": $surface-dark,
-    "surface-bright": $surface-bright-dark,
-    "on-surface": $on-surface-dark,
-    "on-surface-variant": $on-surface-variant-dark,
-    "surface-container-lowest": $surface-container-lowest-dark,
-    "surface-container-low": $surface-container-low-dark,
-    "surface-container": $surface-container-dark,
-    "surface-container-high": $surface-container-high-dark,
-    "surface-container-highest": $surface-container-highest-dark,
-    "outline": $outline-dark,
-    "outline-variant": $outline-variant-dark,
+$paddings: (
+    "padding": $padding,
+    "padding-2": $padding-2,
+    "padding-3": $padding-3,
+    "padding-4": $padding-4,
+    "padding-5": $padding-5,
+    "padding-6": $padding-6,
+    "padding-7": $padding-7,
+    "padding-8": $padding-8,
+    "padding-9": $padding-9,
+    "padding-10": $padding-10,
+    "padding-11": $padding-11,
+    "padding-12": $padding-12,
+    "padding-13": $padding-13,
+    "padding-14": $padding-14,
+    "padding-15": $padding-15,
+    "padding-16": $padding-16,
+    "padding-17": $padding-17,
+    "padding-18": $padding-18,
+    "padding-19": $padding-19,
+    "padding-20": $padding-20,
+    "padding-21": $padding-21,
+    "padding-22": $padding-22,
+    "padding-23": $padding-23,
+    "padding-24": $padding-24,
+    "padding-25": $padding-25,
+    "padding-26": $padding-26,
+    "padding-27": $padding-27,
+    "padding-28": $padding-28,
+    "padding-29": $padding-29,
+    "padding-30": $padding-30,
+    "padding-31": $padding-31,
+    "padding-32": $padding-32,
+    "padding-33": $padding-33,
+    "padding-34": $padding-34,
+    "padding-35": $padding-35,
+    "padding-36": $padding-36,
+    "padding-37": $padding-37,
+    "padding-38": $padding-38,
+    "padding-39": $padding-39,
+    "padding-40": $padding-40,
 ) !default;
 
-$palette-dark-rgb: fn.map-loop($palette-dark, to-rgb, "$value") !default;
 
-$shadow-sm:	0 1px 2px 0 rgb(0 0 0 / 0.05) !default;
-$shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !default;
-$shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !default;
-$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !default;
-$shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !default;
-$shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25) !default;
-$shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05) !default;
-$shadow-none: 0 0 #0000 !default;
+$typeface-brand: "'Roboto', sans-serif" !default;
+$typeface-plain: "'Roboto', sans-serif" !default;
 
-$shadows: (
-    "shadow-sm": $shadow-sm,
-    "shadow": $shadow,
-    "shadow-md": $shadow-md,
-    "shadow-lg": $shadow-lg,
-    "shadow-xl": $shadow-xl,
-    "shadow-2xl": $shadow-2xl,
-    "shadow-inner": $shadow-inner,
-    "shadow-none": $shadow-none,
+$typeface: (
+    "typeface-brand": $typeface-brand,
+    "typeface-plain": $typeface-plain,
 ) !default;
-
-:root,
-[data-theme="light"] {
-    @each $color, $value in $primaries {
-        --#{$color}: #{$value};
-    }
-
-    @each $color, $value in $secondaries {
-        --#{$color}: #{$value};
-    }
-    
-    @each $color, $value in $neutrals {
-        --#{$color}: #{$value};
-    }
-
-    @each $color, $value in $neutral-variants {
-        --#{$color}: #{$value};
-    }
-
-    @each $color, $value in $palette {
-        --#{$color}: #{$value};
-    }
-
-    @each $color, $value in $palette-rgb {
-        --#{$color}-rgb: #{$value};
-    }
-
-    @each $shadow, $value in $shadows {
-        --#{$shadow}: #{$value};
-    }
-}
-
-[data-theme="dark"] {
-    @each $color, $value in $palette-dark {
-        --#{$color}: #{$value};
-    }
-
-    @each $color, $value in $palette-dark-rgb {
-        --#{$color}-rgb: #{$value};
-    }
-}

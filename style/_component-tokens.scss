@@ -1,0 +1,26 @@
+@use "reference-tokens" as ref;
+@use "system-tokens" as sys;
+
+$filled-button-container-shape: sys.$shape-corner-full;
+$filled-button-container-height: 2.5rem;
+$filled-button-container-elevation: sys.$elevation-0;
+$filled-button-container-color: sys.$primary;
+$filled-button-container-shadow-color: sys.$shadow-rgb;
+$filled-button-label-font: sys.$typescale-label-large-font;
+$filled-button-label-line-height: sys.$typescale-label-large-line-height;
+$filled-button-label-size: sys.$typescale-label-large-font-size;
+$filled-button-label-weight: sys.$typescale-label-large-font-weight;
+$filled-button-label-tracking: sys.$typescale-label-large-font-tracking;
+$filled-button-label-color: sys.$on-primary;
+$filled-button-with-icon-icon-size: 1.125rem;
+$filled-button-with-icon-icon-color: sys.$on-primary; 
+
+$filled-button-disabled-container-elevation: sys.$elevation-0;
+$filled-button-disabled-container-color: rgba(sys.$on-surface, 0.12);
+$filled-button-disabled-label-color: rgba(sys.$on-primary, 0.38);
+$filled-button-with-icon-disabled-icon-color: rgba(sys.$on-primary, 0.38); 
+
+$filled-button-hover-container-elevation: sys.$elevation-1;
+$filled-button-hover-label-color: sys.$on-primary;
+$filled-button-hover-state-layer-opacity: sys.$state-hover-state-layer-opacity;
+$filled-button-icon-color: sys.$on-primary; 

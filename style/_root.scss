@@ -1,0 +1,76 @@
+@use "reference-tokens" as ref;
+@use "system-tokens" as sys;
+@use "component-tokens" as comp;
+
+:root,
+[data-theme="light"] {
+    @each $color, $value in ref.$primaries {
+        --reference-palette-#{$color}: #{$value};
+    }
+
+    @each $color, $value in ref.$secondaries {
+        --reference-palette-#{$color}: #{$value};
+    }
+    
+    @each $color, $value in ref.$neutrals {
+        --reference-palette-#{$color}: #{$value};
+    }
+
+    @each $color, $value in ref.$neutral-variants {
+        --reference-palette-#{$color}: #{$value};
+    }
+
+    @each $spacer, $value in ref.$spacers {
+        --reference-#{$spacer}: #{$value};
+    }
+
+    @each $padding, $value in ref.$paddings {
+        --reference-#{$padding}: #{$value};
+    }
+
+    @each $typeface, $value in ref.$typeface {
+        --reference-#{$typeface}: #{$value};
+    }
+
+    @each $color, $value in sys.$colors {
+        --system-color-#{$color}: #{$value};
+    }
+
+    @each $color, $value in sys.$colors-rgb {
+        --system-color-#{$color}-rgb: #{$value};
+    }
+
+    @each $scrim, $value in sys.$scrims {
+        --sytem-palette-#{$scrim}: #{$value};
+    }
+
+    @each $shadow, $value in sys.$shadows {
+        --system-palette-#{$shadow}: #{value};
+    }
+
+    @each $elevation, $value in sys.$elevations {
+        --system-#{$elevation}: #{$value};
+    }
+
+    @each $state, $value in sys.$states {
+        --system-#{$state}: #{$value};
+    }
+
+    @each $typescale, $value in sys.$typescale {
+        --system-#{$typescale}: #{$value};
+    }
+
+    @each $shape, $value in sys.$shape {
+        --system-#{$shape}: #{$value};
+    }
+}
+
+[data-theme="dark"] {
+    @each $color, $value in sys.$colors-dark {
+        --system-color-#{$color}: #{$value};
+    }
+
+    @each $color, $value in sys.$colors-dark-rgb {
+        --system-color-#{$color}-rgb: #{$value};
+    }
+}

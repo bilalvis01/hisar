@@ -1,5 +1,5 @@
 .overlay {
-    background-color: var(--dialog-overlay);
+    background-color: var(--component-overlay);
 }
 
 .nav {
@@ -11,14 +11,14 @@
 .dialog {
     height: 100%;
     width: 67%;
-    background-color: var(--drawer-navigation-bg);
+    background-color: var(--system-color-surface);
     opacity: 1;
 }
 
 .trigger {
     border: none;
     background-color: transparent;
-    color: var(--navigation-color);
+    color: var(--system-color-on-primary);
 
     @media (min-width: 992px) {
         display: none;
@@ -30,7 +30,7 @@
     grid-template-areas: "logo close";
     grid-template-columns: 10rem 1fr;
     grid-template-rows: 6rem;
-    border-bottom: 1px solid var(--drawer-navigation-outline);
+    border-bottom: 1px solid var(--system-color-outline-variant);
 }
 
 .close {
@@ -59,5 +59,5 @@
     font-size: 1.2rem;
     font-weight: bold;
     text-decoration: none;
-    color: var(--drawer-navigation-color);
+    color: var(--system-color-on-surface);
 }

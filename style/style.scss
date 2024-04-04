@@ -1,6 +1,5 @@
-@use 'normalize';
-@use 'box-sizing';
-@use 'palette';
+@use "reboot";
+@use "root";
 
 $font-family-sans: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
@@ -56,5 +55,5 @@ $layout: (
 }
 
 body {
-    font-family: var(--font-family-sans);
+    font-family: var(--system-typescale-body-medium-font);
 }

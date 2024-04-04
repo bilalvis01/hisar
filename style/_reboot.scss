@@ -667,4 +667,12 @@ $_normalize-exclude: () !default;
   }
 }
 
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 @include normalize();

@@ -6,7 +6,11 @@
         "footer";
     grid-template-columns: 1fr;
     grid-template-rows: 6rem 1fr 4rem;
-    background: var(--app-bg);
+    background: linear-gradient(
+        to bottom,
+        var(--system-color-primary) 21rem,
+        var(--system-color-surface) 21rem,
+    );
     min-height: 100vh;
     max-width: 100%;
 }  
@@ -40,8 +44,8 @@
 
 .footer {
     grid-area: footer;
-    background-color: var(--footer-bg);
-    color: var(--footer-color);
+    background-color: var(--system-color-surface-dim);
+    color: var(--system-color-on-surface-variant);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,5 +83,5 @@
     font-size: 1.2rem;
     font-weight: bold;
     text-decoration: none;
-    color: var(--navigation-color);
+    color: var(--system-color-on-primary);
 }
