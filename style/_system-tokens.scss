@@ -1,28 +1,28 @@
 @use "reference-tokens" as ref;
 @use "functions" as fn;
 
-$primary: ref.$primary-40 !default;
-$on-primary: ref.$primary-100 !default;
-$primary-container: ref.$primary-90 !default;
-$on-primary-container: ref.$primary-10 !default;
+$primary: ref.$primary40 !default;
+$on-primary: ref.$primary100 !default;
+$primary-container: ref.$primary90 !default;
+$on-primary-container: ref.$primary10 !default;
 
-$secondary: ref.$secondary-40 !default;
-$on-secondary: ref.$secondary-100 !default;
-$secondary-container: ref.$secondary-90 !default;
-$on-secondary-container: ref.$secondary-10 !default;
+$secondary: ref.$secondary40 !default;
+$on-secondary: ref.$secondary100 !default;
+$secondary-container: ref.$secondary90 !default;
+$on-secondary-container: ref.$secondary10 !default;
 
-$surface-dim: ref.$neutral-87 !default;
-$surface: ref.$neutral-98 !default;
-$surface-bright: ref.$neutral-98 !default;
-$surface-container-lowest: ref.$neutral-100 !default;
-$surface-container-low: ref.$neutral-96 !default;
-$surface-container: ref.$neutral-94 !default;
-$surface-container-high: ref.$neutral-92 !default;
-$surface-container-highest: ref.$neutral-90 !default;
-$on-surface: ref.$neutral-10 !default;
-$on-surface-variant: ref.$neutral-variant-30 !default;
-$outline: ref.$neutral-variant-50 !default;
-$outline-variant: ref.$neutral-variant-80 !default;
+$surface-dim: ref.$neutral87 !default;
+$surface: ref.$neutral98 !default;
+$surface-bright: ref.$neutral98 !default;
+$surface-container-lowest: ref.$neutral100 !default;
+$surface-container-low: ref.$neutral96 !default;
+$surface-container: ref.$neutral94 !default;
+$surface-container-high: ref.$neutral92 !default;
+$surface-container-highest: ref.$neutral90 !default;
+$on-surface: ref.$neutral10 !default;
+$on-surface-variant: ref.$neutral-variant30 !default;
+$outline: ref.$neutral-variant50 !default;
+$outline-variant: ref.$neutral-variant80 !default;
 
 $colors: (
     "primary": $primary,
@@ -49,28 +49,28 @@ $colors: (
 
 $colors-rgb: fn.map-loop($colors, to-rgb, "$value") !default;
 
-$primary-dark: ref.$primary-80 !default;
-$on-primary-dark: ref.$primary-20 !default;
-$primary-container-dark: ref.$primary-30 !default;
-$on-primary-container-dark: ref.$primary-90 !default;
+$primary-dark: ref.$primary80 !default;
+$on-primary-dark: ref.$primary20 !default;
+$primary-container-dark: ref.$primary30 !default;
+$on-primary-container-dark: ref.$primary90 !default;
 
-$secondary-dark: ref.$secondary-80 !default;
-$on-secondary-dark: ref.$secondary-20 !default;
-$secondary-container-dark: ref.$secondary-30 !default;
-$on-secondary-container-dark: ref.$secondary-90 !default;
+$secondary-dark: ref.$secondary80 !default;
+$on-secondary-dark: ref.$secondary20 !default;
+$secondary-container-dark: ref.$secondary30 !default;
+$on-secondary-container-dark: ref.$secondary90 !default;
 
-$surface-dim-dark: ref.$neutral-6 !default;
-$surface-dark: ref.$neutral-6 !default;
-$surface-bright-dark: ref.$neutral-24 !default;
-$surface-container-lowest-dark: ref.$neutral-4 !default;
-$surface-container-low-dark: ref.$neutral-10 !default;
-$surface-container-dark: ref.$neutral-12 !default;
-$surface-container-high-dark: ref.$neutral-17 !default;
-$surface-container-highest-dark: ref.$neutral-22 !default;
-$on-surface-dark: ref.$neutral-90 !default;
-$on-surface-variant-dark: ref.$neutral-variant-80 !default;
-$outline-dark: ref.$neutral-variant-60 !default;
-$outline-variant-dark: ref.$neutral-variant-30 !default;
+$surface-dim-dark: ref.$neutral6 !default;
+$surface-dark: ref.$neutral6 !default;
+$surface-bright-dark: ref.$neutral24 !default;
+$surface-container-lowest-dark: ref.$neutral4 !default;
+$surface-container-low-dark: ref.$neutral10 !default;
+$surface-container-dark: ref.$neutral12 !default;
+$surface-container-high-dark: ref.$neutral17 !default;
+$surface-container-highest-dark: ref.$neutral22 !default;
+$on-surface-dark: ref.$neutral90 !default;
+$on-surface-variant-dark: ref.$neutral-variant80 !default;
+$outline-dark: ref.$neutral-variant60 !default;
+$outline-variant-dark: ref.$neutral-variant30 !default;
 
 $colors-dark: (
     "primary": $primary-dark,
@@ -97,7 +97,7 @@ $colors-dark: (
 
 $colors-dark-rgb: fn.map-loop($colors-dark, to-rgb, "$value") !default;
 
-$scrim: ref.$neutral-0 !default;
+$scrim: ref.$neutral0 !default;
 $scrim-rgb: fn.to-rgb($scrim) !default;
 
 $scrims: (
@@ -105,7 +105,7 @@ $scrims: (
     "scrim-rgb": $scrim-rgb,
 ) !default;
 
-$shadow: ref.$neutral-0 !default;
+$shadow: ref.$neutral0 !default;
 $shadow-rgb: fn.to-rgb($shadow) !default;
 
 $shadows: (
@@ -113,20 +113,20 @@ $shadows: (
     "shadow-rgb": $shadow-rgb,
 ) !default;
 
-$elevation-0: 0 0 var(--shadow-rgb) !default;
-$elevation-1:	0 1px 2px 0 rgba(var(--shadow-rgb), 0.05) !default;
-$elevation-2: 0 1px 3px 0 rgba(var(--shadow-rgb), 0.1), 0 1px 2px -1px rgba(var(--shadow-rgb), 0.1) !default;
-$elevation-3: 0 4px 6px -1px rgba(var(--shadow-rgb), 0.1), 0 2px 4px -2px rgba(var(--shadow-rgb), 0.1) !default;
-$elevation-4: 0 10px 15px -3px rgba(var(--shadow-rgb), 0.1), 0 4px 6px -4px rgba(var(--shadow-rgb), 0.1) !default;
-$elevation-5: 0 20px 25px -5px rgba(var(--shadow-rgb), 0.1), 0 8px 10px -6px rgba(var(--shadow-rgb), 0.1) !default;
+$elevation-level0: 0 0 var(--shadow-rgb) !default;
+$elevation-level1:	0 1px 2px 0 rgba(var(--shadow-rgb), 0.05) !default;
+$elevation-level2: 0 1px 3px 0 rgba(var(--shadow-rgb), 0.1), 0 1px 2px -1px rgba(var(--shadow-rgb), 0.1) !default;
+$elevation-level3: 0 4px 6px -1px rgba(var(--shadow-rgb), 0.1), 0 2px 4px -2px rgba(var(--shadow-rgb), 0.1) !default;
+$elevation-level4: 0 10px 15px -3px rgba(var(--shadow-rgb), 0.1), 0 4px 6px -4px rgba(var(--shadow-rgb), 0.1) !default;
+$elevation-level5: 0 20px 25px -5px rgba(var(--shadow-rgb), 0.1), 0 8px 10px -6px rgba(var(--shadow-rgb), 0.1) !default;
 
 $elevations: (
-    "elevation-0": $elevation-0,
-    "elevation-1": $elevation-1,
-    "elevation-2": $elevation-2,
-    "elevation-3": $elevation-3,
-    "elevation-4": $elevation-4,
-    "elevation-5": $elevation-5,
+    "elevation-level0": $elevation-level0,
+    "elevation-level1": $elevation-level1,
+    "elevation-level2": $elevation-level2,
+    "elevation-level3": $elevation-level3,
+    "elevation-level4": $elevation-level4,
+    "elevation-level5": $elevation-level5,
 ) !default;
 
 $state-hover-state-layer-opacity: 0.08 !default;
