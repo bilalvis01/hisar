@@ -63,10 +63,6 @@
     @each $shape, $value in sys.$shape {
         --system-#{$shape}: #{$value};
     }
-
-    @each $key, $value in comp.$filled-button {
-        --component-filled-button-#{$key}: #{$value};
-    }
 }
 
 [data-theme="dark"] {
@@ -76,5 +72,29 @@
 
     @each $color, $value in sys.$colors-dark-rgb {
         --system-color-#{$color}-rgb: #{$value};
+    }
+}
+
+.filled-button {
+    @each $key, $value in comp.$filled-button {
+        --#{$key}: #{$value};
+    }
+}
+
+.filled-button:disabled {
+    @each $key, $value in comp.$filled-button-disabled {
+        --#{$key}: #{$value};
+    }
+}
+
+.filled-button:hover {
+    @each $key, $value in comp.$filled-button-hover {
+        --#{$key}: #{$value};
+    }
+}
+
+.filled-button:focus {
+    @each $key, $value in comp.$filled-button-focus {
+        --#{$key}: #{$value};
     }
 }

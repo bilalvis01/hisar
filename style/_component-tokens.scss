@@ -1,96 +1,146 @@
 @use "reference-tokens" as ref;
 @use "system-tokens" as sys;
 
-$filled-button-container-shape: sys.$shape-corner-full;
-$filled-button-container-height: 2.5rem;
-$filled-button-container-elevation: sys.$elevation-level0;
-$filled-button-container-color: sys.$primary;
-$filled-button-container-shadow-color: sys.$shadow;
-$filled-button-container-shadow-color-rgb: sys.$shadow-rgb;
-$filled-button-label-font: sys.$typescale-label-large-font;
-$filled-button-label-line-height: sys.$typescale-label-large-line-height;
-$filled-button-label-size: sys.$typescale-label-large-font-size;
-$filled-button-label-weight: sys.$typescale-label-large-font-weight;
-$filled-button-label-tracking: sys.$typescale-label-large-font-tracking;
-$filled-button-label-color: sys.$on-primary;
-$filled-button-with-icon-icon-size: 1.125rem;
-$filled-button-with-icon-icon-color: sys.$on-primary; 
+$filled-button-container-shape: sys.$shape-corner-full !default;
+$filled-button-container-height: 2.5rem !default;
+$filled-button-container-elevation: sys.$elevation-level0 !default;
+$filled-button-container-color: sys.$primary !default;
+$filled-button-container-color-rgb: sys.$primary-rgb !default;
+$filled-button-container-opacity: 1 !default;
+$filled-button-container-shadow-color: sys.$shadow !default;
+$filled-button-container-shadow-color-rgb: sys.$shadow-rgb !default;
+$filled-button-label-font: sys.$typescale-label-large-font !default;
+$filled-button-label-line-height: sys.$typescale-label-large-line-height !default;
+$filled-button-label-size: sys.$typescale-label-large-font-size !default;
+$filled-button-label-weight: sys.$typescale-label-large-font-weight !default;
+$filled-button-label-tracking: sys.$typescale-label-large-font-tracking !default;
+$filled-button-label-color: sys.$on-primary !default;
+$filled-button-label-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-label-opacity: 1 !default;
+$filled-button-with-icon-icon-size: 1.125rem !default;
+$filled-button-with-icon-icon-color: sys.$on-primary !default;
+$filled-button-with-icon-icon-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-with-icon-icon-opacity: 1 !default; 
 
-$filled-button-disabled-container-elevation: sys.$elevation-level0;
-$filled-button-disabled-container-color: sys.$on-surface;
-$filled-button-disabled-container-color-rgb: sys.$on-surface-rgb;
-$filled-button-disabled-container-opacity: 0.12;
-$filled-button-disabled-label-color: sys.$on-primary;
-$filled-button-disabled-label-color-rgb: sys.$on-primary-rgb;
-$filled-button-disabled-label-opacity: 0.38;
-$filled-button-with-icon-disabled-icon-color: sys.$on-primary;
-$filled-button-with-icon-disabled-icon-color-rgb: sys.$on-primary-rgb; 
-$filled-button-with-icon-disabled-icon-opacity: 0.38;
+$filled-button-disabled-container-elevation: sys.$elevation-level0 !default;
+$filled-button-disabled-container-color: sys.$on-surface !default;
+$filled-button-disabled-container-color-rgb: sys.$on-surface-rgb !default;
+$filled-button-disabled-container-opacity: 0.12 !default;
+$filled-button-disabled-label-color: sys.$on-primary !default;
+$filled-button-disabled-label-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-disabled-label-opacity: 0.38 !default;
+$filled-button-with-icon-disabled-icon-color: sys.$on-primary !default;
+$filled-button-with-icon-disabled-icon-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-with-icon-disabled-icon-opacity: 0.38 !default;
 
-$filled-button-hover-container-elevation: sys.$elevation-level1;
-$filled-button-hover-label-color: sys.$on-primary;
-$filled-button-hover-state-layer-opacity: sys.$state-hover-state-layer-opacity;
-$filled-button-with-icon-hover-icon-color: sys.$on-primary; 
+$filled-button-hover-container-elevation: sys.$elevation-level1 !default;
+$filled-button-hover-label-color: sys.$on-primary !default;
+$filled-button-hover-label-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-hover-label-opacity: 1 !default;
+$filled-button-hover-state-layer-color: sys.$on-primary !default;
+$filled-button-hover-state-layer-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-hover-state-layer-opacity: sys.$state-hover-state-layer-opacity !default;
+$filled-button-with-icon-hover-icon-color: sys.$on-primary !default; 
+$filled-button-with-icon-hover-icon-color-rgb: sys.$on-primary-rgb !default; 
+$filled-button-with-icon-hover-icon-opacity: 1 !default;
 
-$filled-button-focus-indicator-color: sys.$secondary;
-$filled-button-focus-indicator-thickness: sys.$state-focus-indicator-thickness;
-$filled-button-focus-indicator-offset: sys.$state-focus-indicator-offset;
-$filled-button-focus-container-elevation: sys.$elevation-level0;
-$filled-button-focus-label-color: sys.$on-primary;
-$filled-button-focus-state-layer-color: sys.$on-primary;
-$filled-button-focus-state-layer-opacity: sys.$state-focus-state-layer-opacity;
-$filled-button-with-icon-focus-icon-color: sys.$on-primary;
+$filled-button-focus-indicator-color: sys.$secondary !default;
+$filled-button-focus-indicator-thickness: sys.$state-focus-indicator-thickness !default;
+$filled-button-focus-indicator-offset: sys.$state-focus-indicator-offset !default;
+$filled-button-focus-container-elevation: sys.$elevation-level0 !default;
+$filled-button-focus-label-color: sys.$on-primary !default;
+$filled-button-focus-label-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-focus-label-opacity: 1 !default;
+$filled-button-focus-state-layer-color: sys.$on-primary !default;
+$filled-button-focus-state-layer-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-focus-state-layer-opacity: sys.$state-focus-state-layer-opacity !default;
+$filled-button-with-icon-focus-icon-color: sys.$on-primary !default;
+$filled-button-with-icon-focus-icon-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-with-icon-focus-icon-opacity: 1 !default;
 
-$filled-button-pressed-container-elevation: sys.$elevation-level0;
-$filled-button-pressed-label-color: sys.$on-primary;
-$filled-button-pressed-state-layer-color: sys.$on-primary;
-$filled-button-pressed-state-layer-opacity: sys.$state-press-state-layer-opacity;
-$filled-button-with-icon-pressed-icon-color: sys.$on-primary;
+$filled-button-pressed-container-elevation: sys.$elevation-level0 !default;
+$filled-button-pressed-label-color: sys.$on-primary !default;
+$filled-button-pressed-label-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-pressed-label-opacity: 1 !default;
+$filled-button-pressed-state-layer-color: sys.$on-primary !default;
+$filled-button-pressed-state-layer-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-pressed-state-layer-opacity: sys.$state-press-state-layer-opacity !default;
+$filled-button-with-icon-pressed-icon-color: sys.$on-primary !default;
+$filled-button-with-icon-pressed-icon-color-rgb: sys.$on-primary-rgb !default;
+$filled-button-with-icon-pressed-icon-opacity: 1 !default;
 
 $filled-button: (
-    "container-shape": $filled-button-container-shape,
-    "container-height": $filled-button-container-height,
-    "container-elevation": $filled-button-container-elevation,
-    "container-color": $filled-button-container-color,
-    "container-shadow-color": $filled-button-container-shadow-color,
-    "container-shadow-color-rgb": $filled-button-container-shadow-color-rgb,
-    "label-font": $filled-button-label-font,
-    "label-line-height": $filled-button-label-line-height,
-    "label-size": $filled-button-label-size,
-    "label-weight": $filled-button-label-weight,
-    "label-tracking": $filled-button-label-tracking,
-    "label-color": $filled-button-label-color,
-    "with-icon-icon-size": $filled-button-with-icon-icon-size,
-    "with-icon-icon-color": $filled-button-with-icon-icon-color, 
+    "filled-button-container-shape": $filled-button-container-shape,
+    "filled-button-container-height": $filled-button-container-height,
+    "filled-button-container-elevation": $filled-button-container-elevation,
+    "filled-button-container-color": $filled-button-container-color,
+    "filled-button-container-color-rgb": $filled-button-container-color-rgb,
+    "filled-button-container-opacity": $filled-button-container-opacity,
+    "filled-button-container-shadow-color": $filled-button-container-shadow-color,
+    "filled-button-container-shadow-color-rgb": $filled-button-container-shadow-color-rgb,
+    "filled-button-label-font": $filled-button-label-font,
+    "filled-button-label-line-height": $filled-button-label-line-height,
+    "filled-button-label-size": $filled-button-label-size,
+    "filled-button-label-weight": $filled-button-label-weight,
+    "filled-button-label-tracking": $filled-button-label-tracking,
+    "filled-button-label-color": $filled-button-label-color,
+    "filled-button-label-color-rgb": $filled-button-label-color-rgb,
+    "filled-button-label-opacity": $filled-button-label-opacity,
+    "filled-button-with-icon-icon-size": $filled-button-with-icon-icon-size,
+    "filled-button-with-icon-icon-color": $filled-button-with-icon-icon-color,
+    "filled-button-with-icon-icon-color-rgb": $filled-button-with-icon-icon-color-rgb, 
+    "filled-button-with-icon-icon-opacity": $filled-button-with-icon-icon-opacity, 
+) !default;
 
-    "disabled-container-elevation": $filled-button-disabled-container-elevation,
-    "disabled-container-color": $filled-button-disabled-container-color,
-    "disabled-container-color-rgb": $filled-button-disabled-container-color-rgb,
-    "disabled-container-opacity": $filled-button-disabled-container-opacity,
-    "disabled-label-color": $filled-button-disabled-label-color,
-    "disabled-label-color-rgb": $filled-button-disabled-label-color-rgb,
-    "disabled-label-opacity": $filled-button-disabled-label-opacity,
-    "with-icon-disabled-icon-color": $filled-button-with-icon-disabled-icon-color,
-    "with-icon-disabled-icon-color-rgb": $filled-button-with-icon-disabled-icon-color-rgb, 
-    "with-icon-disabled-icon-opacity": $filled-button-with-icon-disabled-icon-opacity,
+$filled-button-disabled: (
+    "filled-button-container-elevation": $filled-button-disabled-container-elevation,
+    "filled-button-container-color": $filled-button-disabled-container-color,
+    "filled-button-container-color-rgb": $filled-button-disabled-container-color-rgb,
+    "filled-button-container-opacity": $filled-button-disabled-container-opacity,
+    "filled-button-label-color": $filled-button-disabled-label-color,
+    "filled-button-label-color-rgb": $filled-button-disabled-label-color-rgb,
+    "filled-button-label-opacity": $filled-button-disabled-label-opacity,
+    "filled-button-with-icon-icon-color": $filled-button-with-icon-disabled-icon-color,
+    "filled-button-with-icon-disabled-icon-color-rgb": $filled-button-with-icon-disabled-icon-color-rgb, 
+    "filled-button-with-icon-disabled-icon-opacity": $filled-button-with-icon-disabled-icon-opacity,
+) !default;
 
-    "hover-container-elevation": $filled-button-hover-container-elevation,
-    "hover-label-color": $filled-button-hover-label-color,
-    "hover-state-layer-opacity": $filled-button-hover-state-layer-opacity,
-    "with-icon-hover-icon-color": $filled-button-with-icon-hover-icon-color, 
+$filled-button-hover: (
+    "filled-button-container-elevation": $filled-button-hover-container-elevation,
+    "filled-button-label-color": $filled-button-hover-label-color,
+    "filled-button-label-color-rgb": $filled-button-hover-label-color-rgb,
+    "filled-button-label-opacity": $filled-button-hover-label-opacity,
+    "filled-button-state-layer-opacity": $filled-button-hover-state-layer-opacity,
+    "filled-button-with-icon-icon-color": $filled-button-with-icon-hover-icon-color, 
+    "filled-button-with-icon-icon-color-rgb": $filled-button-with-icon-hover-icon-color-rgb,
+    "filled-button-with-icon-icon-opacity": $filled-button-with-icon-hover-icon-opacity,  
+) !default;
 
-    "focus-indicator-color": $filled-button-focus-indicator-color,
-    "focus-indicator-thickness": $filled-button-focus-indicator-thickness,
-    "focus-indicator-offset": $filled-button-focus-indicator-offset,
-    "focus-container-elevation": $filled-button-focus-container-elevation,
-    "focus-label-color": $filled-button-focus-label-color,
-    "focus-state-layer-color": $filled-button-focus-state-layer-color,
-    "focus-state-layer-opacity": $filled-button-focus-state-layer-opacity,
-    "with-icon-focus-icon-color": $filled-button-with-icon-focus-icon-color,
+$filled-button-focus: (
+    "filled-button-indicator-color": $filled-button-focus-indicator-color,
+    "filled-button-indicator-thickness": $filled-button-focus-indicator-thickness,
+    "filled-button-indicator-offset": $filled-button-focus-indicator-offset,
+    "filled-button-container-elevation": $filled-button-focus-container-elevation,
+    "filled-button-label-color": $filled-button-focus-label-color,
+    "filled-button-label-color-rgb": $filled-button-focus-label-color-rgb,
+    "filled-button-label-opacity": $filled-button-focus-label-opacity,
+    "filled-button-state-layer-color": $filled-button-focus-state-layer-color,
+    "filled-button-state-layer-color-rgb": $filled-button-focus-state-layer-color-rgb,
+    "filled-button-state-layer-opacity": $filled-button-focus-state-layer-opacity,
+    "filled-button-with-icon-icon-color": $filled-button-with-icon-focus-icon-color,
+    "filled-button-with-icon-icon-color-rgb": $filled-button-with-icon-focus-icon-color-rgb,
+    "filled-button-with-icon-icon-opacity": $filled-button-with-icon-focus-icon-opacity,
+) !default;
 
-    "pressed-container-elevation": $filled-button-pressed-container-elevation,
-    "pressed-label-color": $filled-button-pressed-label-color,
-    "pressed-state-layer-color": $filled-button-pressed-state-layer-color,
-    "pressed-state-layer-opacity": $filled-button-pressed-state-layer-opacity,
-    "with-icon-pressed-icon-color": $filled-button-with-icon-pressed-icon-color,
-);
+$filled-button-pressed: (
+    "filled-button-container-elevation": $filled-button-pressed-container-elevation,
+    "filled-button-label-color": $filled-button-pressed-label-color,
+    "filled-button-label-color-rgb": $filled-button-pressed-label-color-rgb,
+    "filled-button-label-opacity": $filled-button-pressed-label-opacity,
+    "filled-button-state-layer-color": $filled-button-pressed-state-layer-color,
+    "filled-button-state-layer-color-rgb": $filled-button-pressed-state-layer-color-rgb,
+    "filled-button-state-layer-opacity": $filled-button-pressed-state-layer-opacity,
+    "filled-button-with-icon-icon-color": $filled-button-with-icon-pressed-icon-color,
+    "filled-button-with-icon-icon-color-rgb": $filled-button-with-icon-pressed-icon-color-rgb,
+    "filled-button-with-icon-icon-opacity": $filled-button-with-icon-pressed-icon-opacity,
+) !default;
