@@ -201,12 +201,12 @@ $shadows: (
     "shadow-rgb": $shadow-rgb,
 ) !default;
 
-$elevation-level0: 0 0 var(--shadow-rgb) !default;
-$elevation-level1:	0 1px 2px 0 rgba(var(--shadow-rgb), 0.05) !default;
-$elevation-level2: 0 1px 3px 0 rgba(var(--shadow-rgb), 0.1), 0 1px 2px -1px rgba(var(--shadow-rgb), 0.1) !default;
-$elevation-level3: 0 4px 6px -1px rgba(var(--shadow-rgb), 0.1), 0 2px 4px -2px rgba(var(--shadow-rgb), 0.1) !default;
-$elevation-level4: 0 10px 15px -3px rgba(var(--shadow-rgb), 0.1), 0 4px 6px -4px rgba(var(--shadow-rgb), 0.1) !default;
-$elevation-level5: 0 20px 25px -5px rgba(var(--shadow-rgb), 0.1), 0 8px 10px -6px rgba(var(--shadow-rgb), 0.1) !default;
+$elevation-level0: 0 0 0 0 rgba(var(--shadow-rgb), 0.2), 0 0 0 0 rgba(var(--shadow-rgb), 0.14), 0 0 0 0 rgba(var(--shadow-rgb), 0.12) !default;
+$elevation-level1: 0 2px 1px -1px rgba(var(--shadow-rgb), 0.2), 0 1px 1px 0 rgba(var(--shadow-rgb), 0.14), 0 1px 3px 0 rgba(var(--shadow-rgb), 0.12) !default;
+$elevation-level2: 0 3px 3px -2px rgba(var(--shadow-rgb), 0.2), 0 3px 4px 0 rgba(var(--shadow-rgb), 0.14), 0 1px 8px 0 rgba(var(--shadow-rgb), 0.12) !default;
+$elevation-level3: 0 3px 5px -1px rgba(var(--shadow-rgb), 0.2), 0 6px 10px 0 rgba(var(--shadow-rgb), 0.14), 0 1px 18px 0 rgba(var(--shadow-rgb), 0.12) !default;
+$elevation-level4: 0 5px 5px -3px rgba(var(--shadow-rgb), 0.2), 0 8px 10px 1px rgba(var(--shadow-rgb), 0.14), 0 3px 14px 2px rgba(var(--shadow-rgb), 0.12) !default;
+$elevation-level5: 0 7px 8px -4px rgba(var(--shadow-rgb), 0.2), 0 12px 17px 2px rgba(var(--shadow-rgb), 0.14), 0 5px 22px 4px rgba(var(--shadow-rgb), 0.12) !default;
 
 $elevations: (
     "elevation-level0": $elevation-level0,
@@ -214,23 +214,22 @@ $elevations: (
     "elevation-level2": $elevation-level2,
     "elevation-level3": $elevation-level3,
     "elevation-level4": $elevation-level4,
-    "elevation-level5": $elevation-level5,
 ) !default;
 
 $state-hover-state-layer-opacity: 0.08 !default;
 $state-focus-state-layer-opacity: 0.1 !default;
 $state-focus-indicator-thickness: 3px !default;
 $state-focus-indicator-offset: 2px !default;
-$state-press-state-layer-opacity: 0.1 !default;
-$state-drag-state-layer-opacity: 0.16 !default;
+$state-pressed-state-layer-opacity: 0.1 !default;
+$state-draged-state-layer-opacity: 0.16 !default;
 
 $states: (
     "state-hover-state-layer-opacity": $state-hover-state-layer-opacity,
     "state-focus-state-layer-opacity": $state-focus-state-layer-opacity,
     "state-focus-indicator-thickness": $state-focus-indicator-thickness,
     "state-focus-indicator-offset": $state-focus-indicator-offset,
-    "state-press-state-layer-opacity": $state-press-state-layer-opacity,
-    "state-drag-state-layer-opacity": $state-drag-state-layer-opacity,
+    "state-pressed-state-layer-opacity": $state-pressed-state-layer-opacity,
+    "state-draged-state-layer-opacity": $state-draged-state-layer-opacity,
 ) !default;
 
 $typescale-display-large-font: ref.$typeface-brand !default;
