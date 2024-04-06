@@ -1,0 +1,144 @@
+@use "../component-tokens" as comp;
+
+.icon-button.standard {
+    @each $key, $value in comp.$standard-icon-button {
+        --#{$key}: #{$value};
+    }
+    --radius: calc(var(--standard-icon-button-state-layer-size) * 0.5);
+    --color: var(--standard-icon-button-unselected-icon-color);
+
+    & > .container {
+        --outline-style: none;
+        --outline-color: unset;
+        --outline-width: unset;
+        --outline-offset: unset;
+
+        & > .state-layer {
+            --background-color: transparent;
+        }
+    }
+
+    &.selected {
+        --color: var(--standard-icon-button-selected-icon-color);
+
+        & > .container > .state-layer {
+            --background-color: transparent;
+        }
+    }
+
+    &:hover {
+        @each $key, $value in comp.$standard-icon-button-hover {
+            --#{$key}: #{$value};
+        }
+
+        & > .container > .state-layer {
+            --background-color: rgb(var(--standard-icon-button-unselected-state-layer-color-rgb), var(--standard-icon-button-unselected-state-layer-opacity));
+        }
+    
+        &.selected > .container > .state-layer {
+            --background-color: rgb(var(--standard-icon-button-selected-state-layer-color-rgb), var(--standard-icon-button-selected-state-layer-opacity));
+        }
+    }
+
+    &:focus {
+        @each $key, $value in comp.$standard-icon-button-focus {
+            --#{$key}: #{$value};
+        }
+
+        & > .container {
+            --outline-style: solid;
+            --outline-color: var(--standard-icon-button-indicator-color);
+            --outline-width: var(--standard-icon-button-indicator-thickness);
+            --outline-offset: var(--standard-icon-button-indicator-offset);
+            
+            & > .state-layer {
+                --background-color: rgb(var(--standard-icon-button-unselected-state-layer-color-rgb), var(--standard-icon-button-unselected-state-layer-opacity));
+            }
+        }
+    
+        &.selected > .container > .state-layer {
+            --background-color: rgb(var(--standard-icon-button-selected-state-layer-color-rgb), var(--standard-icon-button-selected-state-layer-opacity));
+        }
+    }
+
+    &:active {
+        @each $key, $value in comp.$standard-icon-button-pressed {
+            --#{$key}: #{$value};
+        }
+
+        & > .container {
+            --outline-style: none;
+            --outline-color: unset;
+            --outline-width: unset;
+            --outline-offset: unset;
+
+            & > .state-layer {
+                --background-color: rgb(var(--standard-icon-button-unselected-state-layer-color-rgb), var(--standard-icon-button-unselected-state-layer-opacity));
+            }
+        }
+    
+        &.selected > .container > .state-layer {
+            --background-color: rgb(var(--standard-icon-button-selected-state-layer-color-rgb), var(--standard-icon-button-selected-state-layer-opacity));
+        }
+    }
+
+    &:disabled {
+        @each $key, $value in comp.$standard-icon-button-disabled {
+            --#{$key}: #{$value};
+        }
+
+        --color: rgba(var(--standard-icon-button-icon-color-rgb), var(--standard-icon-button-icon-opacity));
+
+        & > .container > .state-layer {
+            --background-color: transparent;
+        }
+    
+        &.selected > .container > .state-layer {
+            --background-color: transparent;
+        }
+    }
+
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    min-height: var(--reference-spacer2);
+    min-width: var(--reference-spacer2);
+    padding: 0;
+    color: var(--color);
+
+    & > .container {
+        margin: 0 auto;
+        width: var(--standard-icon-button-state-layer-width);
+        height: var(--standard-icon-button-state-layer-height);
+        border-radius: var(--standard-icon-button-state-layer-shape);
+        outline: {
+            style: var(--outline-style);
+            color: var(--outline-color);
+            width: var(--outline-width);
+            offset: var(--outline-offset);
+        };
+
+        & > .state-layer {
+            display: grid;
+            place-items: center;
+            width: var(--standard-icon-button-state-layer-width);
+            height: var(--standard-icon-button-state-layer-height);
+            border-radius: var(--standard-icon-button-state-layer-shape);
+            background-color: var(--background-color);
+    
+            & > svg {
+                width: var(--standard-icon-button-icon-size);
+                height: var(--standard-icon-button-icon-size);
+            }
+        }
+    }
+
+    &.selected {
+        color: var(--color);
+
+        & > .container > .state-layer {
+            background-color: var(--background-color);
+        }
+    }
+}

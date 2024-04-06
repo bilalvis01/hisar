@@ -15,6 +15,7 @@ import Logo from "./Logo";
 import Navigation from "./Navigation";
 import Close from "../icons/Close";
 import List from "../icons/List";
+import IconButtonStandard from "./IconButtonStandard";
 
 export default function DialogNavigation() {
     const [open, setOpen] = React.useState(false);
@@ -50,9 +51,9 @@ export default function DialogNavigation() {
                 <DialogContent overlay={style.overlay} className={style.dialog}>
                     <header className={style.header}>
                         <Logo className={style.logo} />
-                        <DialogClose className={style.close}>
+                        <IconButtonStandard className={style.close} selected>
                             <Close />
-                        </DialogClose>
+                        </IconButtonStandard>
                     </header>
                     <div>
                         <Navigation 
