@@ -5,7 +5,7 @@ import {
     Field, 
     ErrorMessage,
 } from "formik";
-import Button from "../../components/Button";
+import ButtonSolid from "../../components/ButtonSolid";
 
 export default function AddForm() {
     return (
@@ -41,9 +41,9 @@ export default function AddForm() {
                 <Form>
                     <Field type="text" name="Deskripsi" /> 
                     <Field type="number" name="Budget" />
-                    <Button type="submit" disabled={isSubmitting}>
+                    <ButtonSolid type="submit" disabled={isSubmitting}>
                         submit
-                    </Button>
+                    </ButtonSolid>
                 </Form>
             )}
         </Formik>

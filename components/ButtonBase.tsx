@@ -1,51 +1,38 @@
+"use client";
+
 import React from "react";
 import clsx from "clsx";
 
-export interface Classes {
-    button?: string;
-    plain?: string;
-    solid?: string;
-    outlined?: string;
-    soft?: string;
-    primary?: string;
-    secondary?: string;
-    sm?: string;
-    md?: string;
-    lg?: string;
-}
-
-export type Variant = "plain" | "solid" | "outlined" | "soft";
-
-export type Color = "primary" | "secondary";
-
-export type Size = "sm" | "md" | "lg";
+type Variant = "elevated" | "filled" | "tonal" | "outlined" | "text" | "icon"; 
 
 export interface ButtonBaseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
     variant?: Variant;
-    color?: Color;
-    size?: Size;
-    classes?: Classes;
-}
+};
 
-export default function ButtonBase({ 
-    children,
-    variant = "solid",
-    color = "primary",
-    size = "md",
-    classes,
+const ButtonBase = React.forwardRef<
+    HTMLButtonElement,
+    ButtonBaseProps
+>(function ({ 
+    children, 
+    startIcon, 
+    endIcon,
+    variant = "filled",
+    className,
     ...props
-}: ButtonBaseProps) {
+}, ref) {
     return (
-        <button 
-            className={clsx(
-                classes.button,
-                classes[variant],
-                classes[color],
-                classes[size],
-            )}
-            {...props}
-        >
-            {children}
+        <button ref={ref} className={clsx("button", variant, className)} {...props}>
+            <div className="container">
+                <div className="state-layer">
+                    {startIcon}
+                    <span className="label">{children}</span>
+                    {endIcon}
+                </div>
+            </div>
         </button>
-    );
-}
+    )
+});
+
+export default ButtonBase;

@@ -7,9 +7,9 @@
     grid-template-rows: 3rem 1fr 3rem;
     grid-template-columns: 1fr;
     width: 100%;
-    background-color: var(--surface-container);
-    color: var(--on-surface);
-    border: 1px solid var(--outline-variant);
+    background-color: var(--system-color-surface-container);
+    color: var(--sytem-color-on-surface);
+    border: 1px solid var(--system-color-outline-variant);
     border-radius: 0.5rem;
     padding: 4rem;
 }
