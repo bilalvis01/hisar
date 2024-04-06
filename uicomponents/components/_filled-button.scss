@@ -10,6 +10,10 @@
 
     & > .container {
         --background-color: var(--filled-button-container-color);
+        --outline-style: none;
+        --outline-color: unset;
+        --outline-width: unset;
+        --outline-offset: unset;
 
         & > .state-layer {
             --background-color: none;
@@ -31,8 +35,15 @@
             --#{$key}: #{$value};
         }
 
-        & > .container > .state-layer {
-            --background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
+        & > .container {
+            --outline-style: solid;
+            --outline-color: var(--filled-button-indicator-color);
+            --outline-width: var(--filled-button-indicator-thickness);
+            --outline-offset: var(--filled-button-indicator-offset);
+
+            & > .state-layer {
+                --background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
+            }
         }
     }
     
@@ -41,8 +52,15 @@
             --#{$key}: #{$value};
         }
 
-        & > .container > .state-layer {
-            --background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
+        & > .container {
+            --outline-style: none;
+            --outline-color: unset;
+            --outline-width: unset;
+            --outline-offset: unset;
+
+            & > .state-layer {
+                --background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
+            }
         }
     }
     
@@ -82,6 +100,12 @@
         height: var(--filled-button-container-height);
         box-shadow: var(--filled-button-container-elevation);
         background-color: var(--background-color);
+        outline: {
+            style: var(--outline-style);
+            color: var(--outline-color);
+            width: var(--outline-width);
+            offset: var(--outline-offset);
+        };
         overflow: hidden;
 
         & > .state-layer {

@@ -218,8 +218,8 @@ $elevations: (
 
 $state-hover-state-layer-opacity: 0.08 !default;
 $state-focus-state-layer-opacity: 0.1 !default;
-$state-focus-indicator-thickness: 3px !default;
-$state-focus-indicator-offset: 2px !default;
+$state-focus-indicator-thickness: 0.1875rem !default;
+$state-focus-indicator-offset: 0.125rem !default;
 $state-pressed-state-layer-opacity: 0.1 !default;
 $state-dragged-state-layer-opacity: 0.16 !default;
 
