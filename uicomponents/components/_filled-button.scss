@@ -1,10 +1,36 @@
-@keyframes ripple {
-    to {
-        transform: scale(4);
-    }
-}
+@use "../component-tokens" as comp;
 
 .button.filled {
+    @each $key, $value in comp.$filled-button {
+        --#{$key}: #{$value};
+    }
+    --shadow-rgb: var(--filled-button-container-shadow-color-rgb);
+    --radius: calc(var(--filled-button-container-height) * 0.5);
+    
+    &:hover {
+        @each $key, $value in comp.$filled-button-hover {
+            --#{$key}: #{$value};
+        }
+    }
+    
+    &:focus {
+        @each $key, $value in comp.$filled-button-focus {
+            --#{$key}: #{$value};
+        }
+    }
+    
+    &:active {
+        @each $key, $value in comp.$filled-button-pressed {
+            --#{$key}: #{$value};
+        }
+    }
+    
+    &:disabled {
+        @each $key, $value in comp.$filled-button-disabled {
+            --#{$key}: #{$value};
+        }
+    }
+
     border: none;
     background: none;
     min-height: var(--reference-spacer2);
@@ -29,10 +55,20 @@
         & > .state-layer {
             display: grid;
             place-items: center;
-            padding: 0 var(--reference-padding6);
+            padding: {
+                left: var(--reference-padding4);
+                right: var(--reference-padding4);
+            };
             height: 100%;
             background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
             border-radius: var(--filled-button-container-shape);
+
+            & > .label {
+                padding: {
+                    left: var(--reference-padding2);
+                    right: var(--reference-padding2);
+                }
+            }
         }
     }
 }

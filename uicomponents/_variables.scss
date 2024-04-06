@@ -1,6 +1,5 @@
 @use "reference-tokens" as ref;
 @use "system-tokens" as sys;
-@use "component-tokens" as comp;
 
 :root,
 [data-theme="light"] {
@@ -72,37 +71,5 @@
 
     @each $color, $value in sys.$colors-dark-rgb {
         --system-color-#{$color}-rgb: #{$value};
-    }
-}
-
-.button.filled {
-    @each $key, $value in comp.$filled-button {
-        --#{$key}: #{$value};
-    }
-    --shadow-rgb: var(--filled-button-container-shadow-color-rgb);
-    --radius: calc(var(--filled-button-container-height) * 0.5);
-}
-
-.button.filled:hover {
-    @each $key, $value in comp.$filled-button-hover {
-        --#{$key}: #{$value};
-    }
-}
-
-.button.filled:focus {
-    @each $key, $value in comp.$filled-button-focus {
-        --#{$key}: #{$value};
-    }
-}
-
-.button.filled:active {
-    @each $key, $value in comp.$filled-button-pressed {
-        --#{$key}: #{$value};
-    }
-}
-
-.button.filled:disabled {
-    @each $key, $value in comp.$filled-button-disabled {
-        --#{$key}: #{$value};
     }
 }
