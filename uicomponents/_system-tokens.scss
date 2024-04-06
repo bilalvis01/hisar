@@ -221,7 +221,7 @@ $state-focus-state-layer-opacity: 0.1 !default;
 $state-focus-indicator-thickness: 3px !default;
 $state-focus-indicator-offset: 2px !default;
 $state-pressed-state-layer-opacity: 0.1 !default;
-$state-draged-state-layer-opacity: 0.16 !default;
+$state-dragged-state-layer-opacity: 0.16 !default;
 
 $states: (
     "state-hover-state-layer-opacity": $state-hover-state-layer-opacity,
@@ -229,7 +229,7 @@ $states: (
     "state-focus-indicator-thickness": $state-focus-indicator-thickness,
     "state-focus-indicator-offset": $state-focus-indicator-offset,
     "state-pressed-state-layer-opacity": $state-pressed-state-layer-opacity,
-    "state-draged-state-layer-opacity": $state-draged-state-layer-opacity,
+    "state-dragged-state-layer-opacity": $state-dragged-state-layer-opacity,
 ) !default;
 
 $typescale-display-large-font: ref.$typeface-brand !default;
@@ -398,7 +398,7 @@ $shape-corner-small: 0.25rem !default;
 $shape-corner-medium: 0.375rem !default;
 $shape-corner-large: 0.5rem !default;
 $shape-corner-extra-large: 0.75 !default;
-$shape-corner-full: 9999px !default;
+$shape-corner-full: var(--radius) !default;
 
 $shape: (
     "shape-corner-none": $shape-corner-none,

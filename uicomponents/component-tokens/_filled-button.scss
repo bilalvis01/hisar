@@ -1,5 +1,5 @@
-@use "reference-tokens" as ref;
-@use "system-tokens" as sys;
+@use "../reference-tokens" as ref;
+@use "../system-tokens" as sys;
 
 $filled-button-container-shape: sys.$shape-corner-full !default;
 $filled-button-container-height: 2.5rem !default;
@@ -64,7 +64,7 @@ $filled-button-pressed-label-color-rgb: sys.$on-primary-rgb !default;
 $filled-button-pressed-label-opacity: 1 !default;
 $filled-button-pressed-state-layer-color: sys.$on-primary !default;
 $filled-button-pressed-state-layer-color-rgb: sys.$on-primary-rgb !default;
-$filled-button-pressed-state-layer-opacity: sys.$state-press-state-layer-opacity !default;
+$filled-button-pressed-state-layer-opacity: sys.$state-pressed-state-layer-opacity !default;
 $filled-button-with-icon-pressed-icon-color: sys.$on-primary !default;
 $filled-button-with-icon-pressed-icon-color-rgb: sys.$on-primary-rgb !default;
 $filled-button-with-icon-pressed-icon-opacity: 1 !default;

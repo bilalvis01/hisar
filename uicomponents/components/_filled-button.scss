@@ -1,0 +1,38 @@
+@keyframes ripple {
+    to {
+        transform: scale(4);
+    }
+}
+
+.button.filled {
+    border: none;
+    background: none;
+    min-height: var(--reference-spacer2);
+    min-width: var(--reference-spacer2);
+    margin: 0;
+    padding: 0;
+    font-family: var(--filled-button-label-font);
+    line-height: var(--filled-button-label-line-height);
+    font-size: var(--filled-button-label-size);
+    font-weight: var(--filled-button-label-weight);
+    letter-spacing: var(--filled-button-label-tracking);
+    color: rgba(var(--filled-button-label-color-rgb, var(--filled-button-label-opacity)));
+
+    & > .container {
+        position: relative;
+        border-radius: var(--filled-button-container-shape);
+        height: var(--filled-button-container-height);
+        box-shadow: var(--filled-button-container-elevation);
+        background-color: rgba(var(--filled-button-container-color-rgb), var(--filled-button-container-opacity));
+        // overflow: hidden;
+
+        & > .state-layer {
+            display: grid;
+            place-items: center;
+            padding: 0 var(--reference-padding6);
+            height: 100%;
+            background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
+            border-radius: var(--filled-button-container-shape);
+        }
+    }
+}

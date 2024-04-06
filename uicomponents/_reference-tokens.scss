@@ -833,50 +833,50 @@ $neutral-variants: (
     "neutral-variant0": $neutral-variant0,
 ) !default;
 
-$spacer: 1.5rem !default;
-$spacer2: $spacer * 2 !default;
-$spacer3: $spacer * 3 !default;
-$spacer4: $spacer * 4 !default;
-$spacer5: $spacer * 5 !default;
-$spacer6: $spacer * 6 !default;
-$spacer7: $spacer * 7 !default;
-$spacer8: $spacer * 8 !default;
-$spacer9: $spacer * 9 !default;
-$spacer10: $spacer * 10 !default;
-$spacer11: $spacer * 11 !default;
-$spacer12: $spacer * 12 !default;
-$spacer13: $spacer * 13 !default;
-$spacer14: $spacer * 14 !default;
-$spacer15: $spacer * 15 !default;
-$spacer16: $spacer * 16 !default;
-$spacer17: $spacer * 17 !default;
-$spacer18: $spacer * 18 !default;
-$spacer19: $spacer * 19 !default;
-$spacer20: $spacer * 20 !default;
-$spacer21: $spacer * 21 !default;
-$spacer22: $spacer * 22 !default;
-$spacer23: $spacer * 23 !default;
-$spacer24: $spacer * 24 !default;
-$spacer25: $spacer * 25 !default;
-$spacer26: $spacer * 26 !default;
-$spacer27: $spacer * 27 !default;
-$spacer28: $spacer * 28 !default;
-$spacer29: $spacer * 29 !default;
-$spacer30: $spacer * 30 !default;
-$spacer31: $spacer * 31 !default;
-$spacer32: $spacer * 32 !default;
-$spacer33: $spacer * 33 !default;
-$spacer34: $spacer * 34 !default;
-$spacer35: $spacer * 35 !default;
-$spacer36: $spacer * 36 !default;
-$spacer36: $spacer * 36 !default;
-$spacer37: $spacer * 37 !default;
-$spacer38: $spacer * 38 !default;
-$spacer39: $spacer * 27 !default;
-$spacer40: $spacer * 40 !default;
+$spacer1: 1.5rem !default;
+$spacer2: $spacer1 * 2 !default;
+$spacer3: $spacer1 * 3 !default;
+$spacer4: $spacer1 * 4 !default;
+$spacer5: $spacer1 * 5 !default;
+$spacer6: $spacer1 * 6 !default;
+$spacer7: $spacer1 * 7 !default;
+$spacer8: $spacer1 * 8 !default;
+$spacer9: $spacer1 * 9 !default;
+$spacer10: $spacer1 * 10 !default;
+$spacer11: $spacer1 * 11 !default;
+$spacer12: $spacer1 * 12 !default;
+$spacer13: $spacer1 * 13 !default;
+$spacer14: $spacer1 * 14 !default;
+$spacer15: $spacer1 * 15 !default;
+$spacer16: $spacer1 * 16 !default;
+$spacer17: $spacer1 * 17 !default;
+$spacer18: $spacer1 * 18 !default;
+$spacer19: $spacer1 * 19 !default;
+$spacer20: $spacer1 * 20 !default;
+$spacer21: $spacer1 * 21 !default;
+$spacer22: $spacer1 * 22 !default;
+$spacer23: $spacer1 * 23 !default;
+$spacer24: $spacer1 * 24 !default;
+$spacer25: $spacer1 * 25 !default;
+$spacer26: $spacer1 * 26 !default;
+$spacer27: $spacer1 * 27 !default;
+$spacer28: $spacer1 * 28 !default;
+$spacer29: $spacer1 * 29 !default;
+$spacer30: $spacer1 * 30 !default;
+$spacer31: $spacer1 * 31 !default;
+$spacer32: $spacer1 * 32 !default;
+$spacer33: $spacer1 * 33 !default;
+$spacer34: $spacer1 * 34 !default;
+$spacer35: $spacer1 * 35 !default;
+$spacer36: $spacer1 * 36 !default;
+$spacer36: $spacer1 * 36 !default;
+$spacer37: $spacer1 * 37 !default;
+$spacer38: $spacer1 * 38 !default;
+$spacer39: $spacer1 * 27 !default;
+$spacer40: $spacer1 * 40 !default;
 
 $spacers: (
-    "spacer": $spacer,
+    "spacer1": $spacer1,
     "spacer2": $spacer2,
     "spacer3": $spacer3,
     "spacer4": $spacer4,
@@ -918,50 +918,50 @@ $spacers: (
     "spacer40": $spacer40,
 ) !default;
 
-$padding: 0.25rem !default;
-$padding2: $padding * 2 !default;
-$padding3: $padding * 3 !default;
-$padding4: $padding * 4 !default;
-$padding5: $padding * 5 !default;
-$padding6: $padding * 6 !default;
-$padding7: $padding * 7 !default;
-$padding8: $padding * 8 !default;
-$padding9: $padding * 9 !default;
-$padding10: $padding * 10 !default;
-$padding11: $padding * 11 !default;
-$padding12: $padding * 12 !default;
-$padding13: $padding * 13 !default;
-$padding14: $padding * 14 !default;
-$padding15: $padding * 15 !default;
-$padding16: $padding * 16 !default;
-$padding17: $padding * 17 !default;
-$padding18: $padding * 18 !default;
-$padding19: $padding * 19 !default;
-$padding20: $padding * 20 !default;
-$padding21: $padding * 21 !default;
-$padding22: $padding * 22 !default;
-$padding23: $padding * 23 !default;
-$padding24: $padding * 24 !default;
-$padding25: $padding * 25 !default;
-$padding26: $padding * 26 !default;
-$padding27: $padding * 27 !default;
-$padding28: $padding * 28 !default;
-$padding29: $padding * 29 !default;
-$padding30: $padding * 30 !default;
-$padding31: $padding * 31 !default;
-$padding32: $padding * 32 !default;
-$padding33: $padding * 33 !default;
-$padding34: $padding * 34 !default;
-$padding35: $padding * 35 !default;
-$padding36: $padding * 36 !default;
-$padding36: $padding * 36 !default;
-$padding37: $padding * 37 !default;
-$padding38: $padding * 38 !default;
-$padding39: $padding * 27 !default;
-$padding40: $padding * 40 !default;
+$padding1: 0.25rem !default;
+$padding2: $padding1 * 2 !default;
+$padding3: $padding1 * 3 !default;
+$padding4: $padding1 * 4 !default;
+$padding5: $padding1 * 5 !default;
+$padding6: $padding1 * 6 !default;
+$padding7: $padding1 * 7 !default;
+$padding8: $padding1 * 8 !default;
+$padding9: $padding1 * 9 !default;
+$padding10: $padding1 * 10 !default;
+$padding11: $padding1 * 11 !default;
+$padding12: $padding1 * 12 !default;
+$padding13: $padding1 * 13 !default;
+$padding14: $padding1 * 14 !default;
+$padding15: $padding1 * 15 !default;
+$padding16: $padding1 * 16 !default;
+$padding17: $padding1 * 17 !default;
+$padding18: $padding1 * 18 !default;
+$padding19: $padding1 * 19 !default;
+$padding20: $padding1 * 20 !default;
+$padding21: $padding1 * 21 !default;
+$padding22: $padding1 * 22 !default;
+$padding23: $padding1 * 23 !default;
+$padding24: $padding1 * 24 !default;
+$padding25: $padding1 * 25 !default;
+$padding26: $padding1 * 26 !default;
+$padding27: $padding1 * 27 !default;
+$padding28: $padding1 * 28 !default;
+$padding29: $padding1 * 29 !default;
+$padding30: $padding1 * 30 !default;
+$padding31: $padding1 * 31 !default;
+$padding32: $padding1 * 32 !default;
+$padding33: $padding1 * 33 !default;
+$padding34: $padding1 * 34 !default;
+$padding35: $padding1 * 35 !default;
+$padding36: $padding1 * 36 !default;
+$padding36: $padding1 * 36 !default;
+$padding37: $padding1 * 37 !default;
+$padding38: $padding1 * 38 !default;
+$padding39: $padding1 * 27 !default;
+$padding40: $padding1 * 40 !default;
 
 $paddings: (
-    "padding": $padding,
+    "padding1": $padding1,
     "padding2": $padding2,
     "padding3": $padding3,
     "padding4": $padding4,

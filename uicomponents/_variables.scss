@@ -75,26 +75,34 @@
     }
 }
 
-.filled-button {
+.button.filled {
     @each $key, $value in comp.$filled-button {
         --#{$key}: #{$value};
     }
+    --shadow-rgb: var(--filled-button-container-shadow-color-rgb);
+    --radius: calc(var(--filled-button-container-height) * 0.5);
 }
 
-.filled-button:disabled {
-    @each $key, $value in comp.$filled-button-disabled {
-        --#{$key}: #{$value};
-    }
-}
-
-.filled-button:hover {
+.button.filled:hover {
     @each $key, $value in comp.$filled-button-hover {
         --#{$key}: #{$value};
     }
 }
 
-.filled-button:focus {
+.button.filled:focus {
     @each $key, $value in comp.$filled-button-focus {
+        --#{$key}: #{$value};
+    }
+}
+
+.button.filled:active {
+    @each $key, $value in comp.$filled-button-pressed {
+        --#{$key}: #{$value};
+    }
+}
+
+.button.filled:disabled {
+    @each $key, $value in comp.$filled-button-disabled {
         --#{$key}: #{$value};
     }
 }
