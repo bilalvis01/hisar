@@ -16,6 +16,7 @@ import Navigation from "./Navigation";
 import Close from "../icons/Close";
 import List from "../icons/List";
 import IconButtonStandard from "./IconButtonStandard";
+import IconButtonFilled from "./IconButtonFilled";
 
 export default function DialogNavigation() {
     const [open, setOpen] = React.useState(false);
@@ -45,13 +46,13 @@ export default function DialogNavigation() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <nav aria-label="Dialog Navigation" className={style.nav}>
-                <DialogTrigger className={style.trigger}>
+                <IconButtonFilled className={style.trigger}>
                     <List />
-                </DialogTrigger>
+                </IconButtonFilled>
                 <DialogContent overlay={style.overlay} className={style.dialog}>
                     <header className={style.header}>
                         <Logo className={style.logo} />
-                        <IconButtonStandard className={style.close} selected>
+                        <IconButtonStandard className={style.close}>
                             <Close />
                         </IconButtonStandard>
                     </header>
