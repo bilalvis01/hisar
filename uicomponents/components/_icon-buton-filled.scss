@@ -1,0 +1,65 @@
+@use "../component-tokens" as comp;
+
+.icon-button.filled {
+    @each $key, $value in comp.$icon-button-filled {
+        --#{$key}: #{$value};
+    }
+    --corner-radius: calc(var(--icon-button-filled-container-size) * 0.5);
+    --container-width: var(--icon-button-filled-container-width);
+    --container-height: var(--icon-button-filled-container-height);
+    --container-shape: var(--icon-button-filled-container-shape);
+    --container-color: var(--icon-button-filled-container-color);
+    --outline-style: none;
+    --outline-color: unset;
+    --outline-width: unset;
+    --outline-offset: unset;
+    --state-layer-color: transparent;
+    --state-layer-width: 100%;
+    --state-layer-height: 100%;
+    --state-layer-shape: var(--icon-button-filled-container-shape);
+    --icon-color: var(--icon-button-filled-icon-color);
+    --icon-width: var(--icon-button-filled-icon-size);
+    --icon-height: var(--icon-button-filled-icon-size);
+
+    &.toggle {
+        --container-color: var(--icon-button-filled-unselected-container-color);
+        --icon-color: var(--icon-button-filled-unselected-icon-color);
+        
+        &.selected {
+            --container-color: var(--icon-button-filled-selected-container-color);
+            --icon-color: var(--icon-button-filled-selected-icon-color);
+        }
+    }
+
+    &:hover {
+        @each $key, $value in comp.$icon-button-filled-hover {
+            --#{$key}: #{$value};
+        }  
+    }
+
+    &:focus {
+        @each $key, $value in comp.$icon-button-filled-focus {
+            --#{$key}: #{$value};
+        }  
+        --outline-style: solid;
+        --outline-color: var(--icon-button-filled-indicator-color);
+        --outline-width: var(--icon-button-filled-indicator-thickness);
+        --outline-offset: var(--icon-button-filled-indicator-offset);
+    }
+
+    &:active {
+        @each $key, $value in comp.$icon-button-filled-pressed {
+            --#{$key}: #{$value};
+        }  
+        --outline-style: none;
+        --outline-color: unset;
+        --outline-width: unset;
+        --outline-offset: unset;
+    }
+
+    &:disabled {
+        @each $key, $value in comp.$icon-button-filled-disabled {
+            --#{$key}: #{$value};
+        }  
+    }
+}

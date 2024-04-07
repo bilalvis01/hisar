@@ -5,7 +5,7 @@
         --#{$key}: #{$value};
     }
     --shadow-rgb: var(--button-filled-container-shadow-color-rgb);
-    --radius: calc(var(--button-filled-container-height) * 0.5);
+    --corner-radius: calc(var(--button-filled-container-height) * 0.5);
     --color: var(--button-filled-label-color);
 
     & > .container {
