@@ -1,15 +1,15 @@
 @use "../component-tokens" as comp;
 
 .button.filled {
-    @each $key, $value in comp.$filled-button {
+    @each $key, $value in comp.$button-filled {
         --#{$key}: #{$value};
     }
-    --shadow-rgb: var(--filled-button-container-shadow-color-rgb);
-    --radius: calc(var(--filled-button-container-height) * 0.5);
-    --color: var(--filled-button-label-color);
+    --shadow-rgb: var(--button-filled-container-shadow-color-rgb);
+    --radius: calc(var(--button-filled-container-height) * 0.5);
+    --color: var(--button-filled-label-color);
 
     & > .container {
-        --background-color: var(--filled-button-container-color);
+        --background-color: var(--button-filled-container-color);
         --outline-style: none;
         --outline-color: unset;
         --outline-width: unset;
@@ -21,34 +21,34 @@
     }
     
     &:hover {
-        @each $key, $value in comp.$filled-button-hover {
+        @each $key, $value in comp.$button-filled-hover {
             --#{$key}: #{$value};
         }
 
         & > .container > .state-layer {
-            --background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
+            --background-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
         }
     }
     
     &:focus {
-        @each $key, $value in comp.$filled-button-focus {
+        @each $key, $value in comp.$button-filled-focus {
             --#{$key}: #{$value};
         }
 
         & > .container {
             --outline-style: solid;
-            --outline-color: var(--filled-button-indicator-color);
-            --outline-width: var(--filled-button-indicator-thickness);
-            --outline-offset: var(--filled-button-indicator-offset);
+            --outline-color: var(--button-filled-indicator-color);
+            --outline-width: var(--button-filled-indicator-thickness);
+            --outline-offset: var(--button-filled-indicator-offset);
 
             & > .state-layer {
-                --background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
+                --background-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
             }
         }
     }
     
     &:active {
-        @each $key, $value in comp.$filled-button-pressed {
+        @each $key, $value in comp.$button-filled-pressed {
             --#{$key}: #{$value};
         }
 
@@ -59,19 +59,19 @@
             --outline-offset: unset;
 
             & > .state-layer {
-                --background-color: rgba(var(--filled-button-state-layer-color-rgb), var(--filled-button-state-layer-opacity));
+                --background-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
             }
         }
     }
     
     &:disabled {
-        @each $key, $value in comp.$filled-button-disabled {
+        @each $key, $value in comp.$button-filled-disabled {
             --#{$key}: #{$value};
         }
-        --color: rgba(var(--filled-button-label-color-rgb), var(--filled-button-label-opacity));
+        --color: rgba(var(--button-filled-label-color-rgb), var(--button-filled-label-opacity));
 
         & > .container {
-            --background-color: rgba(var(--filled-button-container-color-rgb), var(--filled-button-container-opacity));
+            --background-color: rgba(var(--button-filled-container-color-rgb), var(--button-filled-container-opacity));
 
             & > .state-layer {
                 --background-color: transparent;
@@ -86,17 +86,17 @@
     min-height: var(--reference-spacer2);
     min-width: var(--reference-spacer2);
     padding: 0;
-    font-family: var(--filled-button-label-font);
-    line-height: var(--filled-button-label-line-height);
-    font-size: var(--filled-button-label-size);
-    font-weight: var(--filled-button-label-weight);
-    letter-spacing: var(--filled-button-label-tracking);
+    font-family: var(--button-filled-label-font);
+    line-height: var(--button-filled-label-line-height);
+    font-size: var(--button-filled-label-size);
+    font-weight: var(--button-filled-label-weight);
+    letter-spacing: var(--button-filled-label-tracking);
     color: var(--color);
 
     & > .container {
-        border-radius: var(--filled-button-container-shape);
-        height: var(--filled-button-container-height);
-        box-shadow: var(--filled-button-container-elevation);
+        border-radius: var(--button-filled-container-shape);
+        height: var(--button-filled-container-height);
+        box-shadow: var(--button-filled-container-elevation);
         background-color: var(--background-color);
         outline: {
             style: var(--outline-style);
