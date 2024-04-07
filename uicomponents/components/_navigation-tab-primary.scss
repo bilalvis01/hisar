@@ -1,0 +1,141 @@
+@use "../component-tokens" as comp;
+
+.navigation-tab.primary {
+    @each $key, $value in comp.$navigation-tab-primary {
+        --#{$key}: #{$value};
+    }
+    --container-color: var(--navigation-tab-primary-container-color);
+    --container-height: var(--navigation-tab-primary-container-height);
+    --container-shape: var(--navigation-tab-primary-container-shape);
+    --container-elevation: var(--navigation-tab-primary-container-elevation);
+    --label-font: var(--navigation-tab-primary-label-font);
+    --label-line-height: var(--navigation-tab-primary-label-line-height);
+    --label-size: var(--navigation-tab-primary-label-size);
+    --label-weight: var(--navigation-tab-primary-label-weight);
+    --label-tracking: var(--navigation-tab-primary-label-tracking);
+    --label-color: var(--navigation-tab-primary-inactive-label-color);
+    --icon-width: var(--navigation-tab-primary-icon-size);
+    --icon-height: var(--navigation-tab-primary-icon-size);
+    --icon-color: var(--navigation-tab-primary-inactive-icon-color);
+    --divider-diplay: none;
+    --divider-color: var(--navigation-tab-primary-divider-color);
+    --divider-height: var(--navigation-tab-primary-divider-height);
+    --active-indicator-display: none;
+    --active-indicator-height: var(--navigation-tab-primary-active-indicator-height);
+    --active-indicator-color: var(--navigation-tab-primary-active-indicator-color);
+    --active-indicator-shape: var(--navigation-tab-primary-active-indicator-shape);
+    --state-layer-width: 100%;
+    --state-layer-height: 100%;
+    --state-layer-color: rgba(var(--navigation-tab-primary-inactive-state-layer-color-rgb), var(--navigation-tab-primary-inactive-state-layer-opacity));
+    --content-position: relative;
+
+    &.active {
+        --label-color: var(--navigation-tab-primary-active-label-color);
+        --icon-color: var(--navigation-tab-primary-active-icon-color);
+        --state-layer-color: rgba(var(--navigation-tab-primary-active-state-layer-color-rgb), var(--navigation-tab-primary-active-state-layer-opacity));
+        --active-indicator-display: block;
+    }
+
+    &.inline {
+        --container-height: var(--navigation-tab-primary-inline-container-height);
+    }
+
+    &.underline {
+        --divider-display: block;
+    }
+
+    &:hover {
+        @each $key, $value in comp.$navigation-tab-primary-hover {
+            --#{$key}: #{$value};
+        }
+    }
+
+    &:focus {
+        @each $key, $value in comp.$navigation-tab-primary-focus {
+            --#{$key}: #{$value};
+        }
+    }
+
+    &:active {
+        @each $key, $value in comp.$navigation-tab-primary-pressed {
+            --#{$key}: #{$value};
+        }
+    }
+}
+
+.navigation-tab {
+    display: block;
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+    min-height: var(--reference-spacer2);
+    min-width: var(--reference-spacer2);
+    padding: 0;
+
+    & > .container {
+        display: block;
+        position: relative;
+        width: var(--container-width);
+        height: var(--container-height);
+        background-color: var(--container-color);
+        border-radius: var(--container-shape);
+        overflow: hidden;
+        text-decoration: none;
+
+        & > .state-layer {
+            width: var(--state-layer-width);
+            height: var(--state-layer-height);
+            background-color: var(--state-layer-color);
+            border-radius: var(--state-layer-shape);
+            text-decoration: none;
+
+            & > .content {
+                position: var(--content-position);
+                display: grid;
+                place-items: center;
+                width: fit-content; 
+                height: 100%;
+                margin: 0 auto;
+
+                & > .label {
+                    font-family: var(--label-font);
+                    line-height: var(--label-line-height);
+                    font-size: var(--label-size);
+                    font-weight: var(--label-weight);
+                    letter-spacing: var(--label-tracking);
+                    color: var(--label-color);
+
+                }
+    
+                & > .svg {
+                    width: var(--icon-width);
+                    height: var(--icon-height);
+                    color: var(--icon-color);
+                }
+
+                & > hr {
+                    position: absolute;
+                    margin: 0;
+                    border: 0;
+                    display: var(--active-indicator-display);
+                    width: 100%;
+                    height: var(--active-indicator-height);
+                    bottom: 0;
+                    background-color: var(--active-indicator-color);
+                    border-radius: var(--active-indicator-radius);
+                }
+            }
+        }
+
+        & > hr {
+            display: var(--divider-display);
+            border: 0;
+            margin: 0;
+            width: 100%;
+            height: var(--divider-height);
+            background-color: var(--divider-color);
+        }
+    }
+}
