@@ -133,12 +133,4 @@
             }
         }
     }
-
-    &.selected {
-        color: var(--color);
-
-        & > .container > .state-layer {
-            background-color: var(--background-color);
-        }
-    }
 }
