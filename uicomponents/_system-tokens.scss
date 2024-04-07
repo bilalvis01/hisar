@@ -398,7 +398,7 @@ $shape-corner-small: 0.25rem !default;
 $shape-corner-medium: 0.375rem !default;
 $shape-corner-large: 0.5rem !default;
 $shape-corner-extra-large: 0.75 !default;
-$shape-corner-full: var(--radius) !default;
+$shape-corner-full: var(--corner-radius) !default;
 
 $shape: (
     "shape-corner-none": $shape-corner-none,

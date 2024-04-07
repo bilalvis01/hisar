@@ -1,0 +1,40 @@
+@use "../component-tokens" as comp;
+
+.icon-button {
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    min-height: var(--reference-spacer2);
+    min-width: var(--reference-spacer2);
+    padding: 0;
+    color: var(--icon-color);
+
+    & > .container {
+        margin: 0 auto;
+        width: var(--container-width);
+        height: var(--container-height);
+        border-radius: var(--container-shape);
+        background-color: var(--container-color);
+        outline: {
+            style: var(--outline-style);
+            color: var(--outline-color);
+            width: var(--outline-width);
+            offset: var(--outline-offset);
+        };
+
+        & > .state-layer {
+            display: grid;
+            place-items: center;
+            width: var(--state-layer-width);
+            height: var(--state-layer-height);
+            border-radius: var(--state-layer-shape);
+            background-color: var(--state-layer-color);
+    
+            & > svg {
+                width: var(--icon-width);
+                height: var(--icon-height);
+            }
+        }
+    }
+}
