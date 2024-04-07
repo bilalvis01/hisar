@@ -104,7 +104,6 @@
             width: var(--outline-width);
             offset: var(--outline-offset);
         };
-        overflow: hidden;
 
         & > .state-layer {
             display: grid;
@@ -115,7 +114,6 @@
             };
             height: 100%;
             background-color: var(--background-color);
-            border-radius: var(--filled-button-container-shape);
 
             & > .label {
                 padding: {
