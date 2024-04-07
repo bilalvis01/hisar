@@ -1,43 +1,43 @@
 @use "../component-tokens" as comp;
 
 .navigation-tab.primary {
-    @each $key, $value in comp.$navigation-tab-primary {
+    @each $key, $value in comp.$tab-primary-navigation {
         --#{$key}: #{$value};
     }
-    --container-color: var(--navigation-tab-primary-container-color);
-    --container-height: var(--navigation-tab-primary-container-height);
-    --container-shape: var(--navigation-tab-primary-container-shape);
-    --container-elevation: var(--navigation-tab-primary-container-elevation);
-    --label-font: var(--navigation-tab-primary-label-font);
-    --label-line-height: var(--navigation-tab-primary-label-line-height);
-    --label-size: var(--navigation-tab-primary-label-size);
-    --label-weight: var(--navigation-tab-primary-label-weight);
-    --label-tracking: var(--navigation-tab-primary-label-tracking);
-    --label-color: var(--navigation-tab-primary-inactive-label-color);
-    --icon-width: var(--navigation-tab-primary-icon-size);
-    --icon-height: var(--navigation-tab-primary-icon-size);
-    --icon-color: var(--navigation-tab-primary-inactive-icon-color);
+    --container-color: var(--tab-primary-navigation-container-color);
+    --container-height: var(--tab-primary-navigation-container-height);
+    --container-shape: var(--tab-primary-navigation-container-shape);
+    --container-elevation: var(--tab-primary-navigation-container-elevation);
+    --label-font: var(--tab-primary-navigation-label-font);
+    --label-line-height: var(--tab-primary-navigation-label-line-height);
+    --label-size: var(--tab-primary-navigation-label-size);
+    --label-weight: var(--tab-primary-navigation-label-weight);
+    --label-tracking: var(--tab-primary-navigation-label-tracking);
+    --label-color: var(--tab-primary-navigation-inactive-label-color);
+    --icon-width: var(--tab-primary-navigation-icon-size);
+    --icon-height: var(--tab-primary-navigation-icon-size);
+    --icon-color: var(--tab-primary-navigation-inactive-icon-color);
     --divider-diplay: none;
-    --divider-color: var(--navigation-tab-primary-divider-color);
-    --divider-height: var(--navigation-tab-primary-divider-height);
+    --divider-color: var(--tab-primary-navigation-divider-color);
+    --divider-height: var(--tab-primary-navigation-divider-height);
     --active-indicator-display: none;
-    --active-indicator-height: var(--navigation-tab-primary-active-indicator-height);
-    --active-indicator-color: var(--navigation-tab-primary-active-indicator-color);
-    --active-indicator-shape: var(--navigation-tab-primary-active-indicator-shape);
+    --active-indicator-height: var(--tab-primary-navigation-active-indicator-height);
+    --active-indicator-color: var(--tab-primary-navigation-active-indicator-color);
+    --active-indicator-shape: var(--tab-primary-navigation-active-indicator-shape);
     --state-layer-width: 100%;
     --state-layer-height: 100%;
-    --state-layer-color: rgba(var(--navigation-tab-primary-inactive-state-layer-color-rgb), var(--navigation-tab-primary-inactive-state-layer-opacity));
+    --state-layer-color: rgba(var(--tab-primary-navigation-inactive-state-layer-color-rgb), var(--tab-primary-navigation-inactive-state-layer-opacity));
     --content-position: relative;
 
     &.active {
-        --label-color: var(--navigation-tab-primary-active-label-color);
-        --icon-color: var(--navigation-tab-primary-active-icon-color);
-        --state-layer-color: rgba(var(--navigation-tab-primary-active-state-layer-color-rgb), var(--navigation-tab-primary-active-state-layer-opacity));
+        --label-color: var(--tab-primary-navigation-active-label-color);
+        --icon-color: var(--tab-primary-navigation-active-icon-color);
+        --state-layer-color: rgba(var(--tab-primary-navigation-active-state-layer-color-rgb), var(--tab-primary-navigation-active-state-layer-opacity));
         --active-indicator-display: block;
     }
 
     &.inline {
-        --container-height: var(--navigation-tab-primary-inline-container-height);
+        --container-height: var(--tab-primary-navigation-inline-container-height);
     }
 
     &.underline {
@@ -45,19 +45,19 @@
     }
 
     &:hover {
-        @each $key, $value in comp.$navigation-tab-primary-hover {
+        @each $key, $value in comp.$tab-primary-navigation-hover {
             --#{$key}: #{$value};
         }
     }
 
     &:focus {
-        @each $key, $value in comp.$navigation-tab-primary-focus {
+        @each $key, $value in comp.$tab-primary-navigation-focus {
             --#{$key}: #{$value};
         }
     }
 
     &:active {
-        @each $key, $value in comp.$navigation-tab-primary-pressed {
+        @each $key, $value in comp.$tab-primary-navigation-pressed {
             --#{$key}: #{$value};
         }
     }

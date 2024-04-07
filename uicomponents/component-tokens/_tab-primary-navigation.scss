@@ -1,0 +1,124 @@
+@use "../reference-tokens" as ref;
+@use "../system-tokens" as sys;
+
+$tab-primary-navigation-container-color: sys.$surface !default;
+$tab-primary-navigation-container-shape: sys.$shape-corner-none !default;
+$tab-primary-navigation-inline-container-height: 3rem !default;
+$tab-primary-navigation-container-height: 4rem !default;
+$tab-primary-navigation-container-elevation: sys.$elevation-level0 !default;
+$tab-primary-navigation-label-font: sys.$typescale-title-small-font !default;
+$tab-primary-navigation-label-line-height: sys.$typescale-title-small-line-height !default;
+$tab-primary-navigation-label-size: sys.$typescale-title-small-font-size !default;
+$tab-primary-navigation-label-weight: sys.$typescale-title-small-font-weight !default;
+$tab-primary-navigation-label-tracking: sys.$typescale-title-small-font-tracking !default;
+$tab-primary-navigation-active-label-color: sys.$primary !default;
+$tab-primary-navigation-inactive-label-color: sys.$on-surface !default;
+$tab-primary-navigation-icon-size: 1.5rem !default;
+$tab-primary-navigation-active-icon-color: sys.$primary !default;
+$tab-primary-navigation-inactive-icon-color: sys.$on-surface !default;
+$tab-primary-navigation-divider-color: sys.$surface-container-highest !default;
+$tab-primary-navigation-divider-height: 0.0625rem !default;
+$tab-primary-navigation-active-indicator-color: sys.$primary !default;
+$tab-primary-navigation-active-indicator-height: 3px !default;
+$tab-primary-navigation-active-indicator-shape: 0.1875rem 0.1875rem 0 0 !default;
+
+$tab-primary-navigation-active-hover-label-color: sys.$primary !default;
+$tab-primary-navigation-inactiove-hover-label-color: sys.$on-surface !default;
+$tab-primary-navigation-active-hover-state-layer-color: sys.$primary !default;
+$tab-primary-navigation-active-hover-state-layer-color-rgb: sys.$primary-rgb !default;
+$tab-primary-navigation-active-hover-state-layer-opacity: sys.$state-hover-state-layer-opacity !default;
+$tab-primary-navigation-inactive-hover-state-layer-color: sys.$on-surface !default;
+$tab-primary-navigation-inactive-hover-state-layer-color-rgb: sys.$on-surface-rgb !default;
+$tab-primary-navigation-inactive-hover-state-layer-opacity: sys.$state-hover-state-layer-opacity !default;
+$tab-primary-navigation-active-hover-icon-color: sys.$primary !default;
+$tab-primary-navigation-inactive-hover-icon-color: sys.$on-surface !default;
+
+$tab-primary-navigation-focus-indicator-color: sys.$secondary !default;
+$tab-primary-navigation-focus-indicator-thickness: sys.$state-focus-indicator-thickness !default;
+$tab-primary-navigation-focus-indicator-offset: sys.$state-focus-indicator-offset !default;
+$tab-primary-navigation-active-focus-label-color: sys.$primary !default;
+$tab-primary-navigation-inactiove-focus-label-color: sys.$on-surface !default;
+$tab-primary-navigation-active-focus-state-layer-color: sys.$primary !default;
+$tab-primary-navigation-active-focus-state-layer-color-rgb: sys.$primary-rgb !default;
+$tab-primary-navigation-active-focus-state-layer-opacity: sys.$state-focus-state-layer-opacity !default;
+$tab-primary-navigation-inactive-focus-state-layer-color: sys.$on-surface !default;
+$tab-primary-navigation-inactive-focus-state-layer-color-rgb: sys.$on-surface-rgb !default;
+$tab-primary-navigation-inactive-focus-state-layer-opacity: sys.$state-focus-state-layer-opacity !default;
+$tab-primary-navigation-active-focus-icon-color: sys.$primary !default;
+$tab-primary-navigation-inactive-focus-icon-color: sys.$on-surface !default;
+
+$tab-primary-navigation-active-pressed-label-color: sys.$primary !default;
+$tab-primary-navigation-inactiove-pressed-label-color: sys.$on-surface !default;
+$tab-primary-navigation-active-pressed-state-layer-color: sys.$primary !default;
+$tab-primary-navigation-active-pressed-state-layer-color-rgb: sys.$primary-rgb !default;
+$tab-primary-navigation-active-pressed-state-layer-opacity: sys.$state-pressed-state-layer-opacity !default;
+$tab-primary-navigation-inactive-pressed-state-layer-color: sys.$on-surface !default;
+$tab-primary-navigation-inactive-pressed-state-layer-color-rgb: sys.$on-surface-rgb !default;
+$tab-primary-navigation-inactive-pressed-state-layer-opacity: sys.$state-pressed-state-layer-opacity !default;
+$tab-primary-navigation-active-pressed-icon-color: sys.$primary !default;
+$tab-primary-navigation-inactive-pressed-icon-color: sys.$on-surface !default;
+
+$tab-primary-navigation: (
+    "tab-primary-navigation-container-color": $tab-primary-navigation-container-color,
+    "tab-primary-navigation-container-shape": $tab-primary-navigation-container-shape,
+    "tab-primary-navigation-inline-container-height": $tab-primary-navigation-inline-container-height,
+    "tab-primary-navigation-container-height": $tab-primary-navigation-container-height,
+    "tab-primary-navigation-container-elevation": $tab-primary-navigation-container-elevation,
+    "tab-primary-navigation-label-font": $tab-primary-navigation-label-font,
+    "tab-primary-navigation-label-line-height": $tab-primary-navigation-label-line-height,
+    "tab-primary-navigation-label-size": $tab-primary-navigation-label-size,
+    "tab-primary-navigation-label-weight": $tab-primary-navigation-label-weight,
+    "tab-primary-navigation-label-tracking": $tab-primary-navigation-label-tracking,
+    "tab-primary-navigation-active-label-color": $tab-primary-navigation-active-label-color,
+    "tab-primary-navigation-inactive-label-color": $tab-primary-navigation-inactive-label-color,
+    "tab-primary-navigation-icon-size": $tab-primary-navigation-icon-size,
+    "tab-primary-navigation-active-icon-color": $tab-primary-navigation-active-icon-color,
+    "tab-primary-navigation-inactive-icon-color": $tab-primary-navigation-inactive-icon-color,
+    "tab-primary-navigation-divider-color": $tab-primary-navigation-divider-color,
+    "tab-primary-navigation-divider-height": $tab-primary-navigation-divider-height,
+    "tab-primary-navigation-active-indicator-color": $tab-primary-navigation-active-indicator-color,
+    "tab-primary-navigation-active-indicator-height": $tab-primary-navigation-active-indicator-height,
+    "tab-primary-navigation-active-indicator-shape": $tab-primary-navigation-active-indicator-shape,
+) !default;
+
+$tab-primary-navigation-hover: (
+    "tab-primary-navigation-active-label-color": $tab-primary-navigation-active-hover-label-color,
+    "tab-primary-navigation-inactiove-label-color": $tab-primary-navigation-inactiove-hover-label-color,
+    "tab-primary-navigation-active-state-layer-color": $tab-primary-navigation-active-hover-state-layer-color,
+    "tab-primary-navigation-active-state-layer-color-rgb": $tab-primary-navigation-active-hover-state-layer-color-rgb,
+    "tab-primary-navigation-active-state-layer-opacity": $tab-primary-navigation-active-hover-state-layer-opacity,
+    "tab-primary-navigation-inactive-state-layer-color": $tab-primary-navigation-inactive-hover-state-layer-color,
+    "tab-primary-navigation-inactive-state-layer-color-rgb": $tab-primary-navigation-inactive-hover-state-layer-color-rgb,
+    "tab-primary-navigation-inactive-state-layer-opacity": $tab-primary-navigation-inactive-hover-state-layer-opacity,
+    "tab-primary-navigation-active-icon-color": $tab-primary-navigation-active-hover-icon-color,
+    "tab-primary-navigation-inactive-icon-color": $tab-primary-navigation-inactive-hover-icon-color,
+) !default;
+
+$tab-primary-navigation-focus: (
+    "tab-primary-navigation-indicator-color": $tab-primary-navigation-focus-indicator-color,
+    "tab-primary-navigation-indicator-thickness": $tab-primary-navigation-focus-indicator-thickness,
+    "tab-primary-navigation-indicator-offset": $tab-primary-navigation-focus-indicator-offset,
+    "tab-primary-navigation-active-label-color": $tab-primary-navigation-active-focus-label-color,
+    "tab-primary-navigation-inactiove-label-color": $tab-primary-navigation-inactiove-focus-label-color,
+    "tab-primary-navigation-active-state-layer-color": $tab-primary-navigation-active-focus-state-layer-color,
+    "tab-primary-navigation-active-state-layer-color-rgb": $tab-primary-navigation-active-focus-state-layer-color-rgb,
+    "tab-primary-navigation-active-state-layer-opacity": $tab-primary-navigation-active-focus-state-layer-opacity,
+    "tab-primary-navigation-inactive-state-layer-color": $tab-primary-navigation-inactive-focus-state-layer-color,
+    "tab-primary-navigation-inactive-state-layer-color-rgb": $tab-primary-navigation-inactive-focus-state-layer-color-rgb,
+    "tab-primary-navigation-inactive-state-layer-opacity": $tab-primary-navigation-inactive-focus-state-layer-opacity,
+    "tab-primary-navigation-active-icon-color": $tab-primary-navigation-active-focus-icon-color,
+    "tab-primary-navigation-inactive-icon-color": $tab-primary-navigation-inactive-focus-icon-color,
+) !default;
+
+$tab-primary-navigation-pressed: (
+    "tab-primary-navigation-active-label-color": $tab-primary-navigation-active-pressed-label-color,
+    "tab-primary-navigation-inactiove-label-color": $tab-primary-navigation-inactiove-pressed-label-color,
+    "tab-primary-navigation-active-state-layer-color": $tab-primary-navigation-active-pressed-state-layer-color,
+    "tab-primary-navigation-active-state-layer-color-rgb": $tab-primary-navigation-active-pressed-state-layer-color-rgb,
+    "tab-primary-navigation-active-state-layer-opacity": $tab-primary-navigation-active-pressed-state-layer-opacity,
+    "tab-primary-navigation-inactive-state-layer-color": $tab-primary-navigation-inactive-pressed-state-layer-color,
+    "tab-primary-navigation-inactive-state-layer-color-rgb": $tab-primary-navigation-inactive-pressed-state-layer-color-rgb,
+    "tab-primary-navigation-inactive-state-layer-opacity": $tab-primary-navigation-inactive-pressed-state-layer-opacity,
+    "tab-primary-navigation-active-icon-color": $tab-primary-navigation-active-pressed-icon-color,
+    "tab-primary-navigation-inactive-icon-color": $tab-primary-navigation-inactive-pressed-icon-color,
+) !default;
