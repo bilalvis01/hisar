@@ -1,0 +1,56 @@
+.button {
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    min-height: var(--reference-spacer2);
+    min-width: var(--reference-spacer2);
+    padding: 0;
+
+    & > .container {
+        border-radius: var(--container-shape);
+        height: var(--container-height);
+        box-shadow: var(--container-elevation);
+        background-color: var(--container-color);
+        outline: {
+            style: var(--outline-style);
+            color: var(--outline-color);
+            width: var(--outline-width);
+            offset: var(--outline-offset);
+        };
+
+        & > .state-layer {
+            padding: {
+                left: var(--reference-padding4);
+                right: var(--reference-padding4);
+            };
+            height: 100%;
+            background-color: var(--state-layer-color);
+            
+            & > .content {
+                display: grid;
+                place-items: center;
+                height: 100%;
+                
+                & > svg {
+                    width: var(--icon-width);
+                    height: var(--icon-height);
+                    color: var(--icon-color);
+                }
+    
+                & > .label {
+                    font-family: var(--label-font);
+                    line-height: var(--label-line-height);
+                    font-size: var(--label-size);
+                    font-weight: var(--label-weight);
+                    letter-spacing: var(--label-tracking);
+                    color: var(--label-color);
+                    padding: {
+                        left: var(--reference-padding2);
+                        right: var(--reference-padding2);
+                    }
+                }
+            }
+        }
+    }
+}
