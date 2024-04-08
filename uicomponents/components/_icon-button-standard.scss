@@ -21,7 +21,7 @@
     --icon-width: var(--icon-button-standard-icon-size);
     --icon-height: var(--icon-button-standard-icon-size);
 
-    &.toggle-button.selected {
+    &.toggle.selected {
         --icon-color: var(--icon-button-standard-selected-icon-color);
     }
 
@@ -40,13 +40,16 @@
         @each $key, $value in comp.$icon-button-standard-focus {
             --#{$key}: #{$value};
         }
-        --outline-style: solid;
-        --outline-color: var(--icon-button-standard-indicator-color);
-        --outline-width: var(--icon-button-standard-indicator-thickness);
-        --outline-offset: var(--icon-button-standard-indicator-offset);
         --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
+
+        &.focus-indicator {
+            --outline-style: solid;
+            --outline-color: var(--icon-button-standard-indicator-color);
+            --outline-width: var(--icon-button-standard-indicator-thickness);
+            --outline-offset: var(--icon-button-standard-indicator-offset);
+        }
     
-        &.toggle-button.selected {
+        &.toggle.selected {
             --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));
         }
     }
@@ -55,13 +58,16 @@
         @each $key, $value in comp.$icon-button-standard-pressed {
             --#{$key}: #{$value};
         }
-        --outline-style: none;
-        --outline-color: unset;
-        --outline-width: unset;
-        --outline-offset: unset;
         --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
+
+        &.focus-indicator {
+            --outline-style: none;
+            --outline-color: unset;
+            --outline-width: unset;
+            --outline-offset: unset;
+        }
     
-        &.toggle-button.selected {
+        &.toggle.selected {
             --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));
         }
     }
@@ -73,7 +79,7 @@
         --state-layer-color: transparent;
         --icon-color: rgba(var(--icon-button-standard-icon-color-rgb), var(--icon-button-standard-icon-opacity));
     
-        &.toggle-button.selected {
+        &.toggle.selected {
             --state-layer-color: transparent;
         }
     }
