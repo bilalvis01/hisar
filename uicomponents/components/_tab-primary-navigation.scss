@@ -1,6 +1,6 @@
 @use "../component-tokens" as comp;
 
-.navigation-tab.primary {
+.tab.primary-navigation {
     @each $key, $value in comp.$tab-primary-navigation {
         --#{$key}: #{$value};
     }
@@ -59,83 +59,6 @@
     &:active {
         @each $key, $value in comp.$tab-primary-navigation-pressed {
             --#{$key}: #{$value};
-        }
-    }
-}
-
-.navigation-tab {
-    display: block;
-    background: none;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    text-decoration: none;
-    min-height: var(--reference-spacer2);
-    min-width: var(--reference-spacer2);
-    padding: 0;
-
-    & > .container {
-        display: block;
-        position: relative;
-        width: var(--container-width);
-        height: var(--container-height);
-        background-color: var(--container-color);
-        border-radius: var(--container-shape);
-        overflow: hidden;
-        text-decoration: none;
-
-        & > .state-layer {
-            width: var(--state-layer-width);
-            height: var(--state-layer-height);
-            background-color: var(--state-layer-color);
-            border-radius: var(--state-layer-shape);
-            text-decoration: none;
-
-            & > .content {
-                position: var(--content-position);
-                display: grid;
-                place-items: center;
-                width: fit-content; 
-                height: 100%;
-                margin: 0 auto;
-
-                & > .label {
-                    font-family: var(--label-font);
-                    line-height: var(--label-line-height);
-                    font-size: var(--label-size);
-                    font-weight: var(--label-weight);
-                    letter-spacing: var(--label-tracking);
-                    color: var(--label-color);
-
-                }
-    
-                & > .svg {
-                    width: var(--icon-width);
-                    height: var(--icon-height);
-                    color: var(--icon-color);
-                }
-
-                & > hr {
-                    position: absolute;
-                    margin: 0;
-                    border: 0;
-                    display: var(--active-indicator-display);
-                    width: 100%;
-                    height: var(--active-indicator-height);
-                    bottom: 0;
-                    background-color: var(--active-indicator-color);
-                    border-radius: var(--active-indicator-shape);
-                }
-            }
-        }
-
-        & > hr {
-            display: var(--divider-display);
-            border: 0;
-            margin: 0;
-            width: 100%;
-            height: var(--divider-height);
-            background-color: var(--divider-color);
         }
     }
 }

@@ -1,0 +1,64 @@
+@use "../component-tokens" as comp;
+
+.tab.link-navigation {
+    @each $key, $value in comp.$tab-link-navigation {
+        --#{$key}: #{$value};
+    }
+    --container-color: var(--tab-link-navigation-container-color);
+    --container-height: var(--tab-link-navigation-container-height);
+    --container-shape: var(--tab-link-navigation-container-shape);
+    --container-elevation: var(--tab-link-navigation-container-elevation);
+    --label-font: var(--tab-link-navigation-label-font);
+    --label-line-height: var(--tab-link-navigation-label-line-height);
+    --label-size: var(--tab-link-navigation-lab el-size);
+    --label-weight: var(--tab-link-navigation-label-weight);
+    --label-tracking: var(--tab-link-navigation-label-tracking);
+    --label-color: var(--tab-link-navigation-inactive-label-color);
+    --icon-width: var(--tab-link-navigation-icon-size);
+    --icon-height: var(--tab-link-navigation-icon-size);
+    --icon-color: var(--tab-link-navigation-inactive-icon-color);
+    --divider-diplay: none;
+    --divider-color: var(--tab-link-navigation-divider-color);
+    --divider-height: var(--tab-link-navigation-divider-height);
+    --active-indicator-display: none;
+    --active-indicator-height: var(--tab-link-navigation-active-indicator-height);
+    --active-indicator-color: var(--tab-link-navigation-active-indicator-color);
+    --active-indicator-shape: var(--tab-link-navigation-active-indicator-shape);
+    --state-layer-width: 100%;
+    --state-layer-height: 100%;
+    --state-layer-color: rgba(var(--tab-link-navigation-inactive-state-layer-color-rgb), var(--tab-link-navigation-inactive-state-layer-opacity));
+    --content-position: relative;
+
+    &.inline {
+        --container-height: var(--tab-link-navigation-inline-container-height);
+    }
+
+    &.underline {
+        --divider-display: block;
+    }
+
+    &.active {
+        --label-color: var(--tab-link-navigation-active-label-color);
+        --icon-color: var(--tab-link-navigation-active-icon-color);
+        --state-layer-color: rgba(var(--tab-link-navigation-active-state-layer-color-rgb), var(--tab-link-navigation-active-state-layer-opacity));
+        --active-indicator-display: block;
+    }
+
+    &:hover {
+        @each $key, $value in comp.$tab-link-navigation-hover {
+            --#{$key}: #{$value};
+        }
+    }
+
+    &:focus {
+        @each $key, $value in comp.$tab-link-navigation-focus {
+            --#{$key}: #{$value};
+        }
+    }
+
+    &:active {
+        @each $key, $value in comp.$tab-link-navigation-pressed {
+            --#{$key}: #{$value};
+        }
+    }
+}

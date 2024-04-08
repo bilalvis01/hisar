@@ -16,7 +16,7 @@ export default function Navigation({
 }: NavigationProps) {
     return (
         <ul className={clsx(style.navigation, classes.root)} role={role} aria-label={ariaLabel}>
-            <li role="none" className={clsx("navigation-tab", "primary", "inline", "active", style.tabWidth)}>
+            <li role="none" className={clsx("tab", "link-navigation", "inline", "active", style.tabWidth)}>
                 <Link role="menuitem" className="container" href="/">
                     <div className="state-layer">
                         <div className="content">
@@ -27,7 +27,7 @@ export default function Navigation({
                     <hr />
                 </Link>
             </li>
-            <li role="none" className={clsx("navigation-tab", "primary", "inline", style.tabWidth)}>
+            <li role="none" className={clsx("tab", "link-navigation", "inline", style.tabWidth)}>
                 <Link role="menuitem" className="container" href="/budget">
                     <div className="state-layer">
                         <div className="content">
@@ -38,7 +38,7 @@ export default function Navigation({
                     <hr />
                 </Link>
             </li>
-            <li role="none" className={clsx("navigation-tab", "primary", "inline", style.tabWidth)}>
+            <li role="none" className={clsx("tab", "link-navigation", "inline", style.tabWidth)}>
                 <Link role="menuitem" className="container" href="/expense">
                     <div className="state-layer">
                         <div className="content">
