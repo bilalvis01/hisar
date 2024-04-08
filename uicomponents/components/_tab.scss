@@ -18,6 +18,12 @@
         border-radius: var(--container-shape);
         overflow: hidden;
         text-decoration: none;
+        outline: {
+            style: var(--outline-style);
+            color: var(--outline-color);
+            width: var(--outline-width);
+            offset: var(--outline-offset);
+        };
 
         & > .state-layer {
             width: var(--state-layer-width);
