@@ -5,7 +5,7 @@ import {
     Field, 
     ErrorMessage,
 } from "formik";
-import ButtonSolid from "../../components/ButtonSolid";
+import ButtonSolid from "../../components/ButtonFIlled";
 
 export default function AddForm() {
     return (

@@ -7,7 +7,7 @@ import {
     DialogHeading,
     DialogDescription,
 } from "../../components/Dialog";
-import ButtonSolid from "../../components/ButtonSolid";
+import ButtonFilled from "../../components/ButtonFIlled";
 import Form from "./AddForm";
 import style from "./add.module.scss";
 import Close from "../../icons/Close";
@@ -31,14 +31,14 @@ export default function Add({
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <ButtonSolid>
+            <ButtonFilled>
                 Tambah
-            </ButtonSolid>
+            </ButtonFilled>
             <DialogContent overlay={style.overlay} className={style.dialog}>
                 <div className={style.card}>
                     <header>
                         <DialogHeading>{heading}</DialogHeading>
-                        <ButtonSolid onClick={handleClose}><Close /></ButtonSolid>
+                        <ButtonFilled onClick={handleClose}><Close /></ButtonFilled>
                     </header>
                     <DialogDescription>
                         <Form />

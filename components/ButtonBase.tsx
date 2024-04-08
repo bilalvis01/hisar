@@ -9,7 +9,7 @@ export interface ButtonBaseProps extends React.ButtonHTMLAttributes<HTMLButtonEl
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
     variant?: Variant;
-    focusIndicator: boolean;
+    focusIndicator?: boolean;
 };
 
 const ButtonBase = React.forwardRef<
