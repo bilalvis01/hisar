@@ -4,7 +4,6 @@
     @each $key, $value in comp.$icon-button-standard {
         --#{$key}: #{$value};
     }
-    --corner-radius: calc(var(--icon-button-standard-state-layer-size) * 0.5);
     --container-width: var(--icon-button-standard-state-layer-width);
     --container-height: var(--icon-button-standard-state-layer-height);
     --container-shape: var(--icon-button-standard-state-layer-shape);

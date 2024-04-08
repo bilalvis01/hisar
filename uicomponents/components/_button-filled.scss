@@ -4,8 +4,6 @@
     @each $key, $value in comp.$button-filled {
         --#{$key}: #{$value};
     }
-    --shadow-rgb: var(--button-filled-container-shadow-color-rgb);
-    --corner-radius: calc(var(--button-filled-container-height) * 0.5);
     --container-shape: var(--button-filled-container-shape);
     --container-height: var(--button-filled-container-height);
     --container-elevation: var(--button-filled-container-elevation);

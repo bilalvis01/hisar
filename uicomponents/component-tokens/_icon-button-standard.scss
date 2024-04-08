@@ -1,48 +1,44 @@
-@use "../reference-tokens" as *;
-@use "../system-tokens" as *;
-
-
 $icon-button-standard-icon-size: 1.5rem !default;
-$icon-button-standard-unselected-icon-color: $system-color-on-surface !default;
-$icon-button-standard-selected-icon-color: $system-color-primary !default;
+$icon-button-standard-unselected-icon-color: var(--system-color-on-surface) !default;
+$icon-button-standard-selected-icon-color: var(--system-color-primary) !default;
 $icon-button-standard-state-layer-size: 2.5rem !default;
 $icon-button-standard-state-layer-width: 2.5rem !default;
 $icon-button-standard-state-layer-height: 2.5rem !default;
-$icon-button-standard-state-layer-shape: $system-shape-corner-full !default;
+$icon-button-standard-state-layer-shape: var(--system-shape-corner-full) !default;
 
-$icon-button-standard-disabled-icon-color: $system-color-on-surface !default;
-$icon-button-standard-disabled-icon-color-rgb: $system-color-on-surface-rgb !default;
+$icon-button-standard-disabled-icon-color: var(--system-color-on-surface) !default;
+$icon-button-standard-disabled-icon-color-rgb: var(--system-color-on-surface-rgb) !default;
 $icon-button-standard-disabled-icon-opacity: 0.38 !default;
 
-$icon-button-standard-unselected-hover-state-layer-color: $system-color-on-surface !default;
-$icon-button-standard-unselected-hover-state-layer-color-rgb: $system-color-on-surface-rgb !default;
-$icon-button-standard-unselected-hover-state-layer-opacity: $system-state-hover-state-layer-opacity !default;
-$icon-button-standard-selected-hover-state-layer-color: $system-color-primary !default;
-$icon-button-standard-selected-hover-state-layer-color-rgb: $system-color-primary-rgb !default;
-$icon-button-standard-selected-hover-state-layer-opacity: $system-state-hover-state-layer-opacity !default;
-$icon-button-standard-unselected-hover-icon-color: $system-color-on-surface !default; 
-$icon-button-standard-selected-hover-icon-color: $system-color-primary !default; 
+$icon-button-standard-unselected-hover-state-layer-color: var(--system-color-on-surface) !default;
+$icon-button-standard-unselected-hover-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$icon-button-standard-unselected-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$icon-button-standard-selected-hover-state-layer-color: var(--system-color-primary) !default;
+$icon-button-standard-selected-hover-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$icon-button-standard-selected-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$icon-button-standard-unselected-hover-icon-color: var(--system-color-on-surface) !default; 
+$icon-button-standard-selected-hover-icon-color: var(--system-color-primary) !default; 
 
-$icon-button-standard-focus-indicator-color: $system-color-secondary !default;
-$icon-button-standard-focus-indicator-thickness: $system-state-focus-indicator-thickness !default;
-$icon-button-standard-focus-indicator-offset: $system-state-focus-indicator-offset !default;
-$icon-button-standard-unselected-focus-state-layer-color: $system-color-on-surface !default;
-$icon-button-standard-unselected-focus-state-layer-color-rgb: $system-color-on-surface-rgb !default;
-$icon-button-standard-unselected-focus-state-layer-opacity: $system-state-focus-state-layer-opacity !default;
-$icon-button-standard-selected-focus-state-layer-color: $system-color-primary !default;
-$icon-button-standard-selected-focus-state-layer-color-rgb: $system-color-primary-rgb !default;
-$icon-button-standard-selected-focus-state-layer-opacity: $system-state-focus-state-layer-opacity !default;
-$icon-button-standard-unselected-focus-icon-color: $system-color-on-surface !default;  
-$icon-button-standard-selected-focus-icon-color: $system-color-primary !default;  
+$icon-button-standard-focus-indicator-color: var(--system-color-secondary) !default;
+$icon-button-standard-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
+$icon-button-standard-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
+$icon-button-standard-unselected-focus-state-layer-color: var(--system-color-on-surface) !default;
+$icon-button-standard-unselected-focus-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$icon-button-standard-unselected-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+$icon-button-standard-selected-focus-state-layer-color: var(--system-color-primary) !default;
+$icon-button-standard-selected-focus-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$icon-button-standard-selected-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+$icon-button-standard-unselected-focus-icon-color: var(--system-color-on-surface) !default; 
+$icon-button-standard-selected-focus-icon-color: var(--system-color-primary) !default; 
 
-$icon-button-standard-unselected-pressed-state-layer-color: $system-color-on-surface !default;
-$icon-button-standard-unselected-pressed-state-layer-color-rgb: $system-color-on-surface-rgb !default;
-$icon-button-standard-unselected-pressed-state-layer-opacity: $system-state-pressed-state-layer-opacity !default;
-$icon-button-standard-selected-pressed-state-layer-color: $system-color-primary !default;
-$icon-button-standard-selected-pressed-state-layer-color-rgb: $system-color-primary-rgb !default;
-$icon-button-standard-selected-pressed-state-layer-opacity: $system-state-pressed-state-layer-opacity !default;
-$icon-button-standard-unselected-pressed-icon-color: $system-color-on-surface !default;  
-$icon-button-standard-selected-pressed-icon-color: $system-color-primary !default;  
+$icon-button-standard-unselected-pressed-state-layer-color: var(--system-color-on-surface) !default;
+$icon-button-standard-unselected-pressed-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$icon-button-standard-unselected-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+$icon-button-standard-selected-pressed-state-layer-color: var(--system-color-primary) !default;
+$icon-button-standard-selected-pressed-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$icon-button-standard-selected-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+$icon-button-standard-unselected-pressed-icon-color: var(--system-color-on-surface) !default;
+$icon-button-standard-selected-pressed-icon-color: var(--system-color-primary) !default; 
 
 $icon-button-standard: (
     "icon-button-standard-icon-size": $icon-button-standard-icon-size,

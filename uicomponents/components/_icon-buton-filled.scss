@@ -4,7 +4,6 @@
     @each $key, $value in comp.$icon-button-filled {
         --#{$key}: #{$value};
     }
-    --corner-radius: calc(var(--icon-button-filled-container-size) * 0.5);
     --container-width: var(--icon-button-filled-container-width);
     --container-height: var(--icon-button-filled-container-height);
     --container-shape: var(--icon-button-filled-container-shape);
