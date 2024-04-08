@@ -1,161 +1,161 @@
 @use "../reference-tokens" as ref;
 
 $typescale-display-large-font: ref.$typeface-brand !default;
-$typescale-display-large-font-weight: 400 !default;
-$typescale-display-large-font-size: 57pt !default;
-$typescale-display-large-font-tracking: -0.25pt !default;
+$typescale-display-large-weight: 400 !default;
+$typescale-display-large-size: 57pt !default;
+$typescale-display-large-tracking: -0.25pt !default;
 $typescale-display-large-line-height: 64pt !default;
 $typescale-display-medium-font: ref.$typeface-brand !default;
-$typescale-display-medium-font-weight: 400 !default;
-$typescale-display-medium-font-size: 45pt !default;
-$typescale-display-medium-font-tracking: 0pt !default;
+$typescale-display-medium-weight: 400 !default;
+$typescale-display-medium-size: 45pt !default;
+$typescale-display-medium-tracking: 0pt !default;
 $typescale-display-medium-line-height: 52pt !default;
 $typescale-display-small-font: ref.$typeface-brand !default;
-$typescale-display-small-font-weight: 400 !default;
-$typescale-display-small-font-size: 36pt !default;
-$typescale-display-small-font-tracking: 0pt !default;
+$typescale-display-small-weight: 400 !default;
+$typescale-display-small-size: 36pt !default;
+$typescale-display-small-tracking: 0pt !default;
 $typescale-display-small-line-height: 44pt !default;
 $typescale-headline-large-font: ref.$typeface-brand !default;
-$typescale-headline-large-font-weight: 400 !default;
-$typescale-headline-large-font-size: 32pt !default;
-$typescale-headline-large-font-tracking: 0pt !default;
+$typescale-headline-large-weight: 400 !default;
+$typescale-headline-large-size: 32pt !default;
+$typescale-headline-large-tracking: 0pt !default;
 $typescale-headline-large-line-height: 40pt !default;
 $typescale-headline-medium-font: ref.$typeface-brand !default;
-$typescale-headline-medium-font-weight: 400 !default;
-$typescale-headline-medium-font-size: 28pt !default;
-$typescale-headline-medium-font-tracking: 0pt !default;
+$typescale-headline-medium-weight: 400 !default;
+$typescale-headline-medium-size: 28pt !default;
+$typescale-headline-medium-tracking: 0pt !default;
 $typescale-headline-medium-line-height: 36pt !default;
 $typescale-headline-small-font: ref.$typeface-brand !default;
-$typescale-headline-small-font-weight: 400 !default;
-$typescale-headline-small-font-size: 24pt !default;
-$typescale-headline-small-font-tracking: 0pt !default;
+$typescale-headline-small-weight: 400 !default;
+$typescale-headline-small-size: 24pt !default;
+$typescale-headline-small-tracking: 0pt !default;
 $typescale-headline-small-line-height: 32pt !default;
 $typescale-title-large-font: ref.$typeface-brand !default;
-$typescale-title-large-font-weight: 400 !default;
-$typescale-title-large-font-size: 22pt !default;
-$typescale-title-large-font-tracking: 0pt !default;
+$typescale-title-large-weight: 400 !default;
+$typescale-title-large-size: 22pt !default;
+$typescale-title-large-tracking: 0pt !default;
 $typescale-title-large-line-height: 28pt !default;
 $typescale-title-medium-font: ref.$typeface-brand !default;
-$typescale-title-medium-font-weight: 500 !default;
-$typescale-title-medium-font-size: 16pt !default;
-$typescale-title-medium-font-tracking: 0.15pt !default;
+$typescale-title-medium-weight: 500 !default;
+$typescale-title-medium-size: 16pt !default;
+$typescale-title-medium-tracking: 0.15pt !default;
 $typescale-title-medium-line-height: 24pt !default;
 $typescale-title-small-font: ref.$typeface-brand !default;
-$typescale-title-small-font-weight: 500 !default;
-$typescale-title-small-font-size: 14pt !default;
-$typescale-title-small-font-tracking: 0.1pt !default;
+$typescale-title-small-weight: 500 !default;
+$typescale-title-small-size: 14pt !default;
+$typescale-title-small-tracking: 0.1pt !default;
 $typescale-title-small-line-height: 20pt !default;
 $typescale-body-large-font: ref.$typeface-plain !default;
-$typescale-body-large-font-weight: 400 !default;
-$typescale-body-large-font-size: 16pt !default;
-$typescale-body-large-font-tracking: 0.5pt !default;
+$typescale-body-large-weight: 400 !default;
+$typescale-body-large-size: 16pt !default;
+$typescale-body-large-tracking: 0.5pt !default;
 $typescale-body-large-line-height: 24pt !default;
 $typescale-body-medium-font: ref.$typeface-plain !default;
-$typescale-body-medium-font-weight: 400 !default;
-$typescale-body-medium-font-size: 14pt !default;
-$typescale-body-medium-font-tracking: 0.25pt !default;
+$typescale-body-medium-weight: 400 !default;
+$typescale-body-medium-size: 14pt !default;
+$typescale-body-medium-tracking: 0.25pt !default;
 $typescale-body-medium-line-height: 20pt !default;
 $typescale-body-small-font: ref.$typeface-plain !default;
-$typescale-body-small-font-weight: 400 !default;
-$typescale-body-small-font-size: 12pt !default;
-$typescale-body-small-font-tracking: 0.4pt !default;
+$typescale-body-small-weight: 400 !default;
+$typescale-body-small-size: 12pt !default;
+$typescale-body-small-tracking: 0.4pt !default;
 $typescale-body-small-line-height: 16pt !default;
 $typescale-label-large-font: ref.$typeface-plain !default;
-$typescale-label-large-font-weight: 500 !default;
-$typescale-label-large-font-weight-prominent: 700 !default;
-$typescale-label-large-font-size: 14pt !default;
-$typescale-label-large-font-tracking: 0.1pt !default;
+$typescale-label-large-weight: 500 !default;
+$typescale-label-large-weight-prominent: 700 !default;
+$typescale-label-large-size: 14pt !default;
+$typescale-label-large-tracking: 0.1pt !default;
 $typescale-label-large-line-height: 20pt !default;
 $typescale-label-medium-font: ref.$typeface-plain !default;
-$typescale-label-medium-font-weight: 500 !default;
-$typescale-label-medium-font-weight-prominent: 700 !default;
-$typescale-label-medium-font-size: 12pt !default;
-$typescale-label-medium-font-tracking: 0.5pt !default;
+$typescale-label-medium-weight: 500 !default;
+$typescale-label-medium-weight-prominent: 700 !default;
+$typescale-label-medium-size: 12pt !default;
+$typescale-label-medium-tracking: 0.5pt !default;
 $typescale-label-medium-line-height: 16pt !default;
 $typescale-label-medium-text-transform: none !default;
 $typescale-label-small-font: ref.$typeface-plain !default;
-$typescale-label-small-font-weight: 500 !default;
-$typescale-label-small-font-size: 11pt !default;
-$typescale-label-small-font-tracking: 0.5pt !default;
+$typescale-label-small-weight: 500 !default;
+$typescale-label-small-size: 11pt !default;
+$typescale-label-small-tracking: 0.5pt !default;
 $typescale-label-small-line-height: 16pt !default;
 
 $typescales: (
     "typescale-display-large-font": $typescale-display-large-font,
-    "typescale-display-large-font-weight": $typescale-display-large-font-weight,
-    "typescale-display-large-font-size": $typescale-display-large-font-size,
-    "typescale-display-large-font-tracking": $typescale-display-large-font-tracking,
+    "typescale-display-large-weight": $typescale-display-large-weight,
+    "typescale-display-large-size": $typescale-display-large-size,
+    "typescale-display-large-tracking": $typescale-display-large-tracking,
     "typescale-display-large-line-height": $typescale-display-large-line-height,
     "typescale-display-medium-font": $typescale-display-medium-font,
-    "typescale-display-medium-font-weight": $typescale-display-medium-font-weight,
-    "typescale-display-medium-font-size": $typescale-display-medium-font-size,
-    "typescale-display-medium-font-tracking": $typescale-display-medium-font-tracking,
+    "typescale-display-medium-weight": $typescale-display-medium-weight,
+    "typescale-display-medium-size": $typescale-display-medium-size,
+    "typescale-display-medium-tracking": $typescale-display-medium-tracking,
     "typescale-display-medium-line-height": $typescale-display-medium-line-height,
     "typescale-display-small-font": $typescale-display-small-font,
-    "typescale-display-small-font-weight": $typescale-display-small-font-weight,
-    "typescale-display-small-font-size": $typescale-display-small-font-size,
-    "typescale-display-small-font-tracking": $typescale-display-small-font-tracking,
+    "typescale-display-small-weight": $typescale-display-small-weight,
+    "typescale-display-small-size": $typescale-display-small-size,
+    "typescale-display-small-tracking": $typescale-display-small-tracking,
     "typescale-display-small-line-height": $typescale-display-small-line-height,
     "typescale-headline-large-font": $typescale-headline-large-font,
-    "typescale-headline-large-font-weight": $typescale-headline-large-font-weight,
-    "typescale-headline-large-font-size": $typescale-headline-large-font-size,
-    "typescale-headline-large-font-tracking": $typescale-headline-large-font-tracking,
+    "typescale-headline-large-weight": $typescale-headline-large-weight,
+    "typescale-headline-large-size": $typescale-headline-large-size,
+    "typescale-headline-large-tracking": $typescale-headline-large-tracking,
     "typescale-headline-large-line-height": $typescale-headline-large-line-height,
     "typescale-headline-medium-font": $typescale-headline-medium-font,
-    "typescale-headline-medium-font-weight": $typescale-headline-medium-font-weight,
-    "typescale-headline-medium-font-size": $typescale-headline-medium-font-size,
-    "typescale-headline-medium-font-tracking": $typescale-headline-medium-font-tracking,
+    "typescale-headline-medium-weight": $typescale-headline-medium-weight,
+    "typescale-headline-medium-size": $typescale-headline-medium-size,
+    "typescale-headline-medium-tracking": $typescale-headline-medium-tracking,
     "typescale-headline-medium-line-height": $typescale-headline-medium-line-height,
     "typescale-headline-small-font": $typescale-headline-small-font,
-    "typescale-headline-small-font-weight": $typescale-headline-small-font-weight,
-    "typescale-headline-small-font-size": $typescale-headline-small-font-size,
-    "typescale-headline-small-font-tracking": $typescale-headline-small-font-tracking,
+    "typescale-headline-small-weight": $typescale-headline-small-weight,
+    "typescale-headline-small-size": $typescale-headline-small-size,
+    "typescale-headline-small-tracking": $typescale-headline-small-tracking,
     "typescale-headline-small-line-height": $typescale-headline-small-line-height,
     "typescale-title-large-font": $typescale-title-large-font,
-    "typescale-title-large-font-weight": $typescale-title-large-font-weight,
-    "typescale-title-large-font-size": $typescale-title-large-font-size,
-    "typescale-title-large-font-tracking": $typescale-title-large-font-tracking,
+    "typescale-title-large-weight": $typescale-title-large-weight,
+    "typescale-title-large-size": $typescale-title-large-size,
+    "typescale-title-large-tracking": $typescale-title-large-tracking,
     "typescale-title-large-line-height": $typescale-title-large-line-height,
     "typescale-title-medium-font": $typescale-title-medium-font,
-    "typescale-title-medium-font-weight": $typescale-title-medium-font-weight,
-    "typescale-title-medium-font-size": $typescale-title-medium-font-size,
-    "typescale-title-medium-font-tracking": $typescale-title-medium-font-tracking,
+    "typescale-title-medium-weight": $typescale-title-medium-weight,
+    "typescale-title-medium-size": $typescale-title-medium-size,
+    "typescale-title-medium-tracking": $typescale-title-medium-tracking,
     "typescale-title-medium-line-height": $typescale-title-medium-line-height,
     "typescale-title-small-font": $typescale-title-small-font,
-    "typescale-title-small-font-weight": $typescale-title-small-font-weight,
-    "typescale-title-small-font-size": $typescale-title-small-font-size,
-    "typescale-title-small-font-tracking": $typescale-title-small-font-tracking,
+    "typescale-title-small-weight": $typescale-title-small-weight,
+    "typescale-title-small-size": $typescale-title-small-size,
+    "typescale-title-small-tracking": $typescale-title-small-tracking,
     "typescale-title-small-line-height": $typescale-title-small-line-height,
     "typescale-body-large-font": $typescale-body-large-font,
-    "typescale-body-large-font-weight": $typescale-body-large-font-weight,
-    "typescale-body-large-font-size": $typescale-body-large-font-size,
-    "typescale-body-large-font-tracking": $typescale-body-large-font-tracking,
+    "typescale-body-large-weight": $typescale-body-large-weight,
+    "typescale-body-large-size": $typescale-body-large-size,
+    "typescale-body-large-tracking": $typescale-body-large-tracking,
     "typescale-body-large-line-height": $typescale-body-large-line-height,
     "typescale-body-medium-font": $typescale-body-medium-font,
-    "typescale-body-medium-font-weight": $typescale-body-medium-font-weight,
-    "typescale-body-medium-font-size": $typescale-body-medium-font-size,
-    "typescale-body-medium-font-tracking": $typescale-body-medium-font-tracking,
+    "typescale-body-medium-weight": $typescale-body-medium-weight,
+    "typescale-body-medium-size": $typescale-body-medium-size,
+    "typescale-body-medium-tracking": $typescale-body-medium-tracking,
     "typescale-body-medium-line-height": $typescale-body-medium-line-height,
     "typescale-body-small-font": $typescale-body-small-font,
-    "typescale-body-small-font-weight": $typescale-body-small-font-weight,
-    "typescale-body-small-font-size": $typescale-body-small-font-size,
-    "typescale-body-small-font-tracking": $typescale-body-small-font-tracking,
+    "typescale-body-small-weight": $typescale-body-small-weight,
+    "typescale-body-small-size": $typescale-body-small-size,
+    "typescale-body-small-tracking": $typescale-body-small-tracking,
     "typescale-body-small-line-height": $typescale-body-small-line-height,
     "typescale-label-large-font": $typescale-label-large-font,
-    "typescale-label-large-font-weight": $typescale-label-large-font-weight,
-    "typescale-label-large-font-weight-prominent": $typescale-label-large-font-weight-prominent,
-    "typescale-label-large-font-size": $typescale-label-large-font-size,
-    "typescale-label-large-font-tracking": $typescale-label-large-font-tracking,
+    "typescale-label-large-weight": $typescale-label-large-weight,
+    "typescale-label-large-weight-prominent": $typescale-label-large-weight-prominent,
+    "typescale-label-large-size": $typescale-label-large-size,
+    "typescale-label-large-tracking": $typescale-label-large-tracking,
     "typescale-label-large-line-height": $typescale-label-large-line-height,
     "typescale-label-medium-font": $typescale-label-medium-font,
-    "typescale-label-medium-font-weight": $typescale-label-medium-font-weight,
-    "typescale-label-medium-font-weight-prominent": $typescale-label-medium-font-weight-prominent,
-    "typescale-label-medium-font-size": $typescale-label-medium-font-size,
-    "typescale-label-medium-font-tracking": $typescale-label-medium-font-tracking,
+    "typescale-label-medium-weight": $typescale-label-medium-weight,
+    "typescale-label-medium-weight-prominent": $typescale-label-medium-weight-prominent,
+    "typescale-label-medium-size": $typescale-label-medium-size,
+    "typescale-label-medium-tracking": $typescale-label-medium-tracking,
     "typescale-label-medium-line-height": $typescale-label-medium-line-height,
     "typescale-label-medium-text-transform": $typescale-label-medium-text-transform,
     "typescale-label-small-font": $typescale-label-small-font,
-    "typescale-label-small-font-weight": $typescale-label-small-font-weight,
-    "typescale-label-small-font-size": $typescale-label-small-font-size,
-    "typescale-label-small-font-tracking": $typescale-label-small-font-tracking,
+    "typescale-label-small-weight": $typescale-label-small-weight,
+    "typescale-label-small-size": $typescale-label-small-size,
+    "typescale-label-small-tracking": $typescale-label-small-tracking,
     "typescale-label-small-line-height": $typescale-label-small-line-height,
 ) !default;
