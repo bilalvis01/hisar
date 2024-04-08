@@ -29,19 +29,19 @@
     --state-layer-color: rgba(var(--tab-primary-navigation-inactive-state-layer-color-rgb), var(--tab-primary-navigation-inactive-state-layer-opacity));
     --content-position: relative;
 
-    &.active {
-        --label-color: var(--tab-primary-navigation-active-label-color);
-        --icon-color: var(--tab-primary-navigation-active-icon-color);
-        --state-layer-color: rgba(var(--tab-primary-navigation-active-state-layer-color-rgb), var(--tab-primary-navigation-active-state-layer-opacity));
-        --active-indicator-display: block;
-    }
-
     &.inline {
         --container-height: var(--tab-primary-navigation-inline-container-height);
     }
 
     &.underline {
         --divider-display: block;
+    }
+
+    &.active {
+        --label-color: var(--tab-primary-navigation-active-label-color);
+        --icon-color: var(--tab-primary-navigation-active-icon-color);
+        --state-layer-color: rgba(var(--tab-primary-navigation-active-state-layer-color-rgb), var(--tab-primary-navigation-active-state-layer-opacity));
+        --active-indicator-display: block;
     }
 
     &:hover {
