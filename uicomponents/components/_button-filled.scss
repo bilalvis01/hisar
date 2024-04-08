@@ -19,6 +19,9 @@
     --label-tracking: var(--button-filled-label-tracking);
     --label-color: var(--button-filled-label-color);
     --state-layer-color: transparent;
+    --icon-width: var(--button-filled-icon-size);
+    --icon-height: var(--button-filled-icon-size);
+    --icon-color: var(--button-filled-icon-color);
     
     &:hover {
         @each $key, $value in comp.$button-filled-hover {
