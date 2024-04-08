@@ -37,7 +37,7 @@ $tab-link-navigation-focus-indicator-color: sys.$secondary !default;
 $tab-link-navigation-focus-indicator-thickness: sys.$state-focus-indicator-thickness !default;
 $tab-link-navigation-focus-indicator-offset: sys.$state-focus-indicator-offset !default;
 $tab-link-navigation-active-focus-label-color: sys.$on-primary !default;
-$tab-link-navigation-inactive-focus-label-color: sys.$primary-container !default;
+$tab-link-navigation-inactive-focus-label-color: sys.$on-primary !default;
 $tab-link-navigation-active-focus-state-layer-color: sys.$on-primary !default;
 $tab-link-navigation-active-focus-state-layer-color-rgb: sys.$on-primary-rgb !default;
 $tab-link-navigation-active-focus-state-layer-opacity: sys.$state-focus-state-layer-opacity !default;
@@ -45,10 +45,10 @@ $tab-link-navigation-inactive-focus-state-layer-color: sys.$on-primary !default;
 $tab-link-navigation-inactive-focus-state-layer-color-rgb: sys.$on-primary-rgb !default;
 $tab-link-navigation-inactive-focus-state-layer-opacity: sys.$state-focus-state-layer-opacity !default;
 $tab-link-navigation-active-focus-icon-color: sys.$on-primary !default;
-$tab-link-navigation-inactive-focus-icon-color: sys.$primary-container !default;
+$tab-link-navigation-inactive-focus-icon-color: sys.$on-primary !default;
 
 $tab-link-navigation-active-pressed-label-color: sys.$on-primary !default;
-$tab-link-navigation-inactive-pressed-label-color: sys.$primary-container !default;
+$tab-link-navigation-inactive-pressed-label-color: sys.$on-primary !default;
 $tab-link-navigation-active-pressed-state-layer-color: sys.$on-primary !default;
 $tab-link-navigation-active-pressed-state-layer-color-rgb: sys.$on-primary-rgb !default;
 $tab-link-navigation-active-pressed-state-layer-opacity: sys.$state-pressed-state-layer-opacity !default;
@@ -56,7 +56,7 @@ $tab-link-navigation-inactive-pressed-state-layer-color: sys.$on-primary !defaul
 $tab-link-navigation-inactive-pressed-state-layer-color-rgb: sys.$on-primary-rgb !default;
 $tab-link-navigation-inactive-pressed-state-layer-opacity: sys.$state-pressed-state-layer-opacity !default;
 $tab-link-navigation-active-pressed-icon-color: sys.$on-primary !default;
-$tab-link-navigation-inactive-pressed-icon-color: sys.$primary-container !default;
+$tab-link-navigation-inactive-pressed-icon-color: sys.$on-primary !default;
 
 $tab-link-navigation: (
     "tab-link-navigation-container-color": $tab-link-navigation-container-color,
