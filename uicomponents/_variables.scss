@@ -1,75 +1,75 @@
-@use "reference-tokens" as ref;
-@use "system-tokens" as sys;
+@use "reference-tokens" as *;
+@use "system-tokens" as *;
 
 :root,
 [data-theme="light"] {
-    @each $color, $value in ref.$primaries {
-        --reference-palette-#{$color}: #{$value};
+    @each $color, $value in $reference-palette-primaries {
+        --#{$color}: #{$value};
     }
 
-    @each $color, $value in ref.$secondaries {
-        --reference-palette-#{$color}: #{$value};
+    @each $color, $value in $reference-palette-secondaries {
+        --#{$color}: #{$value};
     }
     
-    @each $color, $value in ref.$neutrals {
-        --reference-palette-#{$color}: #{$value};
+    @each $color, $value in $reference-palette-neutrals {
+        --#{$color}: #{$value};
     }
 
-    @each $color, $value in ref.$neutral-variants {
-        --reference-palette-#{$color}: #{$value};
+    @each $color, $value in $reference-palette-neutral-variants {
+        --#{$color}: #{$value};
     }
 
-    @each $spacer, $value in ref.$spacers {
-        --reference-#{$spacer}: #{$value};
+    @each $spacer, $value in $reference-spacers {
+        --#{$spacer}: #{$value};
     }
 
-    @each $padding, $value in ref.$paddings {
-        --reference-#{$padding}: #{$value};
+    @each $padding, $value in $reference-paddings {
+        --#{$padding}: #{$value};
     }
 
-    @each $typeface, $value in ref.$typeface {
-        --reference-#{$typeface}: #{$value};
+    @each $typeface, $value in $reference-typefaces {
+        --#{$typeface}: #{$value};
     }
 
-    @each $color, $value in sys.$colors {
-        --system-color-#{$color}: #{$value};
+    @each $color, $value in $system-colors {
+        --#{$color}: #{$value};
     }
 
-    @each $color, $value in sys.$colors-rgb {
-        --system-color-#{$color}-rgb: #{$value};
+    @each $color, $value in $system-colors-rgb {
+        --#{$color}: #{$value};
     }
 
-    @each $scrim, $value in sys.$scrims {
-        --sytem-palette-#{$scrim}: #{$value};
+    @each $scrim, $value in $system-color-scrims {
+        --#{$scrim}: #{$value};
     }
 
-    @each $shadow, $value in sys.$shadows {
-        --system-palette-#{$shadow}: #{value};
+    @each $shadow, $value in $system-color-shadows {
+        --#{$shadow}: #{value};
     }
 
-    @each $elevation, $value in sys.$elevations {
-        --system-#{$elevation}: #{$value};
+    @each $elevation, $value in $system-elevations {
+        --#{$elevation}: #{$value};
     }
 
-    @each $state, $value in sys.$states {
-        --system-#{$state}: #{$value};
+    @each $state, $value in $system-states {
+        --#{$state}: #{$value};
     }
 
-    @each $typescale, $value in sys.$typescale {
-        --system-#{$typescale}: #{$value};
+    @each $typescale, $value in $system-typescales {
+        --#{$typescale}: #{$value};
     }
 
-    @each $shape, $value in sys.$shape {
-        --system-#{$shape}: #{$value};
+    @each $shape, $value in $system-shapes {
+        --#{$shape}: #{$value};
     }
 }
 
 [data-theme="dark"] {
-    @each $color, $value in sys.$colors-dark {
-        --system-color-#{$color}: #{$value};
+    @each $color, $value in $system-colors-dark {
+        --#{$color}: #{$value};
     }
 
-    @each $color, $value in sys.$colors-dark-rgb {
-        --system-color-#{$color}-rgb: #{$value};
+    @each $color, $value in $system-colors-dark-rgb {
+        --#{$color}: #{$value};
     }
 }

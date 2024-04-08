@@ -1,62 +1,62 @@
-@use "../reference-tokens" as ref;
-@use "../system-tokens" as sys;
+@use "../reference-tokens" as *;
+@use "../system-tokens" as *;
 
 
 $icon-button-filled-container-size: 2.5rem !default;
 $icon-button-filled-container-width: 2.5rem !default;
 $icon-button-filled-container-height: 2.5rem !default;
-$icon-button-filled-container-shape: sys.$shape-corner-full !default;
-$icon-button-filled-container-color: sys.$primary !default;
-$icon-button-filled-unselected-container-color: sys.$surface-container !default;
-$icon-button-filled-selected-container-color: sys.$primary !default;
+$icon-button-filled-container-shape: $system-shape-corner-full !default;
+$icon-button-filled-container-color: $system-color-primary !default;
+$icon-button-filled-unselected-container-color: $system-color-surface-container !default;
+$icon-button-filled-selected-container-color: $system-color-primary !default;
 $icon-button-filled-icon-size: 1.5rem !default;
-$icon-button-filled-icon-color: sys.$on-primary !default;
-$icon-button-filled-unselected-icon-color: sys.$primary !default;
-$icon-button-filled-selected-icon-color: sys.$on-primary !default;
+$icon-button-filled-icon-color: $system-color-on-primary !default;
+$icon-button-filled-unselected-icon-color: $system-color-primary !default;
+$icon-button-filled-selected-icon-color: $system-color-on-primary !default;
 
-$icon-button-filled-disabled-container-color: sys.$on-surface !default;
-$icon-button-filled-disabled-container-color-rgb: sys.$primary-rgb !default;
+$icon-button-filled-disabled-container-color: $system-color-on-surface !default;
+$icon-button-filled-disabled-container-color-rgb: $system-color-primary-rgb !default;
 $icon-button-filled-disabled-container-opacity: 0.12 !default;
-$icon-button-filled-disabled-icon-color: sys.$on-surface !default;
-$icon-button-filled-disabled-icon-color-rgb: sys.$on-surface-rgb !default;
+$icon-button-filled-disabled-icon-color: $system-color-on-surface !default;
+$icon-button-filled-disabled-icon-color-rgb: $system-color-on-surface-rgb !default;
 $icon-button-filled-disabled-icon-opacity: 0.38 !default;
 
 
-$icon-button-filled-hover-state-layer-opacity: sys.$state-hover-state-layer-opacity !default;
-$icon-button-filled-hover-state-layer-color: sys.$on-primary !default;
-$icon-button-filled-hover-state-layer-color-rgb: sys.$on-primary-rgb !default;
-$icon-button-filled-unselected-hover-state-layer-color: sys.$primary !default;
-$icon-button-filled-unselected-hover-state-layer-color-rgb: sys.$primary-rgb !default;
-$icon-button-filled-selected-hover-state-layer-color: sys.$on-primary !default;
-$icon-button-filled-selected-hover-state-layer-color-rgb: sys.$on-primary-rgb !default;
-$icon-button-filled-hover-icon-color: sys.$on-primary !default; 
-$icon-button-filled-unselected-hover-icon-color: sys.$primary !default; 
-$icon-button-filled-selected-hover-icon-color: sys.$on-primary !default; 
+$icon-button-filled-hover-state-layer-opacity: $system-state-hover-state-layer-opacity !default;
+$icon-button-filled-hover-state-layer-color: $system-color-on-primary !default;
+$icon-button-filled-hover-state-layer-color-rgb: $system-color-on-primary-rgb !default;
+$icon-button-filled-unselected-hover-state-layer-color: $system-color-primary !default;
+$icon-button-filled-unselected-hover-state-layer-color-rgb: $system-color-primary-rgb !default;
+$icon-button-filled-selected-hover-state-layer-color: $system-color-on-primary !default;
+$icon-button-filled-selected-hover-state-layer-color-rgb: $system-color-on-primary-rgb !default;
+$icon-button-filled-hover-icon-color: $system-color-on-primary !default; 
+$icon-button-filled-unselected-hover-icon-color: $system-color-primary !default; 
+$icon-button-filled-selected-hover-icon-color: $system-color-on-primary !default; 
 
-$icon-button-filled-focus-indicator-color: sys.$secondary !default;
-$icon-button-filled-focus-indicator-thickness: sys.$state-focus-indicator-thickness !default;
-$icon-button-filled-focus-indicator-offset: sys.$state-focus-indicator-offset !default;
-$icon-button-filled-focus-state-layer-opacity: sys.$state-focus-state-layer-opacity !default;
-$icon-button-filled-focus-state-layer-color: sys.$on-primary !default;
-$icon-button-filled-focus-state-layer-color-rgb: sys.$on-primary-rgb !default;
-$icon-button-filled-unselected-focus-state-layer-color: sys.$primary !default;
-$icon-button-filled-unselected-focus-state-layer-color-rgb: sys.$primary-rgb !default;
-$icon-button-filled-selected-focus-state-layer-color: sys.$on-primary !default;
-$icon-button-filled-selected-focus-state-layer-color-rgb: sys.$on-primary-rgb !default;
-$icon-button-filled-focus-icon-color: sys.$on-primary !default;  
-$icon-button-filled-unselected-focus-icon-color: sys.$primary !default;  
-$icon-button-filled-selected-focus-icon-color: sys.$on-primary !default;  
+$icon-button-filled-focus-indicator-color: $system-color-secondary !default;
+$icon-button-filled-focus-indicator-thickness: $system-state-focus-indicator-thickness !default;
+$icon-button-filled-focus-indicator-offset: $system-state-focus-indicator-offset !default;
+$icon-button-filled-focus-state-layer-opacity: $system-state-focus-state-layer-opacity !default;
+$icon-button-filled-focus-state-layer-color: $system-color-on-primary !default;
+$icon-button-filled-focus-state-layer-color-rgb: $system-color-on-primary-rgb !default;
+$icon-button-filled-unselected-focus-state-layer-color: $system-color-primary !default;
+$icon-button-filled-unselected-focus-state-layer-color-rgb: $system-color-primary-rgb !default;
+$icon-button-filled-selected-focus-state-layer-color: $system-color-on-primary !default;
+$icon-button-filled-selected-focus-state-layer-color-rgb: $system-color-on-primary-rgb !default;
+$icon-button-filled-focus-icon-color: $system-color-on-primary !default;  
+$icon-button-filled-unselected-focus-icon-color: $system-color-primary !default;  
+$icon-button-filled-selected-focus-icon-color: $system-color-on-primary !default;  
 
-$icon-button-filled-pressed-state-layer-opacity: sys.$state-pressed-state-layer-opacity !default;
-$icon-button-filled-pressed-state-layer-color: sys.$on-primary !default;
-$icon-button-filled-pressed-state-layer-color-rgb: sys.$on-primary-rgb !default;
-$icon-button-filled-unselected-pressed-state-layer-color: sys.$primary !default;
-$icon-button-filled-unselected-pressed-state-layer-color-rgb: sys.$primary-rgb !default;
-$icon-button-filled-selected-pressed-state-layer-color: sys.$on-primary !default;
-$icon-button-filled-selected-pressed-state-layer-color-rgb: sys.$on-primary-rgb !default;
-$icon-button-filled-pressed-icon-color: sys.$on-primary !default;  
-$icon-button-filled-unselected-pressed-icon-color: sys.$primary !default;  
-$icon-button-filled-selected-pressed-icon-color: sys.$on-primary !default;  
+$icon-button-filled-pressed-state-layer-opacity: $system-state-pressed-state-layer-opacity !default;
+$icon-button-filled-pressed-state-layer-color: $system-color-on-primary !default;
+$icon-button-filled-pressed-state-layer-color-rgb: $system-color-on-primary-rgb !default;
+$icon-button-filled-unselected-pressed-state-layer-color: $system-color-primary !default;
+$icon-button-filled-unselected-pressed-state-layer-color-rgb: $system-color-primary-rgb !default;
+$icon-button-filled-selected-pressed-state-layer-color: $system-color-on-primary !default;
+$icon-button-filled-selected-pressed-state-layer-color-rgb: $system-color-on-primary-rgb !default;
+$icon-button-filled-pressed-icon-color: $system-color-on-primary !default;  
+$icon-button-filled-unselected-pressed-icon-color: $system-color-primary !default;  
+$icon-button-filled-selected-pressed-icon-color: $system-color-on-primary !default;  
 
 $icon-button-filled: (
     "icon-button-filled-container-size": $icon-button-filled-container-size, 

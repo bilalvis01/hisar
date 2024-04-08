@@ -2,1012 +2,1012 @@
 @use "sass:string";
 @use "functions" as fn;
 
-$primary-key: #7c3aed !default;
-$secondary-key: #0d9488 !default;
+$reference-palette-primary-key: #7c3aed !default;
+$reference-palette-secondary-key: #0d9488 !default;
 
-$neutral: #525252;
-$neutral-key: color.mix($primary-key, $neutral, 20%) !default;
-$neutral-variant-key: color.mix($primary-key, color.scale($neutral, $lightness: 30%), 15%) !default;
+$reference-palette-neutral: #525252;
+$reference-palette-neutral-key: color.mix($reference-palette-primary-key, $reference-palette-neutral, 20%) !default;
+$reference-palette-neutral-variant-key: color.mix($reference-palette-primary-key, color.scale($reference-palette-neutral, $lightness: 30%), 15%) !default;
 
-$primary100: color.scale($primary-key, $lightness: 100%) !default;
-$primary99: color.scale($primary-key, $lightness: 98%) !default;
-$primary98: color.scale($primary-key, $lightness: 96%) !default;
-$primary97: color.scale($primary-key, $lightness: 94%) !default;
-$primary96: color.scale($primary-key, $lightness: 92%) !default;
-$primary95: color.scale($primary-key, $lightness: 90%) !default;
-$primary94: color.scale($primary-key, $lightness: 88%) !default;
-$primary93: color.scale($primary-key, $lightness: 86%) !default;
-$primary92: color.scale($primary-key, $lightness: 84%) !default;
-$primary91: color.scale($primary-key, $lightness: 82%) !default;
-$primary90: color.scale($primary-key, $lightness: 80%) !default;
-$primary89: color.scale($primary-key, $lightness: 78%) !default;
-$primary88: color.scale($primary-key, $lightness: 76%) !default;
-$primary87: color.scale($primary-key, $lightness: 74%) !default;
-$primary86: color.scale($primary-key, $lightness: 72%) !default;
-$primary85: color.scale($primary-key, $lightness: 70%) !default;
-$primary84: color.scale($primary-key, $lightness: 68%) !default;
-$primary83: color.scale($primary-key, $lightness: 66%) !default;
-$primary82: color.scale($primary-key, $lightness: 64%) !default;
-$primary81: color.scale($primary-key, $lightness: 62%) !default;
-$primary80: color.scale($primary-key, $lightness: 60%) !default;
-$primary79: color.scale($primary-key, $lightness: 58%) !default;
-$primary78: color.scale($primary-key, $lightness: 56%) !default;
-$primary77: color.scale($primary-key, $lightness: 54%) !default;
-$primary76: color.scale($primary-key, $lightness: 52%) !default;
-$primary75: color.scale($primary-key, $lightness: 50%) !default;
-$primary74: color.scale($primary-key, $lightness: 48%) !default;
-$primary73: color.scale($primary-key, $lightness: 46%) !default;
-$primary72: color.scale($primary-key, $lightness: 44%) !default;
-$primary71: color.scale($primary-key, $lightness: 42%) !default;
-$primary70: color.scale($primary-key, $lightness: 40%) !default;
-$primary69: color.scale($primary-key, $lightness: 38%) !default;
-$primary68: color.scale($primary-key, $lightness: 36%) !default;
-$primary67: color.scale($primary-key, $lightness: 34%) !default;
-$primary66: color.scale($primary-key, $lightness: 32%) !default;
-$primary65: color.scale($primary-key, $lightness: 30%) !default;
-$primary64: color.scale($primary-key, $lightness: 28%) !default;
-$primary63: color.scale($primary-key, $lightness: 26%) !default;
-$primary62: color.scale($primary-key, $lightness: 24%) !default;
-$primary61: color.scale($primary-key, $lightness: 22%) !default;
-$primary60: color.scale($primary-key, $lightness: 20%) !default;
-$primary59: color.scale($primary-key, $lightness: 18%) !default;
-$primary58: color.scale($primary-key, $lightness: 16%) !default;
-$primary57: color.scale($primary-key, $lightness: 14%) !default;
-$primary56: color.scale($primary-key, $lightness: 12%) !default;
-$primary55: color.scale($primary-key, $lightness: 10%) !default;
-$primary54: color.scale($primary-key, $lightness: 8%) !default;
-$primary53: color.scale($primary-key, $lightness: 6%) !default;
-$primary52: color.scale($primary-key, $lightness: 4%) !default;
-$primary51: color.scale($primary-key, $lightness: 2%) !default;
-$primary50: $primary-key !default;
-$primary49: color.scale($primary-key, $lightness: -2%) !default;
-$primary48: color.scale($primary-key, $lightness: -4%) !default;
-$primary47: color.scale($primary-key, $lightness: -6%) !default;
-$primary46: color.scale($primary-key, $lightness: -8%) !default;
-$primary45: color.scale($primary-key, $lightness: -10%) !default;
-$primary44: color.scale($primary-key, $lightness: -12%) !default;
-$primary43: color.scale($primary-key, $lightness: -14%) !default;
-$primary42: color.scale($primary-key, $lightness: -16%) !default;
-$primary41: color.scale($primary-key, $lightness: -18%) !default;
-$primary40: color.scale($primary-key, $lightness: -20%) !default;
-$primary39: color.scale($primary-key, $lightness: -22%) !default;
-$primary38: color.scale($primary-key, $lightness: -24%) !default;
-$primary37: color.scale($primary-key, $lightness: -26%) !default;
-$primary36: color.scale($primary-key, $lightness: -28%) !default;
-$primary35: color.scale($primary-key, $lightness: -30%) !default;
-$primary34: color.scale($primary-key, $lightness: -32%) !default;
-$primary33: color.scale($primary-key, $lightness: -34%) !default;
-$primary32: color.scale($primary-key, $lightness: -36%) !default;
-$primary31: color.scale($primary-key, $lightness: -38%) !default;
-$primary30: color.scale($primary-key, $lightness: -40%) !default;
-$primary29: color.scale($primary-key, $lightness: -42%) !default;
-$primary28: color.scale($primary-key, $lightness: -44%) !default;
-$primary27: color.scale($primary-key, $lightness: -46%) !default;
-$primary26: color.scale($primary-key, $lightness: -48%) !default;
-$primary25: color.scale($primary-key, $lightness: -50%) !default;
-$primary24: color.scale($primary-key, $lightness: -52%) !default;
-$primary23: color.scale($primary-key, $lightness: -54%) !default;
-$primary22: color.scale($primary-key, $lightness: -56%) !default;
-$primary21: color.scale($primary-key, $lightness: -58%) !default;
-$primary20: color.scale($primary-key, $lightness: -60%) !default;
-$primary19: color.scale($primary-key, $lightness: -62%) !default;
-$primary18: color.scale($primary-key, $lightness: -64%) !default;
-$primary17: color.scale($primary-key, $lightness: -66%) !default;
-$primary16: color.scale($primary-key, $lightness: -68%) !default;
-$primary15: color.scale($primary-key, $lightness: -70%) !default;
-$primary14: color.scale($primary-key, $lightness: -72%) !default;
-$primary13: color.scale($primary-key, $lightness: -74%) !default;
-$primary12: color.scale($primary-key, $lightness: -76%) !default;
-$primary11: color.scale($primary-key, $lightness: -78%) !default;
-$primary10: color.scale($primary-key, $lightness: -80%) !default;
-$primary9: color.scale($primary-key, $lightness: -82%) !default;
-$primary8: color.scale($primary-key, $lightness: -84%) !default;
-$primary7: color.scale($primary-key, $lightness: -86%) !default;
-$primary6: color.scale($primary-key, $lightness: -88%) !default;
-$primary5: color.scale($primary-key, $lightness: -90%) !default;
-$primary4: color.scale($primary-key, $lightness: -92%) !default;
-$primary3: color.scale($primary-key, $lightness: -94%) !default;
-$primary2: color.scale($primary-key, $lightness: -96%) !default;
-$primary1: color.scale($primary-key, $lightness: -98%) !default;
-$primary0: color.scale($primary-key, $lightness: -100%) !default;
+$reference-palette-primary100: color.scale($reference-palette-primary-key, $lightness: 100%) !default;
+$reference-palette-primary99: color.scale($reference-palette-primary-key, $lightness: 98%) !default;
+$reference-palette-primary98: color.scale($reference-palette-primary-key, $lightness: 96%) !default;
+$reference-palette-primary97: color.scale($reference-palette-primary-key, $lightness: 94%) !default;
+$reference-palette-primary96: color.scale($reference-palette-primary-key, $lightness: 92%) !default;
+$reference-palette-primary95: color.scale($reference-palette-primary-key, $lightness: 90%) !default;
+$reference-palette-primary94: color.scale($reference-palette-primary-key, $lightness: 88%) !default;
+$reference-palette-primary93: color.scale($reference-palette-primary-key, $lightness: 86%) !default;
+$reference-palette-primary92: color.scale($reference-palette-primary-key, $lightness: 84%) !default;
+$reference-palette-primary91: color.scale($reference-palette-primary-key, $lightness: 82%) !default;
+$reference-palette-primary90: color.scale($reference-palette-primary-key, $lightness: 80%) !default;
+$reference-palette-primary89: color.scale($reference-palette-primary-key, $lightness: 78%) !default;
+$reference-palette-primary88: color.scale($reference-palette-primary-key, $lightness: 76%) !default;
+$reference-palette-primary87: color.scale($reference-palette-primary-key, $lightness: 74%) !default;
+$reference-palette-primary86: color.scale($reference-palette-primary-key, $lightness: 72%) !default;
+$reference-palette-primary85: color.scale($reference-palette-primary-key, $lightness: 70%) !default;
+$reference-palette-primary84: color.scale($reference-palette-primary-key, $lightness: 68%) !default;
+$reference-palette-primary83: color.scale($reference-palette-primary-key, $lightness: 66%) !default;
+$reference-palette-primary82: color.scale($reference-palette-primary-key, $lightness: 64%) !default;
+$reference-palette-primary81: color.scale($reference-palette-primary-key, $lightness: 62%) !default;
+$reference-palette-primary80: color.scale($reference-palette-primary-key, $lightness: 60%) !default;
+$reference-palette-primary79: color.scale($reference-palette-primary-key, $lightness: 58%) !default;
+$reference-palette-primary78: color.scale($reference-palette-primary-key, $lightness: 56%) !default;
+$reference-palette-primary77: color.scale($reference-palette-primary-key, $lightness: 54%) !default;
+$reference-palette-primary76: color.scale($reference-palette-primary-key, $lightness: 52%) !default;
+$reference-palette-primary75: color.scale($reference-palette-primary-key, $lightness: 50%) !default;
+$reference-palette-primary74: color.scale($reference-palette-primary-key, $lightness: 48%) !default;
+$reference-palette-primary73: color.scale($reference-palette-primary-key, $lightness: 46%) !default;
+$reference-palette-primary72: color.scale($reference-palette-primary-key, $lightness: 44%) !default;
+$reference-palette-primary71: color.scale($reference-palette-primary-key, $lightness: 42%) !default;
+$reference-palette-primary70: color.scale($reference-palette-primary-key, $lightness: 40%) !default;
+$reference-palette-primary69: color.scale($reference-palette-primary-key, $lightness: 38%) !default;
+$reference-palette-primary68: color.scale($reference-palette-primary-key, $lightness: 36%) !default;
+$reference-palette-primary67: color.scale($reference-palette-primary-key, $lightness: 34%) !default;
+$reference-palette-primary66: color.scale($reference-palette-primary-key, $lightness: 32%) !default;
+$reference-palette-primary65: color.scale($reference-palette-primary-key, $lightness: 30%) !default;
+$reference-palette-primary64: color.scale($reference-palette-primary-key, $lightness: 28%) !default;
+$reference-palette-primary63: color.scale($reference-palette-primary-key, $lightness: 26%) !default;
+$reference-palette-primary62: color.scale($reference-palette-primary-key, $lightness: 24%) !default;
+$reference-palette-primary61: color.scale($reference-palette-primary-key, $lightness: 22%) !default;
+$reference-palette-primary60: color.scale($reference-palette-primary-key, $lightness: 20%) !default;
+$reference-palette-primary59: color.scale($reference-palette-primary-key, $lightness: 18%) !default;
+$reference-palette-primary58: color.scale($reference-palette-primary-key, $lightness: 16%) !default;
+$reference-palette-primary57: color.scale($reference-palette-primary-key, $lightness: 14%) !default;
+$reference-palette-primary56: color.scale($reference-palette-primary-key, $lightness: 12%) !default;
+$reference-palette-primary55: color.scale($reference-palette-primary-key, $lightness: 10%) !default;
+$reference-palette-primary54: color.scale($reference-palette-primary-key, $lightness: 8%) !default;
+$reference-palette-primary53: color.scale($reference-palette-primary-key, $lightness: 6%) !default;
+$reference-palette-primary52: color.scale($reference-palette-primary-key, $lightness: 4%) !default;
+$reference-palette-primary51: color.scale($reference-palette-primary-key, $lightness: 2%) !default;
+$reference-palette-primary50: $reference-palette-primary-key !default;
+$reference-palette-primary49: color.scale($reference-palette-primary-key, $lightness: -2%) !default;
+$reference-palette-primary48: color.scale($reference-palette-primary-key, $lightness: -4%) !default;
+$reference-palette-primary47: color.scale($reference-palette-primary-key, $lightness: -6%) !default;
+$reference-palette-primary46: color.scale($reference-palette-primary-key, $lightness: -8%) !default;
+$reference-palette-primary45: color.scale($reference-palette-primary-key, $lightness: -10%) !default;
+$reference-palette-primary44: color.scale($reference-palette-primary-key, $lightness: -12%) !default;
+$reference-palette-primary43: color.scale($reference-palette-primary-key, $lightness: -14%) !default;
+$reference-palette-primary42: color.scale($reference-palette-primary-key, $lightness: -16%) !default;
+$reference-palette-primary41: color.scale($reference-palette-primary-key, $lightness: -18%) !default;
+$reference-palette-primary40: color.scale($reference-palette-primary-key, $lightness: -20%) !default;
+$reference-palette-primary39: color.scale($reference-palette-primary-key, $lightness: -22%) !default;
+$reference-palette-primary38: color.scale($reference-palette-primary-key, $lightness: -24%) !default;
+$reference-palette-primary37: color.scale($reference-palette-primary-key, $lightness: -26%) !default;
+$reference-palette-primary36: color.scale($reference-palette-primary-key, $lightness: -28%) !default;
+$reference-palette-primary35: color.scale($reference-palette-primary-key, $lightness: -30%) !default;
+$reference-palette-primary34: color.scale($reference-palette-primary-key, $lightness: -32%) !default;
+$reference-palette-primary33: color.scale($reference-palette-primary-key, $lightness: -34%) !default;
+$reference-palette-primary32: color.scale($reference-palette-primary-key, $lightness: -36%) !default;
+$reference-palette-primary31: color.scale($reference-palette-primary-key, $lightness: -38%) !default;
+$reference-palette-primary30: color.scale($reference-palette-primary-key, $lightness: -40%) !default;
+$reference-palette-primary29: color.scale($reference-palette-primary-key, $lightness: -42%) !default;
+$reference-palette-primary28: color.scale($reference-palette-primary-key, $lightness: -44%) !default;
+$reference-palette-primary27: color.scale($reference-palette-primary-key, $lightness: -46%) !default;
+$reference-palette-primary26: color.scale($reference-palette-primary-key, $lightness: -48%) !default;
+$reference-palette-primary25: color.scale($reference-palette-primary-key, $lightness: -50%) !default;
+$reference-palette-primary24: color.scale($reference-palette-primary-key, $lightness: -52%) !default;
+$reference-palette-primary23: color.scale($reference-palette-primary-key, $lightness: -54%) !default;
+$reference-palette-primary22: color.scale($reference-palette-primary-key, $lightness: -56%) !default;
+$reference-palette-primary21: color.scale($reference-palette-primary-key, $lightness: -58%) !default;
+$reference-palette-primary20: color.scale($reference-palette-primary-key, $lightness: -60%) !default;
+$reference-palette-primary19: color.scale($reference-palette-primary-key, $lightness: -62%) !default;
+$reference-palette-primary18: color.scale($reference-palette-primary-key, $lightness: -64%) !default;
+$reference-palette-primary17: color.scale($reference-palette-primary-key, $lightness: -66%) !default;
+$reference-palette-primary16: color.scale($reference-palette-primary-key, $lightness: -68%) !default;
+$reference-palette-primary15: color.scale($reference-palette-primary-key, $lightness: -70%) !default;
+$reference-palette-primary14: color.scale($reference-palette-primary-key, $lightness: -72%) !default;
+$reference-palette-primary13: color.scale($reference-palette-primary-key, $lightness: -74%) !default;
+$reference-palette-primary12: color.scale($reference-palette-primary-key, $lightness: -76%) !default;
+$reference-palette-primary11: color.scale($reference-palette-primary-key, $lightness: -78%) !default;
+$reference-palette-primary10: color.scale($reference-palette-primary-key, $lightness: -80%) !default;
+$reference-palette-primary9: color.scale($reference-palette-primary-key, $lightness: -82%) !default;
+$reference-palette-primary8: color.scale($reference-palette-primary-key, $lightness: -84%) !default;
+$reference-palette-primary7: color.scale($reference-palette-primary-key, $lightness: -86%) !default;
+$reference-palette-primary6: color.scale($reference-palette-primary-key, $lightness: -88%) !default;
+$reference-palette-primary5: color.scale($reference-palette-primary-key, $lightness: -90%) !default;
+$reference-palette-primary4: color.scale($reference-palette-primary-key, $lightness: -92%) !default;
+$reference-palette-primary3: color.scale($reference-palette-primary-key, $lightness: -94%) !default;
+$reference-palette-primary2: color.scale($reference-palette-primary-key, $lightness: -96%) !default;
+$reference-palette-primary1: color.scale($reference-palette-primary-key, $lightness: -98%) !default;
+$reference-palette-primary0: color.scale($reference-palette-primary-key, $lightness: -100%) !default;
 
-$primaries: (
-    "primary100": $primary100,
-    "primary99": $primary99,
-    "primary98": $primary98,
-    "primary97": $primary97,
-    "primary96": $primary96,
-    "primary95": $primary95,
-    "primary94": $primary94,
-    "primary93": $primary93,
-    "primary92": $primary92,
-    "primary91": $primary91,
-    "primary90": $primary90,
-    "primary89": $primary89,
-    "primary88": $primary88,
-    "primary87": $primary87,
-    "primary86": $primary86,
-    "primary85": $primary85,
-    "primary84": $primary84,
-    "primary83": $primary83,
-    "primary82": $primary82,
-    "primary81": $primary81,
-    "primary80": $primary80,
-    "primary79": $primary79,
-    "primary78": $primary78,
-    "primary77": $primary77,
-    "primary76": $primary76,
-    "primary75": $primary75,
-    "primary74": $primary74,
-    "primary73": $primary73,
-    "primary72": $primary72,
-    "primary71": $primary71,
-    "primary70": $primary70,
-    "primary69": $primary69,
-    "primary68": $primary68,
-    "primary67": $primary67,
-    "primary66": $primary66,
-    "primary65": $primary65,
-    "primary64": $primary64,
-    "primary63": $primary63,
-    "primary62": $primary62,
-    "primary61": $primary61,
-    "primary60": $primary60,
-    "primary59": $primary59,
-    "primary58": $primary58,
-    "primary57": $primary57,
-    "primary56": $primary56,
-    "primary55": $primary55,
-    "primary54": $primary54,
-    "primary53": $primary53,
-    "primary52": $primary52,
-    "primary51": $primary51,
-    "primary50": $primary50,
-    "primary49": $primary49,
-    "primary48": $primary48,
-    "primary47": $primary47,
-    "primary46": $primary46,
-    "primary45": $primary45,
-    "primary44": $primary44,
-    "primary43": $primary43,
-    "primary42": $primary42,
-    "primary41": $primary41,
-    "primary40": $primary40,
-    "primary39": $primary39,
-    "primary38": $primary38,
-    "primary37": $primary37,
-    "primary36": $primary36,
-    "primary35": $primary35,
-    "primary34": $primary34,
-    "primary33": $primary33,
-    "primary32": $primary32,
-    "primary31": $primary31,
-    "primary30": $primary30,
-    "primary29": $primary29,
-    "primary28": $primary28,
-    "primary27": $primary27,
-    "primary26": $primary26,
-    "primary25": $primary25,
-    "primary24": $primary24,
-    "primary23": $primary23,
-    "primary22": $primary22,
-    "primary21": $primary21,
-    "primary20": $primary20,
-    "primary19": $primary19,
-    "primary18": $primary18,
-    "primary17": $primary17,
-    "primary16": $primary16,
-    "primary15": $primary15,
-    "primary14": $primary14,
-    "primary13": $primary13,
-    "primary12": $primary12,
-    "primary11": $primary11,
-    "primary10": $primary10,
-    "primary9": $primary9,
-    "primary8": $primary8,
-    "primary7": $primary7,
-    "primary6": $primary6,
-    "primary5": $primary5,
-    "primary4": $primary4,
-    "primary3": $primary3,
-    "primary2": $primary2,
-    "primary1": $primary1,
-    "primary0": $primary0,
+$reference-palette-primaries: (
+    "reference-palette-primary100": $reference-palette-primary100,
+    "reference-palette-primary99": $reference-palette-primary99,
+    "reference-palette-primary98": $reference-palette-primary98,
+    "reference-palette-primary97": $reference-palette-primary97,
+    "reference-palette-primary96": $reference-palette-primary96,
+    "reference-palette-primary95": $reference-palette-primary95,
+    "reference-palette-primary94": $reference-palette-primary94,
+    "reference-palette-primary93": $reference-palette-primary93,
+    "reference-palette-primary92": $reference-palette-primary92,
+    "reference-palette-primary91": $reference-palette-primary91,
+    "reference-palette-primary90": $reference-palette-primary90,
+    "reference-palette-primary89": $reference-palette-primary89,
+    "reference-palette-primary88": $reference-palette-primary88,
+    "reference-palette-primary87": $reference-palette-primary87,
+    "reference-palette-primary86": $reference-palette-primary86,
+    "reference-palette-primary85": $reference-palette-primary85,
+    "reference-palette-primary84": $reference-palette-primary84,
+    "reference-palette-primary83": $reference-palette-primary83,
+    "reference-palette-primary82": $reference-palette-primary82,
+    "reference-palette-primary81": $reference-palette-primary81,
+    "reference-palette-primary80": $reference-palette-primary80,
+    "reference-palette-primary79": $reference-palette-primary79,
+    "reference-palette-primary78": $reference-palette-primary78,
+    "reference-palette-primary77": $reference-palette-primary77,
+    "reference-palette-primary76": $reference-palette-primary76,
+    "reference-palette-primary75": $reference-palette-primary75,
+    "reference-palette-primary74": $reference-palette-primary74,
+    "reference-palette-primary73": $reference-palette-primary73,
+    "reference-palette-primary72": $reference-palette-primary72,
+    "reference-palette-primary71": $reference-palette-primary71,
+    "reference-palette-primary70": $reference-palette-primary70,
+    "reference-palette-primary69": $reference-palette-primary69,
+    "reference-palette-primary68": $reference-palette-primary68,
+    "reference-palette-primary67": $reference-palette-primary67,
+    "reference-palette-primary66": $reference-palette-primary66,
+    "reference-palette-primary65": $reference-palette-primary65,
+    "reference-palette-primary64": $reference-palette-primary64,
+    "reference-palette-primary63": $reference-palette-primary63,
+    "reference-palette-primary62": $reference-palette-primary62,
+    "reference-palette-primary61": $reference-palette-primary61,
+    "reference-palette-primary60": $reference-palette-primary60,
+    "reference-palette-primary59": $reference-palette-primary59,
+    "reference-palette-primary58": $reference-palette-primary58,
+    "reference-palette-primary57": $reference-palette-primary57,
+    "reference-palette-primary56": $reference-palette-primary56,
+    "reference-palette-primary55": $reference-palette-primary55,
+    "reference-palette-primary54": $reference-palette-primary54,
+    "reference-palette-primary53": $reference-palette-primary53,
+    "reference-palette-primary52": $reference-palette-primary52,
+    "reference-palette-primary51": $reference-palette-primary51,
+    "reference-palette-primary50": $reference-palette-primary50,
+    "reference-palette-primary49": $reference-palette-primary49,
+    "reference-palette-primary48": $reference-palette-primary48,
+    "reference-palette-primary47": $reference-palette-primary47,
+    "reference-palette-primary46": $reference-palette-primary46,
+    "reference-palette-primary45": $reference-palette-primary45,
+    "reference-palette-primary44": $reference-palette-primary44,
+    "reference-palette-primary43": $reference-palette-primary43,
+    "reference-palette-primary42": $reference-palette-primary42,
+    "reference-palette-primary41": $reference-palette-primary41,
+    "reference-palette-primary40": $reference-palette-primary40,
+    "reference-palette-primary39": $reference-palette-primary39,
+    "reference-palette-primary38": $reference-palette-primary38,
+    "reference-palette-primary37": $reference-palette-primary37,
+    "reference-palette-primary36": $reference-palette-primary36,
+    "reference-palette-primary35": $reference-palette-primary35,
+    "reference-palette-primary34": $reference-palette-primary34,
+    "reference-palette-primary33": $reference-palette-primary33,
+    "reference-palette-primary32": $reference-palette-primary32,
+    "reference-palette-primary31": $reference-palette-primary31,
+    "reference-palette-primary30": $reference-palette-primary30,
+    "reference-palette-primary29": $reference-palette-primary29,
+    "reference-palette-primary28": $reference-palette-primary28,
+    "reference-palette-primary27": $reference-palette-primary27,
+    "reference-palette-primary26": $reference-palette-primary26,
+    "reference-palette-primary25": $reference-palette-primary25,
+    "reference-palette-primary24": $reference-palette-primary24,
+    "reference-palette-primary23": $reference-palette-primary23,
+    "reference-palette-primary22": $reference-palette-primary22,
+    "reference-palette-primary21": $reference-palette-primary21,
+    "reference-palette-primary20": $reference-palette-primary20,
+    "reference-palette-primary19": $reference-palette-primary19,
+    "reference-palette-primary18": $reference-palette-primary18,
+    "reference-palette-primary17": $reference-palette-primary17,
+    "reference-palette-primary16": $reference-palette-primary16,
+    "reference-palette-primary15": $reference-palette-primary15,
+    "reference-palette-primary14": $reference-palette-primary14,
+    "reference-palette-primary13": $reference-palette-primary13,
+    "reference-palette-primary12": $reference-palette-primary12,
+    "reference-palette-primary11": $reference-palette-primary11,
+    "reference-palette-primary10": $reference-palette-primary10,
+    "reference-palette-primary9": $reference-palette-primary9,
+    "reference-palette-primary8": $reference-palette-primary8,
+    "reference-palette-primary7": $reference-palette-primary7,
+    "reference-palette-primary6": $reference-palette-primary6,
+    "reference-palette-primary5": $reference-palette-primary5,
+    "reference-palette-primary4": $reference-palette-primary4,
+    "reference-palette-primary3": $reference-palette-primary3,
+    "reference-palette-primary2": $reference-palette-primary2,
+    "reference-palette-primary1": $reference-palette-primary1,
+    "reference-palette-primary0": $reference-palette-primary0,
 ) !default;
 
-$secondary100: color.scale($secondary-key, $lightness: 100%) !default;
-$secondary99: color.scale($secondary-key, $lightness: 98%) !default;
-$secondary98: color.scale($secondary-key, $lightness: 96%) !default;
-$secondary97: color.scale($secondary-key, $lightness: 94%) !default;
-$secondary96: color.scale($secondary-key, $lightness: 92%) !default;
-$secondary95: color.scale($secondary-key, $lightness: 90%) !default;
-$secondary94: color.scale($secondary-key, $lightness: 88%) !default;
-$secondary93: color.scale($secondary-key, $lightness: 86%) !default;
-$secondary92: color.scale($secondary-key, $lightness: 84%) !default;
-$secondary91: color.scale($secondary-key, $lightness: 82%) !default;
-$secondary90: color.scale($secondary-key, $lightness: 80%) !default;
-$secondary89: color.scale($secondary-key, $lightness: 78%) !default;
-$secondary88: color.scale($secondary-key, $lightness: 76%) !default;
-$secondary87: color.scale($secondary-key, $lightness: 74%) !default;
-$secondary86: color.scale($secondary-key, $lightness: 72%) !default;
-$secondary85: color.scale($secondary-key, $lightness: 70%) !default;
-$secondary84: color.scale($secondary-key, $lightness: 68%) !default;
-$secondary83: color.scale($secondary-key, $lightness: 66%) !default;
-$secondary82: color.scale($secondary-key, $lightness: 64%) !default;
-$secondary81: color.scale($secondary-key, $lightness: 62%) !default;
-$secondary80: color.scale($secondary-key, $lightness: 60%) !default;
-$secondary79: color.scale($secondary-key, $lightness: 58%) !default;
-$secondary78: color.scale($secondary-key, $lightness: 56%) !default;
-$secondary77: color.scale($secondary-key, $lightness: 54%) !default;
-$secondary76: color.scale($secondary-key, $lightness: 52%) !default;
-$secondary75: color.scale($secondary-key, $lightness: 50%) !default;
-$secondary74: color.scale($secondary-key, $lightness: 48%) !default;
-$secondary73: color.scale($secondary-key, $lightness: 46%) !default;
-$secondary72: color.scale($secondary-key, $lightness: 44%) !default;
-$secondary71: color.scale($secondary-key, $lightness: 42%) !default;
-$secondary70: color.scale($secondary-key, $lightness: 40%) !default;
-$secondary69: color.scale($secondary-key, $lightness: 38%) !default;
-$secondary68: color.scale($secondary-key, $lightness: 36%) !default;
-$secondary67: color.scale($secondary-key, $lightness: 34%) !default;
-$secondary66: color.scale($secondary-key, $lightness: 32%) !default;
-$secondary65: color.scale($secondary-key, $lightness: 30%) !default;
-$secondary64: color.scale($secondary-key, $lightness: 28%) !default;
-$secondary63: color.scale($secondary-key, $lightness: 26%) !default;
-$secondary62: color.scale($secondary-key, $lightness: 24%) !default;
-$secondary61: color.scale($secondary-key, $lightness: 22%) !default;
-$secondary60: color.scale($secondary-key, $lightness: 20%) !default;
-$secondary59: color.scale($secondary-key, $lightness: 18%) !default;
-$secondary58: color.scale($secondary-key, $lightness: 16%) !default;
-$secondary57: color.scale($secondary-key, $lightness: 14%) !default;
-$secondary56: color.scale($secondary-key, $lightness: 12%) !default;
-$secondary55: color.scale($secondary-key, $lightness: 10%) !default;
-$secondary54: color.scale($secondary-key, $lightness: 8%) !default;
-$secondary53: color.scale($secondary-key, $lightness: 6%) !default;
-$secondary52: color.scale($secondary-key, $lightness: 4%) !default;
-$secondary51: color.scale($secondary-key, $lightness: 2%) !default;
-$secondary50: $secondary-key !default;
-$secondary49: color.scale($secondary-key, $lightness: -2%) !default;
-$secondary48: color.scale($secondary-key, $lightness: -4%) !default;
-$secondary47: color.scale($secondary-key, $lightness: -6%) !default;
-$secondary46: color.scale($secondary-key, $lightness: -8%) !default;
-$secondary45: color.scale($secondary-key, $lightness: -10%) !default;
-$secondary44: color.scale($secondary-key, $lightness: -12%) !default;
-$secondary43: color.scale($secondary-key, $lightness: -14%) !default;
-$secondary42: color.scale($secondary-key, $lightness: -16%) !default;
-$secondary41: color.scale($secondary-key, $lightness: -18%) !default;
-$secondary40: color.scale($secondary-key, $lightness: -20%) !default;
-$secondary39: color.scale($secondary-key, $lightness: -22%) !default;
-$secondary38: color.scale($secondary-key, $lightness: -24%) !default;
-$secondary37: color.scale($secondary-key, $lightness: -26%) !default;
-$secondary36: color.scale($secondary-key, $lightness: -28%) !default;
-$secondary35: color.scale($secondary-key, $lightness: -30%) !default;
-$secondary34: color.scale($secondary-key, $lightness: -32%) !default;
-$secondary33: color.scale($secondary-key, $lightness: -34%) !default;
-$secondary32: color.scale($secondary-key, $lightness: -36%) !default;
-$secondary31: color.scale($secondary-key, $lightness: -38%) !default;
-$secondary30: color.scale($secondary-key, $lightness: -40%) !default;
-$secondary29: color.scale($secondary-key, $lightness: -42%) !default;
-$secondary28: color.scale($secondary-key, $lightness: -44%) !default;
-$secondary27: color.scale($secondary-key, $lightness: -46%) !default;
-$secondary26: color.scale($secondary-key, $lightness: -48%) !default;
-$secondary25: color.scale($secondary-key, $lightness: -50%) !default;
-$secondary24: color.scale($secondary-key, $lightness: -52%) !default;
-$secondary23: color.scale($secondary-key, $lightness: -54%) !default;
-$secondary22: color.scale($secondary-key, $lightness: -56%) !default;
-$secondary21: color.scale($secondary-key, $lightness: -58%) !default;
-$secondary20: color.scale($secondary-key, $lightness: -60%) !default;
-$secondary19: color.scale($secondary-key, $lightness: -62%) !default;
-$secondary18: color.scale($secondary-key, $lightness: -64%) !default;
-$secondary17: color.scale($secondary-key, $lightness: -66%) !default;
-$secondary16: color.scale($secondary-key, $lightness: -68%) !default;
-$secondary15: color.scale($secondary-key, $lightness: -70%) !default;
-$secondary14: color.scale($secondary-key, $lightness: -72%) !default;
-$secondary13: color.scale($secondary-key, $lightness: -74%) !default;
-$secondary12: color.scale($secondary-key, $lightness: -76%) !default;
-$secondary11: color.scale($secondary-key, $lightness: -78%) !default;
-$secondary10: color.scale($secondary-key, $lightness: -80%) !default;
-$secondary9: color.scale($secondary-key, $lightness: -82%) !default;
-$secondary8: color.scale($secondary-key, $lightness: -84%) !default;
-$secondary7: color.scale($secondary-key, $lightness: -86%) !default;
-$secondary6: color.scale($secondary-key, $lightness: -88%) !default;
-$secondary5: color.scale($secondary-key, $lightness: -90%) !default;
-$secondary4: color.scale($secondary-key, $lightness: -92%) !default;
-$secondary3: color.scale($secondary-key, $lightness: -94%) !default;
-$secondary2: color.scale($secondary-key, $lightness: -96%) !default;
-$secondary1: color.scale($secondary-key, $lightness: -98%) !default;
-$secondary0: color.scale($secondary-key, $lightness: -100%) !default;
+$reference-palette-secondary100: color.scale($reference-palette-secondary-key, $lightness: 100%) !default;
+$reference-palette-secondary99: color.scale($reference-palette-secondary-key, $lightness: 98%) !default;
+$reference-palette-secondary98: color.scale($reference-palette-secondary-key, $lightness: 96%) !default;
+$reference-palette-secondary97: color.scale($reference-palette-secondary-key, $lightness: 94%) !default;
+$reference-palette-secondary96: color.scale($reference-palette-secondary-key, $lightness: 92%) !default;
+$reference-palette-secondary95: color.scale($reference-palette-secondary-key, $lightness: 90%) !default;
+$reference-palette-secondary94: color.scale($reference-palette-secondary-key, $lightness: 88%) !default;
+$reference-palette-secondary93: color.scale($reference-palette-secondary-key, $lightness: 86%) !default;
+$reference-palette-secondary92: color.scale($reference-palette-secondary-key, $lightness: 84%) !default;
+$reference-palette-secondary91: color.scale($reference-palette-secondary-key, $lightness: 82%) !default;
+$reference-palette-secondary90: color.scale($reference-palette-secondary-key, $lightness: 80%) !default;
+$reference-palette-secondary89: color.scale($reference-palette-secondary-key, $lightness: 78%) !default;
+$reference-palette-secondary88: color.scale($reference-palette-secondary-key, $lightness: 76%) !default;
+$reference-palette-secondary87: color.scale($reference-palette-secondary-key, $lightness: 74%) !default;
+$reference-palette-secondary86: color.scale($reference-palette-secondary-key, $lightness: 72%) !default;
+$reference-palette-secondary85: color.scale($reference-palette-secondary-key, $lightness: 70%) !default;
+$reference-palette-secondary84: color.scale($reference-palette-secondary-key, $lightness: 68%) !default;
+$reference-palette-secondary83: color.scale($reference-palette-secondary-key, $lightness: 66%) !default;
+$reference-palette-secondary82: color.scale($reference-palette-secondary-key, $lightness: 64%) !default;
+$reference-palette-secondary81: color.scale($reference-palette-secondary-key, $lightness: 62%) !default;
+$reference-palette-secondary80: color.scale($reference-palette-secondary-key, $lightness: 60%) !default;
+$reference-palette-secondary79: color.scale($reference-palette-secondary-key, $lightness: 58%) !default;
+$reference-palette-secondary78: color.scale($reference-palette-secondary-key, $lightness: 56%) !default;
+$reference-palette-secondary77: color.scale($reference-palette-secondary-key, $lightness: 54%) !default;
+$reference-palette-secondary76: color.scale($reference-palette-secondary-key, $lightness: 52%) !default;
+$reference-palette-secondary75: color.scale($reference-palette-secondary-key, $lightness: 50%) !default;
+$reference-palette-secondary74: color.scale($reference-palette-secondary-key, $lightness: 48%) !default;
+$reference-palette-secondary73: color.scale($reference-palette-secondary-key, $lightness: 46%) !default;
+$reference-palette-secondary72: color.scale($reference-palette-secondary-key, $lightness: 44%) !default;
+$reference-palette-secondary71: color.scale($reference-palette-secondary-key, $lightness: 42%) !default;
+$reference-palette-secondary70: color.scale($reference-palette-secondary-key, $lightness: 40%) !default;
+$reference-palette-secondary69: color.scale($reference-palette-secondary-key, $lightness: 38%) !default;
+$reference-palette-secondary68: color.scale($reference-palette-secondary-key, $lightness: 36%) !default;
+$reference-palette-secondary67: color.scale($reference-palette-secondary-key, $lightness: 34%) !default;
+$reference-palette-secondary66: color.scale($reference-palette-secondary-key, $lightness: 32%) !default;
+$reference-palette-secondary65: color.scale($reference-palette-secondary-key, $lightness: 30%) !default;
+$reference-palette-secondary64: color.scale($reference-palette-secondary-key, $lightness: 28%) !default;
+$reference-palette-secondary63: color.scale($reference-palette-secondary-key, $lightness: 26%) !default;
+$reference-palette-secondary62: color.scale($reference-palette-secondary-key, $lightness: 24%) !default;
+$reference-palette-secondary61: color.scale($reference-palette-secondary-key, $lightness: 22%) !default;
+$reference-palette-secondary60: color.scale($reference-palette-secondary-key, $lightness: 20%) !default;
+$reference-palette-secondary59: color.scale($reference-palette-secondary-key, $lightness: 18%) !default;
+$reference-palette-secondary58: color.scale($reference-palette-secondary-key, $lightness: 16%) !default;
+$reference-palette-secondary57: color.scale($reference-palette-secondary-key, $lightness: 14%) !default;
+$reference-palette-secondary56: color.scale($reference-palette-secondary-key, $lightness: 12%) !default;
+$reference-palette-secondary55: color.scale($reference-palette-secondary-key, $lightness: 10%) !default;
+$reference-palette-secondary54: color.scale($reference-palette-secondary-key, $lightness: 8%) !default;
+$reference-palette-secondary53: color.scale($reference-palette-secondary-key, $lightness: 6%) !default;
+$reference-palette-secondary52: color.scale($reference-palette-secondary-key, $lightness: 4%) !default;
+$reference-palette-secondary51: color.scale($reference-palette-secondary-key, $lightness: 2%) !default;
+$reference-palette-secondary50: $reference-palette-secondary-key !default;
+$reference-palette-secondary49: color.scale($reference-palette-secondary-key, $lightness: -2%) !default;
+$reference-palette-secondary48: color.scale($reference-palette-secondary-key, $lightness: -4%) !default;
+$reference-palette-secondary47: color.scale($reference-palette-secondary-key, $lightness: -6%) !default;
+$reference-palette-secondary46: color.scale($reference-palette-secondary-key, $lightness: -8%) !default;
+$reference-palette-secondary45: color.scale($reference-palette-secondary-key, $lightness: -10%) !default;
+$reference-palette-secondary44: color.scale($reference-palette-secondary-key, $lightness: -12%) !default;
+$reference-palette-secondary43: color.scale($reference-palette-secondary-key, $lightness: -14%) !default;
+$reference-palette-secondary42: color.scale($reference-palette-secondary-key, $lightness: -16%) !default;
+$reference-palette-secondary41: color.scale($reference-palette-secondary-key, $lightness: -18%) !default;
+$reference-palette-secondary40: color.scale($reference-palette-secondary-key, $lightness: -20%) !default;
+$reference-palette-secondary39: color.scale($reference-palette-secondary-key, $lightness: -22%) !default;
+$reference-palette-secondary38: color.scale($reference-palette-secondary-key, $lightness: -24%) !default;
+$reference-palette-secondary37: color.scale($reference-palette-secondary-key, $lightness: -26%) !default;
+$reference-palette-secondary36: color.scale($reference-palette-secondary-key, $lightness: -28%) !default;
+$reference-palette-secondary35: color.scale($reference-palette-secondary-key, $lightness: -30%) !default;
+$reference-palette-secondary34: color.scale($reference-palette-secondary-key, $lightness: -32%) !default;
+$reference-palette-secondary33: color.scale($reference-palette-secondary-key, $lightness: -34%) !default;
+$reference-palette-secondary32: color.scale($reference-palette-secondary-key, $lightness: -36%) !default;
+$reference-palette-secondary31: color.scale($reference-palette-secondary-key, $lightness: -38%) !default;
+$reference-palette-secondary30: color.scale($reference-palette-secondary-key, $lightness: -40%) !default;
+$reference-palette-secondary29: color.scale($reference-palette-secondary-key, $lightness: -42%) !default;
+$reference-palette-secondary28: color.scale($reference-palette-secondary-key, $lightness: -44%) !default;
+$reference-palette-secondary27: color.scale($reference-palette-secondary-key, $lightness: -46%) !default;
+$reference-palette-secondary26: color.scale($reference-palette-secondary-key, $lightness: -48%) !default;
+$reference-palette-secondary25: color.scale($reference-palette-secondary-key, $lightness: -50%) !default;
+$reference-palette-secondary24: color.scale($reference-palette-secondary-key, $lightness: -52%) !default;
+$reference-palette-secondary23: color.scale($reference-palette-secondary-key, $lightness: -54%) !default;
+$reference-palette-secondary22: color.scale($reference-palette-secondary-key, $lightness: -56%) !default;
+$reference-palette-secondary21: color.scale($reference-palette-secondary-key, $lightness: -58%) !default;
+$reference-palette-secondary20: color.scale($reference-palette-secondary-key, $lightness: -60%) !default;
+$reference-palette-secondary19: color.scale($reference-palette-secondary-key, $lightness: -62%) !default;
+$reference-palette-secondary18: color.scale($reference-palette-secondary-key, $lightness: -64%) !default;
+$reference-palette-secondary17: color.scale($reference-palette-secondary-key, $lightness: -66%) !default;
+$reference-palette-secondary16: color.scale($reference-palette-secondary-key, $lightness: -68%) !default;
+$reference-palette-secondary15: color.scale($reference-palette-secondary-key, $lightness: -70%) !default;
+$reference-palette-secondary14: color.scale($reference-palette-secondary-key, $lightness: -72%) !default;
+$reference-palette-secondary13: color.scale($reference-palette-secondary-key, $lightness: -74%) !default;
+$reference-palette-secondary12: color.scale($reference-palette-secondary-key, $lightness: -76%) !default;
+$reference-palette-secondary11: color.scale($reference-palette-secondary-key, $lightness: -78%) !default;
+$reference-palette-secondary10: color.scale($reference-palette-secondary-key, $lightness: -80%) !default;
+$reference-palette-secondary9: color.scale($reference-palette-secondary-key, $lightness: -82%) !default;
+$reference-palette-secondary8: color.scale($reference-palette-secondary-key, $lightness: -84%) !default;
+$reference-palette-secondary7: color.scale($reference-palette-secondary-key, $lightness: -86%) !default;
+$reference-palette-secondary6: color.scale($reference-palette-secondary-key, $lightness: -88%) !default;
+$reference-palette-secondary5: color.scale($reference-palette-secondary-key, $lightness: -90%) !default;
+$reference-palette-secondary4: color.scale($reference-palette-secondary-key, $lightness: -92%) !default;
+$reference-palette-secondary3: color.scale($reference-palette-secondary-key, $lightness: -94%) !default;
+$reference-palette-secondary2: color.scale($reference-palette-secondary-key, $lightness: -96%) !default;
+$reference-palette-secondary1: color.scale($reference-palette-secondary-key, $lightness: -98%) !default;
+$reference-palette-secondary0: color.scale($reference-palette-secondary-key, $lightness: -100%) !default;
 
-$secondaries: (
-    "secondary100": $secondary100,
-    "secondary99": $secondary99,
-    "secondary98": $secondary98,
-    "secondary97": $secondary97,
-    "secondary96": $secondary96,
-    "secondary95": $secondary95,
-    "secondary94": $secondary94,
-    "secondary93": $secondary93,
-    "secondary92": $secondary92,
-    "secondary91": $secondary91,
-    "secondary90": $secondary90,
-    "secondary89": $secondary89,
-    "secondary88": $secondary88,
-    "secondary87": $secondary87,
-    "secondary86": $secondary86,
-    "secondary85": $secondary85,
-    "secondary84": $secondary84,
-    "secondary83": $secondary83,
-    "secondary82": $secondary82,
-    "secondary81": $secondary81,
-    "secondary80": $secondary80,
-    "secondary79": $secondary79,
-    "secondary78": $secondary78,
-    "secondary77": $secondary77,
-    "secondary76": $secondary76,
-    "secondary75": $secondary75,
-    "secondary74": $secondary74,
-    "secondary73": $secondary73,
-    "secondary72": $secondary72,
-    "secondary71": $secondary71,
-    "secondary70": $secondary70,
-    "secondary69": $secondary69,
-    "secondary68": $secondary68,
-    "secondary67": $secondary67,
-    "secondary66": $secondary66,
-    "secondary65": $secondary65,
-    "secondary64": $secondary64,
-    "secondary63": $secondary63,
-    "secondary62": $secondary62,
-    "secondary61": $secondary61,
-    "secondary60": $secondary60,
-    "secondary59": $secondary59,
-    "secondary58": $secondary58,
-    "secondary57": $secondary57,
-    "secondary56": $secondary56,
-    "secondary55": $secondary55,
-    "secondary54": $secondary54,
-    "secondary53": $secondary53,
-    "secondary52": $secondary52,
-    "secondary51": $secondary51,
-    "secondary50": $secondary50,
-    "secondary49": $secondary49,
-    "secondary48": $secondary48,
-    "secondary47": $secondary47,
-    "secondary46": $secondary46,
-    "secondary45": $secondary45,
-    "secondary44": $secondary44,
-    "secondary43": $secondary43,
-    "secondary42": $secondary42,
-    "secondary41": $secondary41,
-    "secondary40": $secondary40,
-    "secondary39": $secondary39,
-    "secondary38": $secondary38,
-    "secondary37": $secondary37,
-    "secondary36": $secondary36,
-    "secondary35": $secondary35,
-    "secondary34": $secondary34,
-    "secondary33": $secondary33,
-    "secondary32": $secondary32,
-    "secondary31": $secondary31,
-    "secondary30": $secondary30,
-    "secondary29": $secondary29,
-    "secondary28": $secondary28,
-    "secondary27": $secondary27,
-    "secondary26": $secondary26,
-    "secondary25": $secondary25,
-    "secondary24": $secondary24,
-    "secondary23": $secondary23,
-    "secondary22": $secondary22,
-    "secondary21": $secondary21,
-    "secondary20": $secondary20,
-    "secondary19": $secondary19,
-    "secondary18": $secondary18,
-    "secondary17": $secondary17,
-    "secondary16": $secondary16,
-    "secondary15": $secondary15,
-    "secondary14": $secondary14,
-    "secondary13": $secondary13,
-    "secondary12": $secondary12,
-    "secondary11": $secondary11,
-    "secondary10": $secondary10,
-    "secondary9": $secondary9,
-    "secondary8": $secondary8,
-    "secondary7": $secondary7,
-    "secondary6": $secondary6,
-    "secondary5": $secondary5,
-    "secondary4": $secondary4,
-    "secondary3": $secondary3,
-    "secondary2": $secondary2,
-    "secondary1": $secondary1,
-    "secondary0": $secondary0,
+$reference-palette-secondaries: (
+    "reference-palette-secondary100": $reference-palette-secondary100,
+    "reference-palette-secondary99": $reference-palette-secondary99,
+    "reference-palette-secondary98": $reference-palette-secondary98,
+    "reference-palette-secondary97": $reference-palette-secondary97,
+    "reference-palette-secondary96": $reference-palette-secondary96,
+    "reference-palette-secondary95": $reference-palette-secondary95,
+    "reference-palette-secondary94": $reference-palette-secondary94,
+    "reference-palette-secondary93": $reference-palette-secondary93,
+    "reference-palette-secondary92": $reference-palette-secondary92,
+    "reference-palette-secondary91": $reference-palette-secondary91,
+    "reference-palette-secondary90": $reference-palette-secondary90,
+    "reference-palette-secondary89": $reference-palette-secondary89,
+    "reference-palette-secondary88": $reference-palette-secondary88,
+    "reference-palette-secondary87": $reference-palette-secondary87,
+    "reference-palette-secondary86": $reference-palette-secondary86,
+    "reference-palette-secondary85": $reference-palette-secondary85,
+    "reference-palette-secondary84": $reference-palette-secondary84,
+    "reference-palette-secondary83": $reference-palette-secondary83,
+    "reference-palette-secondary82": $reference-palette-secondary82,
+    "reference-palette-secondary81": $reference-palette-secondary81,
+    "reference-palette-secondary80": $reference-palette-secondary80,
+    "reference-palette-secondary79": $reference-palette-secondary79,
+    "reference-palette-secondary78": $reference-palette-secondary78,
+    "reference-palette-secondary77": $reference-palette-secondary77,
+    "reference-palette-secondary76": $reference-palette-secondary76,
+    "reference-palette-secondary75": $reference-palette-secondary75,
+    "reference-palette-secondary74": $reference-palette-secondary74,
+    "reference-palette-secondary73": $reference-palette-secondary73,
+    "reference-palette-secondary72": $reference-palette-secondary72,
+    "reference-palette-secondary71": $reference-palette-secondary71,
+    "reference-palette-secondary70": $reference-palette-secondary70,
+    "reference-palette-secondary69": $reference-palette-secondary69,
+    "reference-palette-secondary68": $reference-palette-secondary68,
+    "reference-palette-secondary67": $reference-palette-secondary67,
+    "reference-palette-secondary66": $reference-palette-secondary66,
+    "reference-palette-secondary65": $reference-palette-secondary65,
+    "reference-palette-secondary64": $reference-palette-secondary64,
+    "reference-palette-secondary63": $reference-palette-secondary63,
+    "reference-palette-secondary62": $reference-palette-secondary62,
+    "reference-palette-secondary61": $reference-palette-secondary61,
+    "reference-palette-secondary60": $reference-palette-secondary60,
+    "reference-palette-secondary59": $reference-palette-secondary59,
+    "reference-palette-secondary58": $reference-palette-secondary58,
+    "reference-palette-secondary57": $reference-palette-secondary57,
+    "reference-palette-secondary56": $reference-palette-secondary56,
+    "reference-palette-secondary55": $reference-palette-secondary55,
+    "reference-palette-secondary54": $reference-palette-secondary54,
+    "reference-palette-secondary53": $reference-palette-secondary53,
+    "reference-palette-secondary52": $reference-palette-secondary52,
+    "reference-palette-secondary51": $reference-palette-secondary51,
+    "reference-palette-secondary50": $reference-palette-secondary50,
+    "reference-palette-secondary49": $reference-palette-secondary49,
+    "reference-palette-secondary48": $reference-palette-secondary48,
+    "reference-palette-secondary47": $reference-palette-secondary47,
+    "reference-palette-secondary46": $reference-palette-secondary46,
+    "reference-palette-secondary45": $reference-palette-secondary45,
+    "reference-palette-secondary44": $reference-palette-secondary44,
+    "reference-palette-secondary43": $reference-palette-secondary43,
+    "reference-palette-secondary42": $reference-palette-secondary42,
+    "reference-palette-secondary41": $reference-palette-secondary41,
+    "reference-palette-secondary40": $reference-palette-secondary40,
+    "reference-palette-secondary39": $reference-palette-secondary39,
+    "reference-palette-secondary38": $reference-palette-secondary38,
+    "reference-palette-secondary37": $reference-palette-secondary37,
+    "reference-palette-secondary36": $reference-palette-secondary36,
+    "reference-palette-secondary35": $reference-palette-secondary35,
+    "reference-palette-secondary34": $reference-palette-secondary34,
+    "reference-palette-secondary33": $reference-palette-secondary33,
+    "reference-palette-secondary32": $reference-palette-secondary32,
+    "reference-palette-secondary31": $reference-palette-secondary31,
+    "reference-palette-secondary30": $reference-palette-secondary30,
+    "reference-palette-secondary29": $reference-palette-secondary29,
+    "reference-palette-secondary28": $reference-palette-secondary28,
+    "reference-palette-secondary27": $reference-palette-secondary27,
+    "reference-palette-secondary26": $reference-palette-secondary26,
+    "reference-palette-secondary25": $reference-palette-secondary25,
+    "reference-palette-secondary24": $reference-palette-secondary24,
+    "reference-palette-secondary23": $reference-palette-secondary23,
+    "reference-palette-secondary22": $reference-palette-secondary22,
+    "reference-palette-secondary21": $reference-palette-secondary21,
+    "reference-palette-secondary20": $reference-palette-secondary20,
+    "reference-palette-secondary19": $reference-palette-secondary19,
+    "reference-palette-secondary18": $reference-palette-secondary18,
+    "reference-palette-secondary17": $reference-palette-secondary17,
+    "reference-palette-secondary16": $reference-palette-secondary16,
+    "reference-palette-secondary15": $reference-palette-secondary15,
+    "reference-palette-secondary14": $reference-palette-secondary14,
+    "reference-palette-secondary13": $reference-palette-secondary13,
+    "reference-palette-secondary12": $reference-palette-secondary12,
+    "reference-palette-secondary11": $reference-palette-secondary11,
+    "reference-palette-secondary10": $reference-palette-secondary10,
+    "reference-palette-secondary9": $reference-palette-secondary9,
+    "reference-palette-secondary8": $reference-palette-secondary8,
+    "reference-palette-secondary7": $reference-palette-secondary7,
+    "reference-palette-secondary6": $reference-palette-secondary6,
+    "reference-palette-secondary5": $reference-palette-secondary5,
+    "reference-palette-secondary4": $reference-palette-secondary4,
+    "reference-palette-secondary3": $reference-palette-secondary3,
+    "reference-palette-secondary2": $reference-palette-secondary2,
+    "reference-palette-secondary1": $reference-palette-secondary1,
+    "reference-palette-secondary0": $reference-palette-secondary0,
 ) !default;
 
-$neutral100: color.scale($neutral-key, $lightness: 100%) !default;
-$neutral99: color.scale($neutral-key, $lightness: 98%) !default;
-$neutral98: color.scale($neutral-key, $lightness: 96%) !default;
-$neutral97: color.scale($neutral-key, $lightness: 94%) !default;
-$neutral96: color.scale($neutral-key, $lightness: 92%) !default;
-$neutral95: color.scale($neutral-key, $lightness: 90%) !default;
-$neutral94: color.scale($neutral-key, $lightness: 88%) !default;
-$neutral93: color.scale($neutral-key, $lightness: 86%) !default;
-$neutral92: color.scale($neutral-key, $lightness: 84%) !default;
-$neutral91: color.scale($neutral-key, $lightness: 82%) !default;
-$neutral90: color.scale($neutral-key, $lightness: 80%) !default;
-$neutral89: color.scale($neutral-key, $lightness: 78%) !default;
-$neutral88: color.scale($neutral-key, $lightness: 76%) !default;
-$neutral87: color.scale($neutral-key, $lightness: 74%) !default;
-$neutral86: color.scale($neutral-key, $lightness: 72%) !default;
-$neutral85: color.scale($neutral-key, $lightness: 70%) !default;
-$neutral84: color.scale($neutral-key, $lightness: 68%) !default;
-$neutral83: color.scale($neutral-key, $lightness: 66%) !default;
-$neutral82: color.scale($neutral-key, $lightness: 64%) !default;
-$neutral81: color.scale($neutral-key, $lightness: 62%) !default;
-$neutral80: color.scale($neutral-key, $lightness: 60%) !default;
-$neutral79: color.scale($neutral-key, $lightness: 58%) !default;
-$neutral78: color.scale($neutral-key, $lightness: 56%) !default;
-$neutral77: color.scale($neutral-key, $lightness: 54%) !default;
-$neutral76: color.scale($neutral-key, $lightness: 52%) !default;
-$neutral75: color.scale($neutral-key, $lightness: 50%) !default;
-$neutral74: color.scale($neutral-key, $lightness: 48%) !default;
-$neutral73: color.scale($neutral-key, $lightness: 46%) !default;
-$neutral72: color.scale($neutral-key, $lightness: 44%) !default;
-$neutral71: color.scale($neutral-key, $lightness: 42%) !default;
-$neutral70: color.scale($neutral-key, $lightness: 40%) !default;
-$neutral69: color.scale($neutral-key, $lightness: 38%) !default;
-$neutral68: color.scale($neutral-key, $lightness: 36%) !default;
-$neutral67: color.scale($neutral-key, $lightness: 34%) !default;
-$neutral66: color.scale($neutral-key, $lightness: 32%) !default;
-$neutral65: color.scale($neutral-key, $lightness: 30%) !default;
-$neutral64: color.scale($neutral-key, $lightness: 28%) !default;
-$neutral63: color.scale($neutral-key, $lightness: 26%) !default;
-$neutral62: color.scale($neutral-key, $lightness: 24%) !default;
-$neutral61: color.scale($neutral-key, $lightness: 22%) !default;
-$neutral60: color.scale($neutral-key, $lightness: 20%) !default;
-$neutral59: color.scale($neutral-key, $lightness: 18%) !default;
-$neutral58: color.scale($neutral-key, $lightness: 16%) !default;
-$neutral57: color.scale($neutral-key, $lightness: 14%) !default;
-$neutral56: color.scale($neutral-key, $lightness: 12%) !default;
-$neutral55: color.scale($neutral-key, $lightness: 10%) !default;
-$neutral54: color.scale($neutral-key, $lightness: 8%) !default;
-$neutral53: color.scale($neutral-key, $lightness: 6%) !default;
-$neutral52: color.scale($neutral-key, $lightness: 4%) !default;
-$neutral51: color.scale($neutral-key, $lightness: 2%) !default;
-$neutral50: $neutral-key !default;
-$neutral49: color.scale($neutral-key, $lightness: -2%) !default;
-$neutral48: color.scale($neutral-key, $lightness: -4%) !default;
-$neutral47: color.scale($neutral-key, $lightness: -6%) !default;
-$neutral46: color.scale($neutral-key, $lightness: -8%) !default;
-$neutral45: color.scale($neutral-key, $lightness: -10%) !default;
-$neutral44: color.scale($neutral-key, $lightness: -12%) !default;
-$neutral43: color.scale($neutral-key, $lightness: -14%) !default;
-$neutral42: color.scale($neutral-key, $lightness: -16%) !default;
-$neutral41: color.scale($neutral-key, $lightness: -18%) !default;
-$neutral40: color.scale($neutral-key, $lightness: -20%) !default;
-$neutral39: color.scale($neutral-key, $lightness: -22%) !default;
-$neutral38: color.scale($neutral-key, $lightness: -24%) !default;
-$neutral37: color.scale($neutral-key, $lightness: -26%) !default;
-$neutral36: color.scale($neutral-key, $lightness: -28%) !default;
-$neutral35: color.scale($neutral-key, $lightness: -30%) !default;
-$neutral34: color.scale($neutral-key, $lightness: -32%) !default;
-$neutral33: color.scale($neutral-key, $lightness: -34%) !default;
-$neutral32: color.scale($neutral-key, $lightness: -36%) !default;
-$neutral31: color.scale($neutral-key, $lightness: -38%) !default;
-$neutral30: color.scale($neutral-key, $lightness: -40%) !default;
-$neutral29: color.scale($neutral-key, $lightness: -42%) !default;
-$neutral28: color.scale($neutral-key, $lightness: -44%) !default;
-$neutral27: color.scale($neutral-key, $lightness: -46%) !default;
-$neutral26: color.scale($neutral-key, $lightness: -48%) !default;
-$neutral25: color.scale($neutral-key, $lightness: -50%) !default;
-$neutral24: color.scale($neutral-key, $lightness: -52%) !default;
-$neutral23: color.scale($neutral-key, $lightness: -54%) !default;
-$neutral22: color.scale($neutral-key, $lightness: -56%) !default;
-$neutral21: color.scale($neutral-key, $lightness: -58%) !default;
-$neutral20: color.scale($neutral-key, $lightness: -60%) !default;
-$neutral19: color.scale($neutral-key, $lightness: -62%) !default;
-$neutral18: color.scale($neutral-key, $lightness: -64%) !default;
-$neutral17: color.scale($neutral-key, $lightness: -66%) !default;
-$neutral16: color.scale($neutral-key, $lightness: -68%) !default;
-$neutral15: color.scale($neutral-key, $lightness: -70%) !default;
-$neutral14: color.scale($neutral-key, $lightness: -72%) !default;
-$neutral13: color.scale($neutral-key, $lightness: -74%) !default;
-$neutral12: color.scale($neutral-key, $lightness: -76%) !default;
-$neutral11: color.scale($neutral-key, $lightness: -78%) !default;
-$neutral10: color.scale($neutral-key, $lightness: -80%) !default;
-$neutral9: color.scale($neutral-key, $lightness: -82%) !default;
-$neutral8: color.scale($neutral-key, $lightness: -84%) !default;
-$neutral7: color.scale($neutral-key, $lightness: -86%) !default;
-$neutral6: color.scale($neutral-key, $lightness: -88%) !default;
-$neutral5: color.scale($neutral-key, $lightness: -90%) !default;
-$neutral4: color.scale($neutral-key, $lightness: -92%) !default;
-$neutral3: color.scale($neutral-key, $lightness: -94%) !default;
-$neutral2: color.scale($neutral-key, $lightness: -96%) !default;
-$neutral1: color.scale($neutral-key, $lightness: -98%) !default;
-$neutral0: color.scale($neutral-key, $lightness: -100%) !default;
+$reference-palette-neutral100: color.scale($reference-palette-neutral-key, $lightness: 100%) !default;
+$reference-palette-neutral99: color.scale($reference-palette-neutral-key, $lightness: 98%) !default;
+$reference-palette-neutral98: color.scale($reference-palette-neutral-key, $lightness: 96%) !default;
+$reference-palette-neutral97: color.scale($reference-palette-neutral-key, $lightness: 94%) !default;
+$reference-palette-neutral96: color.scale($reference-palette-neutral-key, $lightness: 92%) !default;
+$reference-palette-neutral95: color.scale($reference-palette-neutral-key, $lightness: 90%) !default;
+$reference-palette-neutral94: color.scale($reference-palette-neutral-key, $lightness: 88%) !default;
+$reference-palette-neutral93: color.scale($reference-palette-neutral-key, $lightness: 86%) !default;
+$reference-palette-neutral92: color.scale($reference-palette-neutral-key, $lightness: 84%) !default;
+$reference-palette-neutral91: color.scale($reference-palette-neutral-key, $lightness: 82%) !default;
+$reference-palette-neutral90: color.scale($reference-palette-neutral-key, $lightness: 80%) !default;
+$reference-palette-neutral89: color.scale($reference-palette-neutral-key, $lightness: 78%) !default;
+$reference-palette-neutral88: color.scale($reference-palette-neutral-key, $lightness: 76%) !default;
+$reference-palette-neutral87: color.scale($reference-palette-neutral-key, $lightness: 74%) !default;
+$reference-palette-neutral86: color.scale($reference-palette-neutral-key, $lightness: 72%) !default;
+$reference-palette-neutral85: color.scale($reference-palette-neutral-key, $lightness: 70%) !default;
+$reference-palette-neutral84: color.scale($reference-palette-neutral-key, $lightness: 68%) !default;
+$reference-palette-neutral83: color.scale($reference-palette-neutral-key, $lightness: 66%) !default;
+$reference-palette-neutral82: color.scale($reference-palette-neutral-key, $lightness: 64%) !default;
+$reference-palette-neutral81: color.scale($reference-palette-neutral-key, $lightness: 62%) !default;
+$reference-palette-neutral80: color.scale($reference-palette-neutral-key, $lightness: 60%) !default;
+$reference-palette-neutral79: color.scale($reference-palette-neutral-key, $lightness: 58%) !default;
+$reference-palette-neutral78: color.scale($reference-palette-neutral-key, $lightness: 56%) !default;
+$reference-palette-neutral77: color.scale($reference-palette-neutral-key, $lightness: 54%) !default;
+$reference-palette-neutral76: color.scale($reference-palette-neutral-key, $lightness: 52%) !default;
+$reference-palette-neutral75: color.scale($reference-palette-neutral-key, $lightness: 50%) !default;
+$reference-palette-neutral74: color.scale($reference-palette-neutral-key, $lightness: 48%) !default;
+$reference-palette-neutral73: color.scale($reference-palette-neutral-key, $lightness: 46%) !default;
+$reference-palette-neutral72: color.scale($reference-palette-neutral-key, $lightness: 44%) !default;
+$reference-palette-neutral71: color.scale($reference-palette-neutral-key, $lightness: 42%) !default;
+$reference-palette-neutral70: color.scale($reference-palette-neutral-key, $lightness: 40%) !default;
+$reference-palette-neutral69: color.scale($reference-palette-neutral-key, $lightness: 38%) !default;
+$reference-palette-neutral68: color.scale($reference-palette-neutral-key, $lightness: 36%) !default;
+$reference-palette-neutral67: color.scale($reference-palette-neutral-key, $lightness: 34%) !default;
+$reference-palette-neutral66: color.scale($reference-palette-neutral-key, $lightness: 32%) !default;
+$reference-palette-neutral65: color.scale($reference-palette-neutral-key, $lightness: 30%) !default;
+$reference-palette-neutral64: color.scale($reference-palette-neutral-key, $lightness: 28%) !default;
+$reference-palette-neutral63: color.scale($reference-palette-neutral-key, $lightness: 26%) !default;
+$reference-palette-neutral62: color.scale($reference-palette-neutral-key, $lightness: 24%) !default;
+$reference-palette-neutral61: color.scale($reference-palette-neutral-key, $lightness: 22%) !default;
+$reference-palette-neutral60: color.scale($reference-palette-neutral-key, $lightness: 20%) !default;
+$reference-palette-neutral59: color.scale($reference-palette-neutral-key, $lightness: 18%) !default;
+$reference-palette-neutral58: color.scale($reference-palette-neutral-key, $lightness: 16%) !default;
+$reference-palette-neutral57: color.scale($reference-palette-neutral-key, $lightness: 14%) !default;
+$reference-palette-neutral56: color.scale($reference-palette-neutral-key, $lightness: 12%) !default;
+$reference-palette-neutral55: color.scale($reference-palette-neutral-key, $lightness: 10%) !default;
+$reference-palette-neutral54: color.scale($reference-palette-neutral-key, $lightness: 8%) !default;
+$reference-palette-neutral53: color.scale($reference-palette-neutral-key, $lightness: 6%) !default;
+$reference-palette-neutral52: color.scale($reference-palette-neutral-key, $lightness: 4%) !default;
+$reference-palette-neutral51: color.scale($reference-palette-neutral-key, $lightness: 2%) !default;
+$reference-palette-neutral50: $reference-palette-neutral-key !default;
+$reference-palette-neutral49: color.scale($reference-palette-neutral-key, $lightness: -2%) !default;
+$reference-palette-neutral48: color.scale($reference-palette-neutral-key, $lightness: -4%) !default;
+$reference-palette-neutral47: color.scale($reference-palette-neutral-key, $lightness: -6%) !default;
+$reference-palette-neutral46: color.scale($reference-palette-neutral-key, $lightness: -8%) !default;
+$reference-palette-neutral45: color.scale($reference-palette-neutral-key, $lightness: -10%) !default;
+$reference-palette-neutral44: color.scale($reference-palette-neutral-key, $lightness: -12%) !default;
+$reference-palette-neutral43: color.scale($reference-palette-neutral-key, $lightness: -14%) !default;
+$reference-palette-neutral42: color.scale($reference-palette-neutral-key, $lightness: -16%) !default;
+$reference-palette-neutral41: color.scale($reference-palette-neutral-key, $lightness: -18%) !default;
+$reference-palette-neutral40: color.scale($reference-palette-neutral-key, $lightness: -20%) !default;
+$reference-palette-neutral39: color.scale($reference-palette-neutral-key, $lightness: -22%) !default;
+$reference-palette-neutral38: color.scale($reference-palette-neutral-key, $lightness: -24%) !default;
+$reference-palette-neutral37: color.scale($reference-palette-neutral-key, $lightness: -26%) !default;
+$reference-palette-neutral36: color.scale($reference-palette-neutral-key, $lightness: -28%) !default;
+$reference-palette-neutral35: color.scale($reference-palette-neutral-key, $lightness: -30%) !default;
+$reference-palette-neutral34: color.scale($reference-palette-neutral-key, $lightness: -32%) !default;
+$reference-palette-neutral33: color.scale($reference-palette-neutral-key, $lightness: -34%) !default;
+$reference-palette-neutral32: color.scale($reference-palette-neutral-key, $lightness: -36%) !default;
+$reference-palette-neutral31: color.scale($reference-palette-neutral-key, $lightness: -38%) !default;
+$reference-palette-neutral30: color.scale($reference-palette-neutral-key, $lightness: -40%) !default;
+$reference-palette-neutral29: color.scale($reference-palette-neutral-key, $lightness: -42%) !default;
+$reference-palette-neutral28: color.scale($reference-palette-neutral-key, $lightness: -44%) !default;
+$reference-palette-neutral27: color.scale($reference-palette-neutral-key, $lightness: -46%) !default;
+$reference-palette-neutral26: color.scale($reference-palette-neutral-key, $lightness: -48%) !default;
+$reference-palette-neutral25: color.scale($reference-palette-neutral-key, $lightness: -50%) !default;
+$reference-palette-neutral24: color.scale($reference-palette-neutral-key, $lightness: -52%) !default;
+$reference-palette-neutral23: color.scale($reference-palette-neutral-key, $lightness: -54%) !default;
+$reference-palette-neutral22: color.scale($reference-palette-neutral-key, $lightness: -56%) !default;
+$reference-palette-neutral21: color.scale($reference-palette-neutral-key, $lightness: -58%) !default;
+$reference-palette-neutral20: color.scale($reference-palette-neutral-key, $lightness: -60%) !default;
+$reference-palette-neutral19: color.scale($reference-palette-neutral-key, $lightness: -62%) !default;
+$reference-palette-neutral18: color.scale($reference-palette-neutral-key, $lightness: -64%) !default;
+$reference-palette-neutral17: color.scale($reference-palette-neutral-key, $lightness: -66%) !default;
+$reference-palette-neutral16: color.scale($reference-palette-neutral-key, $lightness: -68%) !default;
+$reference-palette-neutral15: color.scale($reference-palette-neutral-key, $lightness: -70%) !default;
+$reference-palette-neutral14: color.scale($reference-palette-neutral-key, $lightness: -72%) !default;
+$reference-palette-neutral13: color.scale($reference-palette-neutral-key, $lightness: -74%) !default;
+$reference-palette-neutral12: color.scale($reference-palette-neutral-key, $lightness: -76%) !default;
+$reference-palette-neutral11: color.scale($reference-palette-neutral-key, $lightness: -78%) !default;
+$reference-palette-neutral10: color.scale($reference-palette-neutral-key, $lightness: -80%) !default;
+$reference-palette-neutral9: color.scale($reference-palette-neutral-key, $lightness: -82%) !default;
+$reference-palette-neutral8: color.scale($reference-palette-neutral-key, $lightness: -84%) !default;
+$reference-palette-neutral7: color.scale($reference-palette-neutral-key, $lightness: -86%) !default;
+$reference-palette-neutral6: color.scale($reference-palette-neutral-key, $lightness: -88%) !default;
+$reference-palette-neutral5: color.scale($reference-palette-neutral-key, $lightness: -90%) !default;
+$reference-palette-neutral4: color.scale($reference-palette-neutral-key, $lightness: -92%) !default;
+$reference-palette-neutral3: color.scale($reference-palette-neutral-key, $lightness: -94%) !default;
+$reference-palette-neutral2: color.scale($reference-palette-neutral-key, $lightness: -96%) !default;
+$reference-palette-neutral1: color.scale($reference-palette-neutral-key, $lightness: -98%) !default;
+$reference-palette-neutral0: color.scale($reference-palette-neutral-key, $lightness: -100%) !default;
 
-$neutrals: (
-    "neutral100": $neutral100,
-    "neutral99": $neutral99,
-    "neutral98": $neutral98,
-    "neutral97": $neutral97,
-    "neutral96": $neutral96,
-    "neutral95": $neutral95,
-    "neutral94": $neutral94,
-    "neutral93": $neutral93,
-    "neutral92": $neutral92,
-    "neutral91": $neutral91,
-    "neutral90": $neutral90,
-    "neutral89": $neutral89,
-    "neutral88": $neutral88,
-    "neutral87": $neutral87,
-    "neutral86": $neutral86,
-    "neutral85": $neutral85,
-    "neutral84": $neutral84,
-    "neutral83": $neutral83,
-    "neutral82": $neutral82,
-    "neutral81": $neutral81,
-    "neutral80": $neutral80,
-    "neutral79": $neutral79,
-    "neutral78": $neutral78,
-    "neutral77": $neutral77,
-    "neutral76": $neutral76,
-    "neutral75": $neutral75,
-    "neutral74": $neutral74,
-    "neutral73": $neutral73,
-    "neutral72": $neutral72,
-    "neutral71": $neutral71,
-    "neutral70": $neutral70,
-    "neutral69": $neutral69,
-    "neutral68": $neutral68,
-    "neutral67": $neutral67,
-    "neutral66": $neutral66,
-    "neutral65": $neutral65,
-    "neutral64": $neutral64,
-    "neutral63": $neutral63,
-    "neutral62": $neutral62,
-    "neutral61": $neutral61,
-    "neutral60": $neutral60,
-    "neutral59": $neutral59,
-    "neutral58": $neutral58,
-    "neutral57": $neutral57,
-    "neutral56": $neutral56,
-    "neutral55": $neutral55,
-    "neutral54": $neutral54,
-    "neutral53": $neutral53,
-    "neutral52": $neutral52,
-    "neutral51": $neutral51,
-    "neutral50": $neutral50,
-    "neutral49": $neutral49,
-    "neutral48": $neutral48,
-    "neutral47": $neutral47,
-    "neutral46": $neutral46,
-    "neutral45": $neutral45,
-    "neutral44": $neutral44,
-    "neutral43": $neutral43,
-    "neutral42": $neutral42,
-    "neutral41": $neutral41,
-    "neutral40": $neutral40,
-    "neutral39": $neutral39,
-    "neutral38": $neutral38,
-    "neutral37": $neutral37,
-    "neutral36": $neutral36,
-    "neutral35": $neutral35,
-    "neutral34": $neutral34,
-    "neutral33": $neutral33,
-    "neutral32": $neutral32,
-    "neutral31": $neutral31,
-    "neutral30": $neutral30,
-    "neutral29": $neutral29,
-    "neutral28": $neutral28,
-    "neutral27": $neutral27,
-    "neutral26": $neutral26,
-    "neutral25": $neutral25,
-    "neutral24": $neutral24,
-    "neutral23": $neutral23,
-    "neutral22": $neutral22,
-    "neutral21": $neutral21,
-    "neutral20": $neutral20,
-    "neutral19": $neutral19,
-    "neutral18": $neutral18,
-    "neutral17": $neutral17,
-    "neutral16": $neutral16,
-    "neutral15": $neutral15,
-    "neutral14": $neutral14,
-    "neutral13": $neutral13,
-    "neutral12": $neutral12,
-    "neutral11": $neutral11,
-    "neutral10": $neutral10,
-    "neutral9": $neutral9,
-    "neutral8": $neutral8,
-    "neutral7": $neutral7,
-    "neutral6": $neutral6,
-    "neutral5": $neutral5,
-    "neutral4": $neutral4,
-    "neutral3": $neutral3,
-    "neutral2": $neutral2,
-    "neutral1": $neutral1,
-    "neutral0": $neutral0,
+$reference-palette-neutrals: (
+    "reference-palette-neutral100": $reference-palette-neutral100,
+    "reference-palette-neutral99": $reference-palette-neutral99,
+    "reference-palette-neutral98": $reference-palette-neutral98,
+    "reference-palette-neutral97": $reference-palette-neutral97,
+    "reference-palette-neutral96": $reference-palette-neutral96,
+    "reference-palette-neutral95": $reference-palette-neutral95,
+    "reference-palette-neutral94": $reference-palette-neutral94,
+    "reference-palette-neutral93": $reference-palette-neutral93,
+    "reference-palette-neutral92": $reference-palette-neutral92,
+    "reference-palette-neutral91": $reference-palette-neutral91,
+    "reference-palette-neutral90": $reference-palette-neutral90,
+    "reference-palette-neutral89": $reference-palette-neutral89,
+    "reference-palette-neutral88": $reference-palette-neutral88,
+    "reference-palette-neutral87": $reference-palette-neutral87,
+    "reference-palette-neutral86": $reference-palette-neutral86,
+    "reference-palette-neutral85": $reference-palette-neutral85,
+    "reference-palette-neutral84": $reference-palette-neutral84,
+    "reference-palette-neutral83": $reference-palette-neutral83,
+    "reference-palette-neutral82": $reference-palette-neutral82,
+    "reference-palette-neutral81": $reference-palette-neutral81,
+    "reference-palette-neutral80": $reference-palette-neutral80,
+    "reference-palette-neutral79": $reference-palette-neutral79,
+    "reference-palette-neutral78": $reference-palette-neutral78,
+    "reference-palette-neutral77": $reference-palette-neutral77,
+    "reference-palette-neutral76": $reference-palette-neutral76,
+    "reference-palette-neutral75": $reference-palette-neutral75,
+    "reference-palette-neutral74": $reference-palette-neutral74,
+    "reference-palette-neutral73": $reference-palette-neutral73,
+    "reference-palette-neutral72": $reference-palette-neutral72,
+    "reference-palette-neutral71": $reference-palette-neutral71,
+    "reference-palette-neutral70": $reference-palette-neutral70,
+    "reference-palette-neutral69": $reference-palette-neutral69,
+    "reference-palette-neutral68": $reference-palette-neutral68,
+    "reference-palette-neutral67": $reference-palette-neutral67,
+    "reference-palette-neutral66": $reference-palette-neutral66,
+    "reference-palette-neutral65": $reference-palette-neutral65,
+    "reference-palette-neutral64": $reference-palette-neutral64,
+    "reference-palette-neutral63": $reference-palette-neutral63,
+    "reference-palette-neutral62": $reference-palette-neutral62,
+    "reference-palette-neutral61": $reference-palette-neutral61,
+    "reference-palette-neutral60": $reference-palette-neutral60,
+    "reference-palette-neutral59": $reference-palette-neutral59,
+    "reference-palette-neutral58": $reference-palette-neutral58,
+    "reference-palette-neutral57": $reference-palette-neutral57,
+    "reference-palette-neutral56": $reference-palette-neutral56,
+    "reference-palette-neutral55": $reference-palette-neutral55,
+    "reference-palette-neutral54": $reference-palette-neutral54,
+    "reference-palette-neutral53": $reference-palette-neutral53,
+    "reference-palette-neutral52": $reference-palette-neutral52,
+    "reference-palette-neutral51": $reference-palette-neutral51,
+    "reference-palette-neutral50": $reference-palette-neutral50,
+    "reference-palette-neutral49": $reference-palette-neutral49,
+    "reference-palette-neutral48": $reference-palette-neutral48,
+    "reference-palette-neutral47": $reference-palette-neutral47,
+    "reference-palette-neutral46": $reference-palette-neutral46,
+    "reference-palette-neutral45": $reference-palette-neutral45,
+    "reference-palette-neutral44": $reference-palette-neutral44,
+    "reference-palette-neutral43": $reference-palette-neutral43,
+    "reference-palette-neutral42": $reference-palette-neutral42,
+    "reference-palette-neutral41": $reference-palette-neutral41,
+    "reference-palette-neutral40": $reference-palette-neutral40,
+    "reference-palette-neutral39": $reference-palette-neutral39,
+    "reference-palette-neutral38": $reference-palette-neutral38,
+    "reference-palette-neutral37": $reference-palette-neutral37,
+    "reference-palette-neutral36": $reference-palette-neutral36,
+    "reference-palette-neutral35": $reference-palette-neutral35,
+    "reference-palette-neutral34": $reference-palette-neutral34,
+    "reference-palette-neutral33": $reference-palette-neutral33,
+    "reference-palette-neutral32": $reference-palette-neutral32,
+    "reference-palette-neutral31": $reference-palette-neutral31,
+    "reference-palette-neutral30": $reference-palette-neutral30,
+    "reference-palette-neutral29": $reference-palette-neutral29,
+    "reference-palette-neutral28": $reference-palette-neutral28,
+    "reference-palette-neutral27": $reference-palette-neutral27,
+    "reference-palette-neutral26": $reference-palette-neutral26,
+    "reference-palette-neutral25": $reference-palette-neutral25,
+    "reference-palette-neutral24": $reference-palette-neutral24,
+    "reference-palette-neutral23": $reference-palette-neutral23,
+    "reference-palette-neutral22": $reference-palette-neutral22,
+    "reference-palette-neutral21": $reference-palette-neutral21,
+    "reference-palette-neutral20": $reference-palette-neutral20,
+    "reference-palette-neutral19": $reference-palette-neutral19,
+    "reference-palette-neutral18": $reference-palette-neutral18,
+    "reference-palette-neutral17": $reference-palette-neutral17,
+    "reference-palette-neutral16": $reference-palette-neutral16,
+    "reference-palette-neutral15": $reference-palette-neutral15,
+    "reference-palette-neutral14": $reference-palette-neutral14,
+    "reference-palette-neutral13": $reference-palette-neutral13,
+    "reference-palette-neutral12": $reference-palette-neutral12,
+    "reference-palette-neutral11": $reference-palette-neutral11,
+    "reference-palette-neutral10": $reference-palette-neutral10,
+    "reference-palette-neutral9": $reference-palette-neutral9,
+    "reference-palette-neutral8": $reference-palette-neutral8,
+    "reference-palette-neutral7": $reference-palette-neutral7,
+    "reference-palette-neutral6": $reference-palette-neutral6,
+    "reference-palette-neutral5": $reference-palette-neutral5,
+    "reference-palette-neutral4": $reference-palette-neutral4,
+    "reference-palette-neutral3": $reference-palette-neutral3,
+    "reference-palette-neutral2": $reference-palette-neutral2,
+    "reference-palette-neutral1": $reference-palette-neutral1,
+    "reference-palette-neutral0": $reference-palette-neutral0,
 ) !default;
 
-$neutral-variant100: color.scale($neutral-variant-key, $lightness: 100%) !default;
-$neutral-variant99: color.scale($neutral-variant-key, $lightness: 98%) !default;
-$neutral-variant98: color.scale($neutral-variant-key, $lightness: 96%) !default;
-$neutral-variant97: color.scale($neutral-variant-key, $lightness: 94%) !default;
-$neutral-variant96: color.scale($neutral-variant-key, $lightness: 92%) !default;
-$neutral-variant95: color.scale($neutral-variant-key, $lightness: 90%) !default;
-$neutral-variant94: color.scale($neutral-variant-key, $lightness: 88%) !default;
-$neutral-variant93: color.scale($neutral-variant-key, $lightness: 86%) !default;
-$neutral-variant92: color.scale($neutral-variant-key, $lightness: 84%) !default;
-$neutral-variant91: color.scale($neutral-variant-key, $lightness: 82%) !default;
-$neutral-variant90: color.scale($neutral-variant-key, $lightness: 80%) !default;
-$neutral-variant89: color.scale($neutral-variant-key, $lightness: 78%) !default;
-$neutral-variant88: color.scale($neutral-variant-key, $lightness: 76%) !default;
-$neutral-variant87: color.scale($neutral-variant-key, $lightness: 74%) !default;
-$neutral-variant86: color.scale($neutral-variant-key, $lightness: 72%) !default;
-$neutral-variant85: color.scale($neutral-variant-key, $lightness: 70%) !default;
-$neutral-variant84: color.scale($neutral-variant-key, $lightness: 68%) !default;
-$neutral-variant83: color.scale($neutral-variant-key, $lightness: 66%) !default;
-$neutral-variant82: color.scale($neutral-variant-key, $lightness: 64%) !default;
-$neutral-variant81: color.scale($neutral-variant-key, $lightness: 62%) !default;
-$neutral-variant80: color.scale($neutral-variant-key, $lightness: 60%) !default;
-$neutral-variant79: color.scale($neutral-variant-key, $lightness: 58%) !default;
-$neutral-variant78: color.scale($neutral-variant-key, $lightness: 56%) !default;
-$neutral-variant77: color.scale($neutral-variant-key, $lightness: 54%) !default;
-$neutral-variant76: color.scale($neutral-variant-key, $lightness: 52%) !default;
-$neutral-variant75: color.scale($neutral-variant-key, $lightness: 50%) !default;
-$neutral-variant74: color.scale($neutral-variant-key, $lightness: 48%) !default;
-$neutral-variant73: color.scale($neutral-variant-key, $lightness: 46%) !default;
-$neutral-variant72: color.scale($neutral-variant-key, $lightness: 44%) !default;
-$neutral-variant71: color.scale($neutral-variant-key, $lightness: 42%) !default;
-$neutral-variant70: color.scale($neutral-variant-key, $lightness: 40%) !default;
-$neutral-variant69: color.scale($neutral-variant-key, $lightness: 38%) !default;
-$neutral-variant68: color.scale($neutral-variant-key, $lightness: 36%) !default;
-$neutral-variant67: color.scale($neutral-variant-key, $lightness: 34%) !default;
-$neutral-variant66: color.scale($neutral-variant-key, $lightness: 32%) !default;
-$neutral-variant65: color.scale($neutral-variant-key, $lightness: 30%) !default;
-$neutral-variant64: color.scale($neutral-variant-key, $lightness: 28%) !default;
-$neutral-variant63: color.scale($neutral-variant-key, $lightness: 26%) !default;
-$neutral-variant62: color.scale($neutral-variant-key, $lightness: 24%) !default;
-$neutral-variant61: color.scale($neutral-variant-key, $lightness: 22%) !default;
-$neutral-variant60: color.scale($neutral-variant-key, $lightness: 20%) !default;
-$neutral-variant59: color.scale($neutral-variant-key, $lightness: 18%) !default;
-$neutral-variant58: color.scale($neutral-variant-key, $lightness: 16%) !default;
-$neutral-variant57: color.scale($neutral-variant-key, $lightness: 14%) !default;
-$neutral-variant56: color.scale($neutral-variant-key, $lightness: 12%) !default;
-$neutral-variant55: color.scale($neutral-variant-key, $lightness: 10%) !default;
-$neutral-variant54: color.scale($neutral-variant-key, $lightness: 8%) !default;
-$neutral-variant53: color.scale($neutral-variant-key, $lightness: 6%) !default;
-$neutral-variant52: color.scale($neutral-variant-key, $lightness: 4%) !default;
-$neutral-variant51: color.scale($neutral-variant-key, $lightness: 2%) !default;
-$neutral-variant50: $neutral-variant-key !default;
-$neutral-variant49: color.scale($neutral-variant-key, $lightness: -2%) !default;
-$neutral-variant48: color.scale($neutral-variant-key, $lightness: -4%) !default;
-$neutral-variant47: color.scale($neutral-variant-key, $lightness: -6%) !default;
-$neutral-variant46: color.scale($neutral-variant-key, $lightness: -8%) !default;
-$neutral-variant45: color.scale($neutral-variant-key, $lightness: -10%) !default;
-$neutral-variant44: color.scale($neutral-variant-key, $lightness: -12%) !default;
-$neutral-variant43: color.scale($neutral-variant-key, $lightness: -14%) !default;
-$neutral-variant42: color.scale($neutral-variant-key, $lightness: -16%) !default;
-$neutral-variant41: color.scale($neutral-variant-key, $lightness: -18%) !default;
-$neutral-variant40: color.scale($neutral-variant-key, $lightness: -20%) !default;
-$neutral-variant39: color.scale($neutral-variant-key, $lightness: -22%) !default;
-$neutral-variant38: color.scale($neutral-variant-key, $lightness: -24%) !default;
-$neutral-variant37: color.scale($neutral-variant-key, $lightness: -26%) !default;
-$neutral-variant36: color.scale($neutral-variant-key, $lightness: -28%) !default;
-$neutral-variant35: color.scale($neutral-variant-key, $lightness: -30%) !default;
-$neutral-variant34: color.scale($neutral-variant-key, $lightness: -32%) !default;
-$neutral-variant33: color.scale($neutral-variant-key, $lightness: -34%) !default;
-$neutral-variant32: color.scale($neutral-variant-key, $lightness: -36%) !default;
-$neutral-variant31: color.scale($neutral-variant-key, $lightness: -38%) !default;
-$neutral-variant30: color.scale($neutral-variant-key, $lightness: -40%) !default;
-$neutral-variant29: color.scale($neutral-variant-key, $lightness: -42%) !default;
-$neutral-variant28: color.scale($neutral-variant-key, $lightness: -44%) !default;
-$neutral-variant27: color.scale($neutral-variant-key, $lightness: -46%) !default;
-$neutral-variant26: color.scale($neutral-variant-key, $lightness: -48%) !default;
-$neutral-variant25: color.scale($neutral-variant-key, $lightness: -50%) !default;
-$neutral-variant24: color.scale($neutral-variant-key, $lightness: -52%) !default;
-$neutral-variant23: color.scale($neutral-variant-key, $lightness: -54%) !default;
-$neutral-variant22: color.scale($neutral-variant-key, $lightness: -56%) !default;
-$neutral-variant21: color.scale($neutral-variant-key, $lightness: -58%) !default;
-$neutral-variant20: color.scale($neutral-variant-key, $lightness: -60%) !default;
-$neutral-variant19: color.scale($neutral-variant-key, $lightness: -62%) !default;
-$neutral-variant18: color.scale($neutral-variant-key, $lightness: -64%) !default;
-$neutral-variant17: color.scale($neutral-variant-key, $lightness: -66%) !default;
-$neutral-variant16: color.scale($neutral-variant-key, $lightness: -68%) !default;
-$neutral-variant15: color.scale($neutral-variant-key, $lightness: -70%) !default;
-$neutral-variant14: color.scale($neutral-variant-key, $lightness: -72%) !default;
-$neutral-variant13: color.scale($neutral-variant-key, $lightness: -74%) !default;
-$neutral-variant12: color.scale($neutral-variant-key, $lightness: -76%) !default;
-$neutral-variant11: color.scale($neutral-variant-key, $lightness: -78%) !default;
-$neutral-variant10: color.scale($neutral-variant-key, $lightness: -80%) !default;
-$neutral-variant9: color.scale($neutral-variant-key, $lightness: -82%) !default;
-$neutral-variant8: color.scale($neutral-variant-key, $lightness: -84%) !default;
-$neutral-variant7: color.scale($neutral-variant-key, $lightness: -86%) !default;
-$neutral-variant6: color.scale($neutral-variant-key, $lightness: -88%) !default;
-$neutral-variant5: color.scale($neutral-variant-key, $lightness: -90%) !default;
-$neutral-variant4: color.scale($neutral-variant-key, $lightness: -92%) !default;
-$neutral-variant3: color.scale($neutral-variant-key, $lightness: -94%) !default;
-$neutral-variant2: color.scale($neutral-variant-key, $lightness: -96%) !default;
-$neutral-variant1: color.scale($neutral-variant-key, $lightness: -98%) !default;
-$neutral-variant0: color.scale($neutral-variant-key, $lightness: -100%) !default;
+$reference-palette-neutral-variant100: color.scale($reference-palette-neutral-variant-key, $lightness: 100%) !default;
+$reference-palette-neutral-variant99: color.scale($reference-palette-neutral-variant-key, $lightness: 98%) !default;
+$reference-palette-neutral-variant98: color.scale($reference-palette-neutral-variant-key, $lightness: 96%) !default;
+$reference-palette-neutral-variant97: color.scale($reference-palette-neutral-variant-key, $lightness: 94%) !default;
+$reference-palette-neutral-variant96: color.scale($reference-palette-neutral-variant-key, $lightness: 92%) !default;
+$reference-palette-neutral-variant95: color.scale($reference-palette-neutral-variant-key, $lightness: 90%) !default;
+$reference-palette-neutral-variant94: color.scale($reference-palette-neutral-variant-key, $lightness: 88%) !default;
+$reference-palette-neutral-variant93: color.scale($reference-palette-neutral-variant-key, $lightness: 86%) !default;
+$reference-palette-neutral-variant92: color.scale($reference-palette-neutral-variant-key, $lightness: 84%) !default;
+$reference-palette-neutral-variant91: color.scale($reference-palette-neutral-variant-key, $lightness: 82%) !default;
+$reference-palette-neutral-variant90: color.scale($reference-palette-neutral-variant-key, $lightness: 80%) !default;
+$reference-palette-neutral-variant89: color.scale($reference-palette-neutral-variant-key, $lightness: 78%) !default;
+$reference-palette-neutral-variant88: color.scale($reference-palette-neutral-variant-key, $lightness: 76%) !default;
+$reference-palette-neutral-variant87: color.scale($reference-palette-neutral-variant-key, $lightness: 74%) !default;
+$reference-palette-neutral-variant86: color.scale($reference-palette-neutral-variant-key, $lightness: 72%) !default;
+$reference-palette-neutral-variant85: color.scale($reference-palette-neutral-variant-key, $lightness: 70%) !default;
+$reference-palette-neutral-variant84: color.scale($reference-palette-neutral-variant-key, $lightness: 68%) !default;
+$reference-palette-neutral-variant83: color.scale($reference-palette-neutral-variant-key, $lightness: 66%) !default;
+$reference-palette-neutral-variant82: color.scale($reference-palette-neutral-variant-key, $lightness: 64%) !default;
+$reference-palette-neutral-variant81: color.scale($reference-palette-neutral-variant-key, $lightness: 62%) !default;
+$reference-palette-neutral-variant80: color.scale($reference-palette-neutral-variant-key, $lightness: 60%) !default;
+$reference-palette-neutral-variant79: color.scale($reference-palette-neutral-variant-key, $lightness: 58%) !default;
+$reference-palette-neutral-variant78: color.scale($reference-palette-neutral-variant-key, $lightness: 56%) !default;
+$reference-palette-neutral-variant77: color.scale($reference-palette-neutral-variant-key, $lightness: 54%) !default;
+$reference-palette-neutral-variant76: color.scale($reference-palette-neutral-variant-key, $lightness: 52%) !default;
+$reference-palette-neutral-variant75: color.scale($reference-palette-neutral-variant-key, $lightness: 50%) !default;
+$reference-palette-neutral-variant74: color.scale($reference-palette-neutral-variant-key, $lightness: 48%) !default;
+$reference-palette-neutral-variant73: color.scale($reference-palette-neutral-variant-key, $lightness: 46%) !default;
+$reference-palette-neutral-variant72: color.scale($reference-palette-neutral-variant-key, $lightness: 44%) !default;
+$reference-palette-neutral-variant71: color.scale($reference-palette-neutral-variant-key, $lightness: 42%) !default;
+$reference-palette-neutral-variant70: color.scale($reference-palette-neutral-variant-key, $lightness: 40%) !default;
+$reference-palette-neutral-variant69: color.scale($reference-palette-neutral-variant-key, $lightness: 38%) !default;
+$reference-palette-neutral-variant68: color.scale($reference-palette-neutral-variant-key, $lightness: 36%) !default;
+$reference-palette-neutral-variant67: color.scale($reference-palette-neutral-variant-key, $lightness: 34%) !default;
+$reference-palette-neutral-variant66: color.scale($reference-palette-neutral-variant-key, $lightness: 32%) !default;
+$reference-palette-neutral-variant65: color.scale($reference-palette-neutral-variant-key, $lightness: 30%) !default;
+$reference-palette-neutral-variant64: color.scale($reference-palette-neutral-variant-key, $lightness: 28%) !default;
+$reference-palette-neutral-variant63: color.scale($reference-palette-neutral-variant-key, $lightness: 26%) !default;
+$reference-palette-neutral-variant62: color.scale($reference-palette-neutral-variant-key, $lightness: 24%) !default;
+$reference-palette-neutral-variant61: color.scale($reference-palette-neutral-variant-key, $lightness: 22%) !default;
+$reference-palette-neutral-variant60: color.scale($reference-palette-neutral-variant-key, $lightness: 20%) !default;
+$reference-palette-neutral-variant59: color.scale($reference-palette-neutral-variant-key, $lightness: 18%) !default;
+$reference-palette-neutral-variant58: color.scale($reference-palette-neutral-variant-key, $lightness: 16%) !default;
+$reference-palette-neutral-variant57: color.scale($reference-palette-neutral-variant-key, $lightness: 14%) !default;
+$reference-palette-neutral-variant56: color.scale($reference-palette-neutral-variant-key, $lightness: 12%) !default;
+$reference-palette-neutral-variant55: color.scale($reference-palette-neutral-variant-key, $lightness: 10%) !default;
+$reference-palette-neutral-variant54: color.scale($reference-palette-neutral-variant-key, $lightness: 8%) !default;
+$reference-palette-neutral-variant53: color.scale($reference-palette-neutral-variant-key, $lightness: 6%) !default;
+$reference-palette-neutral-variant52: color.scale($reference-palette-neutral-variant-key, $lightness: 4%) !default;
+$reference-palette-neutral-variant51: color.scale($reference-palette-neutral-variant-key, $lightness: 2%) !default;
+$reference-palette-neutral-variant50: $reference-palette-neutral-variant-key !default;
+$reference-palette-neutral-variant49: color.scale($reference-palette-neutral-variant-key, $lightness: -2%) !default;
+$reference-palette-neutral-variant48: color.scale($reference-palette-neutral-variant-key, $lightness: -4%) !default;
+$reference-palette-neutral-variant47: color.scale($reference-palette-neutral-variant-key, $lightness: -6%) !default;
+$reference-palette-neutral-variant46: color.scale($reference-palette-neutral-variant-key, $lightness: -8%) !default;
+$reference-palette-neutral-variant45: color.scale($reference-palette-neutral-variant-key, $lightness: -10%) !default;
+$reference-palette-neutral-variant44: color.scale($reference-palette-neutral-variant-key, $lightness: -12%) !default;
+$reference-palette-neutral-variant43: color.scale($reference-palette-neutral-variant-key, $lightness: -14%) !default;
+$reference-palette-neutral-variant42: color.scale($reference-palette-neutral-variant-key, $lightness: -16%) !default;
+$reference-palette-neutral-variant41: color.scale($reference-palette-neutral-variant-key, $lightness: -18%) !default;
+$reference-palette-neutral-variant40: color.scale($reference-palette-neutral-variant-key, $lightness: -20%) !default;
+$reference-palette-neutral-variant39: color.scale($reference-palette-neutral-variant-key, $lightness: -22%) !default;
+$reference-palette-neutral-variant38: color.scale($reference-palette-neutral-variant-key, $lightness: -24%) !default;
+$reference-palette-neutral-variant37: color.scale($reference-palette-neutral-variant-key, $lightness: -26%) !default;
+$reference-palette-neutral-variant36: color.scale($reference-palette-neutral-variant-key, $lightness: -28%) !default;
+$reference-palette-neutral-variant35: color.scale($reference-palette-neutral-variant-key, $lightness: -30%) !default;
+$reference-palette-neutral-variant34: color.scale($reference-palette-neutral-variant-key, $lightness: -32%) !default;
+$reference-palette-neutral-variant33: color.scale($reference-palette-neutral-variant-key, $lightness: -34%) !default;
+$reference-palette-neutral-variant32: color.scale($reference-palette-neutral-variant-key, $lightness: -36%) !default;
+$reference-palette-neutral-variant31: color.scale($reference-palette-neutral-variant-key, $lightness: -38%) !default;
+$reference-palette-neutral-variant30: color.scale($reference-palette-neutral-variant-key, $lightness: -40%) !default;
+$reference-palette-neutral-variant29: color.scale($reference-palette-neutral-variant-key, $lightness: -42%) !default;
+$reference-palette-neutral-variant28: color.scale($reference-palette-neutral-variant-key, $lightness: -44%) !default;
+$reference-palette-neutral-variant27: color.scale($reference-palette-neutral-variant-key, $lightness: -46%) !default;
+$reference-palette-neutral-variant26: color.scale($reference-palette-neutral-variant-key, $lightness: -48%) !default;
+$reference-palette-neutral-variant25: color.scale($reference-palette-neutral-variant-key, $lightness: -50%) !default;
+$reference-palette-neutral-variant24: color.scale($reference-palette-neutral-variant-key, $lightness: -52%) !default;
+$reference-palette-neutral-variant23: color.scale($reference-palette-neutral-variant-key, $lightness: -54%) !default;
+$reference-palette-neutral-variant22: color.scale($reference-palette-neutral-variant-key, $lightness: -56%) !default;
+$reference-palette-neutral-variant21: color.scale($reference-palette-neutral-variant-key, $lightness: -58%) !default;
+$reference-palette-neutral-variant20: color.scale($reference-palette-neutral-variant-key, $lightness: -60%) !default;
+$reference-palette-neutral-variant19: color.scale($reference-palette-neutral-variant-key, $lightness: -62%) !default;
+$reference-palette-neutral-variant18: color.scale($reference-palette-neutral-variant-key, $lightness: -64%) !default;
+$reference-palette-neutral-variant17: color.scale($reference-palette-neutral-variant-key, $lightness: -66%) !default;
+$reference-palette-neutral-variant16: color.scale($reference-palette-neutral-variant-key, $lightness: -68%) !default;
+$reference-palette-neutral-variant15: color.scale($reference-palette-neutral-variant-key, $lightness: -70%) !default;
+$reference-palette-neutral-variant14: color.scale($reference-palette-neutral-variant-key, $lightness: -72%) !default;
+$reference-palette-neutral-variant13: color.scale($reference-palette-neutral-variant-key, $lightness: -74%) !default;
+$reference-palette-neutral-variant12: color.scale($reference-palette-neutral-variant-key, $lightness: -76%) !default;
+$reference-palette-neutral-variant11: color.scale($reference-palette-neutral-variant-key, $lightness: -78%) !default;
+$reference-palette-neutral-variant10: color.scale($reference-palette-neutral-variant-key, $lightness: -80%) !default;
+$reference-palette-neutral-variant9: color.scale($reference-palette-neutral-variant-key, $lightness: -82%) !default;
+$reference-palette-neutral-variant8: color.scale($reference-palette-neutral-variant-key, $lightness: -84%) !default;
+$reference-palette-neutral-variant7: color.scale($reference-palette-neutral-variant-key, $lightness: -86%) !default;
+$reference-palette-neutral-variant6: color.scale($reference-palette-neutral-variant-key, $lightness: -88%) !default;
+$reference-palette-neutral-variant5: color.scale($reference-palette-neutral-variant-key, $lightness: -90%) !default;
+$reference-palette-neutral-variant4: color.scale($reference-palette-neutral-variant-key, $lightness: -92%) !default;
+$reference-palette-neutral-variant3: color.scale($reference-palette-neutral-variant-key, $lightness: -94%) !default;
+$reference-palette-neutral-variant2: color.scale($reference-palette-neutral-variant-key, $lightness: -96%) !default;
+$reference-palette-neutral-variant1: color.scale($reference-palette-neutral-variant-key, $lightness: -98%) !default;
+$reference-palette-neutral-variant0: color.scale($reference-palette-neutral-variant-key, $lightness: -100%) !default;
 
-$neutral-variants: (
-    "neutral-variant100": $neutral-variant100,
-    "neutral-variant99": $neutral-variant99,
-    "neutral-variant98": $neutral-variant98,
-    "neutral-variant97": $neutral-variant97,
-    "neutral-variant96": $neutral-variant96,
-    "neutral-variant95": $neutral-variant95,
-    "neutral-variant94": $neutral-variant94,
-    "neutral-variant93": $neutral-variant93,
-    "neutral-variant92": $neutral-variant92,
-    "neutral-variant91": $neutral-variant91,
-    "neutral-variant90": $neutral-variant90,
-    "neutral-variant89": $neutral-variant89,
-    "neutral-variant88": $neutral-variant88,
-    "neutral-variant87": $neutral-variant87,
-    "neutral-variant86": $neutral-variant86,
-    "neutral-variant85": $neutral-variant85,
-    "neutral-variant84": $neutral-variant84,
-    "neutral-variant83": $neutral-variant83,
-    "neutral-variant82": $neutral-variant82,
-    "neutral-variant81": $neutral-variant81,
-    "neutral-variant80": $neutral-variant80,
-    "neutral-variant79": $neutral-variant79,
-    "neutral-variant78": $neutral-variant78,
-    "neutral-variant77": $neutral-variant77,
-    "neutral-variant76": $neutral-variant76,
-    "neutral-variant75": $neutral-variant75,
-    "neutral-variant74": $neutral-variant74,
-    "neutral-variant73": $neutral-variant73,
-    "neutral-variant72": $neutral-variant72,
-    "neutral-variant71": $neutral-variant71,
-    "neutral-variant70": $neutral-variant70,
-    "neutral-variant69": $neutral-variant69,
-    "neutral-variant68": $neutral-variant68,
-    "neutral-variant67": $neutral-variant67,
-    "neutral-variant66": $neutral-variant66,
-    "neutral-variant65": $neutral-variant65,
-    "neutral-variant64": $neutral-variant64,
-    "neutral-variant63": $neutral-variant63,
-    "neutral-variant62": $neutral-variant62,
-    "neutral-variant61": $neutral-variant61,
-    "neutral-variant60": $neutral-variant60,
-    "neutral-variant59": $neutral-variant59,
-    "neutral-variant58": $neutral-variant58,
-    "neutral-variant57": $neutral-variant57,
-    "neutral-variant56": $neutral-variant56,
-    "neutral-variant55": $neutral-variant55,
-    "neutral-variant54": $neutral-variant54,
-    "neutral-variant53": $neutral-variant53,
-    "neutral-variant52": $neutral-variant52,
-    "neutral-variant51": $neutral-variant51,
-    "neutral-variant50": $neutral-variant50,
-    "neutral-variant49": $neutral-variant49,
-    "neutral-variant48": $neutral-variant48,
-    "neutral-variant47": $neutral-variant47,
-    "neutral-variant46": $neutral-variant46,
-    "neutral-variant45": $neutral-variant45,
-    "neutral-variant44": $neutral-variant44,
-    "neutral-variant43": $neutral-variant43,
-    "neutral-variant42": $neutral-variant42,
-    "neutral-variant41": $neutral-variant41,
-    "neutral-variant40": $neutral-variant40,
-    "neutral-variant39": $neutral-variant39,
-    "neutral-variant38": $neutral-variant38,
-    "neutral-variant37": $neutral-variant37,
-    "neutral-variant36": $neutral-variant36,
-    "neutral-variant35": $neutral-variant35,
-    "neutral-variant34": $neutral-variant34,
-    "neutral-variant33": $neutral-variant33,
-    "neutral-variant32": $neutral-variant32,
-    "neutral-variant31": $neutral-variant31,
-    "neutral-variant30": $neutral-variant30,
-    "neutral-variant29": $neutral-variant29,
-    "neutral-variant28": $neutral-variant28,
-    "neutral-variant27": $neutral-variant27,
-    "neutral-variant26": $neutral-variant26,
-    "neutral-variant25": $neutral-variant25,
-    "neutral-variant24": $neutral-variant24,
-    "neutral-variant23": $neutral-variant23,
-    "neutral-variant22": $neutral-variant22,
-    "neutral-variant21": $neutral-variant21,
-    "neutral-variant20": $neutral-variant20,
-    "neutral-variant19": $neutral-variant19,
-    "neutral-variant18": $neutral-variant18,
-    "neutral-variant17": $neutral-variant17,
-    "neutral-variant16": $neutral-variant16,
-    "neutral-variant15": $neutral-variant15,
-    "neutral-variant14": $neutral-variant14,
-    "neutral-variant13": $neutral-variant13,
-    "neutral-variant12": $neutral-variant12,
-    "neutral-variant11": $neutral-variant11,
-    "neutral-variant10": $neutral-variant10,
-    "neutral-variant9": $neutral-variant9,
-    "neutral-variant8": $neutral-variant8,
-    "neutral-variant7": $neutral-variant7,
-    "neutral-variant6": $neutral-variant6,
-    "neutral-variant5": $neutral-variant5,
-    "neutral-variant4": $neutral-variant4,
-    "neutral-variant3": $neutral-variant3,
-    "neutral-variant2": $neutral-variant2,
-    "neutral-variant1": $neutral-variant1,
-    "neutral-variant0": $neutral-variant0,
+$reference-palette-neutral-variants: (
+    "reference-palette-neutral-variant100": $reference-palette-neutral-variant100,
+    "reference-palette-neutral-variant99": $reference-palette-neutral-variant99,
+    "reference-palette-neutral-variant98": $reference-palette-neutral-variant98,
+    "reference-palette-neutral-variant97": $reference-palette-neutral-variant97,
+    "reference-palette-neutral-variant96": $reference-palette-neutral-variant96,
+    "reference-palette-neutral-variant95": $reference-palette-neutral-variant95,
+    "reference-palette-neutral-variant94": $reference-palette-neutral-variant94,
+    "reference-palette-neutral-variant93": $reference-palette-neutral-variant93,
+    "reference-palette-neutral-variant92": $reference-palette-neutral-variant92,
+    "reference-palette-neutral-variant91": $reference-palette-neutral-variant91,
+    "reference-palette-neutral-variant90": $reference-palette-neutral-variant90,
+    "reference-palette-neutral-variant89": $reference-palette-neutral-variant89,
+    "reference-palette-neutral-variant88": $reference-palette-neutral-variant88,
+    "reference-palette-neutral-variant87": $reference-palette-neutral-variant87,
+    "reference-palette-neutral-variant86": $reference-palette-neutral-variant86,
+    "reference-palette-neutral-variant85": $reference-palette-neutral-variant85,
+    "reference-palette-neutral-variant84": $reference-palette-neutral-variant84,
+    "reference-palette-neutral-variant83": $reference-palette-neutral-variant83,
+    "reference-palette-neutral-variant82": $reference-palette-neutral-variant82,
+    "reference-palette-neutral-variant81": $reference-palette-neutral-variant81,
+    "reference-palette-neutral-variant80": $reference-palette-neutral-variant80,
+    "reference-palette-neutral-variant79": $reference-palette-neutral-variant79,
+    "reference-palette-neutral-variant78": $reference-palette-neutral-variant78,
+    "reference-palette-neutral-variant77": $reference-palette-neutral-variant77,
+    "reference-palette-neutral-variant76": $reference-palette-neutral-variant76,
+    "reference-palette-neutral-variant75": $reference-palette-neutral-variant75,
+    "reference-palette-neutral-variant74": $reference-palette-neutral-variant74,
+    "reference-palette-neutral-variant73": $reference-palette-neutral-variant73,
+    "reference-palette-neutral-variant72": $reference-palette-neutral-variant72,
+    "reference-palette-neutral-variant71": $reference-palette-neutral-variant71,
+    "reference-palette-neutral-variant70": $reference-palette-neutral-variant70,
+    "reference-palette-neutral-variant69": $reference-palette-neutral-variant69,
+    "reference-palette-neutral-variant68": $reference-palette-neutral-variant68,
+    "reference-palette-neutral-variant67": $reference-palette-neutral-variant67,
+    "reference-palette-neutral-variant66": $reference-palette-neutral-variant66,
+    "reference-palette-neutral-variant65": $reference-palette-neutral-variant65,
+    "reference-palette-neutral-variant64": $reference-palette-neutral-variant64,
+    "reference-palette-neutral-variant63": $reference-palette-neutral-variant63,
+    "reference-palette-neutral-variant62": $reference-palette-neutral-variant62,
+    "reference-palette-neutral-variant61": $reference-palette-neutral-variant61,
+    "reference-palette-neutral-variant60": $reference-palette-neutral-variant60,
+    "reference-palette-neutral-variant59": $reference-palette-neutral-variant59,
+    "reference-palette-neutral-variant58": $reference-palette-neutral-variant58,
+    "reference-palette-neutral-variant57": $reference-palette-neutral-variant57,
+    "reference-palette-neutral-variant56": $reference-palette-neutral-variant56,
+    "reference-palette-neutral-variant55": $reference-palette-neutral-variant55,
+    "reference-palette-neutral-variant54": $reference-palette-neutral-variant54,
+    "reference-palette-neutral-variant53": $reference-palette-neutral-variant53,
+    "reference-palette-neutral-variant52": $reference-palette-neutral-variant52,
+    "reference-palette-neutral-variant51": $reference-palette-neutral-variant51,
+    "reference-palette-neutral-variant50": $reference-palette-neutral-variant50,
+    "reference-palette-neutral-variant49": $reference-palette-neutral-variant49,
+    "reference-palette-neutral-variant48": $reference-palette-neutral-variant48,
+    "reference-palette-neutral-variant47": $reference-palette-neutral-variant47,
+    "reference-palette-neutral-variant46": $reference-palette-neutral-variant46,
+    "reference-palette-neutral-variant45": $reference-palette-neutral-variant45,
+    "reference-palette-neutral-variant44": $reference-palette-neutral-variant44,
+    "reference-palette-neutral-variant43": $reference-palette-neutral-variant43,
+    "reference-palette-neutral-variant42": $reference-palette-neutral-variant42,
+    "reference-palette-neutral-variant41": $reference-palette-neutral-variant41,
+    "reference-palette-neutral-variant40": $reference-palette-neutral-variant40,
+    "reference-palette-neutral-variant39": $reference-palette-neutral-variant39,
+    "reference-palette-neutral-variant38": $reference-palette-neutral-variant38,
+    "reference-palette-neutral-variant37": $reference-palette-neutral-variant37,
+    "reference-palette-neutral-variant36": $reference-palette-neutral-variant36,
+    "reference-palette-neutral-variant35": $reference-palette-neutral-variant35,
+    "reference-palette-neutral-variant34": $reference-palette-neutral-variant34,
+    "reference-palette-neutral-variant33": $reference-palette-neutral-variant33,
+    "reference-palette-neutral-variant32": $reference-palette-neutral-variant32,
+    "reference-palette-neutral-variant31": $reference-palette-neutral-variant31,
+    "reference-palette-neutral-variant30": $reference-palette-neutral-variant30,
+    "reference-palette-neutral-variant29": $reference-palette-neutral-variant29,
+    "reference-palette-neutral-variant28": $reference-palette-neutral-variant28,
+    "reference-palette-neutral-variant27": $reference-palette-neutral-variant27,
+    "reference-palette-neutral-variant26": $reference-palette-neutral-variant26,
+    "reference-palette-neutral-variant25": $reference-palette-neutral-variant25,
+    "reference-palette-neutral-variant24": $reference-palette-neutral-variant24,
+    "reference-palette-neutral-variant23": $reference-palette-neutral-variant23,
+    "reference-palette-neutral-variant22": $reference-palette-neutral-variant22,
+    "reference-palette-neutral-variant21": $reference-palette-neutral-variant21,
+    "reference-palette-neutral-variant20": $reference-palette-neutral-variant20,
+    "reference-palette-neutral-variant19": $reference-palette-neutral-variant19,
+    "reference-palette-neutral-variant18": $reference-palette-neutral-variant18,
+    "reference-palette-neutral-variant17": $reference-palette-neutral-variant17,
+    "reference-palette-neutral-variant16": $reference-palette-neutral-variant16,
+    "reference-palette-neutral-variant15": $reference-palette-neutral-variant15,
+    "reference-palette-neutral-variant14": $reference-palette-neutral-variant14,
+    "reference-palette-neutral-variant13": $reference-palette-neutral-variant13,
+    "reference-palette-neutral-variant12": $reference-palette-neutral-variant12,
+    "reference-palette-neutral-variant11": $reference-palette-neutral-variant11,
+    "reference-palette-neutral-variant10": $reference-palette-neutral-variant10,
+    "reference-palette-neutral-variant9": $reference-palette-neutral-variant9,
+    "reference-palette-neutral-variant8": $reference-palette-neutral-variant8,
+    "reference-palette-neutral-variant7": $reference-palette-neutral-variant7,
+    "reference-palette-neutral-variant6": $reference-palette-neutral-variant6,
+    "reference-palette-neutral-variant5": $reference-palette-neutral-variant5,
+    "reference-palette-neutral-variant4": $reference-palette-neutral-variant4,
+    "reference-palette-neutral-variant3": $reference-palette-neutral-variant3,
+    "reference-palette-neutral-variant2": $reference-palette-neutral-variant2,
+    "reference-palette-neutral-variant1": $reference-palette-neutral-variant1,
+    "reference-palette-neutral-variant0": $reference-palette-neutral-variant0,
 ) !default;
 
-$spacer1: 1.5rem !default;
-$spacer2: $spacer1 * 2 !default;
-$spacer3: $spacer1 * 3 !default;
-$spacer4: $spacer1 * 4 !default;
-$spacer5: $spacer1 * 5 !default;
-$spacer6: $spacer1 * 6 !default;
-$spacer7: $spacer1 * 7 !default;
-$spacer8: $spacer1 * 8 !default;
-$spacer9: $spacer1 * 9 !default;
-$spacer10: $spacer1 * 10 !default;
-$spacer11: $spacer1 * 11 !default;
-$spacer12: $spacer1 * 12 !default;
-$spacer13: $spacer1 * 13 !default;
-$spacer14: $spacer1 * 14 !default;
-$spacer15: $spacer1 * 15 !default;
-$spacer16: $spacer1 * 16 !default;
-$spacer17: $spacer1 * 17 !default;
-$spacer18: $spacer1 * 18 !default;
-$spacer19: $spacer1 * 19 !default;
-$spacer20: $spacer1 * 20 !default;
-$spacer21: $spacer1 * 21 !default;
-$spacer22: $spacer1 * 22 !default;
-$spacer23: $spacer1 * 23 !default;
-$spacer24: $spacer1 * 24 !default;
-$spacer25: $spacer1 * 25 !default;
-$spacer26: $spacer1 * 26 !default;
-$spacer27: $spacer1 * 27 !default;
-$spacer28: $spacer1 * 28 !default;
-$spacer29: $spacer1 * 29 !default;
-$spacer30: $spacer1 * 30 !default;
-$spacer31: $spacer1 * 31 !default;
-$spacer32: $spacer1 * 32 !default;
-$spacer33: $spacer1 * 33 !default;
-$spacer34: $spacer1 * 34 !default;
-$spacer35: $spacer1 * 35 !default;
-$spacer36: $spacer1 * 36 !default;
-$spacer36: $spacer1 * 36 !default;
-$spacer37: $spacer1 * 37 !default;
-$spacer38: $spacer1 * 38 !default;
-$spacer39: $spacer1 * 27 !default;
-$spacer40: $spacer1 * 40 !default;
+$reference-spacer1: 1.5rem !default;
+$reference-spacer2: $reference-spacer1 * 2 !default;
+$reference-spacer3: $reference-spacer1 * 3 !default;
+$reference-spacer4: $reference-spacer1 * 4 !default;
+$reference-spacer5: $reference-spacer1 * 5 !default;
+$reference-spacer6: $reference-spacer1 * 6 !default;
+$reference-spacer7: $reference-spacer1 * 7 !default;
+$reference-spacer8: $reference-spacer1 * 8 !default;
+$reference-spacer9: $reference-spacer1 * 9 !default;
+$reference-spacer10: $reference-spacer1 * 10 !default;
+$reference-spacer11: $reference-spacer1 * 11 !default;
+$reference-spacer12: $reference-spacer1 * 12 !default;
+$reference-spacer13: $reference-spacer1 * 13 !default;
+$reference-spacer14: $reference-spacer1 * 14 !default;
+$reference-spacer15: $reference-spacer1 * 15 !default;
+$reference-spacer16: $reference-spacer1 * 16 !default;
+$reference-spacer17: $reference-spacer1 * 17 !default;
+$reference-spacer18: $reference-spacer1 * 18 !default;
+$reference-spacer19: $reference-spacer1 * 19 !default;
+$reference-spacer20: $reference-spacer1 * 20 !default;
+$reference-spacer21: $reference-spacer1 * 21 !default;
+$reference-spacer22: $reference-spacer1 * 22 !default;
+$reference-spacer23: $reference-spacer1 * 23 !default;
+$reference-spacer24: $reference-spacer1 * 24 !default;
+$reference-spacer25: $reference-spacer1 * 25 !default;
+$reference-spacer26: $reference-spacer1 * 26 !default;
+$reference-spacer27: $reference-spacer1 * 27 !default;
+$reference-spacer28: $reference-spacer1 * 28 !default;
+$reference-spacer29: $reference-spacer1 * 29 !default;
+$reference-spacer30: $reference-spacer1 * 30 !default;
+$reference-spacer31: $reference-spacer1 * 31 !default;
+$reference-spacer32: $reference-spacer1 * 32 !default;
+$reference-spacer33: $reference-spacer1 * 33 !default;
+$reference-spacer34: $reference-spacer1 * 34 !default;
+$reference-spacer35: $reference-spacer1 * 35 !default;
+$reference-spacer36: $reference-spacer1 * 36 !default;
+$reference-spacer36: $reference-spacer1 * 36 !default;
+$reference-spacer37: $reference-spacer1 * 37 !default;
+$reference-spacer38: $reference-spacer1 * 38 !default;
+$reference-spacer39: $reference-spacer1 * 27 !default;
+$reference-spacer40: $reference-spacer1 * 40 !default;
 
-$spacers: (
-    "spacer1": $spacer1,
-    "spacer2": $spacer2,
-    "spacer3": $spacer3,
-    "spacer4": $spacer4,
-    "spacer5": $spacer5,
-    "spacer6": $spacer6,
-    "spacer7": $spacer7,
-    "spacer8": $spacer8,
-    "spacer9": $spacer9,
-    "spacer10": $spacer10,
-    "spacer11": $spacer11,
-    "spacer12": $spacer12,
-    "spacer13": $spacer13,
-    "spacer14": $spacer14,
-    "spacer15": $spacer15,
-    "spacer16": $spacer16,
-    "spacer17": $spacer17,
-    "spacer18": $spacer18,
-    "spacer19": $spacer19,
-    "spacer20": $spacer20,
-    "spacer21": $spacer21,
-    "spacer22": $spacer22,
-    "spacer23": $spacer23,
-    "spacer24": $spacer24,
-    "spacer25": $spacer25,
-    "spacer26": $spacer26,
-    "spacer27": $spacer27,
-    "spacer28": $spacer28,
-    "spacer29": $spacer29,
-    "spacer30": $spacer30,
-    "spacer31": $spacer31,
-    "spacer32": $spacer32,
-    "spacer33": $spacer33,
-    "spacer34": $spacer34,
-    "spacer35": $spacer35,
-    "spacer36": $spacer36,
-    "spacer37": $spacer37,
-    "spacer38": $spacer38,
-    "spacer39": $spacer39,
-    "spacer40": $spacer40,
+$reference-spacers: (
+    "reference-spacer1": $reference-spacer1,
+    "reference-spacer2": $reference-spacer2,
+    "reference-spacer3": $reference-spacer3,
+    "reference-spacer4": $reference-spacer4,
+    "reference-spacer5": $reference-spacer5,
+    "reference-spacer6": $reference-spacer6,
+    "reference-spacer7": $reference-spacer7,
+    "reference-spacer8": $reference-spacer8,
+    "reference-spacer9": $reference-spacer9,
+    "reference-spacer10": $reference-spacer10,
+    "reference-spacer11": $reference-spacer11,
+    "reference-spacer12": $reference-spacer12,
+    "reference-spacer13": $reference-spacer13,
+    "reference-spacer14": $reference-spacer14,
+    "reference-spacer15": $reference-spacer15,
+    "reference-spacer16": $reference-spacer16,
+    "reference-spacer17": $reference-spacer17,
+    "reference-spacer18": $reference-spacer18,
+    "reference-spacer19": $reference-spacer19,
+    "reference-spacer20": $reference-spacer20,
+    "reference-spacer21": $reference-spacer21,
+    "reference-spacer22": $reference-spacer22,
+    "reference-spacer23": $reference-spacer23,
+    "reference-spacer24": $reference-spacer24,
+    "reference-spacer25": $reference-spacer25,
+    "reference-spacer26": $reference-spacer26,
+    "reference-spacer27": $reference-spacer27,
+    "reference-spacer28": $reference-spacer28,
+    "reference-spacer29": $reference-spacer29,
+    "reference-spacer30": $reference-spacer30,
+    "reference-spacer31": $reference-spacer31,
+    "reference-spacer32": $reference-spacer32,
+    "reference-spacer33": $reference-spacer33,
+    "reference-spacer34": $reference-spacer34,
+    "reference-spacer35": $reference-spacer35,
+    "reference-spacer36": $reference-spacer36,
+    "reference-spacer37": $reference-spacer37,
+    "reference-spacer38": $reference-spacer38,
+    "reference-spacer39": $reference-spacer39,
+    "reference-spacer40": $reference-spacer40,
 ) !default;
 
-$padding1: 0.25rem !default;
-$padding2: $padding1 * 2 !default;
-$padding3: $padding1 * 3 !default;
-$padding4: $padding1 * 4 !default;
-$padding5: $padding1 * 5 !default;
-$padding6: $padding1 * 6 !default;
-$padding7: $padding1 * 7 !default;
-$padding8: $padding1 * 8 !default;
-$padding9: $padding1 * 9 !default;
-$padding10: $padding1 * 10 !default;
-$padding11: $padding1 * 11 !default;
-$padding12: $padding1 * 12 !default;
-$padding13: $padding1 * 13 !default;
-$padding14: $padding1 * 14 !default;
-$padding15: $padding1 * 15 !default;
-$padding16: $padding1 * 16 !default;
-$padding17: $padding1 * 17 !default;
-$padding18: $padding1 * 18 !default;
-$padding19: $padding1 * 19 !default;
-$padding20: $padding1 * 20 !default;
-$padding21: $padding1 * 21 !default;
-$padding22: $padding1 * 22 !default;
-$padding23: $padding1 * 23 !default;
-$padding24: $padding1 * 24 !default;
-$padding25: $padding1 * 25 !default;
-$padding26: $padding1 * 26 !default;
-$padding27: $padding1 * 27 !default;
-$padding28: $padding1 * 28 !default;
-$padding29: $padding1 * 29 !default;
-$padding30: $padding1 * 30 !default;
-$padding31: $padding1 * 31 !default;
-$padding32: $padding1 * 32 !default;
-$padding33: $padding1 * 33 !default;
-$padding34: $padding1 * 34 !default;
-$padding35: $padding1 * 35 !default;
-$padding36: $padding1 * 36 !default;
-$padding36: $padding1 * 36 !default;
-$padding37: $padding1 * 37 !default;
-$padding38: $padding1 * 38 !default;
-$padding39: $padding1 * 27 !default;
-$padding40: $padding1 * 40 !default;
+$reference-padding1: 0.25rem !default;
+$reference-padding2: $reference-padding1 * 2 !default;
+$reference-padding3: $reference-padding1 * 3 !default;
+$reference-padding4: $reference-padding1 * 4 !default;
+$reference-padding5: $reference-padding1 * 5 !default;
+$reference-padding6: $reference-padding1 * 6 !default;
+$reference-padding7: $reference-padding1 * 7 !default;
+$reference-padding8: $reference-padding1 * 8 !default;
+$reference-padding9: $reference-padding1 * 9 !default;
+$reference-padding10: $reference-padding1 * 10 !default;
+$reference-padding11: $reference-padding1 * 11 !default;
+$reference-padding12: $reference-padding1 * 12 !default;
+$reference-padding13: $reference-padding1 * 13 !default;
+$reference-padding14: $reference-padding1 * 14 !default;
+$reference-padding15: $reference-padding1 * 15 !default;
+$reference-padding16: $reference-padding1 * 16 !default;
+$reference-padding17: $reference-padding1 * 17 !default;
+$reference-padding18: $reference-padding1 * 18 !default;
+$reference-padding19: $reference-padding1 * 19 !default;
+$reference-padding20: $reference-padding1 * 20 !default;
+$reference-padding21: $reference-padding1 * 21 !default;
+$reference-padding22: $reference-padding1 * 22 !default;
+$reference-padding23: $reference-padding1 * 23 !default;
+$reference-padding24: $reference-padding1 * 24 !default;
+$reference-padding25: $reference-padding1 * 25 !default;
+$reference-padding26: $reference-padding1 * 26 !default;
+$reference-padding27: $reference-padding1 * 27 !default;
+$reference-padding28: $reference-padding1 * 28 !default;
+$reference-padding29: $reference-padding1 * 29 !default;
+$reference-padding30: $reference-padding1 * 30 !default;
+$reference-padding31: $reference-padding1 * 31 !default;
+$reference-padding32: $reference-padding1 * 32 !default;
+$reference-padding33: $reference-padding1 * 33 !default;
+$reference-padding34: $reference-padding1 * 34 !default;
+$reference-padding35: $reference-padding1 * 35 !default;
+$reference-padding36: $reference-padding1 * 36 !default;
+$reference-padding36: $reference-padding1 * 36 !default;
+$reference-padding37: $reference-padding1 * 37 !default;
+$reference-padding38: $reference-padding1 * 38 !default;
+$reference-padding39: $reference-padding1 * 27 !default;
+$reference-padding40: $reference-padding1 * 40 !default;
 
-$paddings: (
-    "padding1": $padding1,
-    "padding2": $padding2,
-    "padding3": $padding3,
-    "padding4": $padding4,
-    "padding5": $padding5,
-    "padding6": $padding6,
-    "padding7": $padding7,
-    "padding8": $padding8,
-    "padding9": $padding9,
-    "padding10": $padding10,
-    "padding11": $padding11,
-    "padding12": $padding12,
-    "padding13": $padding13,
-    "padding14": $padding14,
-    "padding15": $padding15,
-    "padding16": $padding16,
-    "padding17": $padding17,
-    "padding18": $padding18,
-    "padding19": $padding19,
-    "padding20": $padding20,
-    "padding21": $padding21,
-    "padding22": $padding22,
-    "padding23": $padding23,
-    "padding24": $padding24,
-    "padding25": $padding25,
-    "padding26": $padding26,
-    "padding27": $padding27,
-    "padding28": $padding28,
-    "padding29": $padding29,
-    "padding30": $padding30,
-    "padding31": $padding31,
-    "padding32": $padding32,
-    "padding33": $padding33,
-    "padding34": $padding34,
-    "padding35": $padding35,
-    "padding36": $padding36,
-    "padding37": $padding37,
-    "padding38": $padding38,
-    "padding39": $padding39,
-    "padding40": $padding40,
+$reference-paddings: (
+    "reference-padding1": $reference-padding1,
+    "reference-padding2": $reference-padding2,
+    "reference-padding3": $reference-padding3,
+    "reference-padding4": $reference-padding4,
+    "reference-padding5": $reference-padding5,
+    "reference-padding6": $reference-padding6,
+    "reference-padding7": $reference-padding7,
+    "reference-padding8": $reference-padding8,
+    "reference-padding9": $reference-padding9,
+    "reference-padding10": $reference-padding10,
+    "reference-padding11": $reference-padding11,
+    "reference-padding12": $reference-padding12,
+    "reference-padding13": $reference-padding13,
+    "reference-padding14": $reference-padding14,
+    "reference-padding15": $reference-padding15,
+    "reference-padding16": $reference-padding16,
+    "reference-padding17": $reference-padding17,
+    "reference-padding18": $reference-padding18,
+    "reference-padding19": $reference-padding19,
+    "reference-padding20": $reference-padding20,
+    "reference-padding21": $reference-padding21,
+    "reference-padding22": $reference-padding22,
+    "reference-padding23": $reference-padding23,
+    "reference-padding24": $reference-padding24,
+    "reference-padding25": $reference-padding25,
+    "reference-padding26": $reference-padding26,
+    "reference-padding27": $reference-padding27,
+    "reference-padding28": $reference-padding28,
+    "reference-padding29": $reference-padding29,
+    "reference-padding30": $reference-padding30,
+    "reference-padding31": $reference-padding31,
+    "reference-padding32": $reference-padding32,
+    "reference-padding33": $reference-padding33,
+    "reference-padding34": $reference-padding34,
+    "reference-padding35": $reference-padding35,
+    "reference-padding36": $reference-padding36,
+    "reference-padding37": $reference-padding37,
+    "reference-padding38": $reference-padding38,
+    "reference-padding39": $reference-padding39,
+    "reference-padding40": $reference-padding40,
 ) !default;
 
 
-$typeface-brand: "'Roboto', sans-serif" !default;
-$typeface-plain: "'Roboto', sans-serif" !default;
+$reference-typeface-brand: "'Roboto', sans-serif" !default;
+$reference-typeface-plain: "'Roboto', sans-serif" !default;
 
-$typeface: (
-    "typeface-brand": $typeface-brand,
-    "typeface-plain": $typeface-plain,
+$reference-typefaces: (
+    "reference-typeface-brand": $reference-typeface-brand,
+    "reference-typeface-plain": $reference-typeface-plain,
 ) !default;
