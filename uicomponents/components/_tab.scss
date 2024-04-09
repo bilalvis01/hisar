@@ -19,10 +19,10 @@
         overflow: hidden;
         text-decoration: none;
         outline: {
-            style: var(--outline-style);
-            color: var(--outline-color);
-            width: var(--outline-width);
-            offset: var(--outline-offset);
+            style: var(--focus-indicator-style);
+            color: var(--focus-indicator-color);
+            width: var(--focus-indicator-width);
+            offset: var(--focus-indicator-offset);
         };
 
         & > .state-layer {

@@ -60,9 +60,9 @@
         }
 
         --focus-indicator-style: solid;
-        --focus-indicator-color: var(--icon-button-standard-indicator-color);
-        --focus-indicator-width: var(--icon-button-standard-indicator-thickness);
-        --focus-indicator-offset: var(--icon-button-standard-indicator-offset);
+        --focus-indicator-color: var(--tab-link-navigation-focus-indicator-color);
+        --focus-indicator-width: var(--tab-link-navigation-focus-indicator-thickness);
+        --focus-indicator-offset: var(--tab-link-navigation-focus-indicator-offset);
     }
 
     &:active {
