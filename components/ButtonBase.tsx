@@ -9,7 +9,6 @@ export interface ButtonBaseProps extends React.ButtonHTMLAttributes<HTMLButtonEl
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
     variant?: Variant;
-    focusIndicator?: boolean;
 };
 
 const ButtonBase = React.forwardRef<
@@ -20,12 +19,11 @@ const ButtonBase = React.forwardRef<
     startIcon, 
     endIcon,
     variant = "filled",
-    focusIndicator = true,
     className,
     ...props
 }, ref) {
     return (
-        <button ref={ref} className={clsx("button", variant, { "focus-indicator": focusIndicator }, className)} {...props}>
+        <button ref={ref} className={clsx("button", variant, className)} {...props}>
             <div className="container">
                 <div className="state-layer">
                     <div className="content">

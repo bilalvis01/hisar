@@ -7,7 +7,6 @@ interface IconButtonBaseProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
     variant?: Variant;
     toggle?: boolean;
     selected?: boolean;
-    focusIndicator?: boolean;
 }
 
 export default function IconButtonBase({ 
@@ -16,12 +15,11 @@ export default function IconButtonBase({
     variant = "standard", 
     toggle = false,
     selected = false, 
-    focusIndicator = true,
     ...props
 }: IconButtonBaseProps) {
     return (
         <button 
-            className={clsx("icon-button", variant, { "toggle-button": toggle, "selected": selected, "focus-indicator": focusIndicator }, className)}
+            className={clsx("icon-button", variant, { "toggle-button": toggle, "selected": selected }, className)}
             {...props}
         >
             <div className="container">
