@@ -14,7 +14,6 @@
     --header-size: var(--navigation-drawer-headline-size);
     --header-tracking: var(--navigation-drawer-headline-tracking);
     --header-weight: var(--navigation-drawer-headline-weight);
-    --header-width: 100%;
     --header-height: var(--navigation-drawer-active-indicator-height);
     --subheader-color: var(--navigation-drawer-inactive-label-color);
     --subheader-font: var(--navigation-drawer-label-font);
@@ -116,7 +115,6 @@
         width: var(--container-width);
         height: var(--container-height);
         border-radius: var(--container-shape);
-        padding-top: 1rem;
 
         & hr {
             color: var(--divider-color);
@@ -135,9 +133,10 @@
             font-size: var(--header-size);
             letter-spacing: var(--header-tracking);
             font-weight: var(--header-weight);
-            width: var(--header-width);
+            box-sizing: content-box;
             height: var(--header-height);
             padding: {
+                top: 1rem;
                 left: 1.75rem;
                 right: 1.75rem;
             };
