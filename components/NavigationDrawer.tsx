@@ -18,6 +18,7 @@ import {
 import IconButtonFilled from "./IconButtonFilled";
 import List from "../icons/List";
 import { usePathname } from "next/navigation";
+import style from "./navigation-drawer.module.scss";
 
 function useNavigationDrawer() {
     const [open, setOpen] = React.useState(false);
@@ -103,37 +104,39 @@ interface NavigationDrawerProps extends React.HTMLProps<HTMLDivElement> {
 export const NavigationDrawer = React.forwardRef<
     HTMLDivElement,
     NavigationDrawerProps
->(function NavigationDrawerContent(props, propRef) {
+>(function NavigationDrawerContent({ className, ...props}, propRef) {
     const context = useNavigationDrawer();
     const ref = useMergeRefs([context.refs.setFloating, propRef]);
     const floatingContext = context.context;
 
     return (
         <DialogContext.Provider value={context}>
-            <IconButtonFilled onClick={() => context.setOpen(true)}>
-                <List />
-            </IconButtonFilled>
-            {context.open && (
-                <FloatingPortal>
-                    <FloatingOverlay className="navigation-drawer" lockScroll>
-                        <FloatingFocusManager context={floatingContext}>
-                            <div
-                                ref={ref}
-                                aria-labelledby={context.labelId}
-                                aria-describedby={context.descriptionId}
-                                aria-modal={context.open}
-                                className="container"
-                                {...context.getFloatingProps(props)}
-                            >
-                                <header className="header"></header>
-                                <ul>
-                                    {props.children}
-                                </ul>
-                            </div>
-                        </FloatingFocusManager>
-                    </FloatingOverlay>
-                </FloatingPortal>
-            )}
+            <nav className={clsx(style.nav, className)}>
+                <IconButtonFilled onClick={() => context.setOpen(true)}>
+                    <List />
+                </IconButtonFilled>
+                {context.open && (
+                    <FloatingPortal>
+                        <FloatingOverlay className="navigation-drawer" lockScroll>
+                            <FloatingFocusManager context={floatingContext}>
+                                <div
+                                    ref={ref}
+                                    aria-labelledby={context.labelId}
+                                    aria-describedby={context.descriptionId}
+                                    aria-modal={context.open}
+                                    className="container"
+                                    {...context.getFloatingProps(props)}
+                                >
+                                    <header className="header"></header>
+                                    <ul>
+                                        {props.children}
+                                    </ul>
+                                </div>
+                            </FloatingFocusManager>
+                        </FloatingOverlay>
+                    </FloatingPortal>
+                )}
+            </nav>
         </DialogContext.Provider>
     );
 });

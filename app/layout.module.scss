@@ -18,12 +18,11 @@
 .header {
     grid-area: header;
     display: grid;
-    grid-template-areas: "menu logo";
+    grid-template-areas: "navigation logo";
     grid-template-columns: 6rem 1fr;
 
     @media (min-width: 992px) {
-        display: grid;
-        grid-template-areas: "logo menu";
+        grid-template-areas: "logo navigation";
         grid-template-columns: 10rem 1fr;
     }
 }
@@ -63,7 +62,7 @@
 }
 
 .mainNavigation {
-    grid-area: menu;
+    grid-area: navigation;
     display: none;
     align-self: center;
     justify-self: end;
@@ -84,4 +83,14 @@
     font-weight: bold;
     text-decoration: none;
     color: var(--system-color-on-primary);
+}
+
+.navigationDrawer {
+    grid-area: navigation;
+    justify-self: center;
+    align-self: center;
+
+    @media (min-width: 992px) {
+        display: none;
+    }
 }

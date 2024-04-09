@@ -20,7 +20,7 @@ export default function RootLayout({
             <body>
                 <div className={style.app}>
                     <header className={style.header}>
-                        <NavigationDrawer>
+                        <NavigationDrawer className={style.navigationDrawer}>
                             <Link href={"/"}>Home</Link>
                             <Link href={"/budget"}>Budget</Link>
                             <Link href={"/expense"}>Expense</Link>
