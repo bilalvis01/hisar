@@ -59,12 +59,10 @@
             --#{$key}: #{$value};
         }
 
-        &.focus-indicator {
-            --outline-style: solid;
-            --outline-color: var(--icon-button-standard-indicator-color);
-            --outline-width: var(--icon-button-standard-indicator-thickness);
-            --outline-offset: var(--icon-button-standard-indicator-offset);
-        }
+        --outline-style: solid;
+        --outline-color: var(--icon-button-standard-indicator-color);
+        --outline-width: var(--icon-button-standard-indicator-thickness);
+        --outline-offset: var(--icon-button-standard-indicator-offset);
     }
 
     &:active {
@@ -72,11 +70,9 @@
             --#{$key}: #{$value};
         }
 
-        &.focus-indicator {
-            --outline-style: none;
-            --outline-color: unset;
-            --outline-width: unset;
-            --outline-offset: unset;
-        }
+        --outline-style: none;
+        --outline-color: unset;
+        --outline-width: unset;
+        --outline-offset: unset;
     }
 }

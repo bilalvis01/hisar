@@ -41,12 +41,10 @@
         }
         --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
 
-        &.focus-indicator {
-            --outline-style: solid;
-            --outline-color: var(--icon-button-standard-indicator-color);
-            --outline-width: var(--icon-button-standard-indicator-thickness);
-            --outline-offset: var(--icon-button-standard-indicator-offset);
-        }
+        --outline-style: solid;
+        --outline-color: var(--icon-button-standard-indicator-color);
+        --outline-width: var(--icon-button-standard-indicator-thickness);
+        --outline-offset: var(--icon-button-standard-indicator-offset);
     
         &.toggle.selected {
             --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));
@@ -59,12 +57,10 @@
         }
         --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
 
-        &.focus-indicator {
-            --outline-style: none;
-            --outline-color: unset;
-            --outline-width: unset;
-            --outline-offset: unset;
-        }
+        --outline-style: none;
+        --outline-color: unset;
+        --outline-width: unset;
+        --outline-offset: unset;
     
         &.toggle.selected {
             --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));

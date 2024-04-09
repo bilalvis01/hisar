@@ -60,12 +60,10 @@
             }
         }
         
-        &.focus-indicator {
-            --outline-style: solid;
-            --outline-color: var(--icon-button-filled-indicator-color);
-            --outline-width: var(--icon-button-filled-indicator-thickness);
-            --outline-offset: var(--icon-button-filled-indicator-offset);
-        }
+        --outline-style: solid;
+        --outline-color: var(--icon-button-filled-indicator-color);
+        --outline-width: var(--icon-button-filled-indicator-thickness);
+        --outline-offset: var(--icon-button-filled-indicator-offset);
     }
 
     &:active {
@@ -83,12 +81,10 @@
             }
         }
         
-        &.focus-indicator {
-            --outline-style: none;
-            --outline-color: unset;
-            --outline-width: unset;
-            --outline-offset: unset;
-        }
+        --outline-style: none;
+        --outline-color: unset;
+        --outline-width: unset;
+        --outline-offset: unset;
     }
 
     &:disabled {
