@@ -1,7 +1,6 @@
 $navigation-drawer-container-color: var(--system-color-surface) !default;
 $navigation-drawer-modal-container-color: var(--system-color-surface-container-low) !default;
 $navigation-drawer-standard-container-color: var(--system-color-surface) !default;
-$navigation-drawer-container-tint-layer-color: var(--system-color-surface-tint) !default;
 $navigation-drawer-modal-container-elevation: var(--system-elevation-level1) !default;
 $navigation-drawer-standard-container-elevation: var(--system-elevation-level0) !default;
 $navigation-drawer-container-height: 100% !default;
@@ -75,7 +74,6 @@ $navigation-drawer: (
     "navigation-drawer-container-color": $navigation-drawer-container-color,
     "navigation-drawer-modal-container-color": $navigation-drawer-modal-container-color,
     "navigation-drawer-standard-container-color": $navigation-drawer-standard-container-color,
-    "navigation-drawer-container-tint-layer-color": $navigation-drawer-container-tint-layer-color,
     "navigation-drawer-modal-container-elevation": $navigation-drawer-modal-container-elevation,
     "navigation-drawer-standard-container-elevation": $navigation-drawer-standard-container-elevation,
     "navigation-drawer-container-height": $navigation-drawer-container-height,

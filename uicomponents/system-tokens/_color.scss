@@ -21,8 +21,6 @@ $on-surface: var(--reference-palette-neutral10) !default;
 $surface-variant: var(--reference-palette-neutral-variant90) !default;
 $on-surface-variant: var(--reference-palette-neutral-variant30) !default;
 
-$surface-tint: var(--system-color-primary) !default;
-
 $outline: var(--reference-palette-neutral-variant50) !default;
 $outline-variant: var(--reference-palette-neutral-variant80) !default;
 
@@ -46,7 +44,6 @@ $light: (
     "on-surface": $on-surface,
     "surface-variant": $surface-variant,
     "on-surface-variant": $on-surface-variant,
-    "surface-tint": $surface-tint,
     "outline": $outline,
     "outline-variant": $outline-variant,
 ) !default;
@@ -74,8 +71,6 @@ $on-surface-rgb: var(--reference-palette-neutral10-rgb) !default;
 $surface-variant-rgb: var(--reference-palette-neutral-variant90-rgb) !default;
 $on-surface-variant-rgb: var(--reference-palette-neutral-variant30-rgb) !default;
 
-$surface-tint-rgb: var(--system-color-primary-rgb) !default;
-
 $outline-rgb: var(--reference-palette-neutral-variant50-rgb) !default;
 $outline-variant-rgb: var(--reference-palette-neutral-variant80-rgb) !default;
 
@@ -99,7 +94,6 @@ $light-rgb: (
     "on-surface-rgb": $on-surface-rgb,
     "surface-variant-rgb": $surface-variant-rgb,
     "on-surface-variant-rgb": $on-surface-variant-rgb,
-    "surface-tint-rgb": $surface-tint-rgb,
     "outline-rgb": $outline-rgb,
     "outline-variant-rgb": $outline-variant-rgb,
 ) !default;
@@ -128,8 +122,6 @@ $on-surface-dark: var(--reference-palette-neutral90) !default;
 $surface-variant-dark: var(--reference-palette-neutral-variant30) !default;
 $on-surface-variant-dark: var(--reference-palette-neutral-variant80) !default;
 
-$surface-tint-dark: var(--system-color-primary) !default;
-
 $outline-dark: var(--reference-palette-neutral-variant60) !default;
 $outline-variant-dark: var(--reference-palette-neutral-variant30) !default;
 
@@ -153,7 +145,6 @@ $dark: (
     "on-surface": $on-surface-dark,
     "surface-variant": $surface-variant-dark,
     "on-surface-variant": $on-surface-variant-dark,
-    "surface-tint": $surface-tint-dark,
     "outline": $outline-dark,
     "outline-variant": $outline-variant-dark,
 ) !default;
@@ -181,8 +172,6 @@ $on-surface-dark-rgb: var(--reference-palette-neutral90-rgb) !default;
 $surface-variant-dark-rgb: var(--reference-palette-neutral-variant30-rgb) !default;
 $on-surface-variant-dark-rgb: var(--reference-palette-neutral-variant80-rgb) !default;
 
-$surface-tint-dark-rgb: var(--system-color-primary-rgb) !default;
-
 $outline-dark-rgb: var(--reference-palette-neutral-variant60-rgb) !default;
 $outline-variant-dark-rgb: var(--reference-palette-neutral-variant30-rgb) !default;
 
@@ -206,7 +195,6 @@ $dark-rgb: (
     "on-surface-rgb": $on-surface-dark-rgb,
     "surface-variant-rgb": $surface-variant-dark-rgb,
     "on-surface-variant-rgb": $on-surface-variant-dark-rgb,
-    "surface-tint-rgb": $surface-tint-dark-rgb,
     "outline-rgb": $outline-dark-rgb,
     "outline-variant-rgb": $outline-variant-dark-rgb,
 ) !default;
