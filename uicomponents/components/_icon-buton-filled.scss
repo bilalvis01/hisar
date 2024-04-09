@@ -8,10 +8,10 @@
     --container-height: var(--icon-button-filled-container-height);
     --container-shape: var(--icon-button-filled-container-shape);
     --container-color: var(--icon-button-filled-container-color);
-    --outline-style: none;
-    --outline-color: unset;
-    --outline-width: unset;
-    --outline-offset: unset;
+    --focus-indicator-style: none;
+    --focus-indicator-color: unset;
+    --focus-indicator-width: unset;
+    --focus-indicator-offset: unset;
     --state-layer-color: transparent;
     --state-layer-width: 100%;
     --state-layer-height: 100%;
@@ -60,10 +60,10 @@
             }
         }
         
-        --outline-style: solid;
-        --outline-color: var(--icon-button-filled-indicator-color);
-        --outline-width: var(--icon-button-filled-indicator-thickness);
-        --outline-offset: var(--icon-button-filled-indicator-offset);
+        --focus-indicator-style: solid;
+        --focus-indicator-color: var(--icon-button-filled-indicator-color);
+        --focus-indicator-width: var(--icon-button-filled-indicator-thickness);
+        --focus-indicator-offset: var(--icon-button-filled-indicator-offset);
     }
 
     &:active {
@@ -81,10 +81,10 @@
             }
         }
         
-        --outline-style: none;
-        --outline-color: unset;
-        --outline-width: unset;
-        --outline-offset: unset;
+        --focus-indicator-style: none;
+        --focus-indicator-color: unset;
+        --focus-indicator-width: unset;
+        --focus-indicator-offset: unset;
     }
 
     &:disabled {

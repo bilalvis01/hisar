@@ -8,10 +8,10 @@
     --container-height: var(--tab-link-navigation-container-height);
     --container-shape: var(--tab-link-navigation-container-shape);
     --container-elevation: var(--tab-link-navigation-container-elevation);
-    --outline-style: none;
-    --outline-color: unset;
-    --outline-width: unset;
-    --outline-offset: unset;
+    --focus-indicator-style: none;
+    --focus-indicator-color: unset;
+    --focus-indicator-width: unset;
+    --focus-indicator-offset: unset;
     --label-font: var(--tab-link-navigation-label-font);
     --label-line-height: var(--tab-link-navigation-label-line-height);
     --label-size: var(--tab-link-navigation-label-size);
@@ -59,10 +59,10 @@
             --#{$key}: #{$value};
         }
 
-        --outline-style: solid;
-        --outline-color: var(--icon-button-standard-indicator-color);
-        --outline-width: var(--icon-button-standard-indicator-thickness);
-        --outline-offset: var(--icon-button-standard-indicator-offset);
+        --focus-indicator-style: solid;
+        --focus-indicator-color: var(--icon-button-standard-indicator-color);
+        --focus-indicator-width: var(--icon-button-standard-indicator-thickness);
+        --focus-indicator-offset: var(--icon-button-standard-indicator-offset);
     }
 
     &:active {
@@ -70,9 +70,9 @@
             --#{$key}: #{$value};
         }
 
-        --outline-style: none;
-        --outline-color: unset;
-        --outline-width: unset;
-        --outline-offset: unset;
+        --focus-indicator-style: none;
+        --focus-indicator-color: unset;
+        --focus-indicator-width: unset;
+        --focus-indicator-offset: unset;
     }
 }

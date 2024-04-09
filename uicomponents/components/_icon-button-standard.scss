@@ -8,10 +8,10 @@
     --container-height: var(--icon-button-standard-state-layer-height);
     --container-shape: var(--icon-button-standard-state-layer-shape);
     --container-color: transparent;
-    --outline-style: none;
-    --outline-color: unset;
-    --outline-width: unset;
-    --outline-offset: unset;
+    --focus-indicator-style: none;
+    --focus-indicator-color: unset;
+    --focus-indicator-width: unset;
+    --focus-indicator-offset: unset;
     --state-layer-color: transparent;
     --state-layer-width: var(--icon-button-standard-state-layer-width);
     --state-layer-height: var(--icon-button-standard-state-layer-height);
@@ -41,10 +41,10 @@
         }
         --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
 
-        --outline-style: solid;
-        --outline-color: var(--icon-button-standard-indicator-color);
-        --outline-width: var(--icon-button-standard-indicator-thickness);
-        --outline-offset: var(--icon-button-standard-indicator-offset);
+        --focus-indicator-style: solid;
+        --focus-indicator-color: var(--icon-button-standard-indicator-color);
+        --focus-indicator-width: var(--icon-button-standard-indicator-thickness);
+        --focus-indicator-offset: var(--icon-button-standard-indicator-offset);
     
         &.toggle.selected {
             --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));
@@ -57,10 +57,10 @@
         }
         --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
 
-        --outline-style: none;
-        --outline-color: unset;
-        --outline-width: unset;
-        --outline-offset: unset;
+        --focus-indicator-style: none;
+        --focus-indicator-color: unset;
+        --focus-indicator-width: unset;
+        --focus-indicator-offset: unset;
     
         &.toggle.selected {
             --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));

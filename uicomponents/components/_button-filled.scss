@@ -8,10 +8,10 @@
     --container-height: var(--button-filled-container-height);
     --container-elevation: var(--button-filled-container-elevation);
     --container-color: var(--button-filled-container-color);
-    --outline-style: none;
-    --outline-color: unset;
-    --outline-width: unset;
-    --outline-offset: unset;
+    --focus-indicator-style: none;
+    --focus-indicator-color: unset;
+    --focus-indicator-width: unset;
+    --focus-indicator-offset: unset;
     --label-font: var(--button-filled-label-font);
     --label-line-height: var(--button-filled-label-line-height);
     --label-size: var(--button-filled-label-size);
@@ -36,10 +36,10 @@
         }
         --state-layer-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
 
-        --outline-style: solid;
-        --outline-color: var(--button-filled-indicator-color);
-        --outline-width: var(--button-filled-indicator-thickness);
-        --outline-offset: var(--button-filled-indicator-offset);
+        --focus-indicator-style: solid;
+        --focus-indicator-color: var(--button-filled-indicator-color);
+        --focus-indicator-width: var(--button-filled-indicator-thickness);
+        --focus-indicator-offset: var(--button-filled-indicator-offset);
     }
     
     &:active {
@@ -48,10 +48,10 @@
         }
         --state-layer-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
 
-        --outline-style: none;
-        --outline-color: unset;
-        --outline-width: unset;
-        --outline-offset: unset;
+        --focus-indicator-style: none;
+        --focus-indicator-color: unset;
+        --focus-indicator-width: unset;
+        --focus-indicator-offset: unset;
     }
     
     &:disabled {
