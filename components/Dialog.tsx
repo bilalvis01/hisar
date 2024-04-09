@@ -22,11 +22,15 @@ interface DialogOptions {
 
 export function useDialog({
     initialOpen = false,
-    open,
-    onOpenChange: setOpen,
+    open: controlledOpen,
+    onOpenChange: setControlledOpen,
 }: DialogOptions) {
+    const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
     const [labelId, setLabelId] = React.useState<string | undefined>();
     const [descriptionId, setDescriptionId] = React.useState<string | undefined>();
+
+    const open = controlledOpen ?? uncontrolledOpen;
+    const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
     const data = useFloating({
         open,
@@ -35,7 +39,9 @@ export function useDialog({
 
     const context = data.context;
 
-    const click = useClick(context);
+    const click = useClick(context, {
+        enabled: controlledOpen == null,
+    });
     const dismiss = useDismiss(context, {
         outsidePressEvent: "mousedown",
     });

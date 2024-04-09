@@ -3,7 +3,7 @@ import "../uicomponents/components.scss";
 import style from "./layout.module.scss";
 import Logo from "../components/Logo";
 import Navigation from "../components/Navigation";
-import DrawerNavigation from "../components/DrawerNavigation";
+import { NavigationDrawer, Link } from "../components/NavigationDrawer";
 
 export default function RootLayout({
     children,
@@ -20,7 +20,11 @@ export default function RootLayout({
             <body>
                 <div className={style.app}>
                     <header className={style.header}>
-                        <DrawerNavigation />
+                        <NavigationDrawer>
+                            <Link href={"/"}>Home</Link>
+                            <Link href={"/budget"}>Budget</Link>
+                            <Link href={"/expense"}>Expense</Link>
+                        </NavigationDrawer>
                         <nav className={style.logo}>
                             <Logo />
                         </nav>

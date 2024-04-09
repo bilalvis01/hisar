@@ -56,7 +56,7 @@ $navigation-drawer-active-focus-state-layer-color: var(--system-color-on-seconda
 $navigation-drawer-active-focus-state-layer-color-rgb: var(--system-color-on-secondary-container-rgb) !default;
 $navigation-drawer-inactive-focus-state-layer-color: var(--system-color-on-surface) !default;
 $navigation-drawer-inactive-focus-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
-$navigation-drawer-focus-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$navigation-drawer-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
 $navigation-drawer-active-focus-icon-color: var(--system-color-on-secondary-container) !default;
 $navigation-drawer-inactive-focus-icon-color: var(--system-color-on-surface) !default;
 
@@ -66,7 +66,7 @@ $navigation-drawer-active-pressed-state-layer-color: var(--system-color-on-secon
 $navigation-drawer-active-pressed-state-layer-color-rgb: var(--system-color-on-secondary-container-rgb) !default;
 $navigation-drawer-inactive-pressed-state-layer-color: var(--system-color-on-surface) !default;
 $navigation-drawer-inactive-pressed-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
-$navigation-drawer-pressed-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$navigation-drawer-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
 $navigation-drawer-active-pressed-icon-color: var(--system-color-on-secondary-container) !default;
 $navigation-drawer-inactive-pressed-icon-color: var(--system-color-on-surface) !default;
 
@@ -112,40 +112,40 @@ $navigation-drawer: (
 ) !default;
 
 $navigation-drawer-hover: (
-    "navigation-drawer-active-hover-label-color": $navigation-drawer-active-hover-label-color,
-    "navigation-drawer-inactive-hover-label-color": $navigation-drawer-inactive-hover-label-color,
-    "navigation-drawer-active-hover-state-layer-color": $navigation-drawer-active-hover-state-layer-color,
-    "navigation-drawer-active-hover-state-layer-color-rgb": $navigation-drawer-active-hover-state-layer-color-rgb,
-    "navigation-drawer-inactive-hover-state-layer-color": $navigation-drawer-inactive-hover-state-layer-color,
-    "navigation-drawer-inactive-hover-state-layer-color-rgb": $navigation-drawer-inactive-hover-state-layer-color-rgb,
-    "navigation-drawer-hover-state-layer-opacity": $navigation-drawer-hover-state-layer-opacity,
-    "navigation-drawer-active-hover-icon-color": $navigation-drawer-active-hover-icon-color,
-    "navigation-drawer-inactive-hover-icon-color": $navigation-drawer-inactive-hover-icon-color,
+    "navigation-drawer-active-label-color": $navigation-drawer-active-hover-label-color,
+    "navigation-drawer-inactive-label-color": $navigation-drawer-inactive-hover-label-color,
+    "navigation-drawer-active-state-layer-color": $navigation-drawer-active-hover-state-layer-color,
+    "navigation-drawer-active-state-layer-color-rgb": $navigation-drawer-active-hover-state-layer-color-rgb,
+    "navigation-drawer-inactive-state-layer-color": $navigation-drawer-inactive-hover-state-layer-color,
+    "navigation-drawer-inactive-state-layer-color-rgb": $navigation-drawer-inactive-hover-state-layer-color-rgb,
+    "navigation-drawer-state-layer-opacity": $navigation-drawer-hover-state-layer-opacity,
+    "navigation-drawer-active-icon-color": $navigation-drawer-active-hover-icon-color,
+    "navigation-drawer-inactive-icon-color": $navigation-drawer-inactive-hover-icon-color,
 ) !default;
 
 $navigation-drawer-focus: (
-    "navigation-drawer-focus-indicator-color": $navigation-drawer-focus-indicator-color,
-    "navigation-drawer-focus-indicator-thickness": $navigation-drawer-focus-indicator-thickness,
-    "navigation-drawer-focus-indicator-offset": $navigation-drawer-focus-indicator-offset,
-    "navigation-drawer-active-focus-label-color": $navigation-drawer-active-focus-label-color,
-    "navigation-drawer-inactive-focus-label-color": $navigation-drawer-inactive-focus-label-color,
-    "navigation-drawer-active-focus-state-layer-color": $navigation-drawer-active-focus-state-layer-color,
-    "navigation-drawer-active-focus-state-layer-color-rgb": $navigation-drawer-active-focus-state-layer-color-rgb,
-    "navigation-drawer-inactive-focus-state-layer-color": $navigation-drawer-inactive-focus-state-layer-color,
-    "navigation-drawer-inactive-focus-state-layer-color-rgb": $navigation-drawer-inactive-focus-state-layer-color-rgb,
-    "navigation-drawer-focus-state-layer-opacity": $navigation-drawer-focus-state-layer-opacity,
-    "navigation-drawer-active-focus-icon-color": $navigation-drawer-active-focus-icon-color,
-    "navigation-drawer-inactive-focus-icon-color": $navigation-drawer-inactive-focus-icon-color,
+    "navigation-drawer-indicator-color": $navigation-drawer-focus-indicator-color,
+    "navigation-drawer-indicator-thickness": $navigation-drawer-focus-indicator-thickness,
+    "navigation-drawer-indicator-offset": $navigation-drawer-focus-indicator-offset,
+    "navigation-drawer-active-label-color": $navigation-drawer-active-focus-label-color,
+    "navigation-drawer-inactive-label-color": $navigation-drawer-inactive-focus-label-color,
+    "navigation-drawer-active-state-layer-color": $navigation-drawer-active-focus-state-layer-color,
+    "navigation-drawer-active-state-layer-color-rgb": $navigation-drawer-active-focus-state-layer-color-rgb,
+    "navigation-drawer-inactive-state-layer-color": $navigation-drawer-inactive-focus-state-layer-color,
+    "navigation-drawer-inactive-state-layer-color-rgb": $navigation-drawer-inactive-focus-state-layer-color-rgb,
+    "navigation-drawer-state-layer-opacity": $navigation-drawer-focus-state-layer-opacity,
+    "navigation-drawer-active-icon-color": $navigation-drawer-active-focus-icon-color,
+    "navigation-drawer-inactive-icon-color": $navigation-drawer-inactive-focus-icon-color,
 ) !default;
 
 $navigation-drawer-pressed: (
-    "navigation-drawer-active-pressed-label-color": $navigation-drawer-active-pressed-label-color,
-    "navigation-drawer-inactive-pressed-label-color": $navigation-drawer-inactive-pressed-label-color,
-    "navigation-drawer-active-pressed-state-layer-color": $navigation-drawer-active-pressed-state-layer-color,
-    "navigation-drawer-active-pressed-state-layer-color-rgb": $navigation-drawer-active-pressed-state-layer-color-rgb,
-    "navigation-drawer-inactive-pressed-state-layer-color": $navigation-drawer-inactive-pressed-state-layer-color,
-    "navigation-drawer-inactive-pressed-state-layer-color-rgb": $navigation-drawer-inactive-pressed-state-layer-color-rgb,
-    "navigation-drawer-pressed-state-layer-opacity": $navigation-drawer-pressed-state-layer-opacity,
-    "navigation-drawer-active-pressed-icon-color": $navigation-drawer-active-pressed-icon-color,
-    "navigation-drawer-inactive-pressed-icon-color": $navigation-drawer-inactive-pressed-icon-color,
+    "navigation-drawer-active-label-color": $navigation-drawer-active-pressed-label-color,
+    "navigation-drawer-inactive-label-color": $navigation-drawer-inactive-pressed-label-color,
+    "navigation-drawer-active-state-layer-color": $navigation-drawer-active-pressed-state-layer-color,
+    "navigation-drawer-active-state-layer-color-rgb": $navigation-drawer-active-pressed-state-layer-color-rgb,
+    "navigation-drawer-inactive-state-layer-color": $navigation-drawer-inactive-pressed-state-layer-color,
+    "navigation-drawer-inactive-state-layer-color-rgb": $navigation-drawer-inactive-pressed-state-layer-color-rgb,
+    "navigation-drawer-state-layer-opacity": $navigation-drawer-pressed-state-layer-opacity,
+    "navigation-drawer-active-icon-color": $navigation-drawer-active-pressed-icon-color,
+    "navigation-drawer-inactive-icon-color": $navigation-drawer-inactive-pressed-icon-color,
 ) !default;
