@@ -19,6 +19,8 @@ import IconButtonFilled from "./IconButtonFilled";
 import List from "../icons/List";
 import { usePathname } from "next/navigation";
 import style from "./navigation-drawer.module.scss";
+import IconButtonStandard from "./IconButtonStandard";
+import IconClose from "../icons/Close";
 
 function useNavigationDrawer() {
     const [open, setOpen] = React.useState(false);
@@ -124,13 +126,10 @@ export const NavigationDrawer = React.forwardRef<
                                     aria-labelledby={context.labelId}
                                     aria-describedby={context.descriptionId}
                                     aria-modal={context.open}
-                                    className="container"
+                                    className="navigation-container"
                                     {...context.getFloatingProps(props)}
                                 >
-                                    <header className="header"></header>
-                                    <ul>
-                                        {props.children}
-                                    </ul>
+                                    {props.children}
                                 </div>
                             </FloatingFocusManager>
                         </FloatingOverlay>
@@ -160,7 +159,7 @@ export function Link({
 
     return (
         <li>
-            <NextLink className={clsx("button", { active: pathname == href })} href={href} {...props}>
+            <NextLink className={clsx("navigation-button", { active: pathname == href })} href={href} {...props}>
                 <div className="active-indicator">
                     <div className="state-layer">
                         <div className="content">
@@ -177,3 +176,24 @@ export function Link({
         </li>
     )
 }
+
+export function Header({ children, className }) {
+    return (
+        <div className={clsx("navigation-header", className)}>
+            {children}
+        </div>
+    );
+}
+
+export const Close = React.forwardRef<
+    HTMLButtonElement,
+    React.ButtonHTMLAttributes<HTMLButtonElement>
+>(function DialogClose(props, ref) {
+    const { setOpen } = useNavigationDrawerContext();
+
+    return (
+        <IconButtonStandard type="button" {...props} ref={ref} onClick={() => setOpen(false)}>
+            <IconClose />
+        </IconButtonStandard>
+    );
+});

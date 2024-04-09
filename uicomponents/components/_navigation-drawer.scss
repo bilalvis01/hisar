@@ -22,6 +22,7 @@
     --subheader-size: var(--navigation-drawer-label-size);
     --subheader-tracking: var(--navigation-drawer-label-tracking);
     --subheader-weight: var(--navigation-drawer-label-weight);
+    --divider-color: var(--navigation-drawer-divider-color);
 
     &.modal {
         --container-color: var(--navigation-drawer-modal-container-color);
@@ -33,7 +34,7 @@
         --container-elevation: var(--navigation-drawer-standard-container-color);
     }
 
-    & .button {
+    & .navigation-button {
         --label-color: var(--navigation-drawer-inactive-label-color);
         --label-font: var(--navigation-drawer-label-font);
         --label-line-height: var(--navigation-drawer-label-line-height);
@@ -109,14 +110,25 @@
         margin: 0;
     }
 
-    & .container {
+    & .navigation-container {
         background-color: var(--container-color);
         box-shadow: var(--container-elevation);
         width: var(--container-width);
         height: var(--container-height);
         border-radius: var(--container-shape);
+        padding-top: 1rem;
+
+        & hr {
+            color: var(--divider-color);
+            margin: {
+                top: 1rem;
+                bottom: 1rem;
+                left: 1.75rem;
+                right: 1.75rem;
+            };
+        }
         
-        & .header {
+        & .navigation-header {
             color: var(--header-color);
             font-family: var(--header-font);
             line-height: var(--header-line-height);
@@ -131,7 +143,7 @@
             };
         }
     
-        & .subheader {
+        & .navigation-subheader {
             color: var(--subheader-color);
             font-family: var(--subheader-font);
             line-height: var(--subheader-line-height);
@@ -140,7 +152,7 @@
             font-weight: var(--subheader-weight);
         }
     
-        & .button {
+        & .navigation-button {
             display: block;
             background: none;
             border: none;

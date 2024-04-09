@@ -3,7 +3,12 @@ import "../uicomponents/components.scss";
 import style from "./layout.module.scss";
 import Logo from "../components/Logo";
 import Navigation from "../components/Navigation";
-import { NavigationDrawer, Link } from "../components/NavigationDrawer";
+import { 
+    NavigationDrawer, 
+    Link as NavigationDrawerLink, 
+    Header as NavigationDrawerHeader,
+    Close as NavigationDrawerClose, 
+} from "../components/NavigationDrawer";
 
 export default function RootLayout({
     children,
@@ -21,9 +26,22 @@ export default function RootLayout({
                 <div className={style.app}>
                     <header className={style.header}>
                         <NavigationDrawer className={style.navigationDrawer}>
-                            <Link href={"/"}>Home</Link>
-                            <Link href={"/budget"}>Budget</Link>
-                            <Link href={"/expense"}>Expense</Link>
+                            <NavigationDrawerHeader className={style.navigationDrawerHeader}>
+                                <Logo />
+                                <NavigationDrawerClose />
+                            </NavigationDrawerHeader>
+                            <hr />
+                            <ul>
+                                <li>
+                                    <NavigationDrawerLink href={"/"}>Home</NavigationDrawerLink>
+                                </li>
+                                <li>
+                                    <NavigationDrawerLink href={"/budget"}>Budget</NavigationDrawerLink>
+                                </li>
+                                <li>
+                                    <NavigationDrawerLink href={"/expense"}>Expense</NavigationDrawerLink>
+                                </li>
+                            </ul>
                         </NavigationDrawer>
                         <nav className={style.logo}>
                             <Logo />
