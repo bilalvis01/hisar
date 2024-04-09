@@ -78,9 +78,9 @@
                 --#{$key}: #{$value};
             }
             --focus-indicator-style: solid;
-            --focus-indicator-color: var(--navigation-drawer-indicator-color);
-            --focus-indicator-width: var(--navigation-drawer-indicator-thickness);
-            --focus-indicator-offset: var(--navigation-drawer-indicator-offset);
+            --focus-indicator-color: var(--navigation-drawer-focus-indicator-color);
+            --focus-indicator-width: var(--navigation-drawer-focus-indicator-thickness);
+            --focus-indicator-offset: var(--navigation-drawer-focus-indicator-offset);
             --state-layer-color: rgba(var(--navigation-drawer-inactive-state-layer-color-rgb), var(--navigation-drawer-state-layer-opacity));
             &.active {
                 --state-layer-color: rgba(var(--navigation-drawer-active-state-layer-color-rgb), var(--navigation-drawer-state-layer-opacity));

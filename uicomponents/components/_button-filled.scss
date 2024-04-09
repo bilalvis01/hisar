@@ -37,9 +37,9 @@
         --state-layer-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
 
         --focus-indicator-style: solid;
-        --focus-indicator-color: var(--button-filled-indicator-color);
-        --focus-indicator-width: var(--button-filled-indicator-thickness);
-        --focus-indicator-offset: var(--button-filled-indicator-offset);
+        --focus-indicator-color: var(--button-filled-focus-indicator-color);
+        --focus-indicator-width: var(--button-filled-focus-indicator-thickness);
+        --focus-indicator-offset: var(--button-filled-focus-indicator-offset);
     }
     
     &:active {
