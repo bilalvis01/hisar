@@ -22,6 +22,7 @@
     --subheader-tracking: var(--navigation-drawer-label-tracking);
     --subheader-weight: var(--navigation-drawer-label-weight);
     --divider-color: var(--navigation-drawer-divider-color);
+    --scrim-color: rgba(var(--navigation-drawer-scrim-color-rgb), var(--navigation-drawer-scrim-opacity));
 
     &.modal {
         --container-color: var(--navigation-drawer-modal-container-color);
