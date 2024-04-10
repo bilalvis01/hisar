@@ -19,6 +19,11 @@
             background-color: var(--state-layer-color);
 
             & > .content {
+                padding: {
+                    left: 1rem;
+                    right: 1rem;
+                }
+
                 & svg {
                     color: var(--icon-color);
                     width: var(--icon-width);
