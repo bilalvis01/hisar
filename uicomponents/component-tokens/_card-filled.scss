@@ -1,0 +1,65 @@
+$card-filled-container-color: var(--system-color-surface-highest) !default;
+$card-filled-container-elevation: var(--system-elevation-level0) !default;
+$card-filled-container-shape: var(--system-shape-corner-medium) !default;
+$card-filled-icon-color: var(--system-color-primary) !default;
+$card-filled-icon-size: 1.5rem !default;
+
+$card-filled-disabled-container-elevation: var(--system-elevation-level0) !default;
+$card-filled-disabled-container-opacity: 0.38 !default;
+$card-filled-disabled-container-color: var(--system-color-surface-variant) !default;
+
+$card-filled-hover-container-elevation: var(--system-elevation-level1) !default;
+$card-filled-hover-state-layer-color: var(--system-color-on-surface) !default;
+$card-filled-hover-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$card-filled-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+
+$card-filled-focus-indicator-color: var(--system-color-secondary) !default;
+$card-filled-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
+$card-filled-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
+$card-filled-focus-container-elevation: var(--system-elevation-level0) !default;
+$card-filled-focus-state-layer-color: var(--system-color-on-surface) !default;
+$card-filled-focus-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$card-filled-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+
+$card-filled-pressed-container-elevation: var(--system-elevation-level0) !default;
+$card-filled-pressed-state-layer-color: var(--system-color-on-surface) !default;
+$card-filled-pressed-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$card-filled-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+
+$card-filled: (
+    "card-filled-container-color": $card-filled-container-color,
+    "card-filled-container-elevation": $card-filled-container-elevation,
+    "card-filled-container-shape": $card-filled-container-shape,
+    "card-filled-icon-color": $card-filled-icon-color,
+    "card-filled-icon-size": $card-filled-icon-size,
+) !default;
+
+$card-filled-disabled: (
+    "card-filled-container-elevation": $card-filled-disabled-container-elevation,
+    "card-filled-container-opacity": $card-filled-disabled-container-opacity,
+    "card-filled-container-color": $card-filled-disabled-container-color,
+) !default;
+
+$card-filled-hover: (
+    "card-filled-container-elevation": $card-filled-hover-container-elevation,
+    "card-filled-state-layer-color": $card-filled-hover-state-layer-color,
+    "card-filled-state-layer-color-rgb": $card-filled-hover-state-layer-color-rgb,
+    "card-filled-state-layer-opacity": $card-filled-hover-state-layer-opacity,
+) !default;
+
+$card-filled-focus: (
+    "card-filled-focus-indicator-color": $card-filled-focus-indicator-color,
+    "card-filled-focus-indicator-thickness": $card-filled-focus-indicator-thickness,
+    "card-filled-focus-indicator-offset": $card-filled-focus-indicator-offset,
+    "card-filled-container-elevation": $card-filled-focus-container-elevation,
+    "card-filled-state-layer-color": $card-filled-focus-state-layer-color,
+    "card-filled-state-layer-color-rgb": $card-filled-focus-state-layer-color-rgb,
+    "card-filled-state-layer-opacity": $card-filled-focus-state-layer-opacity,
+) !default;
+
+$card-filled-pressed: (
+    "card-filled-container-elevation": $card-filled-pressed-container-elevation,
+    "card-filled-state-layer-color": $card-filled-pressed-state-layer-color,
+    "card-filled-state-layer-color-rgb": $card-filled-pressed-state-layer-color-rgb,
+    "card-filled-state-layer-opacity": $card-filled-pressed-state-layer-opacity,
+) !default;
