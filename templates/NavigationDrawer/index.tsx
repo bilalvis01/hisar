@@ -5,7 +5,7 @@ import {
     Header as NavigationDrawerHeader,
     Close as NavigationDrawerClose, 
 } from "../../components/NavigationDrawer";
-import Logo from "../../components/Logo";
+import Logo from "../../templates/Logo";
 import style from "./navigation-drawer.module.scss";
 
 interface NavigationDrawerProps {

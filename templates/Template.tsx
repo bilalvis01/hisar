@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./template.module.scss";
-import Logo from "../components/Logo";
+import Logo from "../templates/Logo";
 import Navigation from "./Navigation";
 import NavigationDrawer from "./NavigationDrawer";
 
