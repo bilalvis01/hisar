@@ -35,6 +35,14 @@
     }
 
     & .navigation-button {
+        --navigation-button-container-color: transparent;
+        --navigation-button-container-width: var(--navigation-drawer-active-indicator-width);
+        --navigation-button-container-height: var(--navigation-drawer-active-indicator-height);
+        --navigation-button-container-shape: var(--navigation-drawer-active-indicator-shape);
+        --focus-indicator-style: none;
+        --focus-indicator-color: unset;
+        --focus-indicator-width: unset;
+        --focus-indicator-offset: unset;
         --label-color: var(--navigation-drawer-inactive-label-color);
         --label-font: var(--navigation-drawer-label-font);
         --label-line-height: var(--navigation-drawer-label-line-height);
@@ -52,10 +60,6 @@
         --state-layer-width: var(--navigation-drawer-active-indicator-width);
         --state-layer-height: var(--navigation-drawer-active-indicator-height);
         --state-layer-shape: var(--navigation-drawer-active-indicator-shape);
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
 
         &.active {
             --label-color: var(--navigation-drawer-active-label-color);
@@ -165,61 +169,68 @@
                 left: 0.75rem;
                 right: 0.75rem;
             };
-    
-            & > .active-indicator {
-                background-color: var(--active-indicator-color);
-                width: var(--active-indicator-width);
-                height: var(--active-indicator-height);
-                border-radius: var(--active-indicator-shape);
+
+            & > .navigation-button-container {
+                background-color: var(--navigation-button-container-color);
+                width: var(--navigation-button-container-width);
+                height: var(--navigation-button-container-height);
+                border-radius: var(--navigation-button-container-shape);
                 outline: {
                     style: var(--focus-indicator-style);
                     color: var(--focus-indicator-color);
                     width: var(--focus-indicator-width);
                     offset: var(--focus-indicator-offset);
                 };
-    
-                & > .state-layer {
-                    background-color: var(--state-layer-color);
-                    width: var(--state-layer-width);
-                    height: var(--state-layer-height);
-                    border-radius: var(--state-layer-shape);
-                    
-                    & > .content {
-                        display: grid;
-                        justify-content: left;
-                        align-items: center;
-                        width: 100%;
-                        height: 100%;
-                        padding: {
-                            left: 1rem;
-                            right: 0.75rem;
-                        };
+
+                & > .active-indicator {
+                    background-color: var(--active-indicator-color);
+                    width: var(--active-indicator-width);
+                    height: var(--active-indicator-height);
+                    border-radius: var(--active-indicator-shape);
         
-                        & > svg {
-                            color: var(--icon-color);
-                            width: var(--icon-width);
-                            height: var(--icon-height);
-                            padding-right: 0.75rem;
-                        }
-        
-                        & > .label {
-                            color: var(--label-color);
-                            font-family: var(--label-font);
-                            line-height: var(--label-line-height);
-                            font-size: var(--label-size);
-                            letter-spacing: var(--label-tracking);
-                            font-weight: var(--label-weight);
-                            padding-right: 0.75rem;
-                        }
-        
-                        & > .badge {
-                            color: var(--badge-label-color);
-                            font-family: var(--badge-label-font);
-                            line-height: var(--badge-label-line-height);
-                            font-size: var(--badge-label-size);
-                            letter-spacing: var(--badge-label-tracking);
-                            font-weight: var(--badge-label-weight);
-                            padding-right: 0.75rem;
+                    & > .state-layer {
+                        background-color: var(--state-layer-color);
+                        width: var(--state-layer-width);
+                        height: var(--state-layer-height);
+                        border-radius: var(--state-layer-shape);
+                        
+                        & > .content {
+                            display: grid;
+                            justify-content: left;
+                            align-items: center;
+                            width: 100%;
+                            height: 100%;
+                            padding: {
+                                left: 1rem;
+                                right: 0.75rem;
+                            };
+            
+                            & > svg {
+                                color: var(--icon-color);
+                                width: var(--icon-width);
+                                height: var(--icon-height);
+                                padding-right: 0.75rem;
+                            }
+            
+                            & > .label {
+                                color: var(--label-color);
+                                font-family: var(--label-font);
+                                line-height: var(--label-line-height);
+                                font-size: var(--label-size);
+                                letter-spacing: var(--label-tracking);
+                                font-weight: var(--label-weight);
+                                padding-right: 0.75rem;
+                            }
+            
+                            & > .badge {
+                                color: var(--badge-label-color);
+                                font-family: var(--badge-label-font);
+                                line-height: var(--badge-label-line-height);
+                                font-size: var(--badge-label-size);
+                                letter-spacing: var(--badge-label-tracking);
+                                font-weight: var(--badge-label-weight);
+                                padding-right: 0.75rem;
+                            }
                         }
                     }
                 }

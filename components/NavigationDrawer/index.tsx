@@ -160,15 +160,17 @@ export function Link({
     return (
         <li>
             <NextLink className={clsx("navigation-button", { active: pathname == href })} href={href} {...props}>
-                <div className="active-indicator">
-                    <div className="state-layer">
-                        <div className="content">
-                            {startIcon}
-                            <span className="label">{children}</span>
-                            {notification > 0 && (
-                                <span className="badge">{notification}</span>
-                            )}
-                            {endIcon}
+                <div className="navigation-button-container">
+                    <div className="active-indicator">
+                        <div className="state-layer">
+                            <div className="content">
+                                {startIcon}
+                                <span className="label">{children}</span>
+                                {notification > 0 && (
+                                    <span className="badge">{notification}</span>
+                                )}
+                                {endIcon}
+                            </div>
                         </div>
                     </div>
                 </div>
