@@ -1,0 +1,54 @@
+@use "../component-tokens" as comp;
+
+.card.filled {
+    @each $key, $value in comp.$card-filled {
+        --#{$key}: #{$value};
+    }
+    --container-color: var(--card-filled-container-color);
+    --container-shape: var(--card-filled-container-shape);
+    --container-elevation: var(--card-filled-container-elevation);
+    --focus-indicator-style: none;
+    --focus-indicator-color: unset;
+    --focus-indicator-width: unset;
+    --focus-indicator-offset: unset;
+    --icon-color: var(--card-filled-icon-color);
+    --icon-width: var(--card-filled-icon-size);
+    --icon-height: var(--card-filled-icon-size);
+    --state-layer-color: transparent;
+
+    &:hover {
+        @each $key, $value in comp.$card-filled-hover {
+            --#{$key}: #{$value};
+        }
+        --state-layer-color: rgba(var(--card-filled-state-layer-color-rgb), var(--card-filled-state-layer-opacity));
+    }
+
+    &:focus {
+        @each $key, $value in comp.$card-filled-focus {
+            --#{$key}: #{$value};
+        }
+        --focus-indicator-style: solid;
+        --focus-indicator-color: var(--card-filled-focus-indicator-color);
+        --focus-indicator-width: var(--card-filled-focus-indicator-thickness);
+        --focus-indicator-offset: var(--card-filled-focus-indicator-offset);
+        --state-layer-color: rgba(var(--card-filled-state-layer-color-rgb), var(--card-filled-state-layer-opacity));
+    }
+
+    &:active {
+        @each $key, $value in comp.$card-filled-pressed {
+            --#{$key}: #{$value};
+        }
+        --focus-indicator-style: none;
+        --focus-indicator-color: unset;
+        --focus-indicator-width: unset;
+        --focus-indicator-offset: unset;
+        --state-layer-color: rgba(var(--card-filled-state-layer-color-rgb), var(--card-filled-state-layer-opacity));
+    }
+
+    &:disabled {
+        @each $key, $value in comp.$card-filled-disabled {
+            --#{$key}: #{$value};
+        }
+        --container-color: rgba(var(--card-filled-container-color-rgb), var(--card-filled-container-opacity));
+    }
+}

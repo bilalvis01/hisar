@@ -1,0 +1,30 @@
+.card {
+    background-color: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+
+    & > .container {
+        background-color: var(--container-color);
+        box-shadow: var(--container-elevation);
+        border-radius: var(--container-shape);
+        outline: {
+            style: var(--focus-indicator-style);
+            color: var(--focus-indicator-color);
+            width: var(--focus-indicator-width);
+            offset: var(--focus-indicator-offset);
+        };
+
+        & > .state-layer {
+            background-color: var(--state-layer-color);
+
+            & > .content {
+                & svg {
+                    color: var(--icon-color);
+                    width: var(--icon-width);
+                    height: var(--icon-height);
+                }
+            }
+        }
+    }
+}
