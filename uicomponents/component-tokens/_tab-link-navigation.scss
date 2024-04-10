@@ -8,51 +8,49 @@ $tab-link-navigation-label-line-height: var(--system-typescale-title-small-line-
 $tab-link-navigation-label-size: var(--system-typescale-title-small-size) !default;
 $tab-link-navigation-label-weight: var(--system-typescale-title-small-weight) !default;
 $tab-link-navigation-label-tracking: var(--system-typescale-title-small-tracking) !default;
-$tab-link-navigation-active-label-color: var(--system-color-on-primary) !default;
+$tab-link-navigation-active-label-color: var(--system-color-on-secondary-container) !default;
 $tab-link-navigation-inactive-label-color: var(--system-color-primary-container) !default;
 $tab-link-navigation-icon-size: 1.5rem !default;
 $tab-link-navigation-active-icon-color: var(--system-color-on-primary) !default;
 $tab-link-navigation-inactive-icon-color: var(--system-color-primary-container) !default;
 $tab-link-navigation-divider-color: var(--system-color-surface-container-highest) !default;
 $tab-link-navigation-divider-height: 0.0625rem !default;
-$tab-link-navigation-active-indicator-color: var(--system-color-on-primary) !default;
-$tab-link-navigation-active-indicator-height: 3px !default;
-$tab-link-navigation-active-indicator-shape: 0.1875rem 0.1875rem 0 0 !default;
+$tab-link-navigation-active-indicator-color: var(--system-color-secondary-container) !default;
 
-$tab-link-navigation-active-hover-label-color: var(--system-color-on-primary) !default;
+$tab-link-navigation-active-hover-label-color: var(--system-color-on-secondary-container) !default;
 $tab-link-navigation-inactive-hover-label-color: var(--system-color-on-primary) !default;
-$tab-link-navigation-active-hover-state-layer-color: var(--system-color-on-primary) !default;
-$tab-link-navigation-active-hover-state-layer-color-rgb: var(--system-color-on-primary-rgb) !default;
+$tab-link-navigation-active-hover-state-layer-color: var(--system-color-on-secondary-container) !default;
+$tab-link-navigation-active-hover-state-layer-color-rgb: var(--system-color-on-secondary-container-rgb) !default;
 $tab-link-navigation-active-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
 $tab-link-navigation-inactive-hover-state-layer-color: var(--system-color-on-primary) !default;
 $tab-link-navigation-inactive-hover-state-layer-color-rgb: var(--system-color-on-primary-rgb) !default;
 $tab-link-navigation-inactive-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
-$tab-link-navigation-active-hover-icon-color: var(--system-color-on-primary) !default;
+$tab-link-navigation-active-hover-icon-color: var(--system-color-on-secondary-container) !default;
 $tab-link-navigation-inactive-hover-icon-color: var(--system-color-on-primary) !default;
 
 $tab-link-navigation-focus-indicator-color: var(--system-color-secondary) !default;
 $tab-link-navigation-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
 $tab-link-navigation-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
-$tab-link-navigation-active-focus-label-color: var(--system-color-on-primary) !default;
+$tab-link-navigation-active-focus-label-color: var(--system-color-on-secondary-container) !default;
 $tab-link-navigation-inactive-focus-label-color: var(--system-color-on-primary) !default;
-$tab-link-navigation-active-focus-state-layer-color: var(--system-color-on-primary) !default;
-$tab-link-navigation-active-focus-state-layer-color-rgb: var(--system-color-on-primary-rgb) !default;
+$tab-link-navigation-active-focus-state-layer-color: var(--system-color-on-secondary-container) !default;
+$tab-link-navigation-active-focus-state-layer-color-rgb: var(--system-color-on-secondary-container-rgb) !default;
 $tab-link-navigation-active-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
 $tab-link-navigation-inactive-focus-state-layer-color: var(--system-color-on-primary) !default;
 $tab-link-navigation-inactive-focus-state-layer-color-rgb: var(--system-color-on-primary-rgb) !default;
 $tab-link-navigation-inactive-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
-$tab-link-navigation-active-focus-icon-color: var(--system-color-on-primary) !default;
+$tab-link-navigation-active-focus-icon-color: var(--system-color-on-secondary-container) !default;
 $tab-link-navigation-inactive-focus-icon-color: var(--system-color-on-primary) !default;
 
-$tab-link-navigation-active-pressed-label-color: var(--system-color-on-primary) !default;
+$tab-link-navigation-active-pressed-label-color: var(--system-color-on-secondary-container) !default;
 $tab-link-navigation-inactive-pressed-label-color: var(--system-color-on-primary) !default;
-$tab-link-navigation-active-pressed-state-layer-color: var(--system-color-on-primary) !default;
-$tab-link-navigation-active-pressed-state-layer-color-rgb: var(--system-color-on-primary-rgb) !default;
+$tab-link-navigation-active-pressed-state-layer-color: var(--system-color-on-secondary-container) !default;
+$tab-link-navigation-active-pressed-state-layer-color-rgb: var(--system-color-on-secondary-container-rgb) !default;
 $tab-link-navigation-active-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
 $tab-link-navigation-inactive-pressed-state-layer-color: var(--system-color-on-primary) !default;
 $tab-link-navigation-inactive-pressed-state-layer-color-rgb: var(--system-color-on-primary-rgb) !default;
 $tab-link-navigation-inactive-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
-$tab-link-navigation-active-pressed-icon-color: var(--system-color-on-primary) !default;
+$tab-link-navigation-active-pressed-icon-color: var(--system-color-on-secondary-container) !default;
 $tab-link-navigation-inactive-pressed-icon-color: var(--system-color-on-primary) !default;
 
 $tab-link-navigation: (
@@ -74,8 +72,6 @@ $tab-link-navigation: (
     "tab-link-navigation-divider-color": $tab-link-navigation-divider-color,
     "tab-link-navigation-divider-height": $tab-link-navigation-divider-height,
     "tab-link-navigation-active-indicator-color": $tab-link-navigation-active-indicator-color,
-    "tab-link-navigation-active-indicator-height": $tab-link-navigation-active-indicator-height,
-    "tab-link-navigation-active-indicator-shape": $tab-link-navigation-active-indicator-shape,
 ) !default;
 
 $tab-link-navigation-hover: (
