@@ -1,0 +1,10 @@
+@mixin page-padding {
+    padding: {
+        top: var(--reference-padding4);
+        bottom: var(--reference-padding4);
+    };
+
+    @media (min-width: 600px) {
+        padding: var(--reference-padding12);
+    }
+}
