@@ -8,15 +8,11 @@
     grid-template-rows: 6rem 1fr 4rem;
     background: linear-gradient(
         to bottom,
-        var(--system-color-primary) 21rem,
-        var(--system-color-surface) 21rem,
+        var(--system-color-primary) 16rem,
+        var(--system-color-surface) 16rem,
     );
     min-height: 100vh;
     max-width: 100%;
-    padding: {
-        left: 1rem;
-        right: 1rem;
-    };
 }  
 
 .header {
@@ -24,8 +20,19 @@
     display: grid;
     grid-template-areas: "navigation logo";
     grid-template-columns: 5rem 1fr;
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    };
 
-    @media (min-width: 992px) {
+    @media (min-width: 600px) {
+        padding: {
+            left: 1.5em;
+            right: 1.5rem;
+        };
+    }
+
+    @media (min-width: 840px) {
         grid-template-areas: "logo navigation";
         grid-template-columns: 5rem 1fr;
     }
@@ -33,15 +40,16 @@
 
 .main {
     grid-area: main;
-    position: relative;
-    margin: 6rem 3rem;
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    };
 
-    @media (min-width: 992px) {
-        margin: 6rem 4rem;
-    }
-
-    @media (min-width: 1200px) {
-        margin: 6rem;
+    @media (min-width: 600px) {
+        padding: {
+            left: 1.5em;
+            right: 1.5rem;
+        };
     }
 }
 
@@ -53,6 +61,17 @@
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    };
+
+    @media (min-width: 600px) {
+        padding: {
+            left: 1.5em;
+            right: 1.5rem;
+        };
+    }
 }
 
 .logo {
@@ -60,7 +79,7 @@
     align-self: center;
     justify-self: left;
 
-    @media (min-width: 992px) {
+    @media (min-width: 840px) {
         justify-self: center;
     }
 }
@@ -71,7 +90,7 @@
     align-self: center;
     justify-self: end;
 
-    @media (min-width: 992px) {
+    @media (min-width: 840px) {
         display: block;
     }
 }
@@ -81,7 +100,7 @@
     justify-self: center;
     align-self: center;
 
-    @media (min-width: 992px) {
+    @media (min-width: 840px) {
         display: none;
     }
 }
