@@ -3,17 +3,17 @@ import clsx from "clsx";
 
 type Variant = "elevated" | "filled" | "outlined";
 
-export interface CardProps {
+export interface CardBaseProps {
     children: React.ReactNode;
     className?: string;
     variant?: Variant; 
 }
 
-export default function Card({ 
+export default function CardBase({ 
     children,
     className,
     variant = "filled",
-}: CardProps) {
+}: CardBaseProps) {
     return (
         <div className={clsx("card", variant)}>
             <div className="container">
