@@ -8,7 +8,7 @@ import {
     DialogDescription,
 } from "../../components/Dialog";
 import ButtonFilled from "../../components/ButtonFIlled";
-import Form from "./AddForm";
+import Form from "../BudgetAddForm";
 import style from "./add.module.scss";
 import Close from "../../icons/Close";
 
