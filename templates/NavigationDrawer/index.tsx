@@ -16,10 +16,8 @@ export default function NavigationDrawer({ className }: NavigationDrawerProps) {
     return (
         <NavigationDrawerBase className={className}>
             <NavigationDrawerHeader className={style.header}>
-                <Logo />
                 <NavigationDrawerClose />
             </NavigationDrawerHeader>
-            <hr />
             <ul>
                 <li>
                     <NavigationDrawerLink href={"/"}>Home</NavigationDrawerLink>
