@@ -175,6 +175,7 @@
                 width: var(--navigation-button-container-width);
                 height: var(--navigation-button-container-height);
                 border-radius: var(--navigation-button-container-shape);
+                overflow: hidden;
                 outline: {
                     style: var(--focus-indicator-style);
                     color: var(--focus-indicator-color);

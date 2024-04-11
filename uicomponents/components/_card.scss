@@ -9,6 +9,7 @@
         background-color: var(--container-color);
         box-shadow: var(--container-elevation);
         border-radius: var(--container-shape);
+        overflow: hidden;
         outline: {
             style: var(--focus-indicator-style);
             color: var(--focus-indicator-color);

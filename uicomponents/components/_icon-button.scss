@@ -16,6 +16,7 @@
         height: var(--container-height);
         border-radius: var(--container-shape);
         background-color: var(--container-color);
+        overflow: hidden;
         outline: {
             style: var(--focus-indicator-style);
             color: var(--focus-indicator-color);
