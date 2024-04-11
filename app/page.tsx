@@ -6,7 +6,7 @@ import format from "../utils/format";
 
 export default function Page() {
     return (
-        <div className={style.cardContainer}>
+        <div className={style.container}>
             <CardFilled className={style.card}>
                 <div className={style.cardContent}>
                     <h2 className={clsx(style.cardHeader, "text-title-medium")}>TOTAL BUDGET</h2>
