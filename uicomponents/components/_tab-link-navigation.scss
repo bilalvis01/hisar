@@ -26,10 +26,12 @@
     --divider-height: var(--tab-link-navigation-divider-height);
     --active-indicator-height: var(--tab-link-navigation-container-height);
     --active-indicator-color: transparent;
-    --active-indicator-shape: var(--tab-link-navigation-active-indicator-shape);
+    --active-indicator-shape: var(--tab-link-navigation-container-shape);
     --state-layer-height: var(--tab-link-navigation-container-height);
     --state-layer-color: rgba(var(--tab-link-navigation-inactive-state-layer-color-rgb), var(--tab-link-navigation-inactive-state-layer-opacity));
-    --content-position: relative;
+    --state-layer-shape: var(--tab-link-navigation-container-shape);
+    --content-height: var(--tab-link-navigation-container-height);
+    --content-shape: var(--tab-link-navigation-container-shape);
 
     &.inline {
         --container-height: var(--tab-link-navigation-inline-container-height);
@@ -86,12 +88,9 @@
 
     & > .container {
         display: block;
-        position: relative;
         height: var(--container-height);
         background-color: var(--container-color);
         border-radius: var(--container-shape);
-        overflow: hidden;
-        text-decoration: none;
         outline: {
             style: var(--focus-indicator-style);
             color: var(--focus-indicator-color);
@@ -108,15 +107,12 @@
                 height: var(--state-layer-height);
                 background-color: var(--state-layer-color);
                 border-radius: var(--state-layer-shape);
-                text-decoration: none;
     
                 & > .content {
-                    position: var(--content-position);
                     display: grid;
                     place-items: center;
-                    width: fit-content; 
-                    height: 100%;
-                    margin: 0 auto;
+                    height: var(--content-height);
+                    border-radius: var(--content-shape);
     
                     & > .label {
                         font-family: var(--label-font);

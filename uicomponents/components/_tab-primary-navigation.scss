@@ -17,24 +17,22 @@
     --icon-width: var(--tab-primary-navigation-icon-size);
     --icon-height: var(--tab-primary-navigation-icon-size);
     --icon-color: var(--tab-primary-navigation-inactive-icon-color);
-    --divider-diplay: none;
     --divider-color: var(--tab-primary-navigation-divider-color);
     --divider-height: var(--tab-primary-navigation-divider-height);
     --active-indicator-display: none;
     --active-indicator-height: var(--tab-primary-navigation-active-indicator-height);
     --active-indicator-color: var(--tab-primary-navigation-active-indicator-color);
     --active-indicator-shape: var(--tab-primary-navigation-active-indicator-shape);
+    --active-indicator-bottom: calc(var(--tab-primary-navigation-divider-height) * -1);
     --state-layer-width: 100%;
     --state-layer-height: 100%;
     --state-layer-color: rgba(var(--tab-primary-navigation-inactive-state-layer-color-rgb), var(--tab-primary-navigation-inactive-state-layer-opacity));
     --content-position: relative;
+    --content-height: 100%;
+    --content-shape: var(--tab-primary-navigation-container-shape);
 
     &.inline {
         --container-height: var(--tab-primary-navigation-inline-container-height);
-    }
-
-    &.underline {
-        --divider-display: block;
     }
 
     &.active {

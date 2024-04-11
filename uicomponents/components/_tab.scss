@@ -12,12 +12,9 @@
     & > .container {
         display: block;
         position: relative;
-        width: var(--container-width);
         height: var(--container-height);
         background-color: var(--container-color);
         border-radius: var(--container-shape);
-        overflow: hidden;
-        text-decoration: none;
         outline: {
             style: var(--focus-indicator-style);
             color: var(--focus-indicator-color);
@@ -26,18 +23,17 @@
         };
 
         & > .state-layer {
-            width: var(--state-layer-width);
             height: var(--state-layer-height);
             background-color: var(--state-layer-color);
             border-radius: var(--state-layer-shape);
-            text-decoration: none;
 
             & > .content {
                 position: var(--content-position);
                 display: grid;
                 place-items: center;
                 width: fit-content; 
-                height: 100%;
+                height: var(--content-height);
+                border-radius: var(--content-shape);
                 margin: 0 auto;
 
                 & > .label {
@@ -63,7 +59,7 @@
                     display: var(--active-indicator-display);
                     width: 100%;
                     height: var(--active-indicator-height);
-                    bottom: 0;
+                    bottom: var(--active-indicator-bottom);
                     background-color: var(--active-indicator-color);
                     border-radius: var(--active-indicator-shape);
                 }
@@ -71,7 +67,6 @@
         }
 
         & > hr {
-            display: var(--divider-display);
             border: 0;
             margin: 0;
             width: 100%;

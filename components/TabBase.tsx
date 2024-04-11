@@ -1,42 +1,35 @@
 "use client"
 
 import React from "react";
-import Link, { LinkProps } from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
 type Variant = "primary" | "secondary"; 
 
-interface TabLinkProps extends LinkProps {
+export interface TabBaseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     className?: string;
-    role?: string;
     variant?: Variant;
     active?: boolean;
 }
 
-export default function Tab({
+export default function TabBase({
     children,
     className,
-    role,
     variant,
-    href,
     ...props
-}: TabLinkProps) {
+}: TabBaseProps) {
     const pathname = usePathname();
 
     const rootClassName = clsx(
         "tab", 
         { "primary-navigation": variant === "primary"}, 
-        { "secondary-navigation": variant === "secondary" }, 
-        { active: href === pathname }, 
+        { "secondary-navigation": variant === "secondary" },
         className
     );
 
     return (
-        <Link 
-            href={href}
-            role={role}
+        <button 
             className={rootClassName} 
             {...props}
         >
@@ -49,6 +42,6 @@ export default function Tab({
                 </div>
                 <hr />
             </div>
-        </Link>
+        </button>
     );
 }
