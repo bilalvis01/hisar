@@ -5,6 +5,7 @@
     box-shadow: none;
 
     & > .container {
+        height: 100%;
         background-color: var(--container-color);
         box-shadow: var(--container-elevation);
         border-radius: var(--container-shape);
@@ -16,9 +17,13 @@
         };
 
         & > .state-layer {
+            height: 100%;
             background-color: var(--state-layer-color);
+            border-radius: var(--state-layer-shape);
 
             & > .content {
+                height: 100%;
+                border-radius: var(--content-shape);
                 padding: {
                     left: 1rem;
                     right: 1rem;

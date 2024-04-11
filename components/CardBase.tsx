@@ -15,10 +15,10 @@ export default function CardBase({
     variant = "filled",
 }: CardBaseProps) {
     return (
-        <div className={clsx("card", variant)}>
+        <div className={clsx("card", variant, className)}>
             <div className="container">
                 <div className="state-layer">
-                    <div className={clsx("content", className)}>
+                    <div className={"content"}>
                         {children}
                     </div>
                 </div>
