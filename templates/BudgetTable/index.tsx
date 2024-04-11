@@ -63,33 +63,47 @@ const columns = [
         )
     }),
     columnHelper.accessor("deskripsi", {
-        header: "DESKRIPSI",
+        header: () => (
+            <span className={clsx(style.description, "text-title-small")}>DESKRIPSI</span>
+        ),
         cell: info => (
-            <span className={style.description}>
+            <span className={clsx(style.description, "text-body-small")}>
                 {info.getValue()}
             </span>
         ),
     }),
     columnHelper.accessor("budget", {
-        header: "BUDGET",
+        header: () => (
+            <span className={clsx(style.currency, "text-title-small")}>
+                BUDGET
+            </span>
+        ),
         cell: info => (
-            <span className={style.currency}>
+            <span className={clsx(style.currency, "text-body-small")}>
                 {format.currency(info.getValue())}
             </span>
         ),
     }),
     columnHelper.accessor("terpakai", {
-        header: "TERPAKAI",
+        header: () => (
+            <span className={clsx(style.currency, "text-title-small")}>
+                TERPAKAI
+            </span>
+        ),
         cell: info => (
-            <span className={style.currency}>
+            <span className={clsx(style.currency, "text-body-small")}>
                 {format.currency(info.getValue())}
             </span>
         ),
     }),
     columnHelper.accessor("sisa", {
-        header: "SISA",
+        header: () => (
+            <span className={clsx(style.currency, "text-title-small")}>
+                SISA
+            </span>
+        ),
         cell: info => (
-            <span className={style.currency}>
+            <span className={clsx(style.currency, "text-body-small")}>
                 {format.currency(info.getValue())}
             </span>
         ),
@@ -108,38 +122,36 @@ export default function Table() {
     });
 
     return (
-        <div className={style.wrapper}>
-            <table className={style.table}>
-                <thead>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id} className={style.head}>
-                            {headerGroup.headers.map(header => (
-                                <th key={header.id} className={style.cell}>
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                        )
-                                    }
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map(row => (
-                        <tr key={row.id}  className={style.body}>
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className={style.cell}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <table className={style.table}>
+            <thead>
+                {table.getHeaderGroups().map(headerGroup => (
+                    <tr key={headerGroup.id} className={style.head}>
+                        {headerGroup.headers.map(header => (
+                            <th key={header.id} className={style.cell}>
+                                {header.isPlaceholder
+                                    ? null
+                                    : flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext()
+                                    )
+                                }
+                            </th>
+                        ))}
+                    </tr>
+                ))}
+            </thead>
+            <tbody>
+                {table.getRowModel().rows.map(row => (
+                    <tr key={row.id}  className={style.body}>
+                        {row.getVisibleCells().map(cell => (
+                            <td key={cell.id} className={style.cell}>
+                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     );
 }
 

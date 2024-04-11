@@ -1,25 +1,20 @@
-.wrapper {
-    grid-area: body;
-    width: 100%;
-    overflow-x: auto;
-}
-
 .table {
     width: 100%;
-    border: 1px solid var(--outline-variant);
+    border: 1px solid var(--system-color-outline-variant);
     border-collapse: collapse;
 }
 
 %row {
-    background: var(--surface-container-low);
+    background-color: var(--system-color-surface-container);
+    height: var(--reference-spacer2);
 }
 
 .head {
     @extend %row;
     font-weight: bold;
     font-size: 1.2rem;
-    color: var(--on-primary);
-    background: var(--primary);
+    color: var(--system-color-on-primary);
+    background-color: var(--system-color-primary);
 
     .cell {
         padding: {
@@ -33,8 +28,8 @@
     @extend %row;
   
     &:nth-of-type(odd) {
-        background: var(--surface-container-highest);
-        color: var(--on-surface);
+        background: var(--system-color-primary-container);
+        color: var(--system-color-on-surface);
     }
 
     .cell {
