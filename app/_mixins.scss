@@ -8,3 +8,24 @@
         padding: var(--reference-padding12);
     }
 }
+
+@mixin card-filled {
+    background-color: var(--system-color-surface-container-highest);
+    box-shadow: var(--system-elevation-level0);
+    border-radius: var(--system-shape-corner-medium);
+    padding: {
+        left: var(--reference-padding4);
+        right: var(--reference-padding4);
+    }
+}
+
+@mixin card-outlined {
+    background-color: var(--system-color-surface);
+    box-shadow: var(--system-elevation-level0);
+    border-radius: var(--system-shape-corner-medium);
+    border: 1px solid var(--system-color-outline-variant);
+    padding: {
+        left: var(--reference-padding4);
+        right: var(--reference-padding4);
+    }
+}
