@@ -35,10 +35,6 @@
         --reference-palette-#{$color}-rgb: #{$value};
     }
 
-    @each $padding, $value in ref.$paddings {
-        --reference-#{$padding}: #{$value};
-    }
-
     @each $typeface, $value in ref.$typefaces {
         --reference-#{$typeface}: #{$value};
     }
@@ -77,6 +73,10 @@
 
     @each $spacer, $value in sys.$spacers {
         --system-#{$spacer}: #{$value};
+    }
+
+    @each $padding, $value in sys.$paddings {
+        --system-#{$padding}: #{$value};
     }
 }
 
