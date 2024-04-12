@@ -139,6 +139,26 @@
     @each $token, $value in comp.$card-outlined-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$icon-button-filled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$icon-button-filled-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$icon-button-filled-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$icon-button-filled-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$icon-button-filled-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {

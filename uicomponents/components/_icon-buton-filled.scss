@@ -1,13 +1,10 @@
 @use "../component-tokens" as comp;
 
 .icon-button.filled {
-    @each $key, $value in comp.$icon-button-filled {
-        --#{$key}: #{$value};
-    }
-    --container-width: var(--icon-button-filled-container-width);
-    --container-height: var(--icon-button-filled-container-height);
-    --container-shape: var(--icon-button-filled-container-shape);
-    --container-color: var(--icon-button-filled-container-color);
+    --container-width: var(--component-icon-button-filled-container-width);
+    --container-height: var(--component-icon-button-filled-container-height);
+    --container-shape: var(--component-icon-button-filled-container-shape);
+    --container-color: var(--component-icon-button-filled-container-color);
     --focus-indicator-style: none;
     --focus-indicator-color: unset;
     --focus-indicator-width: unset;
@@ -15,69 +12,67 @@
     --state-layer-color: transparent;
     --state-layer-width: 100%;
     --state-layer-height: 100%;
-    --state-layer-shape: var(--icon-button-filled-container-shape);
-    --icon-color: var(--icon-button-filled-icon-color);
-    --icon-width: var(--icon-button-filled-icon-size);
-    --icon-height: var(--icon-button-filled-icon-size);
+    --state-layer-shape: var(--component-icon-button-filled-container-shape);
+    --icon-color: var(--component-icon-button-filled-icon-color);
+    --icon-width: var(--component-icon-button-filled-icon-size);
+    --icon-height: var(--component-icon-button-filled-icon-size);
 
     &.toggle {
-        --container-color: var(--icon-button-filled-unselected-container-color);
-        --icon-color: var(--icon-button-filled-unselected-icon-color);
+        --container-color: var(--component-icon-button-filled-unselected-container-color);
+        --icon-color: var(--component-icon-button-filled-unselected-icon-color);
         
         &.selected {
-            --container-color: var(--icon-button-filled-selected-container-color);
-            --icon-color: var(--icon-button-filled-selected-icon-color);
+            --container-color: var(--component-icon-button-filled-selected-container-color);
+            --icon-color: var(--component-icon-button-filled-selected-icon-color);
         }
     }
 
     &:hover {
-        @each $key, $value in comp.$icon-button-filled-hover {
-            --#{$key}: #{$value};
-        }
-        --state-layer-color: rgba(var(--icon-button-filled-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+        --state-layer-color: rgba(var(--component-icon-button-filled-hover-state-layer-color-rgb), var(--component-icon-button-filled-hover-state-layer-opacity));
+        --icon-color: var(--component-icon-button-filled-hover-icon-color);
 
         &.toggle {
-            --state-layer-color: rgba(var(--icon-button-filled-unselected-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+            --state-layer-color: rgba(var(--component-icon-button-filled-unselected-hover-state-layer-color-rgb), var(--component-icon-button-filled-hover-state-layer-opacity));
+            --icon-color: var(--component-icon-button-filled-unselected-hover-icon-color);
 
             &.selected {
-                --state-layer-color: rgba(var(--icon-button-filled-selected-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+                --state-layer-color: rgba(var(--component-icon-button-filled-selected-hover-state-layer-color-rgb), var(--component-icon-button-filled-hover-state-layer-opacity));
+                --icon-color: var(--component-icon-button-filled-selected-hover-icon-color);
             }
         }
     }
 
     &:focus {
-        @each $key, $value in comp.$icon-button-filled-focus {
-            --#{$key}: #{$value};
-        }
-
-        --state-layer-color: rgba(var(--icon-button-filled-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+        --state-layer-color: rgba(var(--component-icon-button-filled-focus-state-layer-color-rgb), var(--component-icon-button-filled-focus-state-layer-opacity));
+        --icon-color: var(--component-icon-button-filled-focus-icon-color);
 
         &.toggle {
-            --state-layer-color: rgba(var(--icon-button-filled-unselected-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+            --state-layer-color: rgba(var(--component-icon-button-filled-unselected-focus-state-layer-color-rgb), var(--component-icon-button-filled-focus-state-layer-opacity));
+            --icon-color: var(--component-icon-button-filled-unselected-focus-icon-color);
 
             &.selected {
-                --state-layer-color: rgba(var(--icon-button-filled-selected-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+                --state-layer-color: rgba(var(--component-icon-button-filled-selected-focus-state-layer-color-rgb), var(--component-icon-button-filled-focus-state-layer-opacity));
+                --icon-color: var(--component-icon-button-filled-selected-focus-icon-color);
             }
         }
         
         --focus-indicator-style: solid;
-        --focus-indicator-color: var(--icon-button-filled-focus-indicator-color);
-        --focus-indicator-width: var(--icon-button-filled-focus-indicator-thickness);
-        --focus-indicator-offset: var(--icon-button-filled-focus-indicator-offset);
+        --focus-indicator-color: var(--component-icon-button-filled-focus-indicator-color);
+        --focus-indicator-width: var(--component-icon-button-filled-focus-indicator-thickness);
+        --focus-indicator-offset: var(--component-icon-button-filled-focus-indicator-offset);
     }
 
     &:active {
-        @each $key, $value in comp.$icon-button-filled-pressed {
-            --#{$key}: #{$value};
-        }
-
-        --state-layer-color: rgba(var(--icon-button-filled-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+        --state-layer-color: rgba(var(--component-icon-button-filled-pressed-state-layer-color-rgb), var(--component-icon-button-filled-pressed-state-layer-opacity));
+        --icon-color: var(--component-icon-button-filled-pressed-icon-color);
 
         &.toggle {
-            --state-layer-color: rgba(var(--icon-button-filled-unselected-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+            --state-layer-color: rgba(var(--component-icon-button-filled-unselected-pressed-state-layer-color-rgb), var(--component-icon-button-pressed-filled-state-layer-opacity));
+            --icon-color: var(--component-icon-button-filled-unselected-pressed-icon-color);
 
             &.selected {
-                --state-layer-color: rgba(var(--icon-button-filled-selected-state-layer-color-rgb), var(--icon-button-filled-state-layer-opacity));
+                --state-layer-color: rgba(var(--component-icon-button-filled-selected-pressed-state-layer-color-rgb), var(--component-icon-button-pressed-filled-state-layer-opacity));
+                --icon-color: var(--component-icon-button-filled-selected-pressed-icon-color);
             }
         }
         
@@ -87,12 +82,9 @@
         --focus-indicator-offset: unset;
     }
 
-    &:disabled {
-        @each $key, $value in comp.$icon-button-filled-disabled {
-            --#{$key}: #{$value};
-        }  
-        --container-color: rgba(var(--icon-button-filled-container-color-rgb), var(--icon-button-filled-container-opacity));
+    &:disabled {  
+        --container-color: rgba(var(--component-icon-button-filled-disabled-container-color-rgb), var(--component-icon-button-filled-disabled-container-opacity));
         --state-layer-color: transparent;
-        --icon-color: rgba(var(--icon-button-filled-icon-color-rgb), var(--icon-button-filled-icon-opacity));
+        --icon-color: rgba(var(--component-icon-button-filled-disabled-icon-color-rgb), var(--component-icon-button-filled-disabled-icon-opacity));
     }
 }
