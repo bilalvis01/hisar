@@ -10,22 +10,24 @@
 }
 
 @mixin card-filled {
-    background-color: var(--system-color-surface-container-highest);
-    box-shadow: var(--system-elevation-level0);
-    border-radius: var(--system-shape-corner-medium);
+    background-color: var(--component-card-filled-container-color);
+    box-shadow: var(--component-card-filled-container-elevation);
+    border-radius: var(--component-card-filled-container-shape);
     padding: {
         left: var(--system-padding4);
         right: var(--system-padding4);
-    }
+    };
+    overflow: hidden;
 }
 
 @mixin card-outlined {
-    background-color: var(--system-color-surface);
-    box-shadow: var(--system-elevation-level0);
-    border-radius: var(--system-shape-corner-medium);
-    border: 1px solid var(--system-color-outline-variant);
+    background-color: var(--component-card-outlined-container-color);
+    box-shadow: var(--component-card-outlined-container-elevation);
+    border-radius: var(--component-card-outlined-container-shape);
+    border: var(--component-card-outlined-outline-width) solid var(--component-card-outlined-outline-color);
     padding: {
         left: var(--system-padding4);
         right: var(--system-padding4);
-    }
+    };
+    overflow: hidden;
 }
