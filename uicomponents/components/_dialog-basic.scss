@@ -1,0 +1,113 @@
+.dialog-basic {
+    --container-color: var(--component-dialog-basic-container-color);
+    --container-elevation: var(--component-dialog-basic-container-elevation);
+    --container-shape: var(--component-dialog-basic-container-shape);
+    --action-label-font: var(--component-dialog-basic-action-label-font);
+    --action-label-line-height: var(--component-dialog-basic-action-label-line-height);
+    --action-label-size: var(--component-dialog-basic-action-label-size);
+    --action-label-weight: var(--component-dialog-basic-action-label-weight);
+    --action-label-tracking: var(--component-dialog-basic-action-label-tracking);
+    --action-label-color: var(--component-dialog-basic-action-label-color);
+    --headline-font: var(--component-dialog-basic-headline-font);
+    --headline-line-height: var(--component-dialog-basic-headline-line-height);
+    --headline-size: var(--component-dialog-basic-headline-size);
+    --headline-weight: var(--component-dialog-basic-headline-weight);
+    --headline-tracking: var(--component-dialog-basic-headline-tracking);
+    --headline-color: var(--component-dialog-basic-headline-color);
+    --subhead-font: var(--component-dialog-basic-subhead-font);
+    --subhead-line-height: var(--component-dialog-basic-subhead-line-height);
+    --subhead-size: var(--component-dialog-basic-subhead-size);
+    --subhead-weight: var(--component-dialog-basic-subhead-weight);
+    --subhead-tracking: var(--component-dialog-basic-subhead-tracking);
+    --subhead-color: var(--component-dialog-basic-subhead-color);
+    --supporting-text-font: var(--component-dialog-basic-supporting-text-font);
+    --supporting-text-line-height: var(--component-dialog-basic-supporting-text-line-height);
+    --supporting-text-size: var(--component-dialog-basic-supporting-text-size);
+    --supporting-text-weight: var(--component-dialog-basic-supporting-text-weight);
+    --supporting-text-tracking: var(--component-dialog-basic-supporting-text-tracking);
+    --supporting-text-color: var(--component-dialog-basic-supporting-text-color);
+    --icon-width: var(--component-dialog-basic-icon-size);
+    --icon-height: var(--component-dialog-basic-icon-size);
+    --icon-color: var(--component-dialog-basic-icon-color);
+    --divider-width: var(--component-dialog-basic-divider-size);
+    --divider-color: var(--component-dialog-basic-divider-color);
+    --state-layer-color: transparent;
+
+    &:hover {
+        --action-label-color: var(--component-dialog-basic-action-hover-label-color);
+        --state-layer-color: rgba(var(--component-dialog-basic-hover-state-layer-color-rgb), var(--component-dialog-basic-hover-state-layer-opacity));
+    }
+
+    &:focus {
+        --action-label-color: var(--component-dialog-basic-action-focus-label-color);
+        --state-layer-color: rgba(var(--component-dialog-basic-focus-state-layer-color-rgb), var(--component-dialog-basic-focus-state-layer-opacity));
+    }
+
+    &:active {
+        --action-label-color: var(--component-dialog-basic-action-pressed-label-color);
+        --state-layer-color: rgba(var(--component-dialog-basic-pressed-state-layer-color-rgb), var(--component-dialog-basic-pressed-state-layer-opacity));
+    }
+
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+
+    & > .container {
+        background-color: var(--container-color);
+        box-shadow: var(--container-elevation);
+        border-radius: var(--container-shape);
+        
+        & > .state-layer{
+            background-color: var(--state-layer-color);
+
+            & .label {
+                font-family: var(--action-label-font);
+                line-height: var(--action-label-line-height);
+                font-size: var(--action-label-size);
+                font-weight: var(--action-label-weight);
+                letter-spacing: var(--action-label-tracking);
+                color: var(--action-label-color);
+            }
+
+            & .headline {
+                font-family: var(--headline-font);
+                line-height: var(--headline-line-height);
+                font-size: var(--headline-size);
+                font-weight: var(--headline-weight);
+                letter-spacing: var(--headline-tracking);
+                color: var(--headline-color);
+            }
+
+            & .subhead {
+                font-family: var(--subhead-font);
+                line-height: var(--subhead-line-height);
+                font-size: var(--subhead-size);
+                font-weight: var(--subhead-weight);
+                letter-spacing: var(--subhead-tracking);
+                color: var(--subhead-color);
+            }
+
+            & .supporting-text {
+                font-family: var(--supporting-text-font);
+                line-height: var(--supporting-text-line-height);
+                font-size: var(--supporting-text-size);
+                font-weight: var(--supporting-text-weight);
+                letter-spacing: var(--supporting-text-tracking);
+                color: var(--supporting-text-color);
+            }
+
+            & svg {
+                width: var(--icon-width);
+                height: var(--icon-height);
+                color: var(--icon-color);
+            }
+
+            & hr {
+                height: var(--divider-width);
+                background-color: var(--divider-color);
+            }
+        }
+    }
+}
