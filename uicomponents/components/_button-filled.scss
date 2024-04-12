@@ -1,65 +1,59 @@
 @use "../component-tokens" as comp;
 
 .button.filled {
-    @each $key, $value in comp.$button-filled {
-        --#{$key}: #{$value};
-    }
-    --container-shape: var(--button-filled-container-shape);
-    --container-height: var(--button-filled-container-height);
-    --container-elevation: var(--button-filled-container-elevation);
-    --container-color: var(--button-filled-container-color);
+    --container-shape: var(--component-button-filled-container-shape);
+    --container-height: var(--component-button-filled-container-height);
+    --container-elevation: var(--component-button-filled-container-elevation);
+    --container-color: var(--component-button-filled-container-color);
     --focus-indicator-style: none;
     --focus-indicator-color: unset;
     --focus-indicator-width: unset;
     --focus-indicator-offset: unset;
-    --label-font: var(--button-filled-label-font);
-    --label-line-height: var(--button-filled-label-line-height);
-    --label-size: var(--button-filled-label-size);
-    --label-weight: var(--button-filled-label-weight);
-    --label-tracking: var(--button-filled-label-tracking);
-    --label-color: var(--button-filled-label-color);
+    --label-font: var(--component-button-filled-label-font);
+    --label-line-height: var(--component-button-filled-label-line-height);
+    --label-size: var(--component-button-filled-label-size);
+    --label-weight: var(--component-button-filled-label-weight);
+    --label-tracking: var(--component-button-filled-label-tracking);
+    --label-color: var(--component-button-filled-label-color);
     --state-layer-color: transparent;
-    --icon-width: var(--button-filled-icon-size);
-    --icon-height: var(--button-filled-icon-size);
-    --icon-color: var(--button-filled-icon-color);
+    --icon-width: var(--component-button-filled-icon-size);
+    --icon-height: var(--component-button-filled-icon-size);
+    --icon-color: var(--component-button-filled-icon-color);
     
     &:hover {
-        @each $key, $value in comp.$button-filled-hover {
-            --#{$key}: #{$value};
-        }
-        --state-layer-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
+        --container-elevation: var(--component-button-filled-hover-container-elevation);
+        --label-color: var(--component-button-filled-hover-label-color);
+        --state-layer-color: rgba(var(--component-button-filled-hover-state-layer-color-rgb), var(--component-button-filled-hover-state-layer-opacity));
+        --icon-color: var(--component-button-filled-hover-icon-color);
     }
     
     &:focus {
-        @each $key, $value in comp.$button-filled-focus {
-            --#{$key}: #{$value};
-        }
-        --state-layer-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
-
         --focus-indicator-style: solid;
-        --focus-indicator-color: var(--button-filled-focus-indicator-color);
-        --focus-indicator-width: var(--button-filled-focus-indicator-thickness);
-        --focus-indicator-offset: var(--button-filled-focus-indicator-offset);
+        --focus-indicator-color: var(--component-button-filled-focus-indicator-color);
+        --focus-indicator-width: var(--component-button-filled-focus-indicator-thickness);
+        --focus-indicator-offset: var(--component-button-filled-focus-indicator-offset);
+        --container-elevation: var(--component-button-filled-focus-container-elevation);
+        --label-color: var(--component-button-filled-focus-label-color);
+        --state-layer-color: rgba(var(--component-button-filled-focus-state-layer-color-rgb), var(--component-button-filled-focus-state-layer-opacity));
+        --icon-color: var(--component-button-filled-focus-icon-color);
     }
     
     &:active {
-        @each $key, $value in comp.$button-filled-pressed {
-            --#{$key}: #{$value};
-        }
-        --state-layer-color: rgba(var(--button-filled-state-layer-color-rgb), var(--button-filled-state-layer-opacity));
-
         --focus-indicator-style: none;
         --focus-indicator-color: unset;
         --focus-indicator-width: unset;
         --focus-indicator-offset: unset;
+        --container-elevation: var(--component-button-filled-pressed-container-elevation);
+        --label-color: var(--component-button-filled-pressed-label-color);
+        --state-layer-color: rgba(var(--component-button-filled-pressed-state-layer-color-rgb), var(--component-button-filled-pressed-state-layer-opacity));
+        --icon-color: var(--component-button-filled-pressed-focus-icon-color);
     }
     
     &:disabled {
-        @each $key, $value in comp.$button-filled-disabled {
-            --#{$key}: #{$value};
-        }
-        --container-color: rgba(var(--button-filled-container-color-rgb), var(--button-filled-container-opacity));
-        --label-color: rgba(var(--button-filled-label-color-rgb), var(--button-filled-label-opacity));
+        --container-elevation: var(--component-button-filled-disabled-container-elevation);
+        --container-color: rgba(var(--component-button-filled-disbled-container-color-rgb), var(--component-button-filled-disabled-container-opacity));
+        --label-color: rgba(var(--component-button-filled-disbled-label-color-rgb), var(--component-button-filled-disbled-label-opacity));
+        --icon-color: rgba(var(--component-button-filled-disabled-icon-color-rgb), var(--component-button-filled-disabled-icon-opacity));
         --stater-layer-color: transparent;
     }
 }

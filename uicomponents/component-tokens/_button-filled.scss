@@ -66,44 +66,44 @@ $button-filled: (
 ) !default;
 
 $button-filled-disabled: (
-    "button-filled-container-elevation": $button-filled-disabled-container-elevation,
-    "button-filled-container-color": $button-filled-disabled-container-color,
-    "button-filled-container-color-rgb": $button-filled-disabled-container-color-rgb,
-    "button-filled-container-opacity": $button-filled-disabled-container-opacity,
-    "button-filled-label-color": $button-filled-disabled-label-color,
-    "button-filled-label-color-rgb": $button-filled-disabled-label-color-rgb,
-    "button-filled-label-opacity": $button-filled-disabled-label-opacity,
-    "button-filled-icon-color": $button-filled-disabled-icon-color,
-    "button-filled-icon-color-rgb": $button-filled-disabled-icon-color-rgb, 
-    "button-filled-icon-opacity": $button-filled-disabled-icon-opacity,
+    "button-filled-disabled-container-elevation": $button-filled-disabled-container-elevation,
+    "button-filled-disabled-container-color": $button-filled-disabled-container-color,
+    "button-filled-disabled-container-color-rgb": $button-filled-disabled-container-color-rgb,
+    "button-filled-disabled-container-opacity": $button-filled-disabled-container-opacity,
+    "button-filled-disabled-label-color": $button-filled-disabled-label-color,
+    "button-filled-disabled-label-color-rgb": $button-filled-disabled-label-color-rgb,
+    "button-filled-disabled-label-opacity": $button-filled-disabled-label-opacity,
+    "button-filled-disabled-icon-color": $button-filled-disabled-icon-color,
+    "button-filled-disabled-icon-color-rgb": $button-filled-disabled-icon-color-rgb, 
+    "button-filled-disabled-icon-opacity": $button-filled-disabled-icon-opacity,
 ) !default;
 
 $button-filled-hover: (
-    "button-filled-container-elevation": $button-filled-hover-container-elevation,
-    "button-filled-label-color": $button-filled-hover-label-color,
-    "button-filled-state-layer-color": $button-filled-hover-state-layer-color,
-    "button-filled-state-layer-color-rgb": $button-filled-hover-state-layer-color-rgb,
-    "button-filled-state-layer-opacity": $button-filled-hover-state-layer-opacity,
-    "button-filled-icon-color": $button-filled-hover-icon-color,  
+    "button-filled-hover-container-elevation": $button-filled-hover-container-elevation,
+    "button-filled-hover-label-color": $button-filled-hover-label-color,
+    "button-filled-hover-state-layer-color": $button-filled-hover-state-layer-color,
+    "button-filled-hover-state-layer-color-rgb": $button-filled-hover-state-layer-color-rgb,
+    "button-filled-hover-state-layer-opacity": $button-filled-hover-state-layer-opacity,
+    "button-filled-hover-icon-color": $button-filled-hover-icon-color,  
 ) !default;
 
 $button-filled-focus: (
     "button-filled-focus-indicator-color": $button-filled-focus-indicator-color,
     "button-filled-focus-indicator-thickness": $button-filled-focus-indicator-thickness,
     "button-filled-focus-indicator-offset": $button-filled-focus-indicator-offset,
-    "button-filled-container-elevation": $button-filled-focus-container-elevation,
-    "button-filled-label-color": $button-filled-focus-label-color,
-    "button-filled-state-layer-color": $button-filled-focus-state-layer-color,
-    "button-filled-state-layer-color-rgb": $button-filled-focus-state-layer-color-rgb,
-    "button-filled-state-layer-opacity": $button-filled-focus-state-layer-opacity,
-    "button-filled-icon-color": $button-filled-focus-icon-color,
+    "button-filled-focus-container-elevation": $button-filled-focus-container-elevation,
+    "button-filled-focus-label-color": $button-filled-focus-label-color,
+    "button-filled-focus-state-layer-color": $button-filled-focus-state-layer-color,
+    "button-filled-focus-state-layer-color-rgb": $button-filled-focus-state-layer-color-rgb,
+    "button-filled-focus-state-layer-opacity": $button-filled-focus-state-layer-opacity,
+    "button-filled-focus-icon-color": $button-filled-focus-icon-color,
 ) !default;
 
 $button-filled-pressed: (
-    "button-filled-container-elevation": $button-filled-pressed-container-elevation,
-    "button-filled-label-color": $button-filled-pressed-label-color,
-    "button-filled-state-layer-color": $button-filled-pressed-state-layer-color,
-    "button-filled-state-layer-color-rgb": $button-filled-pressed-state-layer-color-rgb,
-    "button-filled-state-layer-opacity": $button-filled-pressed-state-layer-opacity,
-    "button-filled-icon-color": $button-filled-pressed-icon-color,
+    "button-filled-pressed-container-elevation": $button-filled-pressed-container-elevation,
+    "button-filled-pressed-label-color": $button-filled-pressed-label-color,
+    "button-filled-pressed-state-layer-color": $button-filled-pressed-state-layer-color,
+    "button-filled-pressed-state-layer-color-rgb": $button-filled-pressed-state-layer-color-rgb,
+    "button-filled-pressed-state-layer-opacity": $button-filled-pressed-state-layer-opacity,
+    "button-filled-pressed-icon-color": $button-filled-pressed-icon-color,
 ) !default;

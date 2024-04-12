@@ -1,5 +1,6 @@
 @use "reference-tokens" as ref;
 @use "system-tokens" as sys;
+@use "component-tokens" as comp;
 
 :root,
 [data-theme="light"] {
@@ -77,6 +78,26 @@
 
     @each $padding, $value in sys.$paddings {
         --system-#{$padding}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-filled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-filled-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-filled-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-filled-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-filled-pressed {
+        --component-#{$token}: #{$value};
     }
 }
 
