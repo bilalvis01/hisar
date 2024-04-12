@@ -211,6 +211,22 @@
     @each $token, $value in comp.$tab-link-navigation-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$tab-primary-navigation {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$tab-primary-navigation-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$tab-primary-navigation-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$tab-primary-navigation-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {
