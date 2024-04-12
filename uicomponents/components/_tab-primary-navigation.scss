@@ -1,4 +1,6 @@
-.tab.primary-navigation {
+@use "../mixins";
+
+.tab-primary-navigation {
     --container-color: var(--component-tab-primary-navigation-container-color);
     --container-height: var(--component-tab-primary-navigation-container-height);
     --container-shape: var(--component-tab-primary-navigation-container-shape);
@@ -73,4 +75,6 @@
             --icon-color: var(--component-tab-primary-navigation-active-pressed-icon-color);
         }   
     }
+
+    @include mixins.tab;
 }

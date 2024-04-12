@@ -1,4 +1,6 @@
-.card.outlined {
+@use "../mixins";
+
+.card-outlined {
     --container-color: var(--component-card-outlined-container-color);
     --container-shape: var(--component-card-outlined-container-shape);
     --container-elevation: var(--component-card-outlined-container-elevation);
@@ -45,4 +47,6 @@
         --container-elevation: var(--component-card-outlined-disabled-container-elevation);
         --outline-color: rgba(var(--component-card-outlined-disabled-outline-color), var(--component-card-outlined-disabled-outline-opacity));
     }
+
+    @include mixins.card;
 }

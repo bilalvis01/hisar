@@ -1,4 +1,6 @@
-.icon-button.standard {
+@use "../mixins";
+
+.icon-button-standard {
     --container-width: var(--component-icon-button-standard-state-layer-width);
     --container-height: var(--component-icon-button-standard-state-layer-height);
     --container-shape: var(--component-icon-button-standard-state-layer-shape);
@@ -65,4 +67,6 @@
             --state-layer-color: transparent;
         }
     }
+
+    @include mixins.icon-button;
 }

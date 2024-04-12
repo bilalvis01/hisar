@@ -1,4 +1,6 @@
-.tab.secondary-navigation {
+@use "../mixins";
+
+.tab-secondary-navigation {
     --container-color: var(--component-tab-secondary-navigation-container-color);
     --container-height: var(--component-tab-secondary-navigation-container-height);
     --container-shape: var(--component-tab-secondary-navigation-container-shape);
@@ -50,4 +52,6 @@
         --state-layer-color: rgba(var(--component-tab-secondary-navigation-inactive-pressed-state-layer-color-rgb), var(--component-tab-secondary-navigation-inactive-pressed-state-layer-opacity));
         --icon-color: var(--component-tab-secondary-navigation-inactive-pressed-icon-color);
     }
+
+    @include mixins.tab;
 }

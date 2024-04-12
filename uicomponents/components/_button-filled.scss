@@ -1,4 +1,6 @@
-.button.filled {
+@use "../mixins";
+
+.button-filled {
     --container-shape: var(--component-button-filled-container-shape);
     --container-height: var(--component-button-filled-container-height);
     --container-elevation: var(--component-button-filled-container-elevation);
@@ -54,4 +56,6 @@
         --icon-color: rgba(var(--component-button-filled-disabled-icon-color-rgb), var(--component-button-filled-disabled-icon-opacity));
         --stater-layer-color: transparent;
     }
+
+    @include mixins.button;
 }

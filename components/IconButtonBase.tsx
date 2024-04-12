@@ -19,7 +19,7 @@ export default function IconButtonBase({
 }: IconButtonBaseProps) {
     return (
         <button 
-            className={clsx("icon-button", variant, { "toggle-button": toggle, "selected": selected }, className)}
+            className={clsx(`icon-button-${variant}`, { "toggle-button": toggle, "selected": selected }, className)}
             {...props}
         >
             <div className="container">

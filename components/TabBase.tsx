@@ -21,16 +21,9 @@ export default function TabBase({
 }: TabBaseProps) {
     const pathname = usePathname();
 
-    const rootClassName = clsx(
-        "tab", 
-        { "primary-navigation": variant === "primary"}, 
-        { "secondary-navigation": variant === "secondary" },
-        className
-    );
-
     return (
         <button 
-            className={rootClassName} 
+            className={clsx(`tab-${variant}-navigation`, className)} 
             {...props}
         >
             <div className="container">

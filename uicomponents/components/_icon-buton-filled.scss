@@ -1,4 +1,6 @@
-.icon-button.filled {
+@use "../mixins";
+
+.icon-button-filled {
     --container-width: var(--component-icon-button-filled-container-width);
     --container-height: var(--component-icon-button-filled-container-height);
     --container-shape: var(--component-icon-button-filled-container-shape);
@@ -85,4 +87,6 @@
         --state-layer-color: transparent;
         --icon-color: rgba(var(--component-icon-button-filled-disabled-icon-color-rgb), var(--component-icon-button-filled-disabled-icon-opacity));
     }
+
+    @include mixins.icon-button;
 }

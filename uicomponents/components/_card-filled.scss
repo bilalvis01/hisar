@@ -1,4 +1,6 @@
-.card.filled {
+@use "../mixins";
+
+.card-filled {
     --container-color: var(--component-card-filled-container-color);
     --container-shape: var(--component-card-filled-container-shape);
     --container-elevation: var(--component-card-filled-container-elevation);
@@ -40,4 +42,6 @@
         --container-elevation: var(--component-card-filled-disabled-container-elevation);
         --container-color: rgba(var(--component-card-filled-disabled-container-color-rgb), var(--component-card-filled-disabled-container-opacity));
     }
+
+    @include mixins.card;
 }
