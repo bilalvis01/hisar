@@ -22,8 +22,8 @@
 
         & > .state-layer {
             padding: {
-                left: var(--reference-padding4);
-                right: var(--reference-padding4);
+                left: var(--system-padding4);
+                right: var(--system-padding4);
             };
             height: 100%;
             background-color: var(--state-layer-color);
@@ -47,8 +47,8 @@
                     letter-spacing: var(--label-tracking);
                     color: var(--label-color);
                     padding: {
-                        left: var(--reference-padding2);
-                        right: var(--reference-padding2);
+                        left: var(--system-padding2);
+                        right: var(--system-padding2);
                     }
                 }
             }

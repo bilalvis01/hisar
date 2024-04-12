@@ -1,11 +1,11 @@
 @mixin page-padding {
     padding: {
-        top: var(--reference-padding4);
-        bottom: var(--reference-padding4);
+        top: var(--system-padding4);
+        bottom: var(--system-padding4);
     };
 
     @media (min-width: 600px) {
-        padding: var(--reference-padding12);
+        padding: var(--system-padding12);
     }
 }
 
@@ -14,8 +14,8 @@
     box-shadow: var(--system-elevation-level0);
     border-radius: var(--system-shape-corner-medium);
     padding: {
-        left: var(--reference-padding4);
-        right: var(--reference-padding4);
+        left: var(--system-padding4);
+        right: var(--system-padding4);
     }
 }
 
@@ -25,7 +25,7 @@
     border-radius: var(--system-shape-corner-medium);
     border: 1px solid var(--system-color-outline-variant);
     padding: {
-        left: var(--reference-padding4);
-        right: var(--reference-padding4);
+        left: var(--system-padding4);
+        right: var(--system-padding4);
     }
 }
