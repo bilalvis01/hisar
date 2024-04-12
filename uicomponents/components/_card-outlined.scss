@@ -1,5 +1,3 @@
-@use "../component-tokens" as comp;
-
 .card.outlined {
     --container-color: var(--component-card-outlined-container-color);
     --container-shape: var(--component-card-outlined-container-shape);

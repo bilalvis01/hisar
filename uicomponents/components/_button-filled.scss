@@ -1,5 +1,3 @@
-@use "../component-tokens" as comp;
-
 .button.filled {
     --container-shape: var(--component-button-filled-container-shape);
     --container-height: var(--component-button-filled-container-height);

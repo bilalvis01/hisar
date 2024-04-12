@@ -1,5 +1,3 @@
-@use "../component-tokens" as comp;
-
 .card.filled {
     --container-color: var(--component-card-filled-container-color);
     --container-shape: var(--component-card-filled-container-shape);
