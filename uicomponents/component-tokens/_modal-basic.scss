@@ -1,0 +1,101 @@
+$dialog-basic-container-color: var(--system-color-surface-container-highest) !default;
+$dialog-basic-container-elevation: var(--system-elevation-level3) !default;
+$dialog-basic-container-shape: var(--system-shape-corner-extra-large) !default;
+$dialog-basic-action-label-font: var(--system-typescale-label-large-font) !default;
+$dialog-basic-action-label-line-height: var(--system-typescale-label-large-line-height) !default;
+$dialog-basic-action-label-size: var(--system-typescale-label-large-size) !default;
+$dialog-basic-action-label-weight: var(--system-typescale-label-large-weight) !default;
+$dialog-basic-action-label-tracking: var(--sytem-typescale-label-large-tracking) !default;
+$dialog-basic-action-label-color: var(--system-color-primary) !default;
+$dialog-basic-icon-size: 1.5rem !default;
+$dialog-basic-icon-color: var(--system-color-secondary) !default;
+$dialog-basic-subhead-font: var(--system-typescale-headline-small-font) !default;
+$dialog-basic-subhead-line-height: var(--system-typescale-headline-small-line-height) !default;
+$dialog-basic-subhead-size: var(--system-typescale-headline-small-size) !default;
+$dialog-basic-subhead-weight: var(--system-typescale-headline-small-weight) !default;
+$dialog-basic-subhead-tracking: var(--system-typescale-headline-small-tracking) !default;
+$dialog-basic-subhead-color: var(--system-color-on-surface) !default;
+$dialog-basic-headline-font: var(--system-typescale-headline-small-font) !default;
+$dialog-basic-headline-line-height: var(--system-typescale-headline-small-line-height) !default;
+$dialog-basic-headline-size: var(--system-typescale-headline-small-size) !default;
+$dialog-basic-headline-weight: var(--system-typescale-headline-small-weight) !default;
+$dialog-basic-headline-tracking: var(--system-typescale-headline-small-tracking) !default;
+$dialog-basic-headline-color: var(--system-color-on-surface) !default;
+$dialog-basic-divider-color: var(--system-color-outline) !default;
+$dialog-basic-divider-width: 0.0625rem !default;
+$dialog-basic-supporting-text-font: var(--sytem-typescale-body-medium-font) !default;
+$dialog-basic-supporting-text-line-height: var(--system-typescale-body-medium-line-height) !default;
+$dialog-basic-supporting-text-size: var(--system-typescale-body-medium-size) !default;
+$dialog-basic-supporting-text-weight: var(--system-typescale-body-medium-weight) !default;
+$dialog-basic-supporting-text-tracking: var(--system-typescale-body-medium-tracking) !default;
+$dialog-basic-supporting-text-color: var(--system-color-on-surface-variant) !default;
+
+$dialog-basic-action-hover-label-color: var(--system-color-primary) !default;
+$dialog-basic-action-hover-state-layer-color: var(--system-color-primary) !default;
+$dialog-basic-action-hover-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-basic-action-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+
+$dialog-basic-action-focus-label-color: var(--system-color-primary) !default;
+$dialog-basic-action-focus-state-layer-color: var(--system-color-primary) !default;
+$dialog-basic-action-focus-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-basic-action-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+
+$dialog-basic-action-pressed-label-color: var(--system-color-primary) !default;
+$dialog-basic-action-pressed-state-layer-color: var(--system-color-primary) !default;
+$dialog-basic-action-pressed-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-basic-action-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+
+$modal-basic: (
+    "dialog-basic-container-color": $dialog-basic-container-color,
+    "dialog-basic-container-elevation": $dialog-basic-container-elevation,
+    "dialog-basic-container-shape": $dialog-basic-container-shape,
+    "dialog-basic-action-label-font": $dialog-basic-action-label-font,
+    "dialog-basic-action-label-line-height": $dialog-basic-action-label-line-height,
+    "dialog-basic-action-label-size": $dialog-basic-action-label-size,
+    "dialog-basic-action-label-weight": $dialog-basic-action-label-weight,
+    "dialog-basic-action-label-tracking": $dialog-basic-action-label-tracking,
+    "dialog-basic-action-label-color": $dialog-basic-action-label-color,
+    "dialog-basic-icon-size": $dialog-basic-icon-size,
+    "dialog-basic-icon-color": $dialog-basic-icon-color,
+    "dialog-basic-subhead-font": $dialog-basic-subhead-font,
+    "dialog-basic-subhead-line-height": $dialog-basic-subhead-line-height,
+    "dialog-basic-subhead-size": $dialog-basic-subhead-size,
+    "dialog-basic-subhead-weight": $dialog-basic-subhead-weight,
+    "dialog-basic-subhead-tracking": $dialog-basic-subhead-tracking,
+    "dialog-basic-subhead-color": $dialog-basic-subhead-color,
+    "dialog-basic-headline-font": $dialog-basic-headline-font,
+    "dialog-basic-headline-line-height": $dialog-basic-headline-line-height,
+    "dialog-basic-headline-size": $dialog-basic-headline-size,
+    "dialog-basic-headline-weight": $dialog-basic-headline-weight,
+    "dialog-basic-headline-tracking": $dialog-basic-headline-tracking,
+    "dialog-basic-headline-color": $dialog-basic-headline-color,
+    "dialog-basic-divider-color": $dialog-basic-divider-color,
+    "dialog-basic-divider-width": $dialog-basic-divider-width,
+    "dialog-basic-supporting-text-font": $dialog-basic-supporting-text-font,
+    "dialog-basic-supporting-text-line-height": $dialog-basic-supporting-text-line-height,
+    "dialog-basic-supporting-text-size": $dialog-basic-supporting-text-size,
+    "dialog-basic-supporting-text-weight": $dialog-basic-supporting-text-weight,
+    "dialog-basic-supporting-text-tracking": $dialog-basic-supporting-text-tracking,
+    "dialog-basic-supporting-text-color": $dialog-basic-supporting-text-color,
+) !default;
+
+$modal-basic-hover: (
+    "dialog-basic-action-label-color": $dialog-basic-action-hover-label-color,
+    "dialog-basic-action-state-layer-color": $dialog-basic-action-hover-state-layer-color,
+    "dialog-basic-action-state-layer-color-rgb": $dialog-basic-action-hover-state-layer-color-rgb,
+    "dialog-basic-action-state-layer-opacity": $dialog-basic-action-hover-state-layer-opacity,
+) !default;
+
+$modal-basic-focus: (
+    "dialog-basic-action-label-color": $dialog-basic-action-focus-label-color,
+    "dialog-basic-action-state-layer-color": $dialog-basic-action-focus-state-layer-color,
+    "dialog-basic-action-state-layer-color-rgb": $dialog-basic-action-focus-state-layer-color-rgb,
+    "dialog-basic-action-state-layer-opacity": $dialog-basic-action-focus-state-layer-opacity,
+) !default;
+
+$modal-basic-pressed: (
+    "dialog-basic-action-label-color": $dialog-basic-action-pressed-label-color,
+    "dialog-basic-action-state-layer-color": $dialog-basic-action-pressed-state-layer-color,
+    "dialog-basic-action-state-layer-color-rgb": $dialog-basic-action-pressed-state-layer-color-rgb,
+    "dialog-basic-action-state-layer-opacity": $dialog-basic-action-pressed-state-layer-opacity,
+) !default;
