@@ -1,58 +1,55 @@
 @use "../component-tokens" as comp;
 
 .tab.secondary-navigation {
-    @each $key, $value in comp.$tab-secondary-navigation {
-        --#{$key}: #{$value};
-    }
-    --container-color: var(--tab-secondary-navigation-container-color);
-    --container-height: var(--tab-secondary-navigation-container-height);
-    --container-shape: var(--tab-secondary-navigation-container-shape);
-    --container-elevation: var(--tab-secondary-navigation-container-elevation);
-    --label-font: var(--tab-secondary-navigation-label-font);
-    --label-line-height: var(--tab-secondary-navigation-label-line-height);
-    --label-size: var(--tab-secondary-navigation-label-size);
-    --label-weight: var(--tab-secondary-navigation-label-weight);
-    --label-tracking: var(--tab-secondary-navigation-label-tracking);
-    --label-color: var(--tab-secondary-navigation-inactive-label-color);
-    --icon-width: var(--tab-secondary-navigation-icon-size);
-    --icon-height: var(--tab-secondary-navigation-icon-size);
-    --icon-color: var(--tab-secondary-navigation-inactive-icon-color);
-    --divider-color: var(--tab-secondary-navigation-divider-color);
-    --divider-height: var(--tab-secondary-navigation-divider-height);
+    --container-color: var(--component-tab-secondary-navigation-container-color);
+    --container-height: var(--component-tab-secondary-navigation-container-height);
+    --container-shape: var(--component-tab-secondary-navigation-container-shape);
+    --container-elevation: var(--component-tab-secondary-navigation-container-elevation);
+    --label-font: var(--component-tab-secondary-navigation-label-font);
+    --label-line-height: var(--component-tab-secondary-navigation-label-line-height);
+    --label-size: var(--component-tab-secondary-navigation-label-size);
+    --label-weight: var(--component-tab-secondary-navigation-label-weight);
+    --label-tracking: var(--component-tab-secondary-navigation-label-tracking);
+    --label-color: var(--component-tab-secondary-navigation-inactive-label-color);
+    --icon-width: var(--component-tab-secondary-navigation-icon-size);
+    --icon-height: var(--component-tab-secondary-navigation-icon-size);
+    --icon-color: var(--component-tab-secondary-navigation-inactive-icon-color);
+    --divider-color: var(--component-tab-secondary-navigation-divider-color);
+    --divider-height: var(--component-tab-secondary-navigation-divider-height);
     --active-indicator-display: none;
-    --active-indicator-height: var(--tab-secondary-navigation-active-indicator-height);
-    --active-indicator-color: var(--tab-secondary-navigation-active-indicator-color);
-    --active-indicator-shape: var(--tab-secondary-navigation-active-indicator-shape);
+    --active-indicator-height: var(--component-tab-secondary-navigation-active-indicator-height);
+    --active-indicator-color: var(--component-tab-secondary-navigation-active-indicator-color);
+    --active-indicator-shape: var(--component-tab-secondary-navigation-active-indicator-shape);
     --active-indicator-bottom: 0;
     --state-layer-width: 100%;
     --state-layer-height: 100%;
-    --state-layer-color: rgba(var(--tab-secondary-navigation-state-layer-color-rgb), var(--tab-secondary-navigation-state-layer-opacity));
-    --state-layer-shape: var(--tab-secondary-navigation-container-shape);
+    --state-layer-color: rgba(var(--component-tab-secondary-navigation-state-layer-color-rgb), var(--component-tab-secondary-navigation-state-layer-opacity));
+    --state-layer-shape: var(--component-tab-secondary-navigation-container-shape);
     --content-position: static;
     --content-height: 100%;
-    --content-shape: var(--tab-secondary-navigation-container-shape);
+    --content-shape: var(--component-tab-secondary-navigation-container-shape);
 
     &.active {
-        --label-color: var(--tab-secondary-navigation-active-label-color);
-        --icon-color: var(--tab-secondary-navigation-active-icon-color);
+        --label-color: var(--component-tab-secondary-navigation-active-label-color);
+        --icon-color: var(--component-tab-secondary-navigation-active-icon-color);
         --active-indicator-display: block;
     }
 
     &:hover {
-        @each $key, $value in comp.$tab-secondary-navigation-hover {
-            --#{$key}: #{$value};
-        }
+        --label-color: var(--component-tab-secondary-navigation-inactive-hover-label-color);
+        --state-layer-color: rgba(var(--component-tab-secondary-navigation-inactive-hover-state-layer-color-rgb), var(--component-tab-secondary-navigation-inactive-hover-state-layer-opacity));
+        --icon-color: var(--component-tab-secondary-navigation-inactive-hover-icon-color);
     }
 
     &:focus {
-        @each $key, $value in comp.$tab-secondary-navigation-focus {
-            --#{$key}: #{$value};
-        }
+        --label-color: var(--component-tab-secondary-navigation-inactive-hover-label-color);
+        --state-layer-color: rgba(var(--component-tab-secondary-navigation-inactive-focus-state-layer-color-rgb), var(--component-tab-secondary-navigation-inactive-focus-state-layer-opacity));
+        --icon-color: var(--component-tab-secondary-navigation-inactive-focus-icon-color);
     }
 
     &:active {
-        @each $key, $value in comp.$tab-secondary-navigation-pressed {
-            --#{$key}: #{$value};
-        }
+        --label-color: var(--component-tab-secondary-navigation-inactive-pressed-label-color);
+        --state-layer-color: rgba(var(--component-tab-secondary-navigation-inactive-pressed-state-layer-color-rgb), var(--component-tab-secondary-navigation-inactive-pressed-state-layer-opacity));
+        --icon-color: var(--component-tab-secondary-navigation-inactive-pressed-icon-color);
     }
 }
