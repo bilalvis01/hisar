@@ -195,6 +195,22 @@
     @each $token, $value in comp.$navigation-drawer-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$tab-link-navigation {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$tab-link-navigation-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$tab-link-navigation-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$tab-link-navigation-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {
