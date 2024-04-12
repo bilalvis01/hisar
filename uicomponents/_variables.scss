@@ -99,6 +99,26 @@
     @each $token, $value in comp.$button-filled-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$card-filled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$card-filled-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$card-filled-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$card-filled-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$card-filled-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {

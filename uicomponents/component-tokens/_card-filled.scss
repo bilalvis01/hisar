@@ -35,31 +35,31 @@ $card-filled: (
 ) !default;
 
 $card-filled-disabled: (
-    "card-filled-container-elevation": $card-filled-disabled-container-elevation,
-    "card-filled-container-opacity": $card-filled-disabled-container-opacity,
-    "card-filled-container-color": $card-filled-disabled-container-color,
+    "card-filled-disabled-container-elevation": $card-filled-disabled-container-elevation,
+    "card-filled-disabled-container-opacity": $card-filled-disabled-container-opacity,
+    "card-filled-disabled-container-color": $card-filled-disabled-container-color,
 ) !default;
 
 $card-filled-hover: (
-    "card-filled-container-elevation": $card-filled-hover-container-elevation,
-    "card-filled-state-layer-color": $card-filled-hover-state-layer-color,
-    "card-filled-state-layer-color-rgb": $card-filled-hover-state-layer-color-rgb,
-    "card-filled-state-layer-opacity": $card-filled-hover-state-layer-opacity,
+    "card-filled-hover-container-elevation": $card-filled-hover-container-elevation,
+    "card-filled-hover-state-layer-color": $card-filled-hover-state-layer-color,
+    "card-filled-hover-state-layer-color-rgb": $card-filled-hover-state-layer-color-rgb,
+    "card-filled-hover-state-layer-opacity": $card-filled-hover-state-layer-opacity,
 ) !default;
 
 $card-filled-focus: (
     "card-filled-focus-indicator-color": $card-filled-focus-indicator-color,
     "card-filled-focus-indicator-thickness": $card-filled-focus-indicator-thickness,
     "card-filled-focus-indicator-offset": $card-filled-focus-indicator-offset,
-    "card-filled-container-elevation": $card-filled-focus-container-elevation,
-    "card-filled-state-layer-color": $card-filled-focus-state-layer-color,
-    "card-filled-state-layer-color-rgb": $card-filled-focus-state-layer-color-rgb,
-    "card-filled-state-layer-opacity": $card-filled-focus-state-layer-opacity,
+    "card-filled-focus-container-elevation": $card-filled-focus-container-elevation,
+    "card-filled-focus-state-layer-color": $card-filled-focus-state-layer-color,
+    "card-filled-focus-state-layer-color-rgb": $card-filled-focus-state-layer-color-rgb,
+    "card-filled-focus-state-layer-opacity": $card-filled-focus-state-layer-opacity,
 ) !default;
 
 $card-filled-pressed: (
-    "card-filled-container-elevation": $card-filled-pressed-container-elevation,
-    "card-filled-state-layer-color": $card-filled-pressed-state-layer-color,
-    "card-filled-state-layer-color-rgb": $card-filled-pressed-state-layer-color-rgb,
-    "card-filled-state-layer-opacity": $card-filled-pressed-state-layer-opacity,
+    "card-filled-pressed-container-elevation": $card-filled-pressed-container-elevation,
+    "card-filled-pressed-state-layer-color": $card-filled-pressed-state-layer-color,
+    "card-filled-pressed-state-layer-color-rgb": $card-filled-pressed-state-layer-color-rgb,
+    "card-filled-pressed-state-layer-opacity": $card-filled-pressed-state-layer-opacity,
 ) !default;
