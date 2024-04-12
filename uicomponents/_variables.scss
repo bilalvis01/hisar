@@ -179,6 +179,22 @@
     @each $token, $value in comp.$icon-button-standard-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$navigation-drawer {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$navigation-drawer-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$navigation-drawer-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$navigation-drawer-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {

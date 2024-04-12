@@ -1,107 +1,107 @@
 @use "../component-tokens" as comp;
 
 .navigation-drawer {
-    @each $key, $value in comp.$navigation-drawer {
-        --#{$key}: #{$value};
-    }
-    --container-color: var(--navigation-drawer-container-color);
-    --container-shape: var(--navigation-drawer-container-shape);
-    --container-width: var(--navigation-drawer-container-width);
-    --container-height: var(--navigation-drawer-container-height);
-    --header-color: var(--navigation-drawer-headline-color);
-    --header-font: var(--navigation-drawer-headline-font);
-    --header-line-height: var(--navigation-drawer-headline-line);
-    --header-size: var(--navigation-drawer-headline-size);
-    --header-tracking: var(--navigation-drawer-headline-tracking);
-    --header-weight: var(--navigation-drawer-headline-weight);
-    --header-height: var(--navigation-drawer-active-indicator-height);
-    --subheader-color: var(--navigation-drawer-inactive-label-color);
-    --subheader-font: var(--navigation-drawer-label-font);
-    --subheader-line-height: var(--navigation-drawer-label-line-height);
-    --subheader-size: var(--navigation-drawer-label-size);
-    --subheader-tracking: var(--navigation-drawer-label-tracking);
-    --subheader-weight: var(--navigation-drawer-label-weight);
-    --divider-color: var(--navigation-drawer-divider-color);
-    --scrim-color: rgba(var(--navigation-drawer-scrim-color-rgb), var(--navigation-drawer-scrim-opacity));
+    --container-color: var(--component-navigation-drawer-container-color);
+    --container-shape: var(--component-navigation-drawer-container-shape);
+    --container-width: var(--component-navigation-drawer-container-width);
+    --container-height: var(--component-navigation-drawer-container-height);
+    --header-color: var(--component-navigation-drawer-headline-color);
+    --header-font: var(--component-navigation-drawer-headline-font);
+    --header-line-height: var(--component-navigation-drawer-headline-line);
+    --header-size: var(--component-navigation-drawer-headline-size);
+    --header-tracking: var(--component-navigation-drawer-headline-tracking);
+    --header-weight: var(--component-navigation-drawer-headline-weight);
+    --header-height: var(--component-navigation-drawer-active-indicator-height);
+    --subheader-color: var(--component-navigation-drawer-inactive-label-color);
+    --subheader-font: var(--component-navigation-drawer-label-font);
+    --subheader-line-height: var(--component-navigation-drawer-label-line-height);
+    --subheader-size: var(--component-navigation-drawer-label-size);
+    --subheader-tracking: var(--component-navigation-drawer-label-tracking);
+    --subheader-weight: var(--component-navigation-drawer-label-weight);
+    --divider-color: var(--component-navigation-drawer-divider-color);
+    --scrim-color: rgba(var(--component-navigation-drawer-scrim-color-rgb), var(--component-navigation-drawer-scrim-opacity));
 
     &.modal {
-        --container-color: var(--navigation-drawer-modal-container-color);
-        --container-elevation: var(--navigation-drawer-modal-container-elevation);
+        --container-color: var(--component-navigation-drawer-modal-container-color);
+        --container-elevation: var(--component-navigation-drawer-modal-container-elevation);
     }
 
     &.standard {
-        --container-color: var(--navigation-drawer-standard-container-color);
-        --container-elevation: var(--navigation-drawer-standard-container-color);
+        --container-color: var(--component-navigation-drawer-standard-container-color);
+        --container-elevation: var(--component-navigation-drawer-standard-container-color);
     }
 
     & .navigation-button {
         --navigation-button-container-color: transparent;
-        --navigation-button-container-width: var(--navigation-drawer-active-indicator-width);
-        --navigation-button-container-height: var(--navigation-drawer-active-indicator-height);
-        --navigation-button-container-shape: var(--navigation-drawer-active-indicator-shape);
+        --navigation-button-container-width: var(--component-navigation-drawer-active-indicator-width);
+        --navigation-button-container-height: var(--component-navigation-drawer-active-indicator-height);
+        --navigation-button-container-shape: var(--component-navigation-drawer-active-indicator-shape);
         --focus-indicator-style: none;
         --focus-indicator-color: unset;
         --focus-indicator-width: unset;
         --focus-indicator-offset: unset;
-        --label-color: var(--navigation-drawer-inactive-label-color);
-        --label-font: var(--navigation-drawer-label-font);
-        --label-line-height: var(--navigation-drawer-label-line-height);
-        --label-size: var(--navigation-drawer-label-size);
-        --label-tracking: var(--navigation-drawer-label-tracking);
-        --label-weight: var(--navigation-drawer-label-weight);
-        --icon-color: var(--navigation-drawer-inactive-icon-color);
-        --icon-width: var(--navigation-drawer-icon-size);
-        --icon-height: var(--navigation-drawer-icon-size);
+        --label-color: var(--component-navigation-drawer-inactive-label-color);
+        --label-font: var(--component-navigation-drawer-label-font);
+        --label-line-height: var(--component-navigation-drawer-label-line-height);
+        --label-size: var(--component-navigation-drawer-label-size);
+        --label-tracking: var(--component-navigation-drawer-label-tracking);
+        --label-weight: var(--component-navigation-drawer-label-weight);
+        --icon-color: var(--component-navigation-drawer-inactive-icon-color);
+        --icon-width: var(--component-navigation-drawer-icon-size);
+        --icon-height: var(--component-navigation-drawer-icon-size);
         --active-indicator-color: transparent;
-        --active-indicator-width: var(--navigation-drawer-active-indicator-width);
-        --active-indicator-height: var(--navigation-drawer-active-indicator-height);
-        --active-indicator-shape: var(--navigation-drawer-active-indicator-shape);
+        --active-indicator-width: var(--component-navigation-drawer-active-indicator-width);
+        --active-indicator-height: var(--component-navigation-drawer-active-indicator-height);
+        --active-indicator-shape: var(--component-navigation-drawer-active-indicator-shape);
         --state-layer-color: transparent;
-        --state-layer-width: var(--navigation-drawer-active-indicator-width);
-        --state-layer-height: var(--navigation-drawer-active-indicator-height);
-        --state-layer-shape: var(--navigation-drawer-active-indicator-shape);
+        --state-layer-width: var(--component-navigation-drawer-active-indicator-width);
+        --state-layer-height: var(--component-navigation-drawer-active-indicator-height);
+        --state-layer-shape: var(--component-navigation-drawer-active-indicator-shape);
 
         &.active {
-            --label-color: var(--navigation-drawer-active-label-color);
-            --icon-color: var(--navigation-drawer-active-icon-color);
-            --active-indicator-color: var(--navigation-drawer-active-indicator-color);
+            --label-color: var(--component-navigation-drawer-active-label-color);
+            --icon-color: var(--component-navigation-drawer-active-icon-color);
+            --active-indicator-color: var(--component-navigation-drawer-active-indicator-color);
         }
     
         &:hover {
-            @each $key, $value in comp.$navigation-drawer-hover {
-                --#{$key}: #{$value};
-            }
-            --state-layer-color: rgba(var(--navigation-drawer-inactive-state-layer-color-rgb), var(--navigation-drawer-state-layer-opacity));
+            --state-layer-color: rgba(var(--component-navigation-drawer-inactive-hover-state-layer-color-rgb), var(--component-navigation-drawer-hover-state-layer-opacity));
+            --label-color: var(--component-navigation-drawer-inactive-hover-label-color);
+            --icon-color: var(--component-navigation-drawer-inactive-hover-icon-color);
             &.active {
-                --state-layer-color: rgba(var(--navigation-drawer-active-state-layer-color-rgb), var(--navigation-drawer-state-layer-opacity));
+                --state-layer-color: rgba(var(--component-navigation-drawer-active-hover-state-layer-color-rgb), var(--component-navigation-drawer-hover-state-layer-opacity));
+                --label-color: var(--component-navigation-drawer-active-hover-label-color);
+                --icon-color: var(--component-navigation-drawer-active-hover-icon-color);
             }
         }
     
         &:focus {
-            @each $key, $value in comp.$navigation-drawer-focus {
-                --#{$key}: #{$value};
-            }
             --focus-indicator-style: solid;
-            --focus-indicator-color: var(--navigation-drawer-focus-indicator-color);
-            --focus-indicator-width: var(--navigation-drawer-focus-indicator-thickness);
-            --focus-indicator-offset: var(--navigation-drawer-focus-indicator-offset);
-            --state-layer-color: rgba(var(--navigation-drawer-inactive-state-layer-color-rgb), var(--navigation-drawer-state-layer-opacity));
+            --focus-indicator-color: var(--component-navigation-drawer-focus-indicator-color);
+            --focus-indicator-width: var(--component-navigation-drawer-focus-indicator-thickness);
+            --focus-indicator-offset: var(--component-navigation-drawer-focus-indicator-offset);
+            --state-layer-color: rgba(var(--component-navigation-drawer-inactive-focus-state-layer-color-rgb), var(--component-navigation-drawer-focus-state-layer-opacity));
+            --label-color: var(--component-navigation-drawer-inactive-focus-label-color);
+            --icon-color: var(--component-navigation-drawer-inactive-focus-icon-color);
             &.active {
-                --state-layer-color: rgba(var(--navigation-drawer-active-state-layer-color-rgb), var(--navigation-drawer-state-layer-opacity));
+                --state-layer-color: rgba(var(--component-navigation-drawer-active-focus-state-layer-color-rgb), var(--component-navigation-drawer-focus-state-layer-opacity));
+                --label-color: var(--component-navigation-drawer-active-focus-label-color);
+                --icon-color: var(--component-navigation-drawer-active-focus-icon-color);
             }
         }
     
         &:active {
-            @each $key, $value in comp.$navigation-drawer-pressed {
-                --#{$key}: #{$value};
-            }
             --focus-indicator-style: none;
             --focus-indicator-color: unset;
             --focus-indicator-width: unset;
             --focus-indicator-offset: unset;
-            --state-layer-color: rgba(var(--navigation-drawer-inactive-state-layer-color-rgb), var(--navigation-drawer-state-layer-opacity));
+            --state-layer-color: rgba(var(--component-navigation-drawer-inactive-pressed-state-layer-color-rgb), var(--component-navigation-drawer-pressed-state-layer-opacity));
+            --label-color: var(--component-navigation-drawer-inactive-pressed-label-color);
+            --icon-color: var(--component-navigation-drawer-inactive-pressed-icon-color);
             &.active {
-                --state-layer-color: rgba(var(--navigation-drawer-active-state-layer-color-rgb), var(--navigation-drawer-state-layer-opacity));
+                --state-layer-color: rgba(var(--component-navigation-drawer-active-pressed-state-layer-color-rgb), var(--component-navigation-drawer-pressed-state-layer-opacity));
+                --label-color: var(--component-navigation-drawer-active-pressed-label-color);
+                --icon-color: var(--component-navigation-drawer-active-pressed-icon-color);
             }
         }
     }
