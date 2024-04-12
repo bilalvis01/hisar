@@ -58,55 +58,96 @@
         background-color: var(--container-color);
         box-shadow: var(--container-elevation);
         border-radius: var(--container-shape);
+        min-width: 17.5rem;
+        max-width: 35rem;
         
         & > .state-layer{
             background-color: var(--state-layer-color);
 
-            & .label {
-                font-family: var(--action-label-font);
-                line-height: var(--action-label-line-height);
-                font-size: var(--action-label-size);
-                font-weight: var(--action-label-weight);
-                letter-spacing: var(--action-label-tracking);
-                color: var(--action-label-color);
-            }
+            & > .content {
+                padding: 1.5rem;
+    
+                & > .headline {
+                    font-family: var(--headline-font);
+                    line-height: var(--headline-line-height);
+                    font-size: var(--headline-size);
+                    font-weight: var(--headline-weight);
+                    letter-spacing: var(--headline-tracking);
+                    color: var(--headline-color);
+                    text-align: left;
+                }
+    
+                & > .subhead {
+                    font-family: var(--subhead-font);
+                    line-height: var(--subhead-line-height);
+                    font-size: var(--subhead-size);
+                    font-weight: var(--subhead-weight);
+                    letter-spacing: var(--subhead-tracking);
+                    color: var(--subhead-color);
+                    text-align: left;
+                }
+    
+                & > .supporting-text {
+                    font-family: var(--supporting-text-font);
+                    line-height: var(--supporting-text-line-height);
+                    font-size: var(--supporting-text-size);
+                    font-weight: var(--supporting-text-weight);
+                    letter-spacing: var(--supporting-text-tracking);
+                    color: var(--supporting-text-color);
+                    text-align: left;
+                }
+    
+                & > svg {
+                    width: var(--icon-width);
+                    height: var(--icon-height);
+                    color: var(--icon-color);
+                    margin: 0 auto;
+                }
+    
+                & > hr {
+                    height: var(--divider-width);
+                    background-color: var(--divider-color);
+                    padding-top: 1rem;
+                }
 
-            & .headline {
-                font-family: var(--headline-font);
-                line-height: var(--headline-line-height);
-                font-size: var(--headline-size);
-                font-weight: var(--headline-weight);
-                letter-spacing: var(--headline-tracking);
-                color: var(--headline-color);
-            }
+                & > .action {
+                    display: grid;
+                    justify-content: end;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-family: var(--action-label-font);
+                    line-height: var(--action-label-line-height);
+                    font-size: var(--action-label-size);
+                    font-weight: var(--action-label-weight);
+                    letter-spacing: var(--action-label-tracking);
+                    color: var(--action-label-color);
+                }
 
-            & .subhead {
-                font-family: var(--subhead-font);
-                line-height: var(--subhead-line-height);
-                font-size: var(--subhead-size);
-                font-weight: var(--subhead-weight);
-                letter-spacing: var(--subhead-tracking);
-                color: var(--subhead-color);
-            }
+                & > svg + .headline,
+                & > svg + .subhead,
+                & > svg + .supporting-text,
+                & > .headline + .subhead,
+                & > .headline + .supporting-text, 
+                & > .subhead + .supporting-text, 
+                & > hr + .headline, 
+                & > hr + .subhead,
+                & > hr + .supporting-text {
+                    padding-top: 1rem;
+                }
 
-            & .supporting-text {
-                font-family: var(--supporting-text-font);
-                line-height: var(--supporting-text-line-height);
-                font-size: var(--supporting-text-size);
-                font-weight: var(--supporting-text-weight);
-                letter-spacing: var(--supporting-text-tracking);
-                color: var(--supporting-text-color);
-            }
+                & > svg + .action,
+                & > .headline + .action,
+                & > .subhead + .action,
+                & > .supporting-text + .action,
+                & > hr + .action {
+                    padding-top: 1.5rem;
+                }
 
-            & svg {
-                width: var(--icon-width);
-                height: var(--icon-height);
-                color: var(--icon-color);
-            }
-
-            & hr {
-                height: var(--divider-width);
-                background-color: var(--divider-color);
+                & > svg ~ .headline,
+                & > svg ~ .subhead,
+                & > svg ~ .supporting-text {
+                    text-align: center;
+                }
             }
         }
     }
