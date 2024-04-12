@@ -159,6 +159,26 @@
     @each $token, $value in comp.$icon-button-filled-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$icon-button-standard {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$icon-button-standard-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$icon-button-standard-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$icon-button-standard-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$icon-button-standard-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {

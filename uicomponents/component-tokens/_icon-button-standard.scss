@@ -51,43 +51,43 @@ $icon-button-standard: (
 ) !default;
 
 $icon-button-standard-disabled: (
-    "icon-button-standard-icon-color": $icon-button-standard-disabled-icon-color,
-    "icon-button-standard-icon-color-rgb": $icon-button-standard-disabled-icon-color-rgb, 
-    "icon-button-standard-icon-opacity": $icon-button-standard-disabled-icon-opacity,
+    "icon-button-standard-disabled-icon-color": $icon-button-standard-disabled-icon-color,
+    "icon-button-standard-disabled-icon-color-rgb": $icon-button-standard-disabled-icon-color-rgb, 
+    "icon-button-standard-disabled-icon-opacity": $icon-button-standard-disabled-icon-opacity,
 ) !default;
 
 $icon-button-standard-hover: (
-    "icon-button-standard-unselected-state-layer-color": $icon-button-standard-unselected-hover-state-layer-color,
-    "icon-button-standard-unselected-state-layer-color-rgb": $icon-button-standard-unselected-hover-state-layer-color-rgb,
-    "icon-button-standard-unselected-state-layer-opacity": $icon-button-standard-unselected-hover-state-layer-opacity,
-    "icon-button-standard-selected-state-layer-color": $icon-button-standard-selected-hover-state-layer-color,
-    "icon-button-standard-selected-state-layer-color-rgb": $icon-button-standard-selected-hover-state-layer-color-rgb,
-    "icon-button-standard-selected-state-layer-opacity": $icon-button-standard-selected-hover-state-layer-opacity,
-    "icon-button-standard-unselected-icon-color": $icon-button-standard-unselected-hover-icon-color,
-    "icon-button-standard-selected-icon-color": $icon-button-standard-selected-hover-icon-color,
+    "icon-button-standard-unselected-hover-state-layer-color": $icon-button-standard-unselected-hover-state-layer-color,
+    "icon-button-standard-unselected-hover-state-layer-color-rgb": $icon-button-standard-unselected-hover-state-layer-color-rgb,
+    "icon-button-standard-unselected-hover-state-layer-opacity": $icon-button-standard-unselected-hover-state-layer-opacity,
+    "icon-button-standard-selected-hover-state-layer-color": $icon-button-standard-selected-hover-state-layer-color,
+    "icon-button-standard-selected-hover-state-layer-color-rgb": $icon-button-standard-selected-hover-state-layer-color-rgb,
+    "icon-button-standard-selected-hover-state-layer-opacity": $icon-button-standard-selected-hover-state-layer-opacity,
+    "icon-button-standard-unselected-hover-icon-color": $icon-button-standard-unselected-hover-icon-color,
+    "icon-button-standard-selected-hover-icon-color": $icon-button-standard-selected-hover-icon-color,
 ) !default;
 
 $icon-button-standard-focus: (
     "icon-button-standard-focus-indicator-color": $icon-button-standard-focus-indicator-color,
     "icon-button-standard-focus-indicator-thickness": $icon-button-standard-focus-indicator-thickness,
     "icon-button-standard-focus-indicator-offset": $icon-button-standard-focus-indicator-offset,
-    "icon-button-standard-unselected-state-layer-color": $icon-button-standard-unselected-focus-state-layer-color,
-    "icon-button-standard-unselected-state-layer-color-rgb": $icon-button-standard-unselected-focus-state-layer-color-rgb,
-    "icon-button-standard-unselected-state-layer-opacity": $icon-button-standard-unselected-focus-state-layer-opacity,
-    "icon-button-standard-selected-state-layer-color": $icon-button-standard-selected-focus-state-layer-color,
-    "icon-button-standard-selected-state-layer-color-rgb": $icon-button-standard-selected-focus-state-layer-color-rgb,
-    "icon-button-standard-selected-state-layer-opacity": $icon-button-standard-selected-focus-state-layer-opacity,
-    "icon-button-standard-unselected-icon-color": $icon-button-standard-unselected-focus-icon-color,
-    "icon-button-standard-selected-icon-color": $icon-button-standard-selected-focus-icon-color,
+    "icon-button-standard-unselected-focus-state-layer-color": $icon-button-standard-unselected-focus-state-layer-color,
+    "icon-button-standard-unselected-focus-state-layer-color-rgb": $icon-button-standard-unselected-focus-state-layer-color-rgb,
+    "icon-button-standard-unselected-focus-state-layer-opacity": $icon-button-standard-unselected-focus-state-layer-opacity,
+    "icon-button-standard-selected-focus-state-layer-color": $icon-button-standard-selected-focus-state-layer-color,
+    "icon-button-standard-selected-focus-state-layer-color-rgb": $icon-button-standard-selected-focus-state-layer-color-rgb,
+    "icon-button-standard-selected-focus-state-layer-opacity": $icon-button-standard-selected-focus-state-layer-opacity,
+    "icon-button-standard-unselected-focus-icon-color": $icon-button-standard-unselected-focus-icon-color,
+    "icon-button-standard-selected-focus-icon-color": $icon-button-standard-selected-focus-icon-color,
 ) !default;
 
 $icon-button-standard-pressed: (
-    "icon-button-standard-unselected-state-layer-color": $icon-button-standard-unselected-pressed-state-layer-color,
-    "icon-button-standard-unselected-state-layer-color-rgb": $icon-button-standard-unselected-pressed-state-layer-color-rgb,
-    "icon-button-standard-unselected-state-layer-opacity": $icon-button-standard-unselected-pressed-state-layer-opacity,
-    "icon-button-standard-selected-state-layer-color": $icon-button-standard-selected-pressed-state-layer-color,
-    "icon-button-standard-selected-state-layer-color-rgb": $icon-button-standard-selected-pressed-state-layer-color-rgb,
-    "icon-button-standard-selected-state-layer-opacity": $icon-button-standard-selected-pressed-state-layer-opacity,
-    "icon-button-standard-unselected-icon-color": $icon-button-standard-unselected-pressed-icon-color,
-    "icon-button-standard-selected-icon-color": $icon-button-standard-selected-pressed-icon-color,
+    "icon-button-standard-unselected-pressed-state-layer-color": $icon-button-standard-unselected-pressed-state-layer-color,
+    "icon-button-standard-unselected-pressed-state-layer-color-rgb": $icon-button-standard-unselected-pressed-state-layer-color-rgb,
+    "icon-button-standard-unselected-pressed-state-layer-opacity": $icon-button-standard-unselected-pressed-state-layer-opacity,
+    "icon-button-standard-selected-pressed-state-layer-color": $icon-button-standard-selected-pressed-state-layer-color,
+    "icon-button-standard-selected-pressed-state-layer-color-rgb": $icon-button-standard-selected-pressed-state-layer-color-rgb,
+    "icon-button-standard-selected-pressed-state-layer-opacity": $icon-button-standard-selected-pressed-state-layer-opacity,
+    "icon-button-standard-unselected-pressed-icon-color": $icon-button-standard-unselected-pressed-icon-color,
+    "icon-button-standard-selected-pressed-icon-color": $icon-button-standard-selected-pressed-icon-color,
 ) !default;

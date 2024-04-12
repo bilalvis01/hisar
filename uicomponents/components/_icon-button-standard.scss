@@ -1,78 +1,67 @@
 @use "../component-tokens" as comp;
 
 .icon-button.standard {
-    @each $key, $value in comp.$icon-button-standard {
-        --#{$key}: #{$value};
-    }
-    --container-width: var(--icon-button-standard-state-layer-width);
-    --container-height: var(--icon-button-standard-state-layer-height);
-    --container-shape: var(--icon-button-standard-state-layer-shape);
+    --container-width: var(--component-icon-button-standard-state-layer-width);
+    --container-height: var(--component-icon-button-standard-state-layer-height);
+    --container-shape: var(--component-icon-button-standard-state-layer-shape);
     --container-color: transparent;
     --focus-indicator-style: none;
     --focus-indicator-color: unset;
     --focus-indicator-width: unset;
     --focus-indicator-offset: unset;
     --state-layer-color: transparent;
-    --state-layer-width: var(--icon-button-standard-state-layer-width);
-    --state-layer-height: var(--icon-button-standard-state-layer-height);
-    --state-layer-shape: var(--icon-button-standard-state-layer-shape);
-    --icon-color: var(--icon-button-standard-unselected-icon-color);
-    --icon-width: var(--icon-button-standard-icon-size);
-    --icon-height: var(--icon-button-standard-icon-size);
+    --state-layer-width: var(--component-icon-button-standard-state-layer-width);
+    --state-layer-height: var(--component-icon-button-standard-state-layer-height);
+    --state-layer-shape: var(--component-icon-button-standard-state-layer-shape);
+    --icon-color: var(--component-icon-button-standard-unselected-icon-color);
+    --icon-width: var(--component-icon-button-standard-icon-size);
+    --icon-height: var(--component-icon-button-standard-icon-size);
 
     &.toggle.selected {
-        --icon-color: var(--icon-button-standard-selected-icon-color);
+        --icon-color: var(--component-icon-button-standard-selected-icon-color);
     }
 
     &:hover {
-        @each $key, $value in comp.$icon-button-standard-hover {
-            --#{$key}: #{$value};
-        }
-        --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
-    
+        --state-layer-color: rgb(var(--component-icon-button-standard-unselected-hover-state-layer-color-rgb), var(--component-icon-button-standard-unselected-hover-state-layer-opacity));
+        --icon-color: var(--component-icon-button-standard-unselected-hover-icon-color);
+
         &.toggle-button.selected {
-            --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));
+            --state-layer-color: rgb(var(--component-icon-button-standard-selected-hover-state-layer-color-rgb), var(--component-icon-button-standard-selected-hover-state-layer-opacity));
+            --icon-color: var(--component-icon-button-standard-selected-hover-icon-color);
         }
     }
 
     &:focus {
-        @each $key, $value in comp.$icon-button-standard-focus {
-            --#{$key}: #{$value};
-        }
-        --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
-
         --focus-indicator-style: solid;
-        --focus-indicator-color: var(--icon-button-standard-focus-indicator-color);
-        --focus-indicator-width: var(--icon-button-standard-focus-indicator-thickness);
-        --focus-indicator-offset: var(--icon-button-standard-focus-indicator-offset);
-    
+        --focus-indicator-color: var(--component-icon-button-standard-focus-indicator-color);
+        --focus-indicator-width: var(--component-icon-button-standard-focus-indicator-thickness);
+        --focus-indicator-offset: var(--component-icon-button-standard-focus-indicator-offset);
+        --state-layer-color: rgb(var(--component-icon-button-standard-unselected-focus-state-layer-color-rgb), var(--component-icon-button-standard-unselected-focus-state-layer-opacity));
+        --icon-color: var(--component-icon-button-standard-unselected-focus-icon-color);
+
         &.toggle.selected {
-            --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));
+            --state-layer-color: rgb(var(--component-icon-button-standard-selected-focus-state-layer-color-rgb), var(--component-icon-button-standard-selected-focus-state-layer-opacity));
+            --icon-color: var(--component-icon-button-standard-selected-focus-icon-color);
         }
     }
 
     &:active {
-        @each $key, $value in comp.$icon-button-standard-pressed {
-            --#{$key}: #{$value};
-        }
-        --state-layer-color: rgb(var(--icon-button-standard-unselected-state-layer-color-rgb), var(--icon-button-standard-unselected-state-layer-opacity));
-
         --focus-indicator-style: none;
         --focus-indicator-color: unset;
         --focus-indicator-width: unset;
         --focus-indicator-offset: unset;
-    
+        --state-layer-color: rgb(var(--component-icon-button-standard-unselected-pressed-state-layer-color-rgb), var(--component-icon-button-standard-unselected-pressed-state-layer-opacity));
+        --icon-color: var(--component-icon-button-standard-unselected-pressed-icon-color);
+
         &.toggle.selected {
-            --state-layer-color: rgb(var(--icon-button-standard-selected-state-layer-color-rgb), var(--icon-button-standard-selected-state-layer-opacity));
+            --state-layer-color: rgb(var(--component-icon-button-standard-selected-pressed-state-layer-color-rgb), var(--component-icon-button-standard-selected-pressed-state-layer-opacity));
+            --icon-color: var(--component-icon-button-standard-selected-pressed-icon-color);
         }
     }
 
     &:disabled {
-        @each $key, $value in comp.$icon-button-standard-disabled {
-            --#{$key}: #{$value};
-        }
         --state-layer-color: transparent;
-        --icon-color: rgba(var(--icon-button-standard-icon-color-rgb), var(--icon-button-standard-icon-opacity));
+        --icon-color: rgba(var(--component-icon-button-standard-disabled-icon-color-rgb), var(--component-icon-button-standard-disabled-icon-opacity));
     
         &.toggle.selected {
             --state-layer-color: transparent;
