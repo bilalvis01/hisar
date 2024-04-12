@@ -119,6 +119,26 @@
     @each $token, $value in comp.$card-filled-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$card-outlined {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$card-outlined-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$card-outlined-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$card-outlined-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$card-outlined-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {

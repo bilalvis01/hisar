@@ -1,58 +1,50 @@
 @use "../component-tokens" as comp;
 
 .card.outlined {
-    @each $key, $value in comp.$card-outlined {
-        --#{$key}: #{$value};
-    }
-    --container-color: var(--card-outlined-container-color);
-    --container-shape: var(--card-outlined-container-shape);
-    --container-elevation: var(--card-outlined-container-elevation);
-    --outline-width: var(--card-outlined-outline-width);
-    --outline-color: var(--card-outlined-outline-color);
+    --container-color: var(--component-card-outlined-container-color);
+    --container-shape: var(--component-card-outlined-container-shape);
+    --container-elevation: var(--component-card-outlined-container-elevation);
+    --outline-width: var(--component-card-outlined-outline-width);
+    --outline-color: var(--component-card-outlined-outline-color);
     --focus-indicator-style: none;
     --focus-indicator-color: unset;
     --focus-indicator-width: unset;
     --focus-indicator-offset: unset;
-    --icon-color: var(--card-outlined-icon-color);
-    --icon-width: var(--card-outlined-icon-size);
-    --icon-height: var(--card-outlined-icon-size);
+    --icon-color: var(--component-card-outlined-icon-color);
+    --icon-width: var(--component-card-outlined-icon-size);
+    --icon-height: var(--component-card-outlined-icon-size);
     --state-layer-color: transparent;
-    --state-layer-shape: var(--card-outlined-container-shape);
-    --content-shape: var(--card-outlined-container-shape);
+    --state-layer-shape: var(--component-card-outlined-container-shape);
+    --content-shape: var(--component-card-outlined-container-shape);
 
     &:hover {
-        @each $key, $value in comp.$card-outlined-hover {
-            --#{$key}: #{$value};
-        }
-        --state-layer-color: rgba(var(--card-outlined-state-layer-color-rgb), var(--card-outlined-state-layer-opacity));
+        --container-elevation: var(--component-card-outlined-hover-container-elevation);
+        --outline-color: var(--component-card-outlined-hover-outline-color);
+        --state-layer-color: rgba(var(--component-card-outlined-hover-state-layer-color-rgb), var(--component-card-outlined-hover-state-layer-opacity));
     }
 
     &:focus {
-        @each $key, $value in comp.$card-outlined-focus {
-            --#{$key}: #{$value};
-        }
+        --container-elevation: var(--component-card-outlined-focus-container-elevation);
+        --outline-color: var(--component-card-outlined-focus-outline-color);
         --focus-indicator-style: solid;
-        --focus-indicator-color: var(--card-outlined-focus-indicator-color);
-        --focus-indicator-width: var(--card-outlined-focus-indicator-thickness);
-        --focus-indicator-offset: var(--card-outlined-focus-indicator-offset);
-        --state-layer-color: rgba(var(--card-outlined-state-layer-color-rgb), var(--card-outlined-state-layer-opacity));
+        --focus-indicator-color: var(--component-card-outlined-focus-indicator-color);
+        --focus-indicator-width: var(--component-card-outlined-focus-indicator-thickness);
+        --focus-indicator-offset: var(--component-card-outlined-focus-indicator-offset);
+        --state-layer-color: rgba(var(--component-card-outlined-focus-state-layer-color-rgb), var(--component-card-outlined-focus-state-layer-opacity));
     }
 
     &:active {
-        @each $key, $value in comp.$card-outlined-pressed {
-            --#{$key}: #{$value};
-        }
+        --outline-color: var(--component-card-outlined-pressed-outline-color);
+        --container-elevation: var(--component-card-outlined-pressed-container-elevation);
         --focus-indicator-style: none;
         --focus-indicator-color: unset;
         --focus-indicator-width: unset;
         --focus-indicator-offset: unset;
-        --state-layer-color: rgba(var(--card-outlined-state-layer-color-rgb), var(--card-outlined-state-layer-opacity));
+        --state-layer-color: rgba(var(--component-card-outlined-pressed-state-layer-color-rgb), var(--component-card-outlined-pressed-state-layer-opacity));
     }
 
     &:disabled {
-        @each $key, $value in comp.$card-outlined-disabled {
-            --#{$key}: #{$value};
-        }
-        --outline-color: rgba(var(--card-outlined-outline-color), var(--card-outlined-outline-opacity));
+        --container-elevation: var(--component-card-outlined-disabled-container-elevation);
+        --outline-color: rgba(var(--component-card-outlined-disabled-outline-color), var(--component-card-outlined-disabled-outline-opacity));
     }
 }
