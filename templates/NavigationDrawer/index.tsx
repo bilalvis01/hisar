@@ -9,7 +9,6 @@ import {
     NavigationHeader, 
     NavigationHeadline,
 } from "../../components/NavigationDrawer";
-import { usePathname } from "next/navigation";
 import IconButtonFilled from "../../components/IconButtonFilled";
 import IconButtonStandard from "../../components/IconButtonStandard";
 import IconClose from "../../icons/Close";
@@ -17,12 +16,11 @@ import IconList from "../../icons/List";
 
 interface NavigationDrawerProps {
     className?: string,
+    select?: string,
 }
 
-export default function NavigationDrawer({ className }: NavigationDrawerProps) {
+export default function NavigationDrawer({ className, select }: NavigationDrawerProps) {
     const [open, setOpen] = React.useState(false);
-    const pathname = usePathname()
-    const [prevPathname, setPrevPathname] = React.useState(pathname);
 
     const handleResize = React.useCallback(() => {
         if (window.innerWidth >= 992) {
@@ -37,11 +35,8 @@ export default function NavigationDrawer({ className }: NavigationDrawerProps) {
     }, [handleResize]);
 
     React.useEffect(() => {
-        if (prevPathname != pathname) {
-            setPrevPathname(pathname);
-            setOpen(false);
-        }
-    }, [setOpen, setPrevPathname, pathname, prevPathname]);
+        setOpen(false);
+    }, [select]);
 
     return (
         <nav className={className}>
@@ -49,7 +44,7 @@ export default function NavigationDrawer({ className }: NavigationDrawerProps) {
                 variant="modal"
                 open={open}
                 onOpenChange={setOpen}
-                select={pathname}
+                select={select}
             >
                 <IconButtonFilled onClick={() => setOpen(true)}>
                     <IconList />
