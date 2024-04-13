@@ -15,39 +15,29 @@ import {
     FloatingOverlay,
     useId,
 } from "@floating-ui/react";
-import IconButtonFilled from "../IconButtonFilled";
-import List from "../../icons/List";
-import { usePathname } from "next/navigation";
 import style from "./navigation-drawer.module.scss";
-import IconButtonStandard from "../IconButtonStandard";
-import IconClose from "../../icons/Close";
 
-function useNavigationDrawer() {
-    const [open, setOpen] = React.useState(false);
+interface NavigationDrawerOptions {
+    initialOpen?: boolean,
+    open?: boolean,
+    onOpenChange?: (open: boolean) => void;
+    select?: string;
+}
+
+function useNavigationDrawer({
+    initialOpen = false,
+    open: controlledOpen,
+    onOpenChange: setControlledOpen,
+    select,
+}: NavigationDrawerOptions) {
+    const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
     const [labelId, setLabelId] = React.useState<string | undefined>();
     const [descriptionId, setDescriptionId] = React.useState<string | undefined>();
 
-    const pathname = usePathname()
-    const [prevPathname, setPrevPathname] = React.useState(pathname);
+    React.use
 
-    const handleResize = React.useCallback(() => {
-        if (window.innerWidth >= 992) {
-            setOpen(false);
-        }
-    }, [setOpen]);
-
-    React.useEffect(() => {
-        window.addEventListener("resize", handleResize);
-
-        return () => window.removeEventListener("resize", handleResize);
-    }, [handleResize]);
-
-    React.useEffect(() => {
-        if (prevPathname != pathname) {
-            setPrevPathname(pathname);
-            setOpen(false);
-        }
-    }, [setOpen, setPrevPathname, pathname, prevPathname]);
+    const open = controlledOpen ?? uncontrolledOpen;
+    const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
     const data = useFloating({
         open,
@@ -56,7 +46,9 @@ function useNavigationDrawer() {
 
     const context = data.context;
 
-    const click = useClick(context);
+    const click = useClick(context, {
+        enabled: controlledOpen == null,
+    });
     const dismiss = useDismiss(context, {
         outsidePressEvent: "mousedown",
     });
@@ -74,9 +66,9 @@ function useNavigationDrawer() {
             descriptionId,
             setLabelId,
             setDescriptionId,
-            pathname,
+            select,
         }),
-        [open, setOpen, interactions, data, labelId, descriptionId],
+        [open, setOpen, interactions, data, labelId, descriptionId, select],
     );
 }
 
@@ -87,56 +79,64 @@ type ContextType =
         })
     |   null;
 
-const DialogContext = React.createContext<ContextType>(null);
+const NavigationDrawerContext = React.createContext<ContextType>(null);
 
 const useNavigationDrawerContext = () => {
-    const context = React.useContext(DialogContext);
+    const context = React.useContext(NavigationDrawerContext);
 
     if (context == null) {
-        throw new Error("Dialog components must be wrapped in <Dialog />");
+        throw new Error("NavigationDrawer components must be wrapped in <NavigationDrawer />");
     }
 
     return context;
 }
 
-interface NavigationDrawerProps extends React.HTMLProps<HTMLDivElement> {
-    modal?: boolean,
+type Variant = "standard" | "modal";
+
+interface NavigationDrawerProps extends NavigationDrawerOptions {
+    children: React.ReactNode,
+}
+
+export function NavigationDrawer({
+    children,
+    ...options
+}: NavigationDrawerProps) {
+    const NavigationDrawer = useNavigationDrawer(options);
+    return (
+        <NavigationDrawerContext.Provider value={NavigationDrawer}>{children}</NavigationDrawerContext.Provider>
+    );
+}
+
+interface NavigationDrawerProps {
+    variant?: Variant
 };
 
-export const NavigationDrawer = React.forwardRef<
+export const NavigationDrawerContent = React.forwardRef<
     HTMLDivElement,
-    NavigationDrawerProps
->(function NavigationDrawerContent({ className, ...props}, propRef) {
-    const context = useNavigationDrawer();
+    React.HTMLProps<HTMLDivElement> & NavigationDrawerProps
+>(function NavigationDrawerContent({ variant = "standard", ...props}, propRef) {
+    const { context: floatingContext, ...context } = useNavigationDrawerContext();
     const ref = useMergeRefs([context.refs.setFloating, propRef]);
-    const floatingContext = context.context;
+
+    if (!floatingContext.open) return null;
 
     return (
-        <DialogContext.Provider value={context}>
-            <nav className={clsx(style.nav, className)}>
-                <IconButtonFilled onClick={() => context.setOpen(true)}>
-                    <List />
-                </IconButtonFilled>
-                {context.open && (
-                    <FloatingPortal>
-                        <FloatingOverlay className="navigation-drawer" lockScroll>
-                            <FloatingFocusManager context={floatingContext}>
-                                <div
-                                    ref={ref}
-                                    aria-labelledby={context.labelId}
-                                    aria-describedby={context.descriptionId}
-                                    aria-modal={context.open}
-                                    className="navigation-container"
-                                    {...context.getFloatingProps(props)}
-                                >
-                                    {props.children}
-                                </div>
-                            </FloatingFocusManager>
-                        </FloatingOverlay>
-                    </FloatingPortal>
-                )}
-            </nav>
-        </DialogContext.Provider>
+        <FloatingPortal>
+            <FloatingOverlay className={style.overlay} lockScroll>
+                <FloatingFocusManager context={floatingContext}>
+                    <div
+                        ref={ref}
+                        aria-labelledby={context.labelId}
+                        aria-describedby={context.descriptionId}
+                        aria-modal={context.open}
+                        {...context.getFloatingProps(props)}
+                        className={clsx("navigation-drawer", variant)}
+                    >
+                        {props.children}
+                    </div>
+                </FloatingFocusManager>
+            </FloatingOverlay>
+        </FloatingPortal>
     );
 });
 
@@ -147,7 +147,7 @@ interface LinkProps extends NextLinkProps {
     notification?: number,
 };
 
-export function Link({
+export function NavigationLink({
     children,
     startIcon,
     endIcon,
@@ -155,12 +155,12 @@ export function Link({
     href,
     ...props
 }: LinkProps) {
-    const { pathname } = useNavigationDrawerContext();
+    const { select } = useNavigationDrawerContext();
 
     return (
         <li>
-            <NextLink className={clsx("navigation-button", { active: pathname == href })} href={href} {...props}>
-                <div className="navigation-button-container">
+            <NextLink {...props} className={clsx("navigation-button", { active: select == href })} href={href}>
+                <div className="container">
                     <div className="active-indicator">
                         <div className="state-layer">
                             <div className="content">
@@ -179,23 +179,110 @@ export function Link({
     )
 }
 
-export function Header({ children, className }) {
+
+export const NavigationHeader = React.forwardRef<
+    HTMLElement,
+    React.HTMLProps<HTMLElement>
+>(function NavigationHeader({ children, ...props }, ref) {
     return (
-        <div className={clsx("navigation-header", className)}>
+        <header {...props} className="header" ref={ref}>
+            {children}
+        </header>
+    );
+});
+
+export const NavigationHeadline = React.forwardRef<
+    HTMLHeadingElement,
+    React.HTMLProps<HTMLHeadingElement>
+>(function NavigationHeadline({ children, ...props }, ref) {
+    const { setLabelId } = useNavigationDrawerContext();
+    const id = useId();
+
+    React.useLayoutEffect(() => {
+        setLabelId(id);
+        return () => setLabelId(undefined);
+    }, [id, setLabelId]);
+
+    return (
+        <h2 {...props} className="headline" ref={ref} id={id} >
+            {children}
+        </h2>
+    );
+});
+
+export const NavigationSubhead = React.forwardRef<
+    HTMLHeadingElement,
+    React.HTMLProps<HTMLHeadingElement>
+>(function NavigationSubhead({ children, ...props }, ref) {
+    return (
+        <h3 {...props} className="headline" ref={ref}>
+            {children}
+        </h3>
+    );
+});
+
+export const NavigationDrawerBody = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLProps<HTMLDivElement>
+>(function NavigationDrawerBody({ children, ...props }, ref) {
+    const { setDescriptionId } = useNavigationDrawerContext();
+    const id = `${useId()}`;
+
+    React.useLayoutEffect(() => {
+        setDescriptionId(id);
+        return () => setDescriptionId(undefined);
+    }, [id, setDescriptionId]);
+
+    return (
+        <div {...props} className="body" ref={ref} id={id}>
             {children}
         </div>
     );
-}
+});
 
-export const Close = React.forwardRef<
+export const NavigationDrawerClose = React.forwardRef<
     HTMLButtonElement,
     React.ButtonHTMLAttributes<HTMLButtonElement>
->(function DialogClose(props, ref) {
+>(function NavigationDrawerClose(props, ref) {
     const { setOpen } = useNavigationDrawerContext();
 
     return (
-        <IconButtonStandard type="button" {...props} ref={ref} onClick={() => setOpen(false)}>
-            <IconClose />
-        </IconButtonStandard>
+        <button type="button" {...props} ref={ref} onClick={() => setOpen(false)} />
     );
+});
+
+interface NavigationDrawerTriggerProps {
+    children: React.ReactNode;
+    asChild?: boolean;
+}
+
+export const NavigationDrawerTrigger = React.forwardRef<
+    HTMLElement,
+    React.HTMLProps<HTMLElement> & NavigationDrawerTriggerProps
+>(function NavigationDrawerTrigger({ children, asChild = false, ...props }, propRef) {
+    const context = useNavigationDrawerContext();
+    const childrenRef = (children as any).ref;
+    const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
+
+    if (asChild && React.isValidElement(children)) {
+        return React.cloneElement(
+            children,
+            context.getReferenceProps({
+                ref,
+                ...props,
+                ...children.props,
+                "data-state": context.open ? "open" : "closed"
+            })
+        )
+    }
+
+    return (
+        <button
+            ref={ref}
+            data-state={context.open ? "open" : "closed"}
+            {...context.getReferenceProps(props)}
+        >
+            {children}
+        </button>
+    )
 });

@@ -3,3 +3,7 @@
     width: fit-content;
     height: fit-content;
 }
+
+.overlay {
+    background-color: rgba(var(--component-navigation-drawer-scrim-color-rgb), var(--component-navigation-drawer-scrim-opacity));
+}
