@@ -130,7 +130,9 @@ export const NavigationDrawerContent = React.forwardRef<
                         {...context.getFloatingProps(props)}
                         className={clsx("navigation-drawer", variant)}
                     >
-                        {props.children}
+                        <div className="container">
+                            {props.children}
+                        </div>
                     </div>
                 </FloatingFocusManager>
             </FloatingOverlay>

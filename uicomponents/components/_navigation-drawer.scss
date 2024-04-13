@@ -22,7 +22,7 @@
         --container-elevation: var(--component-navigation-drawer-standard-container-color);
     }
 
-    & .navigation-button {
+    & > .container > .body > ul > li .navigation-button {
         --navigation-button-container-color: transparent;
         --navigation-button-container-width: var(--component-navigation-drawer-active-indicator-width);
         --navigation-button-container-height: var(--component-navigation-drawer-active-indicator-height); 
@@ -97,141 +97,151 @@
         }
     }
 
-    & ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    background-color: var(--container-color);
-    box-shadow: var(--container-elevation);
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
     width: var(--container-width);
     height: var(--container-height);
-    border-radius: var(--container-shape);
 
-    & > :first-child {
-        padding-top: 1rem;
-    }
+    & > .container {
+        background-color: var(--container-color);
+        box-shadow: var(--container-elevation);
+        width: var(--container-width);
+        height: var(--container-height);
+        border-radius: var(--container-shape);
 
-    & hr {
-        color: var(--divider-color);
-        margin: {
-            top: 0;
-            bottom: 0;
-            left: 1.75rem;
-            right: 1.75rem;
-        };
-    }
+        & > :first-child {
+            padding-top: 1rem;
+        }
 
-    & > .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-height: var(--headline-height);
-        padding: {
-            left: 1.75rem;
-            right: 1.75rem;
-        };
-    }
-    
-    & .headline {
-        color: var(--headline-color);
-        font-family: var(--headline-font);
-        line-height: var(--headline-line-height);
-        font-size: var(--headline-size);
-        letter-spacing: var(--headline-tracking);
-        font-weight: var(--headline-weight);
-        height: var(--headline-height);
-        margin: 0;
-        padding: {
-            left: 1.75rem;
-            right: 1.75rem;
-        };
-    }
+        & > .body > hr {
+            color: var(--divider-color);
+            margin: {
+                top: 0;
+                bottom: 0;
+                left: 1.75rem;
+                right: 1.75rem;
+            };
+        }
 
-    & > .header > .headline {
-        height: auto;
-        padding: {
-            left: 0;
-            right: 0.75rem;
-        };
-    }
+        & > .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: var(--headline-height);
+            padding: {
+                left: 1.75rem;
+                right: 1.75rem;
+            };
+        }
+        
+        & > .header > .headline,
+        & .headline {
+            color: var(--headline-color);
+            font-family: var(--headline-font);
+            line-height: var(--headline-line-height);
+            font-size: var(--headline-size);
+            letter-spacing: var(--headline-tracking);
+            font-weight: var(--headline-weight);
+            height: var(--headline-height);
+            margin: 0;
+            padding: {
+                left: 1.75rem;
+                right: 1.75rem;
+            };
+        }
 
-    & .navigation-button {
-        display: block;
-        background: none;
-        border: none;
-        outline: none;
-        box-shadow: none;
-        text-decoration: none;
-        min-height: var(--system-spacer2);
-        min-width: var(--system-spacer2);
-        padding: {
-            left: 0.75rem;
-            right: 0.75rem;
-        };
+        & > .header > .headline {
+            height: auto;
+            padding: {
+                left: 0;
+                right: 0.75rem;
+            };
+        }
 
-        & > .container {
-            background-color: var(--navigation-button-container-color);
-            width: var(--navigation-button-container-width);
-            height: var(--navigation-button-container-height);
-            border-radius: var(--navigation-button-container-shape);
-            overflow: hidden;
-            outline: {
-                style: var(--focus-indicator-style);
-                color: var(--focus-indicator-color);
-                width: var(--focus-indicator-width);
-                offset: var(--focus-indicator-offset);
+        & > .body > ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        & > .body > ul > li .navigation-button {
+            display: block;
+            background: none;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            text-decoration: none;
+            min-height: var(--system-spacer2);
+            min-width: var(--system-spacer2);
+            padding: {
+                left: 0.75rem;
+                right: 0.75rem;
             };
 
-            & > .active-indicator {
-                background-color: var(--active-indicator-color);
-                width: var(--active-indicator-width);
-                height: var(--active-indicator-height);
-                border-radius: var(--active-indicator-shape);
-    
-                & > .state-layer {
-                    background-color: var(--state-layer-color);
-                    width: var(--state-layer-width);
-                    height: var(--state-layer-height);
-                    border-radius: var(--state-layer-shape);
-                    
-                    & > .content {
-                        display: grid;
-                        justify-content: left;
-                        align-items: center;
-                        width: 100%;
-                        height: 100%;
-                        padding: {
-                            left: 1rem;
-                            right: 0.75rem;
-                        };
+            & > .container {
+                background-color: var(--navigation-button-container-color);
+                width: var(--navigation-button-container-width);
+                height: var(--navigation-button-container-height);
+                border-radius: var(--navigation-button-container-shape);
+                overflow: hidden;
+                outline: {
+                    style: var(--focus-indicator-style);
+                    color: var(--focus-indicator-color);
+                    width: var(--focus-indicator-width);
+                    offset: var(--focus-indicator-offset);
+                };
+
+                & > .active-indicator {
+                    background-color: var(--active-indicator-color);
+                    width: var(--active-indicator-width);
+                    height: var(--active-indicator-height);
+                    border-radius: var(--active-indicator-shape);
         
-                        & > svg {
-                            color: var(--icon-color);
-                            width: var(--icon-width);
-                            height: var(--icon-height);
-                            padding-right: 0.75rem;
-                        }
-        
-                        & > .label {
-                            color: var(--label-color);
-                            font-family: var(--label-font);
-                            line-height: var(--label-line-height);
-                            font-size: var(--label-size);
-                            letter-spacing: var(--label-tracking);
-                            font-weight: var(--label-weight);
-                            padding-right: 0.75rem;
-                        }
-        
-                        & > .badge {
-                            color: var(--badge-label-color);
-                            font-family: var(--badge-label-font);
-                            line-height: var(--badge-label-line-height);
-                            font-size: var(--badge-label-size);
-                            letter-spacing: var(--badge-label-tracking);
-                            font-weight: var(--badge-label-weight);
-                            padding-right: 0.75rem;
+                    & > .state-layer {
+                        background-color: var(--state-layer-color);
+                        width: var(--state-layer-width);
+                        height: var(--state-layer-height);
+                        border-radius: var(--state-layer-shape);
+                        
+                        & > .content {
+                            display: grid;
+                            justify-content: left;
+                            align-items: center;
+                            width: 100%;
+                            height: 100%;
+                            padding: {
+                                left: 1rem;
+                                right: 0.75rem;
+                            };
+            
+                            & > svg {
+                                color: var(--icon-color);
+                                width: var(--icon-width);
+                                height: var(--icon-height);
+                                padding-right: 0.75rem;
+                            }
+            
+                            & > .label {
+                                color: var(--label-color);
+                                font-family: var(--label-font);
+                                line-height: var(--label-line-height);
+                                font-size: var(--label-size);
+                                letter-spacing: var(--label-tracking);
+                                font-weight: var(--label-weight);
+                                padding-right: 0.75rem;
+                            }
+            
+                            & > .badge {
+                                color: var(--badge-label-color);
+                                font-family: var(--badge-label-font);
+                                line-height: var(--badge-label-line-height);
+                                font-size: var(--badge-label-size);
+                                letter-spacing: var(--badge-label-tracking);
+                                font-weight: var(--badge-label-weight);
+                                padding-right: 0.75rem;
+                            }
                         }
                     }
                 }
