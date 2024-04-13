@@ -3,7 +3,7 @@
 import React from "react";
 import Link, { LinkProps } from "next/link";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { useTabBarContext } from "./TabBar";
 
 interface TabLinkProps extends LinkProps {
     children: React.ReactNode;
@@ -19,13 +19,13 @@ export default function TabLink({
     href,
     ...props
 }: TabLinkProps) {
-    const pathname = usePathname();
+    const { select } = useTabBarContext();
 
     return (
         <Link 
             href={href}
             role={role}
-            className={clsx("tab-link-navigation", { active: href === pathname }, className)} 
+            className={clsx("tab-link-navigation", { active: href === select }, className)} 
             {...props}
         >
             <div className="container">

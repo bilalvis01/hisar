@@ -2,7 +2,7 @@
 
 import React from "react";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { useTabBarContext } from "./TabBar";
 
 type Variant = "primary" | "secondary"; 
 
@@ -19,7 +19,7 @@ export default function TabBase({
     variant,
     ...props
 }: TabBaseProps) {
-    const pathname = usePathname();
+    const { select } = useTabBarContext();
 
     return (
         <button 
