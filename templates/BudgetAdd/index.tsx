@@ -4,8 +4,9 @@ import React from "react";
 import {
     Dialog,
     DialogContent,
-    DialogHeading,
-    DialogDescription,
+    DialogHeadline,
+    DialogParagraph,
+    DialogBody,
 } from "../../components/Dialog";
 import ButtonFilled from "../../components/ButtonFIlled";
 import Form from "../BudgetAddForm";
@@ -31,19 +32,12 @@ export default function Add({
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <ButtonFilled>
+            <ButtonFilled onClick={handleOpen}>
                 Tambah
             </ButtonFilled>
-            <DialogContent overlay={style.overlay} className={style.dialog}>
-                <div className={style.card}>
-                    <header>
-                        <DialogHeading>{heading}</DialogHeading>
-                        <ButtonFilled onClick={handleClose}><Close /></ButtonFilled>
-                    </header>
-                    <DialogDescription>
-                        <Form />
-                    </DialogDescription>
-                </div>
+            <DialogContent className={style.dialog}>
+                <DialogHeadline>{heading}</DialogHeadline>
+                <DialogParagraph>Test</DialogParagraph>
             </DialogContent>
         </Dialog>
     );
