@@ -23,7 +23,7 @@ $dialog-basic-headline-tracking: var(--system-typescale-headline-small-tracking)
 $dialog-basic-headline-color: var(--system-color-on-surface) !default;
 $dialog-basic-divider-color: var(--system-color-outline) !default;
 $dialog-basic-divider-width: 0.0625rem !default;
-$dialog-basic-supporting-text-font: var(--sytem-typescale-body-medium-font) !default;
+$dialog-basic-supporting-text-font: var(--system-typescale-body-medium-font) !default;
 $dialog-basic-supporting-text-line-height: var(--system-typescale-body-medium-line-height) !default;
 $dialog-basic-supporting-text-size: var(--system-typescale-body-medium-size) !default;
 $dialog-basic-supporting-text-weight: var(--system-typescale-body-medium-weight) !default;
@@ -45,7 +45,7 @@ $dialog-basic-action-pressed-state-layer-color: var(--system-color-primary) !def
 $dialog-basic-action-pressed-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
 $dialog-basic-action-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
 
-$modal-basic: (
+$dialog-basic: (
     "dialog-basic-container-color": $dialog-basic-container-color,
     "dialog-basic-container-elevation": $dialog-basic-container-elevation,
     "dialog-basic-container-shape": $dialog-basic-container-shape,
@@ -79,21 +79,21 @@ $modal-basic: (
     "dialog-basic-supporting-text-color": $dialog-basic-supporting-text-color,
 ) !default;
 
-$modal-basic-hover: (
+$dialog-basic-hover: (
     "dialog-basic-action-label-color": $dialog-basic-action-hover-label-color,
     "dialog-basic-action-state-layer-color": $dialog-basic-action-hover-state-layer-color,
     "dialog-basic-action-state-layer-color-rgb": $dialog-basic-action-hover-state-layer-color-rgb,
     "dialog-basic-action-state-layer-opacity": $dialog-basic-action-hover-state-layer-opacity,
 ) !default;
 
-$modal-basic-focus: (
+$dialog-basic-focus: (
     "dialog-basic-action-label-color": $dialog-basic-action-focus-label-color,
     "dialog-basic-action-state-layer-color": $dialog-basic-action-focus-state-layer-color,
     "dialog-basic-action-state-layer-color-rgb": $dialog-basic-action-focus-state-layer-color-rgb,
     "dialog-basic-action-state-layer-opacity": $dialog-basic-action-focus-state-layer-opacity,
 ) !default;
 
-$modal-basic-pressed: (
+$dialog-basic-pressed: (
     "dialog-basic-action-label-color": $dialog-basic-action-pressed-label-color,
     "dialog-basic-action-state-layer-color": $dialog-basic-action-pressed-state-layer-color,
     "dialog-basic-action-state-layer-color-rgb": $dialog-basic-action-pressed-state-layer-color-rgb,

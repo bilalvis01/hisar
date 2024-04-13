@@ -243,6 +243,22 @@
     @each $token, $value in comp.$tab-secondary-navigation-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$dialog-basic {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$dialog-basic-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$dialog-basic-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$dialog-basic-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {

@@ -54,7 +54,7 @@
     box-shadow: none;
     padding: 0;
 
-    & > .container {
+    & .container {
         background-color: var(--container-color);
         box-shadow: var(--container-elevation);
         border-radius: var(--container-shape);
@@ -66,8 +66,17 @@
 
             & > .content {
                 padding: 1.5rem;
+
+                & > svg,
+                & > .header > svg {
+                    width: var(--icon-width);
+                    height: var(--icon-height);
+                    color: var(--icon-color);
+                    margin: 0 auto;
+                }
     
-                & > .headline {
+                & > .headline, 
+                & > .header > .headline {
                     font-family: var(--headline-font);
                     line-height: var(--headline-line-height);
                     font-size: var(--headline-size);
@@ -75,9 +84,12 @@
                     letter-spacing: var(--headline-tracking);
                     color: var(--headline-color);
                     text-align: left;
+                    margin: 0;
+                    padding: 0;
                 }
     
-                & > .subhead {
+                & > .subhead,
+                & > .body > .subhead {
                     font-family: var(--subhead-font);
                     line-height: var(--subhead-line-height);
                     font-size: var(--subhead-size);
@@ -85,9 +97,12 @@
                     letter-spacing: var(--subhead-tracking);
                     color: var(--subhead-color);
                     text-align: left;
+                    margin: 0;
+                    padding: 0;
                 }
     
-                & > .supporting-text {
+                & > .supporting-text, 
+                & > .body > .supporting-text {
                     font-family: var(--supporting-text-font);
                     line-height: var(--supporting-text-line-height);
                     font-size: var(--supporting-text-size);
@@ -95,22 +110,17 @@
                     letter-spacing: var(--supporting-text-tracking);
                     color: var(--supporting-text-color);
                     text-align: left;
+                    margin: 0;
+                    padding: 0;
                 }
     
-                & > svg {
-                    width: var(--icon-width);
-                    height: var(--icon-height);
-                    color: var(--icon-color);
-                    margin: 0 auto;
-                }
-    
-                & > hr {
+                & > hr,
+                & > .body > hr {
                     height: var(--divider-width);
                     background-color: var(--divider-color);
-                    padding-top: 1rem;
                 }
 
-                & > .action {
+                & > .footer {
                     display: grid;
                     justify-content: end;
                     align-items: center;
@@ -123,29 +133,29 @@
                     color: var(--action-label-color);
                 }
 
-                & > svg + .headline,
+                & > svg + .healine,
+                & > svg + .body,
                 & > svg + .subhead,
                 & > svg + .supporting-text,
+                & > .headline + .body,
                 & > .headline + .subhead,
-                & > .headline + .supporting-text, 
-                & > .subhead + .supporting-text, 
-                & > hr + .headline, 
-                & > hr + .subhead,
-                & > hr + .supporting-text {
+                & > .headline + .supporting-text,
+                & > .header + .body,
+                & > .header + .subhead,
+                & > .header + .supporting-text {
                     padding-top: 1rem;
                 }
 
-                & > svg + .action,
-                & > .headline + .action,
-                & > .subhead + .action,
-                & > .supporting-text + .action,
-                & > hr + .action {
+                & > svg + .footer,
+                & > .headline + .footer,
+                & > .subhead + .footer,
+                & > .supporting-text + .footer,
+                & > .header + .footer,
+                & > .body + .footer {
                     padding-top: 1.5rem;
                 }
 
-                & > svg ~ .headline,
-                & > svg ~ .subhead,
-                & > svg ~ .supporting-text {
+                & > svg + .headline {
                     text-align: center;
                 }
             }
