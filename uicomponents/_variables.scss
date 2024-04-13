@@ -100,6 +100,26 @@
         --component-#{$token}: #{$value};
     }
 
+    @each $token, $value in comp.$button-text {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-text-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-text-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-text-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$button-text-pressed {
+        --component-#{$token}: #{$value};
+    }
+
     @each $token, $value in comp.$card-filled {
         --component-#{$token}: #{$value};
     }
