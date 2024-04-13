@@ -151,8 +151,8 @@ export const DialogContent = React.forwardRef<
                         aria-labelledby={context.labelId}
                         aria-describedby={context.descriptionId}
                         aria-modal={context.open}
-                        className="container"
                         {...context.getFloatingProps(props)}
+                        className="container"
                     >
                         <div className="state-layer">
                             <div className="content">
@@ -169,7 +169,7 @@ export const DialogContent = React.forwardRef<
 export const DialogHeader = React.forwardRef<
     HTMLElement,
     React.HTMLProps<HTMLElement>
->(function DialogDescription({ children, ...props }, ref) {
+>(function DialogHeader({ children, ...props }, ref) {
     return (
         <header {...props} className="header" ref={ref}>
             {children}
@@ -180,7 +180,7 @@ export const DialogHeader = React.forwardRef<
 export const DialogHeadline = React.forwardRef<
     HTMLHeadingElement,
     React.HTMLProps<HTMLHeadingElement>
->(function DialogHeading({ children, ...props }, ref) {
+>(function DialogHeadline({ children, ...props }, ref) {
     const { setLabelId } = useDialogContext();
     const id = useId();
 
@@ -199,7 +199,7 @@ export const DialogHeadline = React.forwardRef<
 export const DialogSubhead = React.forwardRef<
     HTMLHeadingElement,
     React.HTMLProps<HTMLHeadingElement>
->(function DialogHeading({ children, ...props }, ref) {
+>(function DialogSubhead({ children, ...props }, ref) {
     return (
         <h3 {...props} className="subhead" ref={ref}>
             {children}
@@ -210,7 +210,7 @@ export const DialogSubhead = React.forwardRef<
 export const DialogBody = React.forwardRef<
     HTMLDivElement,
     React.HTMLProps<HTMLDivElement>
->(function DialogDescription({ children, ...props }, ref) {
+>(function DialogBody({ children, ...props }, ref) {
     const { setDescriptionId } = useDialogContext();
     const id = `${useId()}`;
 
@@ -229,7 +229,7 @@ export const DialogBody = React.forwardRef<
 export const DialogParagraph = React.forwardRef<
     HTMLDivElement,
     React.HTMLProps<HTMLDivElement>
->(function DialogDescription({ children, ...props }, ref) {
+>(function DialogParagraph({ children, ...props }, ref) {
     const { descriptionId, setDescriptionId } = useDialogContext();
     const id = useId();
 
