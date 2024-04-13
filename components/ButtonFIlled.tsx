@@ -2,8 +2,8 @@ import React from "react";
 import ButtonBase from "./ButtonBase";
 import type { ButtonBaseProps } from "./ButtonBase";
 
-type ButtonSolidProps = ButtonBaseProps;
+type ButtonFilledProps = ButtonBaseProps;
 
-export default function ButtonSolid(props: ButtonSolidProps) {
+export default function ButtonFilled(props: ButtonFilledProps) {
     return <ButtonBase variant="filled" {...props} />
 }
