@@ -102,37 +102,6 @@ interface DialogTriggerProps {
     asChild?: boolean;
 }
 
-export const DialogTrigger = React.forwardRef<
-    HTMLElement,
-    React.HTMLProps<HTMLElement> & DialogTriggerProps
->(function DialogTrigger({ children, asChild = false, ...props }, propRef) {
-    const context = useDialogContext();
-    const childrenRef = (children as any).ref;
-    const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
-
-    if (asChild && React.isValidElement(children)) {
-        return React.cloneElement(
-            children,
-            context.getReferenceProps({
-                ref,
-                ...props,
-                ...children.props,
-                "data-state": context.open ? "open" : "closed"
-            })
-        )
-    }
-
-    return (
-        <button
-            ref={ref}
-            data-state={context.open ? "open" : "closed"}
-            {...context.getReferenceProps(props)}
-        >
-            {children}
-        </button>
-    )
-});
-
 export const DialogContent = React.forwardRef<
     HTMLDivElement,
     React.HTMLProps<HTMLDivElement>
@@ -177,6 +146,36 @@ export const DialogHeader = React.forwardRef<
     );
 });
 
+export const DialogBody = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLProps<HTMLDivElement>
+>(function DialogBody({ children, ...props }, ref) {
+    const { setDescriptionId } = useDialogContext();
+    const id = `${useId()}`;
+
+    React.useLayoutEffect(() => {
+        setDescriptionId(id);
+        return () => setDescriptionId(undefined);
+    }, [id, setDescriptionId]);
+
+    return (
+        <div {...props} className="body" ref={ref} id={id}>
+            {children}
+        </div>
+    );
+});
+
+export const DialogFooter = React.forwardRef<
+    HTMLElement,
+    React.HTMLProps<HTMLElement>
+>(function DialogFooter({ children, className, ...props }, ref) {
+    return (
+        <footer {...props} className={clsx("footer", className)} ref={ref}>
+            {children}
+        </footer>
+    );
+});
+
 export const DialogHeadline = React.forwardRef<
     HTMLHeadingElement,
     React.HTMLProps<HTMLHeadingElement>
@@ -207,25 +206,6 @@ export const DialogSubhead = React.forwardRef<
     );
 });
 
-export const DialogBody = React.forwardRef<
-    HTMLDivElement,
-    React.HTMLProps<HTMLDivElement>
->(function DialogBody({ children, ...props }, ref) {
-    const { setDescriptionId } = useDialogContext();
-    const id = `${useId()}`;
-
-    React.useLayoutEffect(() => {
-        setDescriptionId(id);
-        return () => setDescriptionId(undefined);
-    }, [id, setDescriptionId]);
-
-    return (
-        <div {...props} className="body" ref={ref} id={id}>
-            {children}
-        </div>
-    );
-});
-
 export const DialogParagraph = React.forwardRef<
     HTMLDivElement,
     React.HTMLProps<HTMLDivElement>
@@ -245,6 +225,37 @@ export const DialogParagraph = React.forwardRef<
             {children}
         </p>
     );
+});
+
+export const DialogTrigger = React.forwardRef<
+    HTMLElement,
+    React.HTMLProps<HTMLElement> & DialogTriggerProps
+>(function DialogTrigger({ children, asChild = false, ...props }, propRef) {
+    const context = useDialogContext();
+    const childrenRef = (children as any).ref;
+    const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
+
+    if (asChild && React.isValidElement(children)) {
+        return React.cloneElement(
+            children,
+            context.getReferenceProps({
+                ref,
+                ...props,
+                ...children.props,
+                "data-state": context.open ? "open" : "closed"
+            })
+        )
+    }
+
+    return (
+        <button
+            ref={ref}
+            data-state={context.open ? "open" : "closed"}
+            {...context.getReferenceProps(props)}
+        >
+            {children}
+        </button>
+    )
 });
 
 export const DialogClose = React.forwardRef<
