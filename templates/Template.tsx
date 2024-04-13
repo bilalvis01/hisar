@@ -1,8 +1,6 @@
 import React from "react";
 import style from "./template.module.scss";
-import Logo from "../templates/Logo";
-import Navigation from "./Navigation";
-import NavigationDrawer from "./NavigationDrawer";
+import Header from "./Header";
 
 export default function Template({
     children,
@@ -18,13 +16,7 @@ export default function Template({
             </head>
             <body>
                 <div className={style.app}>
-                    <header className={style.header}>
-                        <NavigationDrawer className={style.navigationDrawer} />
-                        <nav className={style.logo}>
-                            <Logo />
-                        </nav>
-                        <Navigation className={style.navigation} />
-                    </header>
+                    <Header className={style.header} />
                     <main className={style.main}>
                         {children}
                     </main>

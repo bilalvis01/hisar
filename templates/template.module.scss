@@ -73,34 +73,3 @@
         };
     }
 }
-
-.logo {
-    grid-area: logo;
-    align-self: center;
-    justify-self: left;
-
-    @media (min-width: 840px) {
-        justify-self: center;
-    }
-}
-
-.navigation {
-    grid-area: navigation;
-    display: none;
-    align-self: center;
-    justify-self: end;
-
-    @media (min-width: 840px) {
-        display: block;
-    }
-}
-
-.navigationDrawer {
-    grid-area: navigation;
-    justify-self: center;
-    align-self: center;
-
-    @media (min-width: 840px) {
-        display: none;
-    }
-}
