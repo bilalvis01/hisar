@@ -13,6 +13,8 @@ import {
     FloatingOverlay,
     useId,
 } from "@floating-ui/react";
+import style from "./dialog.module.scss";
+import clsx from "clsx";
 
 interface DialogOptions {
     initialOpen?: boolean,
@@ -133,8 +135,8 @@ export const DialogTrigger = React.forwardRef<
 
 export const DialogContent = React.forwardRef<
     HTMLDivElement,
-    { overlay?: string } & React.HTMLProps<HTMLDivElement>
->(function DialogContent(props, propRef) {
+    React.HTMLProps<HTMLDivElement>
+>(function DialogContent({ className, ...props}, propRef) {
     const { context: floatingContext, ...context } = useDialogContext();
     const ref = useMergeRefs([context.refs.setFloating, propRef]);
 
@@ -142,16 +144,21 @@ export const DialogContent = React.forwardRef<
 
     return (
         <FloatingPortal>
-            <FloatingOverlay className={props.overlay} lockScroll>
+            <FloatingOverlay className={clsx(style.overlay, "dialog-basic")} lockScroll>
                 <FloatingFocusManager context={floatingContext}>
                     <div
                         ref={ref}
                         aria-labelledby={context.labelId}
                         aria-describedby={context.descriptionId}
                         aria-modal={context.open}
+                        className="container"
                         {...context.getFloatingProps(props)}
                     >
-                        {props.children}
+                        <div className="state-layer">
+                            <div className="content">
+                                {props.children}
+                            </div>
+                        </div>
                     </div>
                 </FloatingFocusManager>
             </FloatingOverlay>
@@ -159,7 +166,18 @@ export const DialogContent = React.forwardRef<
     );
 });
 
-export const DialogHeading = React.forwardRef<
+export const DialogHeader = React.forwardRef<
+    HTMLElement,
+    React.HTMLProps<HTMLElement>
+>(function DialogDescription({ children, ...props }, ref) {
+    return (
+        <header {...props} className="header" ref={ref}>
+            {children}
+        </header>
+    );
+});
+
+export const DialogHeadline = React.forwardRef<
     HTMLHeadingElement,
     React.HTMLProps<HTMLHeadingElement>
 >(function DialogHeading({ children, ...props }, ref) {
@@ -172,18 +190,29 @@ export const DialogHeading = React.forwardRef<
     }, [id, setLabelId]);
 
     return (
-        <h2 {...props} ref={ref} id={id}>
+        <h2 {...props} className="headline" ref={ref} id={id}>
             {children}
         </h2>
     );
 });
 
-export const DialogDescription = React.forwardRef<
-    HTMLDivElement | HTMLParagraphElement,
-    React.HTMLProps<HTMLDivElement | HTMLParagraphElement>
+export const DialogSubhead = React.forwardRef<
+    HTMLHeadingElement,
+    React.HTMLProps<HTMLHeadingElement>
+>(function DialogHeading({ children, ...props }, ref) {
+    return (
+        <h3 {...props} className="subhead" ref={ref}>
+            {children}
+        </h3>
+    );
+});
+
+export const DialogBody = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLProps<HTMLDivElement>
 >(function DialogDescription({ children, ...props }, ref) {
     const { setDescriptionId } = useDialogContext();
-    const id = useId();
+    const id = `${useId()}`;
 
     React.useLayoutEffect(() => {
         setDescriptionId(id);
@@ -191,11 +220,32 @@ export const DialogDescription = React.forwardRef<
     }, [id, setDescriptionId]);
 
     return (
-        <div {...props} ref={ref} id={id}>
+        <div {...props} className="body" ref={ref} id={id}>
             {children}
         </div>
     );
-})
+});
+
+export const DialogParagraph = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLProps<HTMLDivElement>
+>(function DialogDescription({ children, ...props }, ref) {
+    const { descriptionId, setDescriptionId } = useDialogContext();
+    const id = useId();
+
+    React.useLayoutEffect(() => {
+        if (!descriptionId) {
+            setDescriptionId(id);
+        }
+        return () => setDescriptionId(undefined);
+    }, [id, setDescriptionId]);
+
+    return (
+        <p {...props} className="supporting-text" ref={ref} id={!descriptionId ? id : null}>
+            {children}
+        </p>
+    );
+});
 
 export const DialogClose = React.forwardRef<
     HTMLButtonElement,
