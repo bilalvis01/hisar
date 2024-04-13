@@ -91,9 +91,9 @@ export function Dialog({
 }: {
     children: React.ReactNode;
 } & DialogOptions) {
-    const Dialog = useDialog(options);
+    const context = useDialog(options);
     return (
-        <DialogContext.Provider value={Dialog}>{children}</DialogContext.Provider>
+        <DialogContext.Provider value={context}>{children}</DialogContext.Provider>
     );
 }
 
