@@ -34,8 +34,6 @@ function useNavigationDrawer({
     const [labelId, setLabelId] = React.useState<string | undefined>();
     const [descriptionId, setDescriptionId] = React.useState<string | undefined>();
 
-    React.use
-
     const open = controlledOpen ?? uncontrolledOpen;
     const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
@@ -101,9 +99,9 @@ export function NavigationDrawer({
     children,
     ...options
 }: NavigationDrawerProps) {
-    const NavigationDrawer = useNavigationDrawer(options);
+    const context = useNavigationDrawer(options);
     return (
-        <NavigationDrawerContext.Provider value={NavigationDrawer}>{children}</NavigationDrawerContext.Provider>
+        <NavigationDrawerContext.Provider value={context}>{children}</NavigationDrawerContext.Provider>
     );
 }
 
@@ -226,7 +224,7 @@ export const NavigationDrawerBody = React.forwardRef<
     React.HTMLProps<HTMLDivElement>
 >(function NavigationDrawerBody({ children, ...props }, ref) {
     const { setDescriptionId } = useNavigationDrawerContext();
-    const id = `${useId()}`;
+    const id = useId();
 
     React.useLayoutEffect(() => {
         setDescriptionId(id);
