@@ -4,9 +4,9 @@ $primary-container: var(--reference-palette-primary90) !default;
 $on-primary-container: var(--reference-palette-primary10) !default;
 
 $secondary: var(--reference-palette-secondary40) !default;
-$on-primary: var(--reference-palette-secondary100) !default;
+$on-secondary: var(--reference-palette-secondary100) !default;
 $secondary-container: var(--reference-palette-secondary90) !default;
-$on-primary-container: var(--reference-palette-secondary10) !default;
+$on-secondary-container: var(--reference-palette-secondary10) !default; 
 
 $surface-dim: var(--reference-palette-neutral87) !default;
 $surface: var(--reference-palette-neutral98) !default;
@@ -30,9 +30,9 @@ $light: (
     "primary-container": $primary-container,
     "on-primary-container": $on-primary-container,
     "secondary": $secondary,
-    "on-secondary": $on-primary,
+    "on-secondary": $on-secondary,
     "secondary-container": $secondary-container,
-    "on-secondary-container": $on-primary-container,
+    "on-secondary-container": $on-secondary-container,
     "surface-dim": $surface-dim,
     "surface": $surface,
     "surface-bright": $surface-bright,
@@ -54,9 +54,9 @@ $primary-container-rgb: var(--reference-palette-primary90-rgb) !default;
 $on-primary-container-rgb: var(--reference-palette-primary10-rgb) !default;
 
 $secondary-rgb: var(--reference-palette-secondary40-rgb) !default;
-$on-primary-rgb: var(--reference-palette-secondary100-rgb) !default;
+$on-secondary-rgb: var(--reference-palette-secondary100-rgb) !default;
 $secondary-container-rgb: var(--reference-palette-secondary90-rgb) !default;
-$on-primary-container-rgb: var(--reference-palette-secondary10-rgb) !default;
+$on-secondary-container-rgb: var(--reference-palette-secondary10-rgb) !default;
 
 $surface-dim-rgb: var(--reference-palette-neutral87-rgb) !default;
 $surface-rgb: var(--reference-palette-neutral98-rgb) !default;
@@ -80,9 +80,9 @@ $light-rgb: (
     "primary-container-rgb": $primary-container-rgb,
     "on-primary-container-rgb": $on-primary-container-rgb,
     "secondary-rgb": $secondary-rgb,
-    "on-secondary-rgb": $on-primary-rgb,
+    "on-secondary-rgb": $on-secondary-rgb,
     "secondary-container-rgb": $secondary-container-rgb,
-    "on-secondary-container-rgb": $on-primary-container-rgb,
+    "on-secondary-container-rgb": $on-secondary-container-rgb,
     "surface-dim-rgb": $surface-dim-rgb,
     "surface-rgb": $surface-rgb,
     "surface-bright-rgb": $surface-bright-rgb,
@@ -104,9 +104,9 @@ $primary-container-dark: var(--reference-palette-primary30) !default;
 $on-primary-container-dark: var(--reference-palette-primary90) !default;
 
 $secondary-dark: var(--reference-palette-secondary80) !default;
-$on-primary-dark: var(--reference-palette-secondary20) !default;
+$on-secondary-dark: var(--reference-palette-secondary20) !default;
 $secondary-container-dark: var(--reference-palette-secondary30) !default;
-$on-primary-container-dark: var(--reference-palette-secondary90) !default;
+$on-secondary-container-dark: var(--reference-palette-secondary90) !default;
 
 $surface-dim-dark: var(--reference-palette-neutral6) !default;
 $surface-dark: var(--reference-palette-neutral6) !default;
@@ -131,9 +131,9 @@ $dark: (
     "primary-container": $primary-container-dark,
     "on-primary-container": $on-primary-container-dark,
     "secondary": $secondary-dark,
-    "on-secondary": $on-primary-dark,
+    "on-secondary": $on-secondary-dark,
     "secondary-container": $secondary-container-dark,
-    "on-secondary-container": $on-primary-container-dark,
+    "on-secondary-container": $on-secondary-container-dark,
     "surface-dim": $surface-dim-dark,
     "surface": $surface-dark,
     "surface-bright": $surface-bright-dark,
@@ -155,9 +155,9 @@ $primary-container-dark-rgb: var(--reference-palette-primary30-rgb) !default;
 $on-primary-container-dark-rgb: var(--reference-palette-primary90-rgb) !default;
 
 $secondary-dark-rgb: var(--reference-palette-secondary80-rgb) !default;
-$on-primary-dark-rgb: var(--reference-palette-secondary20-rgb) !default;
+$on-secondary-dark-rgb: var(--reference-palette-secondary20-rgb) !default;
 $secondary-container-dark-rgb: var(--reference-palette-secondary30-rgb) !default;
-$on-primary-container-dark-rgb: var(--reference-palette-secondary90-rgb) !default;
+$on-secondary-container-dark-rgb: var(--reference-palette-secondary90-rgb) !default;
 
 $surface-dim-dark-rgb: var(--reference-palette-neutral6-rgb) !default;
 $surface-dark-rgb: var(--reference-palette-neutral6-rgb) !default;
@@ -181,9 +181,9 @@ $dark-rgb: (
     "primary-container-rgb": $primary-container-dark-rgb,
     "on-primary-container-rgb": $on-primary-container-dark-rgb,
     "secondary-rgb": $secondary-dark-rgb,
-    "on-secondary-rgb": $on-primary-dark-rgb,
+    "on-secondary-rgb": $on-secondary-dark-rgb,
     "secondary-container-rgb": $secondary-container-dark-rgb,
-    "on-secondary-container-rgb": $on-primary-container-dark-rgb,
+    "on-secondary-container-rgb": $on-secondary-container-dark-rgb,
     "surface-dim-rgb": $surface-dim-dark-rgb,
     "surface-rgb": $surface-dark-rgb,
     "surface-bright-rgb": $surface-bright-dark-rgb,
