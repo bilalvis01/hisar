@@ -8,6 +8,11 @@ $on-secondary: var(--reference-palette-secondary100) !default;
 $secondary-container: var(--reference-palette-secondary90) !default;
 $on-secondary-container: var(--reference-palette-secondary10) !default; 
 
+$tertiary: var(--reference-palette-tertiary40) !default;
+$on-tertiary: var(--reference-palette-tertiary100) !default;
+$tertiary-container: var(--reference-palette-tertiary90) !default;
+$on-tertiary-container: var(--reference-palette-tertiary10) !default; 
+
 $surface-dim: var(--reference-palette-neutral87) !default;
 $surface: var(--reference-palette-neutral98) !default;
 $surface-bright: var(--reference-palette-neutral98) !default;
@@ -21,6 +26,11 @@ $on-surface: var(--reference-palette-neutral10) !default;
 $surface-variant: var(--reference-palette-neutral-variant90) !default;
 $on-surface-variant: var(--reference-palette-neutral-variant30) !default;
 
+$error: var(--reference-palette-error40) !default;
+$on-error: var(--reference-palette-error100) !default;
+$error-container: var(--reference-palette-error90) !default;
+$on-error-container: var(--reference-palette-error10) !default; 
+
 $outline: var(--reference-palette-neutral-variant50) !default;
 $outline-variant: var(--reference-palette-neutral-variant80) !default;
 
@@ -33,6 +43,10 @@ $light: (
     "on-secondary": $on-secondary,
     "secondary-container": $secondary-container,
     "on-secondary-container": $on-secondary-container,
+    "tertiary": $tertiary,
+    "on-tertiary": $on-tertiary,
+    "tertiary-container": $tertiary-container,
+    "on-tertiary-container": $on-tertiary-container,
     "surface-dim": $surface-dim,
     "surface": $surface,
     "surface-bright": $surface-bright,
@@ -44,6 +58,10 @@ $light: (
     "on-surface": $on-surface,
     "surface-variant": $surface-variant,
     "on-surface-variant": $on-surface-variant,
+    "error": $error,
+    "on-error": $on-error,
+    "error-container": $error-container,
+    "on-error-container": $on-error-container,
     "outline": $outline,
     "outline-variant": $outline-variant,
 ) !default;
@@ -58,6 +76,11 @@ $on-secondary-rgb: var(--reference-palette-secondary100-rgb) !default;
 $secondary-container-rgb: var(--reference-palette-secondary90-rgb) !default;
 $on-secondary-container-rgb: var(--reference-palette-secondary10-rgb) !default;
 
+$tertiary-rgb: var(--reference-palette-tertiary40-rgb) !default;
+$on-tertiary-rgb: var(--reference-palette-tertiary100-rgb) !default;
+$tertiary-container-rgb: var(--reference-palette-tertiary90-rgb) !default;
+$on-tertiary-container-rgb: var(--reference-palette-tertiary10-rgb) !default;
+
 $surface-dim-rgb: var(--reference-palette-neutral87-rgb) !default;
 $surface-rgb: var(--reference-palette-neutral98-rgb) !default;
 $surface-bright-rgb: var(--reference-palette-neutral98-rgb) !default;
@@ -71,6 +94,11 @@ $on-surface-rgb: var(--reference-palette-neutral10-rgb) !default;
 $surface-variant-rgb: var(--reference-palette-neutral-variant90-rgb) !default;
 $on-surface-variant-rgb: var(--reference-palette-neutral-variant30-rgb) !default;
 
+$error-rgb: var(--reference-palette-error40-rgb) !default;
+$on-error-rgb: var(--reference-palette-error100-rgb) !default;
+$error-container-rgb: var(--reference-palette-error90-rgb) !default;
+$on-error-container-rgb: var(--reference-palette-error10-rgb) !default;
+
 $outline-rgb: var(--reference-palette-neutral-variant50-rgb) !default;
 $outline-variant-rgb: var(--reference-palette-neutral-variant80-rgb) !default;
 
@@ -83,6 +111,10 @@ $light-rgb: (
     "on-secondary-rgb": $on-secondary-rgb,
     "secondary-container-rgb": $secondary-container-rgb,
     "on-secondary-container-rgb": $on-secondary-container-rgb,
+    "tertiary-rgb": $tertiary-rgb,
+    "on-tertiary-rgb": $on-tertiary-rgb,
+    "tertiary-container-rgb": $tertiary-container-rgb,
+    "on-tertiary-container-rgb": $on-tertiary-container-rgb,
     "surface-dim-rgb": $surface-dim-rgb,
     "surface-rgb": $surface-rgb,
     "surface-bright-rgb": $surface-bright-rgb,
@@ -94,6 +126,10 @@ $light-rgb: (
     "on-surface-rgb": $on-surface-rgb,
     "surface-variant-rgb": $surface-variant-rgb,
     "on-surface-variant-rgb": $on-surface-variant-rgb,
+    "error-rgb": $error-rgb,
+    "on-error-rgb": $on-error-rgb,
+    "error-container-rgb": $error-container-rgb,
+    "on-error-container-rgb": $on-error-container-rgb,
     "outline-rgb": $outline-rgb,
     "outline-variant-rgb": $outline-variant-rgb,
 ) !default;
@@ -107,6 +143,11 @@ $secondary-dark: var(--reference-palette-secondary80) !default;
 $on-secondary-dark: var(--reference-palette-secondary20) !default;
 $secondary-container-dark: var(--reference-palette-secondary30) !default;
 $on-secondary-container-dark: var(--reference-palette-secondary90) !default;
+
+$tertiary-dark: var(--reference-palette-tertiary80) !default;
+$on-tertiary-dark: var(--reference-palette-tertiary20) !default;
+$tertiary-container-dark: var(--reference-palette-tertiary30) !default;
+$on-tertiary-container-dark: var(--reference-palette-tertiary90) !default;
 
 $surface-dim-dark: var(--reference-palette-neutral6) !default;
 $surface-dark: var(--reference-palette-neutral6) !default;
@@ -122,6 +163,11 @@ $on-surface-dark: var(--reference-palette-neutral90) !default;
 $surface-variant-dark: var(--reference-palette-neutral-variant30) !default;
 $on-surface-variant-dark: var(--reference-palette-neutral-variant80) !default;
 
+$error-dark: var(--reference-palette-error80) !default;
+$on-error-dark: var(--reference-palette-error20) !default;
+$error-container-dark: var(--reference-palette-error30) !default;
+$on-error-container-dark: var(--reference-palette-error90) !default;
+
 $outline-dark: var(--reference-palette-neutral-variant60) !default;
 $outline-variant-dark: var(--reference-palette-neutral-variant30) !default;
 
@@ -134,6 +180,10 @@ $dark: (
     "on-secondary": $on-secondary-dark,
     "secondary-container": $secondary-container-dark,
     "on-secondary-container": $on-secondary-container-dark,
+    "tertiary": $tertiary-dark,
+    "on-tertiary": $on-tertiary-dark,
+    "tertiary-container": $tertiary-container-dark,
+    "on-tertiary-container": $on-tertiary-container-dark,
     "surface-dim": $surface-dim-dark,
     "surface": $surface-dark,
     "surface-bright": $surface-bright-dark,
@@ -145,6 +195,10 @@ $dark: (
     "on-surface": $on-surface-dark,
     "surface-variant": $surface-variant-dark,
     "on-surface-variant": $on-surface-variant-dark,
+    "error": $error-dark,
+    "on-error": $on-error-dark,
+    "error-container": $error-container-dark,
+    "on-error-container": $on-error-container-dark,
     "outline": $outline-dark,
     "outline-variant": $outline-variant-dark,
 ) !default;
@@ -159,6 +213,11 @@ $on-secondary-dark-rgb: var(--reference-palette-secondary20-rgb) !default;
 $secondary-container-dark-rgb: var(--reference-palette-secondary30-rgb) !default;
 $on-secondary-container-dark-rgb: var(--reference-palette-secondary90-rgb) !default;
 
+$tertiary-dark-rgb: var(--reference-palette-tertiary80-rgb) !default;
+$on-tertiary-dark-rgb: var(--reference-palette-tertiary20-rgb) !default;
+$tertiary-container-dark-rgb: var(--reference-palette-tertiary30-rgb) !default;
+$on-tertiary-container-dark-rgb: var(--reference-palette-tertiary90-rgb) !default;
+
 $surface-dim-dark-rgb: var(--reference-palette-neutral6-rgb) !default;
 $surface-dark-rgb: var(--reference-palette-neutral6-rgb) !default;
 $surface-bright-dark-rgb: var(--reference-palette-neutral24-rgb) !default;
@@ -172,6 +231,11 @@ $on-surface-dark-rgb: var(--reference-palette-neutral90-rgb) !default;
 $surface-variant-dark-rgb: var(--reference-palette-neutral-variant30-rgb) !default;
 $on-surface-variant-dark-rgb: var(--reference-palette-neutral-variant80-rgb) !default;
 
+$error-dark-rgb: var(--reference-palette-error80-rgb) !default;
+$on-error-dark-rgb: var(--reference-palette-error20-rgb) !default;
+$error-container-dark-rgb: var(--reference-palette-error30-rgb) !default;
+$on-error-container-dark-rgb: var(--reference-palette-error90-rgb) !default;
+
 $outline-dark-rgb: var(--reference-palette-neutral-variant60-rgb) !default;
 $outline-variant-dark-rgb: var(--reference-palette-neutral-variant30-rgb) !default;
 
@@ -184,6 +248,10 @@ $dark-rgb: (
     "on-secondary-rgb": $on-secondary-dark-rgb,
     "secondary-container-rgb": $secondary-container-dark-rgb,
     "on-secondary-container-rgb": $on-secondary-container-dark-rgb,
+    "tertiary-rgb": $tertiary-dark-rgb,
+    "on-tertiary-rgb": $on-tertiary-dark-rgb,
+    "tertiary-container-rgb": $tertiary-container-dark-rgb,
+    "on-tertiary-container-rgb": $on-tertiary-container-dark-rgb,
     "surface-dim-rgb": $surface-dim-dark-rgb,
     "surface-rgb": $surface-dark-rgb,
     "surface-bright-rgb": $surface-bright-dark-rgb,
@@ -195,6 +263,10 @@ $dark-rgb: (
     "on-surface-rgb": $on-surface-dark-rgb,
     "surface-variant-rgb": $surface-variant-dark-rgb,
     "on-surface-variant-rgb": $on-surface-variant-dark-rgb,
+    "error-rgb": $error-dark-rgb,
+    "on-error-rgb": $on-error-dark-rgb,
+    "error-container-rgb": $error-container-dark-rgb,
+    "on-error-container-rgb": $on-error-container-dark-rgb,
     "outline-rgb": $outline-dark-rgb,
     "outline-variant-rgb": $outline-variant-dark-rgb,
 ) !default;
