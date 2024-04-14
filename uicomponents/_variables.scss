@@ -19,6 +19,14 @@
     @each $color, $value in ref.$palette-secondaries-rgb {
         --reference-palette-#{$color}-rgb: #{$value};
     }
+
+    @each $color, $value in ref.$palette-tertiaries {
+        --reference-palette-#{$color}: #{$value};
+    }
+
+    @each $color, $value in ref.$palette-tertiaries-rgb {
+        --reference-palette-#{$color}-rgb: #{$value};
+    }
     
     @each $color, $value in ref.$palette-neutrals {
         --reference-palette-#{$color}: #{$value};
@@ -33,6 +41,14 @@
     }
 
     @each $color, $value in ref.$palette-neutral-variants-rgb {
+        --reference-palette-#{$color}-rgb: #{$value};
+    }
+
+    @each $color, $value in ref.$palette-errors {
+        --reference-palette-#{$color}: #{$value};
+    }
+
+    @each $color, $value in ref.$palette-errors-rgb {
         --reference-palette-#{$color}-rgb: #{$value};
     }
 
