@@ -221,7 +221,7 @@ export const NavigationSubhead = React.forwardRef<
     );
 });
 
-export const NavigationDrawerBody = React.forwardRef<
+export const NavigationBody = React.forwardRef<
     HTMLDivElement,
     React.HTMLProps<HTMLDivElement>
 >(function NavigationDrawerBody({ children, ...props }, ref) {

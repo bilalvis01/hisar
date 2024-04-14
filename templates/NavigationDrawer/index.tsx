@@ -4,7 +4,7 @@ import React from "react";
 import { 
     NavigationDrawer as NavigationDrawerBase, 
     NavigationDrawerContent,
-    NavigationDrawerBody,
+    NavigationBody,
     NavigationLink, 
     NavigationHeader, 
     NavigationHeadline,
@@ -56,7 +56,7 @@ export default function NavigationDrawer({ className, select }: NavigationDrawer
                             <IconClose />
                         </IconButtonStandard>
                     </NavigationHeader>
-                    <NavigationDrawerBody>
+                    <NavigationBody>
                         <ul>
                             <li>
                                 <NavigationLink href={"/"}>Home</NavigationLink>
@@ -68,7 +68,7 @@ export default function NavigationDrawer({ className, select }: NavigationDrawer
                                 <NavigationLink href={"/expense"}>Expense</NavigationLink>
                             </li>
                         </ul>
-                    </NavigationDrawerBody>
+                    </NavigationBody>
                 </NavigationDrawerContent>
             </NavigationDrawerBase>
         </nav>
