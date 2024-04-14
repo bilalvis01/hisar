@@ -30,7 +30,6 @@ $text-field-outlined-input-text-suffix-color: var(--system-color-on-surface-vari
 $text-field-outlined-input-text-prefix-color: var(--system-color-on-surface-variant) !default;
 $text-field-outlined-input-text-placeholder-color: var(--system-color-on-surface-variant) !default;
 $text-field-outlined-caret-color: var(--system-color-primary) !default;
-$text-field-outlined-caret-error-focus-caret-color: var(--system-color-error) !default;
 
 $text-field-outlined-disabled-label-color: var(--system-color-on-surface) !default;
 $text-field-outlined-disabled-label-color-rgb: var(--system-color-on-surface-rgb) !default;
@@ -83,6 +82,7 @@ $text-field-outlined-error-focus-input-text-color: var(--system-color-on-surface
 $text-field-outlined-error-focus-supporting-text-color: var(--system-color-error) !default;
 $text-field-outlined-error-focus-leading-icon-color: var(--system-color-on-surface-variant) !default;
 $text-field-outlined-error-focus-trailing-icon-color: var(--system-color-error) !default;
+$text-field-outlined-error-focus-caret-color: var(--system-color-error) !default;
 $text-field-outlined-error-hover-outline-color: var(--system-color-error) !default;
 $text-field-outlined-error-hover-label-color: var(--system-color-error) !default;
 $text-field-outlined-error-hover-input-text-color: var(--system-color-on-surface) !default;
@@ -123,7 +123,6 @@ $text-field-outlined: (
     "text-field-outlined-input-text-prefix-color": $text-field-outlined-input-text-prefix-color,
     "text-field-outlined-input-text-placeholder-color": $text-field-outlined-input-text-placeholder-color,
     "text-field-outlined-caret-color": $text-field-outlined-caret-color,
-    "text-field-outlined-caret-error-focus-caret-color": $text-field-outlined-caret-error-focus-caret-color,
 ) !default;
 
 $text-field-outlined-disabled: (
@@ -184,6 +183,7 @@ $text-field-outlined-error: (
     "text-field-outlined-error-focus-supporting-text-color": $text-field-outlined-error-focus-supporting-text-color,
     "text-field-outlined-error-focus-leading-icon-color": $text-field-outlined-error-focus-leading-icon-color,
     "text-field-outlined-error-focus-trailing-icon-color": $text-field-outlined-error-focus-trailing-icon-color,
+    "text-field-outlined-error-focus-caret-color": $text-field-outlined-error-focus-caret-color,
     "text-field-outlined-error-hover-outline-color": $text-field-outlined-error-hover-outline-color,
     "text-field-outlined-error-hover-label-color": $text-field-outlined-error-hover-label-color,
     "text-field-outlined-error-hover-input-text-color": $text-field-outlined-error-hover-input-text-color,
