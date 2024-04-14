@@ -1,0 +1,255 @@
+.text-field-outlined {
+    --container-height: var(--component-text-field-outlined-container-height);
+    --container-shape: var(--component-text-field-outlined-container-shape);
+    --focus-indicator-style: none;
+    --focus-indicator-color: unset;
+    --focus-indicator-width: unset;
+    --outline-width: var(--component-text-field-outlined-outline-width);
+    --outline-color: var(--component-text-field-outlined-outline-color);
+    --label-top: unset;
+    --label-padding-left: 1rem;
+    --label-padding-right: 1rem;
+    --label-color: var(--component-text-field-outlined-label-color);
+    --label-font: var(--component-text-field-outlined-label-font);
+    --label-line-height: var(--component-text-field-outlined-label-line-height);
+    --label-size: var(--component-text-field-outlined-label-size);
+    --label-weight: var(--component-text-field-outliend-label-weight);
+    --label-tracking: var(--component-text-field-outlined-label-tracking);
+    --label-populated-line-height: var(--component-text-field-outlined-label-populated-line-height);
+    --label-populated-size: var(--component-text-field-outlined-label-populated-size);
+    --leading-icon-color: var(--component-text-field-outlined-leading-icon-color);
+    --leading-icon-size: var(--component-text-field-outlined-leading-icon-size);
+    --trailing-icon-color: var(--component-text-field-outlined-trailing-icon-color);
+    --trailing-icon-size: var(--component-text-field-outlined-trailing-icon-size);
+    --supporting-text-color: var(--component-text-field-outlined-supporting-text-color);
+    --supporting-text-font: var(--component-text-field-outlined-supporting-text-font);
+    --supporting-text-line-height: var(--component-text-field-outlined-supporting-text-line-height);
+    --supporting-text-size: var(--component-text-field-outlined-supporting-text-size);
+    --supporting-text-weight: var(--component-text-field-outliend-supporting-text-weight);
+    --supporting-text-tracking: var(--component-text-field-outlined-supporting-text-tracking);
+    --input-container-position: relative;
+    --input-text-color: var(--component-text-field-outlined-input-text-color);
+    --input-text-font: var(--component-text-field-outlined-input-text-font);
+    --input-text-line-height: var(--component-text-field-outlined-input-text-line-height);
+    --input-text-size: var(--component-text-field-outlined-input-text-size);
+    --input-text-weight: var(--component-text-field-outliend-input-text-weight);
+    --input-text-tracking: var(--component-text-field-outlined-input-text-tracking);
+    --caret-color: var(--component-text-field-outlined-caret-color);
+    --content-padding-top: 0;
+
+    &.typed {
+        --label-padding-left: 0.25rem;
+        --label-padding-right: 0.25rem;
+        --input-container-position: static;
+    }
+
+    &:disabled {
+        --label-color: rgba(var(--component-text-field-outlined-disabled-label-color-rgb), var(--component-text-field-outlined-disabled-label-opacity));
+        --leading-icon-color: rgba(var(--component-text-field-outlined-disabled-leading-icon-color-rgb), var(--component-text-field-outlined-disabled-leading-icon-opacity));
+        --trailing-icon-color: rgba(var(--component-text-field-outlined-disabled-trailing-icon-color-rgb), var(--component-text-field-outlined-disabled-trailing-icon-opacity));
+        --outline-width: var(--component-text-field-outlined-disabled-outline-width);
+        --outline-color: rgba(var(--component-text-field-outlined-disabled-outline-color-rgb), var(--component-text-field-outlined-disabled-outline-opacity));
+        --supporting-text-color: rgba(var(--component-text-field-outlined-disabled-supporting-text-color-rgb), var(--component-text-field-outlined-disabled-supporting-text-opacity));
+        --input-text-color: rgba(var(--component-text-field-outlined-disabled-input-text-color-rgb), var(--component-text-field-outlined-disabled-input-text-opacity));
+    }
+
+    &:hover {
+        --label-color: var(--component-text-field-outlined-hover-label-color);
+        --leading-icon-color: var(--component-text-field-outlined-hover-leading-icon-color);
+        --trailing-icon-color: var(--component-text-field-outlined-hover-trailing-icon-color);
+        --outline-width: var(--component-text-field-outlined-hover-outline-width);
+        --outline-color: var(--component-text-field-outlined-hover-outline-color);
+        --supporting-text-color: var(--component-text-field-outlined-hover-supporting-text-color);
+        --input-text-color: var(--component-text-field-outlined-hover-input-text-color);
+    }
+
+    &:focus-within {
+        --label-top: 0;
+        --label-padding-left: 0.25rem;
+        --label-padding-right: 0.25rem;
+        --label-color: var(--component-text-field-outlined-focus-label-color);
+        --label-line-height: var(--component-text-field-outlined-label-populated-line-height);
+        --label-size: var(--component-text-field-outlined-label-populated-size);
+        --leading-icon-color: var(--component-text-field-outlined-focus-leading-icon-color);
+        --trailing-icon-color: var(--component-text-field-outlined-focus-trailing-icon-color);
+        --outline-width: var(--component-text-field-outlined-focus-outline-width);
+        --outline-color: var(--component-text-field-outlined-focus-outline-color);
+        --supporting-text-color: var(--component-text-field-outlined-focus-supporting-text-color);
+        --input-container-position: static;
+        --input-text-color: var(--component-text-field-outlined-focus-input-text-color);
+        --focus-indicator-style: solid;
+        --focus-indicator-color: var(--component-text-field-outlined-focus-indicator-color);
+        --focus-indicator-thickness: var(--component-text-field-outlined-focus-indicator-thickness);
+        --content-padding-top: 0.5rem;
+
+        &.error {
+            --focus-indicator-color: var(--component-text-field-outlined-focus-indicator-color-error);
+        }
+    }
+
+    &.error {
+        --outline-color: var(--component-text-field-outlined-error-outline-color);
+        --label-color: var(--component-text-field-outlined-error-label-color);
+        --input-text-color: var(--component-text-field-outlined-error-input-text-color);
+        --supporting-text-color: var(--component-text-field-outlined-error-supporting-text-color);
+        --leading-icon-color: var(--component-text-field-outlined-error-leading-icon-color);
+        --trailing-icon-color: var(--component-text-field-outlined-error-trailing-icon-color);
+
+        &:hover {
+            --outline-color: var(--component-text-field-outlined-error-hover-outline-color);
+            --label-color: var(--component-text-field-outlined-error-hover-label-color);
+            --input-text-color: var(--component-text-field-outlined-error-hover-input-text-color);
+            --supporting-text-color: var(--component-text-field-outlined-error-hover-supporting-text-color);
+            --leading-icon-color: var(--component-text-field-outlined-error-hover-leading-icon-color);
+            --trailing-icon-color: var(--component-text-field-outlined-error-hover-trailing-icon-color);
+        }
+
+        &:focus {
+            --outline-color: var(--component-text-field-outlined-error-focus-outline-color);
+            --label-color: var(--component-text-field-outlined-error-focus-label-color);
+            --input-text-color: var(--component-text-field-outlined-error-focus-input-text-color);
+            --supporting-text-color: var(--component-text-field-outlined-error-focus-supporting-text-color);
+            --leading-icon-color: var(--component-text-field-outlined-error-focus-leading-icon-color);
+            --trailing-icon-color: var(--component-text-field-outlined-error-focus-trailing-icon-color);
+            --caret-color: var(--component-text-field-outlined-error-focus-caret-color);
+        }
+    }
+
+    display: block;
+    background: none;
+    border: none;
+    outline: none;
+    background-color: inherit;
+
+    & > .container {
+        position: relative;
+        background-color: inherit;
+
+        & > .content {
+            padding-top: var(--content-padding-top);
+            background-color: inherit;
+
+            & > .input-container {
+                position: var(--input-container-position);
+                display: grid;
+                align-items: center;
+                height: var(--container-height);
+                border-radius: var(--container-shape);
+                border: var(--outline-width) solid var(--outline-color);
+                outline-style: var(--focus-indicator-style);
+                outline-width: var(--focus-indicator-thickness);
+                outline-color: var(--focus-indicator-color);
+                overflow: hidden;
+                background-color: inherit;
+        
+                & > .input-container-inner {
+                    background-color: inherit;
+                    padding: {
+                        left: 1rem;
+                        right: 1rem;
+                    };
+    
+                    & > .input {
+                        color: var(--input-text-color);
+                        background-color: transparent;
+                        border: none;
+                        font-family: var(--input-text-font);
+                        line-height: var(--input-text-line-height);
+                        font-size: var(--input-text-size);
+                        font-weight: var(--input-text-weight);
+                        letter-spacing: var(--input-text-tracking);
+                        caret-color: var(--caret-color);
+    
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+    
+                    & > .label {
+                        position: absolute;
+                        top: var(--label-top);
+                        left: 0;
+                        height: 1rem;
+                        background-color: inherit;
+                        color: var(--label-color);
+                        font-family: var(--label-font);
+                        line-height: var(--label-line-height);
+                        font-size: var(--label-size);
+                        font-weight: var(--label-weight);
+                        letter-spacing: var(--label-tracking);
+                        padding: {
+                            left: var(--label-padding-left);
+                            right: var(--label-padding-right);
+                        };
+                    }
+    
+                    & > .prefix {
+                        color: var(--input-text-color);
+                        font-family: var(--input-text-font);
+                        line-height: var(--input-text-line-height);
+                        font-size: var(--input-text-size);
+                        font-weight: var(--input-text-weight);
+                        letter-spacing: var(--input-text-tracking);
+                        padding-right: 1rem;
+                    }
+            
+                    & > .suffix {
+                        color: var(--input-text-color);
+                        font-family: var(--input-text-font);
+                        line-height: var(--input-text-line-height);
+                        font-size: var(--input-text-size);
+                        font-weight: var(--input-text-weight);
+                        letter-spacing: var(--input-text-tracking);
+                        padding-left: 1rem;
+                    }
+                }
+    
+                & > .leading-icon {
+                    padding-left: 0.75rem;
+    
+                    & > svg {
+                        color: var(--leading-icon-color);
+                        width: var(--leading-icon-size);
+                        height: var(--leading-icon-size);
+                    }
+                }
+        
+                & > .trailing-icon {
+                    padding-right: 0.75rem;
+    
+                    & > svg {
+                        color: var(--trailing-icon-color);
+                        width: var(--trailing-icon-size);
+                        height: var(--trailing-icon-size);
+                    }
+                }
+            }
+
+            & > .supporting-text-container {
+                display: flex;
+                align-items: center;
+                padding-top: 0.25rem;
+                color: var(--supporting-text-color);
+                font-family: var(--supporting-text-font);
+                line-height: var(--supporting-text-line-height);
+                font-size: var(--supporting-text-size);
+                font-weight: var(--supporting-text-weight);
+                letter-spacing: var(--supporting-text-tracking);
+    
+                & > .supporting-text {
+                    flex-grow: 1;
+                    padding: {
+                        left: 1rem;
+                        right: 1rem;
+                    };
+                }
+    
+                & > .supporting-text-suffix {
+                    padding: {
+                        right: 1rem;
+                    };
+                }
+            }
+        }
+    }
+}
