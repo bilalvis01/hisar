@@ -295,6 +295,26 @@
     @each $token, $value in comp.$dialog-basic-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$text-field-outlined {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$text-field-outlined-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$text-field-outlined-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$text-field-outlined-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$text-field-outlined-error {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {
