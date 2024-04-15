@@ -5,12 +5,14 @@ import {
     Dialog,
     DialogContent,
     DialogHeadline,
-    DialogParagraph,
+    DialogBody,
     DialogFooter,
 } from "../../components/Dialog";
 import ButtonFilled from "../../components/ButtonFIlled";
 import ButtonText from "../../components/ButtonText";
 import style from "./add.module.scss";
+import TextField from "../../components/TextField";
+import IconClose from "../../icons/Close";
 
 interface AddProps {
     heading: string;
@@ -36,7 +38,9 @@ export default function Add({
             </ButtonFilled>
             <DialogContent className={style.dialog}>
                 <DialogHeadline>{heading}</DialogHeadline>
-                <DialogParagraph>Form Tambah</DialogParagraph>
+                <DialogBody>
+                    <TextField label="Budget" />
+                </DialogBody>
                 <DialogFooter>
                     <ButtonText onClick={() => setOpen(false)}>Batal</ButtonText>
                     <ButtonText>Simpan</ButtonText>
