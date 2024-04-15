@@ -3,10 +3,11 @@
     --container-shape: var(--component-text-field-outlined-container-shape);
     --focus-indicator-style: none;
     --focus-indicator-color: unset;
-    --focus-indicator-width: unset;
+    --focus-indicator-thickness: unset;
     --outline-width: var(--component-text-field-outlined-outline-width);
     --outline-color: var(--component-text-field-outlined-outline-color);
     --label-top: unset;
+    --label-margin-left: 0;
     --label-padding-left: 1rem;
     --label-padding-right: 1rem;
     --label-color: var(--component-text-field-outlined-label-color);
@@ -27,7 +28,7 @@
     --supporting-text-size: var(--component-text-field-outlined-supporting-text-size);
     --supporting-text-weight: var(--component-text-field-outliend-supporting-text-weight);
     --supporting-text-tracking: var(--component-text-field-outlined-supporting-text-tracking);
-    --input-container-position: relative;
+    --input-container-inner-position: relative;
     --input-text-color: var(--component-text-field-outlined-input-text-color);
     --input-text-font: var(--component-text-field-outlined-input-text-font);
     --input-text-line-height: var(--component-text-field-outlined-input-text-line-height);
@@ -35,13 +36,16 @@
     --input-text-weight: var(--component-text-field-outliend-input-text-weight);
     --input-text-tracking: var(--component-text-field-outlined-input-text-tracking);
     --caret-color: var(--component-text-field-outlined-caret-color);
-    --content-padding-top: 0;
 
-    &.typed {
+    &.populated {
+        --label-top: -0.625rem;
+        --label-margin-left: 0.75rem;
         --label-padding-left: 0.25rem;
         --label-padding-right: 0.25rem;
-        --input-container-position: static;
-    }
+        --label-line-height: var(--component-text-field-outlined-label-populated-line-height);
+        --label-size: var(--component-text-field-outlined-label-populated-size);
+        --input-container-inner-position: static;
+    }  
 
     &:disabled {
         --label-color: rgba(var(--component-text-field-outlined-disabled-label-color-rgb), var(--component-text-field-outlined-disabled-label-opacity));
@@ -64,23 +68,16 @@
     }
 
     &:focus-within {
-        --label-top: 0;
-        --label-padding-left: 0.25rem;
-        --label-padding-right: 0.25rem;
         --label-color: var(--component-text-field-outlined-focus-label-color);
-        --label-line-height: var(--component-text-field-outlined-label-populated-line-height);
-        --label-size: var(--component-text-field-outlined-label-populated-size);
         --leading-icon-color: var(--component-text-field-outlined-focus-leading-icon-color);
         --trailing-icon-color: var(--component-text-field-outlined-focus-trailing-icon-color);
         --outline-width: var(--component-text-field-outlined-focus-outline-width);
         --outline-color: var(--component-text-field-outlined-focus-outline-color);
         --supporting-text-color: var(--component-text-field-outlined-focus-supporting-text-color);
-        --input-container-position: static;
         --input-text-color: var(--component-text-field-outlined-focus-input-text-color);
         --focus-indicator-style: solid;
         --focus-indicator-color: var(--component-text-field-outlined-focus-indicator-color);
         --focus-indicator-thickness: var(--component-text-field-outlined-focus-indicator-thickness);
-        --content-padding-top: 0.5rem;
 
         &.error {
             --focus-indicator-color: var(--component-text-field-outlined-focus-indicator-color-error);
@@ -119,101 +116,77 @@
     background: none;
     border: none;
     outline: none;
-    background-color: inherit;
 
     & > .container {
-        position: relative;
-        background-color: inherit;
+        padding-top: 0.625rem;
 
-        & > .content {
-            padding-top: var(--content-padding-top);
-            background-color: inherit;
+        & > .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: var(--container-height);
+    
+            & > .input-container-inner {
+                position: var(--input-container-inner-position);
+                z-index: 1;
 
-            & > .input-container {
-                position: var(--input-container-position);
-                display: grid;
-                align-items: center;
-                height: var(--container-height);
-                border-radius: var(--container-shape);
-                border: var(--outline-width) solid var(--outline-color);
-                outline-style: var(--focus-indicator-style);
-                outline-width: var(--focus-indicator-thickness);
-                outline-color: var(--focus-indicator-color);
-                overflow: hidden;
-                background-color: inherit;
-        
-                & > .input-container-inner {
-                    background-color: inherit;
+                & > .input {
+                    color: var(--input-text-color);
+                    background-color: transparent;
+                    border: none;
+                    font-family: var(--input-text-font);
+                    line-height: var(--input-text-line-height);
+                    font-size: var(--input-text-size);
+                    font-weight: var(--input-text-weight);
+                    letter-spacing: var(--input-text-tracking);
+                    caret-color: var(--caret-color);
                     padding: {
                         left: 1rem;
                         right: 1rem;
                     };
-    
-                    & > .input {
-                        color: var(--input-text-color);
-                        background-color: transparent;
-                        border: none;
-                        font-family: var(--input-text-font);
-                        line-height: var(--input-text-line-height);
-                        font-size: var(--input-text-size);
-                        font-weight: var(--input-text-weight);
-                        letter-spacing: var(--input-text-tracking);
-                        caret-color: var(--caret-color);
-    
-                        &:focus {
-                            outline: none;
-                        }
-                    }
-    
-                    & > .label {
-                        position: absolute;
-                        top: var(--label-top);
-                        left: 0;
-                        height: 1rem;
-                        background-color: inherit;
-                        color: var(--label-color);
-                        font-family: var(--label-font);
-                        line-height: var(--label-line-height);
-                        font-size: var(--label-size);
-                        font-weight: var(--label-weight);
-                        letter-spacing: var(--label-tracking);
-                        padding: {
-                            left: var(--label-padding-left);
-                            right: var(--label-padding-right);
-                        };
-                    }
-    
-                    & > .prefix {
-                        color: var(--input-text-color);
-                        font-family: var(--input-text-font);
-                        line-height: var(--input-text-line-height);
-                        font-size: var(--input-text-size);
-                        font-weight: var(--input-text-weight);
-                        letter-spacing: var(--input-text-tracking);
-                        padding-right: 1rem;
-                    }
-            
-                    & > .suffix {
-                        color: var(--input-text-color);
-                        font-family: var(--input-text-font);
-                        line-height: var(--input-text-line-height);
-                        font-size: var(--input-text-size);
-                        font-weight: var(--input-text-weight);
-                        letter-spacing: var(--input-text-tracking);
-                        padding-left: 1rem;
+
+                    &:focus {
+                        outline: none;
                     }
                 }
-    
-                & > .leading-icon {
-                    padding-left: 0.75rem;
-    
-                    & > svg {
-                        color: var(--leading-icon-color);
-                        width: var(--leading-icon-size);
-                        height: var(--leading-icon-size);
-                    }
+
+                & > .label {
+                    position: absolute;
+                    top: var(--label-top);
+                    left: 0;
+                    padding: {
+                        left: var(--label-padding-left);
+                        right: var(--label-padding-right);
+                    };
+                    margin-left: var(--label-margin-left);
+                    color: var(--label-color);
+                    font-family: var(--label-font);
+                    line-height: var(--label-line-height);
+                    font-size: var(--label-size);
+                    font-weight: var(--label-weight);
+                    letter-spacing: var(--label-tracking);
+                }
+
+                & > .prefix {
+                    color: var(--input-text-color);
+                    font-family: var(--input-text-font);
+                    line-height: var(--input-text-line-height);
+                    font-size: var(--input-text-size);
+                    font-weight: var(--input-text-weight);
+                    letter-spacing: var(--input-text-tracking);
+                    padding-left: 1rem;
                 }
         
+                & > .suffix {
+                    color: var(--input-text-color);
+                    font-family: var(--input-text-font);
+                    line-height: var(--input-text-line-height);
+                    font-size: var(--input-text-size);
+                    font-weight: var(--input-text-weight);
+                    letter-spacing: var(--input-text-tracking);
+                    padding-right: 1rem;
+                }
+
                 & > .trailing-icon {
                     padding-right: 0.75rem;
     
@@ -225,30 +198,53 @@
                 }
             }
 
-            & > .supporting-text-container {
-                display: flex;
-                align-items: center;
-                padding-top: 0.25rem;
-                color: var(--supporting-text-color);
-                font-family: var(--supporting-text-font);
-                line-height: var(--supporting-text-line-height);
-                font-size: var(--supporting-text-size);
-                font-weight: var(--supporting-text-weight);
-                letter-spacing: var(--supporting-text-tracking);
-    
-                & > .supporting-text {
-                    flex-grow: 1;
-                    padding: {
-                        left: 1rem;
-                        right: 1rem;
-                    };
+            & > .leading-icon {
+                padding-left: 0.75rem;
+
+                & > svg {
+                    color: var(--leading-icon-color);
+                    width: var(--leading-icon-size);
+                    height: var(--leading-icon-size);
                 }
-    
-                & > .supporting-text-suffix {
-                    padding: {
-                        right: 1rem;
-                    };
-                }
+            }
+
+            & > .outline-decorator {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: var(--container-shape);
+                border: var(--outline-width) solid var(--outline-color);
+                outline-style: var(--focus-indicator-style);
+                outline-width: var(--focus-indicator-thickness);
+                outline-color: var(--focus-indicator-color);
+            }
+        }
+
+        & > .supporting-text-container {
+            display: flex;
+            align-items: center;
+            padding-top: 0.25rem;
+            color: var(--supporting-text-color);
+            font-family: var(--supporting-text-font);
+            line-height: var(--supporting-text-line-height);
+            font-size: var(--supporting-text-size);
+            font-weight: var(--supporting-text-weight);
+            letter-spacing: var(--supporting-text-tracking);
+
+            & > .supporting-text {
+                flex-grow: 1;
+                padding: {
+                    left: 1rem;
+                    right: 1rem;
+                };
+            }
+
+            & > .supporting-text-suffix {
+                padding: {
+                    right: 1rem;
+                };
             }
         }
     }
