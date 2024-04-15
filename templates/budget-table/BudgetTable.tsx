@@ -8,7 +8,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import style from "./table.module.scss";
+import style from "./BudgetTable.module.scss";
 import format from "../../utils/format";
 
 interface Budget {

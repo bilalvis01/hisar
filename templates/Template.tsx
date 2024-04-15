@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./template.module.scss";
-import Header from "./Header";
+import Header from "./header/Header";
 
 export default function Template({
     children,

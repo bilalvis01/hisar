@@ -8,7 +8,7 @@ import {
     NavigationLink, 
     NavigationHeader, 
     NavigationHeadline,
-} from "../../components/NavigationDrawer";
+} from "../../components/navigation-drawer/NavigationDrawer";
 import IconButtonFilled from "../../components/IconButtonFilled";
 import IconButtonStandard from "../../components/IconButtonStandard";
 import IconClose from "../../icons/Close";

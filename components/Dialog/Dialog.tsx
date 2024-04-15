@@ -13,7 +13,7 @@ import {
     FloatingOverlay,
     useId,
 } from "@floating-ui/react";
-import style from "./dialog.module.scss";
+import style from "./Dialog.module.scss";
 import clsx from "clsx";
 
 interface DialogOptions {

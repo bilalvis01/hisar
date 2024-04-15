@@ -7,12 +7,11 @@ import {
     DialogHeadline,
     DialogBody,
     DialogFooter,
-} from "../../components/Dialog";
+} from "../../components/dialog/Dialog";
 import ButtonFilled from "../../components/ButtonFIlled";
 import ButtonText from "../../components/ButtonText";
-import style from "./add.module.scss";
+import style from "./BudgetAdd.module.scss";
 import TextField from "../../components/TextField";
-import IconClose from "../../icons/Close";
 
 interface AddProps {
     heading: string;

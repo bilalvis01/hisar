@@ -1,11 +1,11 @@
 "use client"
 
 import React from "react";
-import Navigation from "../Navigation";
-import NavigationDrawer from "../NavigationDrawer";
-import Logo from "../Logo";
+import Navigation from "../navigation/Navigation";
+import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
+import Logo from "../logo/Logo";
 import { usePathname } from "next/navigation";
-import style from "./header.module.scss";
+import style from "./Header.module.scss";
 
 export default function Header({ className }) {
     const pathname = usePathname();

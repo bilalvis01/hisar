@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./budget.module.scss";
-import Table from "../../templates/BudgetTable";
-import Add from "../../templates/BudgetAdd";
+import Table from "../../templates/budget-table/BudgetTable";
+import Add from "../../templates/budget-add/BudgetAdd";
 
 export default function Page() {
     return (

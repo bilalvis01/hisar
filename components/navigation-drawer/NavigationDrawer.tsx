@@ -15,7 +15,7 @@ import {
     FloatingOverlay,
     useId,
 } from "@floating-ui/react";
-import style from "./navigation-drawer.module.scss";
+import style from "./NavigationDrawer.module.scss";
 
 interface NavigationDrawerOptions {
     initialOpen?: boolean,

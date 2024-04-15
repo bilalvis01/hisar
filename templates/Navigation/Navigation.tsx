@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./navigation.module.scss";
+import style from "./Navigation.module.scss";
 import TabLink from "../../components/TabLink";
 import TabBar from "../../components/TabBar";
 

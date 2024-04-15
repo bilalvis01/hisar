@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./logo.module.scss";
+import style from "./Logo.module.scss";
 import logo from "./logo.png";
 import Image from "next/image";
 import Link from "next/link";
