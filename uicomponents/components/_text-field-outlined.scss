@@ -127,6 +127,9 @@
             height: var(--container-height);
     
             & > .input-container-inner {
+                display: flex;
+                align-items: center;
+                flex-grow: 1;
                 position: var(--input-container-inner-position);
                 z-index: 1;
 
@@ -144,6 +147,7 @@
                         left: 1rem;
                         right: 1rem;
                     };
+                    flex-grow: 1;
 
                     &:focus {
                         outline: none;
@@ -188,6 +192,8 @@
                 }
 
                 & > .trailing-icon {
+                    display: grid;
+                    align-items: center;
                     padding-right: 0.75rem;
     
                     & > svg {
@@ -199,6 +205,8 @@
             }
 
             & > .leading-icon {
+                display: grid;
+                align-items: center;
                 padding-left: 0.75rem;
 
                 & > svg {
