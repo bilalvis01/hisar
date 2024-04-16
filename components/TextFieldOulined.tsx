@@ -2,54 +2,67 @@
 
 import React from "react";
 import clsx from "clsx";
+import ExclamationCircleFill from "../icons/ExclamationCircleFill";
 
-interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextFieldOutlinedProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
     prefix?: string;
     suffix?: string; 
     supportingText?: string;
-    supportingTextSuffix?: string;
+    suffixSupportingText?: string;
+    error?: string;
+    inputMax?: number;
 }
 
-export default function TextField({
+export default function TextFieldOutlined({
     label,
     startIcon,
-    endIcon,
+    endIcon: endIcon_,
     prefix,
     suffix,
-    supportingText,
-    supportingTextSuffix,
+    supportingText: supportingText_,
+    suffixSupportingText: suffixSupportingText_,
+    error,
+    inputMax,
+    className,
+    type,
     placeholder,
+    value: controlledValue,
+    onChange: externalHandleChange,
+    onBlur: externalHandleBlur,
     ...props
-}: TextFieldProps) {
+}: TextFieldOutlinedProps) {
+    const id = React.useId();
     const rootRef = React.useRef(null);
     const inputRef = React.useRef(null);
     const inputContainerRef = React.useRef(null);
     const labelRef = React.useRef(null);
-    const [text, setText] = React.useState("");
-    const [labelBackgroundColor, setLabelBackgroundColor] = React.useState("");
+    const [uncontrolledValue, setUncontrolledValue] = React.useState("");
     const [populated, setPopulated] = React.useState(false);
-    const [clipLabel, setClipLabel] = React.useState<string | null>(null);
-    const hasText = text.length > 0 || (placeholder && placeholder.length > 0);
+    const [outlineStyle, setOutlineStyle] = React.useState<React.CSSProperties | null>(null);
+
+    const value = controlledValue ?? uncontrolledValue;
+
+    const hasValue = !!value || (placeholder && placeholder.length > 0);
+
+    const supportingText = error ?? supportingText_;
+
+    const suffixSupportingText = inputMax ?? suffixSupportingText_;
+
+    const endIcon = !!error ? <ExclamationCircleFill /> : endIcon_;
+
+
+    const handleChange = externalHandleChange ?? ((event) => setUncontrolledValue(event.target.value));
 
     function handleFocus() {
         setPopulated(true);
     }
 
-    function handleBlur() {
-        setPopulated(hasText);
-    }
-    
-    function handleChange(event) {
-        setText(event.target.value);
-    }
-
-    function handleClickLabel() {
-        if (!populated && inputRef.current instanceof HTMLElement) {
-            inputRef.current.focus();
-        }
+    function handleBlur(event) {
+        externalHandleBlur && externalHandleBlur(event);
+        setPopulated(hasValue);
     }
 
     React.useEffect(() => {
@@ -63,26 +76,35 @@ export default function TextField({
             const inputContainerWidth = inputContainer.offsetWidth;  
             const inputContainerHeight = inputContainer.offsetHeight; 
             const labelWidth = label.offsetWidth;
-            const marginLabel = labelRect.left - rootRect.left;
-            const depthClip = labelRect.bottom - rootRect.top;
-            setClipLabel(`polygon(
+            const labelMargin = labelRect.left - rootRect.left;
+            const labelSeatDepth = labelRect.bottom - rootRect.top;
+            const clipPath = `polygon(
                 -${focusIndicatorThickness} -${focusIndicatorThickness}, 
-                ${marginLabel}px -${focusIndicatorThickness}, 
-                ${marginLabel}px ${depthClip}px, 
-                ${marginLabel + labelWidth}px ${depthClip}px, 
-                ${marginLabel + labelWidth}px -${focusIndicatorThickness}, 
+                ${labelMargin}px -${focusIndicatorThickness}, 
+                ${labelMargin}px ${labelSeatDepth}px, 
+                ${labelMargin + labelWidth}px ${labelSeatDepth}px, 
+                ${labelMargin + labelWidth}px -${focusIndicatorThickness}, 
                 calc(${inputContainerWidth}px + ${focusIndicatorThickness}) -${focusIndicatorThickness}, 
                 calc(${inputContainerWidth}px + ${focusIndicatorThickness}) calc(${inputContainerHeight}px + ${focusIndicatorThickness}), 
                 -${focusIndicatorThickness} calc(${inputContainerHeight}px + ${focusIndicatorThickness}), 
                 -${focusIndicatorThickness} -${focusIndicatorThickness}
-            )`);
+            )`;
+            setOutlineStyle({ clipPath });
         } else {
-            setClipLabel(null);
+            setOutlineStyle(null);
         }
     }, [populated]);
 
     return (
-        <div ref={rootRef} className={clsx("text-field-outlined", { "populated": populated })}>
+        <div 
+            ref={rootRef} 
+            className={clsx(
+                "text-field-outlined", 
+                { "populated": populated },
+                { "error": !!error },
+                className,
+            )}
+        >
             <div className="container">
                 <div ref={inputContainerRef} className="input-container">
                     {startIcon && (
@@ -93,10 +115,10 @@ export default function TextField({
                     <div className="input-container-inner">
                         {label && (
                             <label 
+                                htmlFor={id}
                                 ref={labelRef}
-                                className="label" 
-                                style={{ backgroundColor: labelBackgroundColor }} 
-                                onClick={handleClickLabel}>
+                                className="label"
+                            >
                                 {label}
                             </label>
                         )}
@@ -108,12 +130,14 @@ export default function TextField({
                         <input 
                             {...props} 
                             ref={inputRef}
+                            id={id}
+                            className="input"
+                            type={type} 
+                            value={value} 
+                            placeholder={placeholder}
                             onChange={handleChange} 
                             onFocus={handleFocus} 
                             onBlur={handleBlur} 
-                            className="input" 
-                            value={text} 
-                            placeholder={placeholder}
                         />
                         {suffix && (
                             <span className="suffix">
@@ -126,20 +150,21 @@ export default function TextField({
                             </span>
                         )}
                     </div>
-                    <div className="outline-decorator" style={{ clipPath: clipLabel }} />
+                    <div className="outline-decorator" style={outlineStyle} />
                 </div>
-                {supportingText && (
-                    <div className="supporting-text-container">
-                        <span className="supporting-text">
-                            {supportingText}
+                <div className="supporting-text-container">
+                    <span className="supporting-text">
+                        {supportingText}
+                    </span>
+                    {suffixSupportingText && (
+                        <span className="supporting-text-suffix">
+                            {typeof inputMax == "number" && type == "text"
+                                ? `${(value as string).length}/${inputMax}`
+                                : suffixSupportingText
+                            }
                         </span>
-                        {supportingTextSuffix && (
-                            <span className="supporting-text-suffix">
-                                {supportingTextSuffix}
-                            </span>
-                        )}
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );
