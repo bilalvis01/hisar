@@ -23,7 +23,7 @@ const ButtonBase = React.forwardRef<
     ...props
 }, ref) {
     return (
-        <button ref={ref} className={clsx(`button-${variant}`, className)} {...props}>
+        <button {...props} ref={ref} className={clsx(`button-${variant}`, className)}>
             <div className="container">
                 <div className="state-layer">
                     <div className="content">
