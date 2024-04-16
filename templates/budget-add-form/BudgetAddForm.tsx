@@ -2,48 +2,39 @@ import React from "react";
 import { 
     Formik, 
     Form, 
-    Field, 
-    ErrorMessage,
+    Field,
 } from "formik";
+import * as Yup from "yup";
 import ButtonSolid from "../../components/ButtonFIlled";
+import TextField from "../TextField";
+import style from "./BudgetAddForm.module.scss";
 
-export default function AddForm() {
+interface AddFormProps {
+    id: string;
+}
+
+export default function AddForm({ id }: AddFormProps) {
     return (
         <Formik
             initialValues={{
                 description: "",
                 budget: "",
             }}
-            validate={values => {
-                const errors = {
-                    description: "",
-                    budget: "",
-                };
-
-                if (!values.description) {
-                    errors.description = "Required";
-                }
-
-                if (!values.budget) {
-                    errors.description = "Required";
-                }
-
-                return errors;
-            }}
+            validationSchema={Yup.object({
+                description: Yup.string().required("Wajib diisi"),
+                budget: Yup.number().typeError("Wajib masukan angka").required("Wajib diisi"),
+            })}
             onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
                     alert(JSON.stringify(values, null, 2));
                     setSubmitting(false);
-                }, 500);
+                }, 2000);
             }}
         >
             {({ isSubmitting }) => (
-                <Form>
-                    <Field type="text" name="Deskripsi" /> 
-                    <Field type="number" name="Budget" />
-                    <ButtonSolid type="submit" disabled={isSubmitting}>
-                        submit
-                    </ButtonSolid>
+                <Form id={id}>
+                    <TextField className={style.field} type="text" label="Deskripsi" name="description" inputMax={50}/> 
+                    <TextField className={style.field} type="text" label="Budget" name="budget" />
                 </Form>
             )}
         </Formik>

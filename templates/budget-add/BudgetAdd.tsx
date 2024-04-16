@@ -11,7 +11,7 @@ import {
 import ButtonFilled from "../../components/ButtonFIlled";
 import ButtonText from "../../components/ButtonText";
 import style from "./BudgetAdd.module.scss";
-import TextField from "../../components/TextField";
+import BudgetAddForm from "../budget-add-form/BudgetAddForm";
 
 interface AddProps {
     heading: string;
@@ -20,6 +20,7 @@ interface AddProps {
 export default function Add({ 
     heading
 }) {
+    const id = React.useId();
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = React.useCallback(() => {
@@ -38,11 +39,11 @@ export default function Add({
             <DialogContent className={style.dialog}>
                 <DialogHeadline>{heading}</DialogHeadline>
                 <DialogBody>
-                    <TextField label="Budget" />
+                    <BudgetAddForm id={id} />
                 </DialogBody>
                 <DialogFooter>
                     <ButtonText onClick={() => setOpen(false)}>Batal</ButtonText>
-                    <ButtonText>Simpan</ButtonText>
+                    <ButtonText type="submit" form={id}>Simpan</ButtonText>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
