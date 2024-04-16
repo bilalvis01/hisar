@@ -51,8 +51,8 @@
     
     &:disabled {
         --container-elevation: var(--component-button-filled-disabled-container-elevation);
-        --container-color: rgba(var(--component-button-filled-disbled-container-color-rgb), var(--component-button-filled-disabled-container-opacity));
-        --label-color: rgba(var(--component-button-filled-disbled-label-color-rgb), var(--component-button-filled-disbled-label-opacity));
+        --container-color: rgba(var(--component-button-filled-disabled-container-color-rgb), var(--component-button-filled-disabled-container-opacity));
+        --label-color: rgba(var(--component-button-filled-disabled-label-color-rgb), var(--component-button-filled-disabled-label-opacity));
         --icon-color: rgba(var(--component-button-filled-disabled-icon-color-rgb), var(--component-button-filled-disabled-icon-opacity));
         --stater-layer-color: transparent;
     }
