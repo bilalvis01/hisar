@@ -296,6 +296,22 @@
         --component-#{$token}: #{$value};
     }
 
+    @each $token, $value in comp.$dialog-fullscreen {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$dialog-fullscreen-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$dialog-fullscreen-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$dialog-fullscreen-pressed {
+        --component-#{$token}: #{$value};
+    }
+
     @each $token, $value in comp.$text-field-outlined {
         --component-#{$token}: #{$value};
     }

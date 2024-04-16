@@ -1,0 +1,129 @@
+$dialog-fullscreen-on-scroll-container-color: var(--system-color-surface-container) !default;
+$dialog-fullscreen-container-color: var(--system-color-surface) !default;
+$dialog-fullscreen-container-elevation: var(--system-elevation-level0) !default;
+$dialog-fullscreen-container-shape: var(--system-shape-corner-none) !default;
+$dialog-fullscreen-header-container-height: 3.5rem !default;
+$dialog-fullscreen-header-container-elevation: var(--system-elevation-level0) !default;
+$dialog-fullscreen-on-scroll-header-container-elevation: var(--system-elevation-level2) !default;
+$dialog-fullscreen-action-bar-container-height: 3.5rem !default;
+$dialog-fullscreen-action-bar-container-color: var(--system-color-surface) !default;
+$dialog-fullscreen-action-bar-container-elevation: va(--system-elevation-level0) !default;
+$dialog-fullscreen-on-scroll-action-bar-container-elevation: var(--system-elevation-level2) !default;
+$dialog-fullscreen-header-action-label-font: var(--system-typescale-label-large-font) !default;
+$dialog-fullscreen-header-action-label-line-height: var(--system-typescale-label-large-line-height) !default;
+$dialog-fullscreen-header-action-label-size: var(--system-typescale-label-large-size) !default;
+$dialog-fullscreen-header-action-label-weight: var(--system-typescale-label-large-weight) !default;
+$dialog-fullscreen-header-action-label-tracking: var(--sytem-typescale-label-large-tracking) !default;
+$dialog-fullscreen-header-action-label-color: var(--system-color-primary) !default;
+$dialog-fullscreen-action-bar-label-font: var(--system-typescale-label-large-font) !default;
+$dialog-fullscreen-action-bar-label-line-height: var(--system-typescale-label-large-line-height) !default;
+$dialog-fullscreen-action-bar-label-size: var(--system-typescale-label-large-size) !default;
+$dialog-fullscreen-action-bar-label-weight: var(--system-typescale-label-large-weight) !default;
+$dialog-fullscreen-action-bar-label-tracking: var(--sytem-typescale-label-large-tracking) !default;
+$dialog-fullscreen-action-bar-label-color: var(--system-color-primary) !default;
+$dialog-fullscreen-icon-size: 1.5rem !default;
+$dialog-fullscreen-icon-color: var(--system-color-on-surface) !default;
+$dialog-fullscreen-headline-font: var(--system-typescale-title-small-font) !default;
+$dialog-fullscreen-headline-line-height: var(--system-typescale-title-small-line-height) !default;
+$dialog-fullscreen-headline-size: var(--system-typescale-headline-title-size) !default;
+$dialog-fullscreen-headline-weight: var(--system-typescale-headline-title-weight) !default;
+$dialog-fullscreen-headline-tracking: var(--system-typescale-headline-title-tracking) !default;
+$dialog-fullscreen-headline-color: var(--system-color-on-surface) !default;
+$dialog-fullscreen-divider-color: var(--system-color-surface-variant) !default;
+$dialog-fullscreen-divider-width: 0.0625rem !default;
+
+$dialog-fullscreen-header-action-hover-label-color: var(--system-color-primary) !default;
+$dialog-fullscreen-action-bar-hover-label-color: var(--system-color-primary) !default;
+$dialog-fullscreen-header-action-hover-state-layer-color: var(--system-color-primary) !default;
+$dialog-fullscreen-header-action-hover-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-fullscreen-header-action-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$dialog-fullscreen-action-bar-hover-state-layer-color: var(--system-color-primary) !default;
+$dialog-fullscreen-action-bar-hover-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-fullscreen-action-bar-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+
+$dialog-fullscreen-header-action-focus-label-color: var(--system-color-primary) !default;
+$dialog-fullscreen-action-bar-focus-label-color: var(--system-color-primary) !default;
+$dialog-fullscreen-header-action-focus-state-layer-color: var(--system-color-primary) !default;
+$dialog-fullscreen-header-action-focus-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-fullscreen-header-action-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+$dialog-fullscreen-action-bar-focus-state-layer-color: var(--system-color-primary) !default;
+$dialog-fullscreen-action-bar-focus-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-fullscreen-action-bar-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+
+$dialog-fullscreen-header-action-pressed-label-color: var(--system-color-primary) !default;
+$dialog-fullscreen-action-bar-pressed-label-color: var(--system-color-primary) !default;
+$dialog-fullscreen-header-action-pressed-state-layer-color: var(--system-color-primary) !default;
+$dialog-fullscreen-header-action-pressed-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-fullscreen-header-action-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+$dialog-fullscreen-action-bar-pressed-state-layer-color: var(--system-color-primary) !default;
+$dialog-fullscreen-action-bar-pressed-state-layer-color-rgb: var(--system-color-primary-rgb) !default;
+$dialog-fullscreen-action-bar-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+
+$dialog-fullscreen: (
+    "dialog-fullscreen-on-scroll-container-color": $dialog-fullscreen-on-scroll-container-color,
+    "dialog-fullscreen-container-color": $dialog-fullscreen-container-color,
+    "dialog-fullscreen-container-elevation": $dialog-fullscreen-container-elevation,
+    "dialog-fullscreen-container-shape": $dialog-fullscreen-container-shape,
+    "dialog-fullscreen-header-container-height": $dialog-fullscreen-header-container-height,
+    "dialog-fullscreen-header-container-elevation": $dialog-fullscreen-header-container-elevation,
+    "dialog-fullscreen-on-scroll-header-container-elevation": $dialog-fullscreen-on-scroll-header-container-elevation,
+    "dialog-fullscreen-action-bar-container-height": $dialog-fullscreen-action-bar-container-height,
+    "dialog-fullscreen-action-bar-container-color": $dialog-fullscreen-action-bar-container-color,
+    "dialog-fullscreen-action-bar-container-elevation": $dialog-fullscreen-action-bar-container-elevation,
+    "dialog-fullscreen-on-scroll-action-bar-container-elevation": $dialog-fullscreen-on-scroll-action-bar-container-elevation,
+    "dialog-fullscreen-header-action-label-font": $dialog-fullscreen-header-action-label-font,
+    "dialog-fullscreen-header-action-label-line-height": $dialog-fullscreen-header-action-label-line-height,
+    "dialog-fullscreen-header-action-label-size": $dialog-fullscreen-header-action-label-size,
+    "dialog-fullscreen-header-action-label-weight": $dialog-fullscreen-header-action-label-weight,
+    "dialog-fullscreen-header-action-label-tracking": $dialog-fullscreen-header-action-label-tracking,
+    "dialog-fullscreen-header-action-label-color": $dialog-fullscreen-header-action-label-color,
+    "dialog-fullscreen-action-bar-label-font": $dialog-fullscreen-action-bar-label-font,
+    "dialog-fullscreen-action-bar-label-line-height": $dialog-fullscreen-action-bar-label-line-height,
+    "dialog-fullscreen-action-bar-label-size": $dialog-fullscreen-action-bar-label-size,
+    "dialog-fullscreen-action-bar-label-weight": $dialog-fullscreen-action-bar-label-weight,
+    "dialog-fullscreen-action-bar-label-tracking": $dialog-fullscreen-action-bar-label-tracking,
+    "dialog-fullscreen-action-bar-label-color": $dialog-fullscreen-action-bar-label-color,
+    "dialog-fullscreen-icon-size": $dialog-fullscreen-icon-size,
+    "dialog-fullscreen-icon-color": $dialog-fullscreen-icon-color,
+    "dialog-fullscreen-headline-font": $dialog-fullscreen-headline-font,
+    "dialog-fullscreen-headline-line-height": $dialog-fullscreen-headline-line-height,
+    "dialog-fullscreen-headline-size": $dialog-fullscreen-headline-size,
+    "dialog-fullscreen-headline-weight": $dialog-fullscreen-headline-weight,
+    "dialog-fullscreen-headline-tracking": $dialog-fullscreen-headline-tracking,
+    "dialog-fullscreen-headline-color": $dialog-fullscreen-headline-color,
+    "dialog-fullscreen-divider-color": $dialog-fullscreen-divider-color,
+    "dialog-fullscreen-divider-width": $dialog-fullscreen-divider-width,
+) !default;
+
+$dialog-fullscreen-hover: (
+    "dialog-fullscreen-header-action-hover-label-color": $dialog-fullscreen-header-action-hover-label-color,
+    "dialog-fullscreen-action-bar-hover-label-color": $dialog-fullscreen-action-bar-hover-label-color,
+    "dialog-fullscreen-header-action-hover-state-layer-color": $dialog-fullscreen-header-action-hover-state-layer-color,
+    "dialog-fullscreen-header-action-hover-state-layer-color-rgb": $dialog-fullscreen-header-action-hover-state-layer-color-rgb,
+    "dialog-fullscreen-header-action-hover-state-layer-opacity": $dialog-fullscreen-header-action-hover-state-layer-opacity,
+    "dialog-fullscreen-action-bar-hover-state-layer-color": $dialog-fullscreen-action-bar-hover-state-layer-color,
+    "dialog-fullscreen-action-bar-hover-state-layer-color-rgb": $dialog-fullscreen-action-bar-hover-state-layer-color-rgb,
+    "dialog-fullscreen-action-bar-hover-state-layer-opacity": $dialog-fullscreen-action-bar-hover-state-layer-opacity,
+) !default;
+
+$dialog-fullscreen-focus: (
+    "dialog-fullscreen-header-action-focus-label-color": $dialog-fullscreen-header-action-focus-label-color,
+    "dialog-fullscreen-action-bar-focus-label-color": $dialog-fullscreen-action-bar-focus-label-color,
+    "dialog-fullscreen-header-action-focus-state-layer-color": $dialog-fullscreen-header-action-focus-state-layer-color,
+    "dialog-fullscreen-header-action-focus-state-layer-color-rgb": $dialog-fullscreen-header-action-focus-state-layer-color-rgb,
+    "dialog-fullscreen-header-action-focus-state-layer-opacity": $dialog-fullscreen-header-action-focus-state-layer-opacity,
+    "dialog-fullscreen-action-bar-focus-state-layer-color": $dialog-fullscreen-action-bar-focus-state-layer-color,
+    "dialog-fullscreen-action-bar-focus-state-layer-color-rgb": $dialog-fullscreen-action-bar-focus-state-layer-color-rgb,
+    "dialog-fullscreen-action-bar-focus-state-layer-opacity": $dialog-fullscreen-action-bar-focus-state-layer-opacity,
+) !default;
+
+$dialog-fullscreen-pressed: (
+    "dialog-fullscreen-header-action-pressed-label-color": $dialog-fullscreen-header-action-pressed-label-color,
+    "dialog-fullscreen-action-bar-pressed-label-color": $dialog-fullscreen-action-bar-pressed-label-color,
+    "dialog-fullscreen-header-action-pressed-state-layer-color": $dialog-fullscreen-header-action-pressed-state-layer-color,
+    "dialog-fullscreen-header-action-pressed-state-layer-color-rgb": $dialog-fullscreen-header-action-pressed-state-layer-color-rgb,
+    "dialog-fullscreen-header-action-pressed-state-layer-opacity": $dialog-fullscreen-header-action-pressed-state-layer-opacity,
+    "dialog-fullscreen-action-bar-pressed-state-layer-color": $dialog-fullscreen-action-bar-pressed-state-layer-color,
+    "dialog-fullscreen-action-bar-pressed-state-layer-color-rgb": $dialog-fullscreen-action-bar-pressed-state-layer-color-rgb,
+    "dialog-fullscreen-action-bar-pressed-state-layer-opacity": $dialog-fullscreen-action-bar-pressed-state-layer-opacity,
+) !default;
