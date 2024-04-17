@@ -3,7 +3,6 @@
 import React from "react";
 import {
     Dialog,
-    DialogContent,
     DialogHeadline,
     DialogBody,
     DialogFooter,
@@ -26,11 +25,11 @@ export default function Add() {
     }, [setOpen]);
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <>
             <ButtonFilled onClick={handleOpen}>
                 Tambah
             </ButtonFilled>
-            <DialogContent className={style.dialog}>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogHeadline>Tambah Budget</DialogHeadline>
                 <DialogBody>
                     <BudgetAddForm id={id} />
@@ -38,8 +37,8 @@ export default function Add() {
                 <DialogFooter>
                     <ButtonText onClick={() => setOpen(false)}>Batal</ButtonText>
                     <ButtonText type="submit" form={id}>Simpan</ButtonText>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                    </DialogFooter>
+            </Dialog>
+        </>
     );
 }
