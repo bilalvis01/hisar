@@ -48,121 +48,133 @@
         --state-layer-color: rgba(var(--component-dialog-basic-pressed-state-layer-color-rgb), var(--component-dialog-basic-pressed-state-layer-opacity));
     }
 
-    background: none;
     border: none;
     outline: none;
-    box-shadow: none;
+    background: none;
+    outline: none;
+    padding: 0;
+    min-width: 17.5rem;
+    max-width: 35rem;
 
     & > .container {
-        background-color: var(--container-color);
-        box-shadow: var(--container-elevation);
-        border-radius: var(--container-shape);
-        min-width: 17.5rem;
-        max-width: 35rem;
-        
-        & > .state-layer{
-            background-color: var(--state-layer-color);
+        position: relative;
+        margin: 2rem;
 
-            & > .content {
-                padding: 1.5rem;
-
-                & > svg,
-                & > .header > svg {
-                    width: var(--icon-width);
-                    height: var(--icon-height);
-                    color: var(--icon-color);
-                    margin: 0 auto;
-                }
+        & > .content {
+            position: relative;
+            padding: 1.5rem;
     
-                & > .headline, 
-                & > .header > .headline {
-                    font-family: var(--headline-font);
-                    line-height: var(--headline-line-height);
-                    font-size: var(--headline-size);
-                    font-weight: var(--headline-weight);
-                    letter-spacing: var(--headline-tracking);
-                    color: var(--headline-color);
-                    text-align: left;
-                    margin: 0;
-                    padding: 0;
-                }
+            & > svg,
+            & > .header > svg {
+                width: var(--icon-width);
+                height: var(--icon-height);
+                color: var(--icon-color);
+                margin: 0 auto;
+            }
     
-                & > .subhead,
-                & > .body > .subhead {
-                    font-family: var(--subhead-font);
-                    line-height: var(--subhead-line-height);
-                    font-size: var(--subhead-size);
-                    font-weight: var(--subhead-weight);
-                    letter-spacing: var(--subhead-tracking);
-                    color: var(--subhead-color);
-                    text-align: left;
-                    margin: 0;
-                    padding: 0;
-                }
+            & > .headline, 
+            & > .header > .headline {
+                font-family: var(--headline-font);
+                line-height: var(--headline-line-height);
+                font-size: var(--headline-size);
+                font-weight: var(--headline-weight);
+                letter-spacing: var(--headline-tracking);
+                color: var(--headline-color);
+                text-align: left;
+                margin: 0;
+                padding: 0;
+            }
     
-                & > .supporting-text, 
-                & > .body > .supporting-text {
-                    font-family: var(--supporting-text-font);
-                    line-height: var(--supporting-text-line-height);
-                    font-size: var(--supporting-text-size);
-                    font-weight: var(--supporting-text-weight);
-                    letter-spacing: var(--supporting-text-tracking);
-                    color: var(--supporting-text-color);
-                    text-align: left;
-                    margin: 0;
-                    padding: 0;
-                }
+            & > .subhead,
+            & > .body > .subhead {
+                font-family: var(--subhead-font);
+                line-height: var(--subhead-line-height);
+                font-size: var(--subhead-size);
+                font-weight: var(--subhead-weight);
+                letter-spacing: var(--subhead-tracking);
+                color: var(--subhead-color);
+                text-align: left;
+                margin: 0;
+                padding: 0;
+            }
     
-                & > hr,
-                & > .body > hr {
-                    height: var(--divider-width);
-                    background-color: var(--divider-color);
-                }
-
-                & > .footer {
-                    display: flex;
-                    justify-content: flex-end;
-                    align-items: center;
-                    gap: 0.5rem;
-                    font-family: var(--action-label-font);
-                    line-height: var(--action-label-line-height);
-                    font-size: var(--action-label-size);
-                    font-weight: var(--action-label-weight);
-                    letter-spacing: var(--action-label-tracking);
-                    color: var(--action-label-color);
-                }
-
-                & > .footer.column {
-                    flex-direction: column;
-                    justify-content: flex-start;
-                    align-items: flex-end;
-                }
-
-                & > svg + .healine,
-                & > svg + .body,
-                & > svg + .subhead,
-                & > svg + .supporting-text,
-                & > .headline + .body,
-                & > .headline + .subhead,
-                & > .headline + .supporting-text,
-                & > .header + .body,
-                & > .header + .subhead,
-                & > .header + .supporting-text {
-                    padding-top: 1rem;
-                }
-
-                & > svg + .footer,
-                & > .headline + .footer,
-                & > .subhead + .footer,
-                & > .supporting-text + .footer,
-                & > .header + .footer,
-                & > .body + .footer {
-                    padding-top: 1.5rem;
-                }
-
-                & > svg + .headline {
-                    text-align: center;
-                }
+            & > .supporting-text, 
+            & > .body > .supporting-text {
+                font-family: var(--supporting-text-font);
+                line-height: var(--supporting-text-line-height);
+                font-size: var(--supporting-text-size);
+                font-weight: var(--supporting-text-weight);
+                letter-spacing: var(--supporting-text-tracking);
+                color: var(--supporting-text-color);
+                text-align: left;
+                margin: 0;
+                padding: 0;
+            }
+    
+            & > hr,
+            & > .body > hr {
+                height: var(--divider-width);
+                background-color: var(--divider-color);
+            }
+    
+            & > .footer {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 0.5rem;
+                font-family: var(--action-label-font);
+                line-height: var(--action-label-line-height);
+                font-size: var(--action-label-size);
+                font-weight: var(--action-label-weight);
+                letter-spacing: var(--action-label-tracking);
+                color: var(--action-label-color);
+            }
+    
+            & > .footer.column {
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-end;
+            }
+    
+            & > svg + .healine,
+            & > svg + .body,
+            & > svg + .subhead,
+            & > svg + .supporting-text,
+            & > .headline + .body,
+            & > .headline + .subhead,
+            & > .headline + .supporting-text,
+            & > .header + .body,
+            & > .header + .subhead,
+            & > .header + .supporting-text {
+                padding-top: 1rem;
+            }
+    
+            & > svg + .footer,
+            & > .headline + .footer,
+            & > .subhead + .footer,
+            & > .supporting-text + .footer,
+            & > .header + .footer,
+            & > .body + .footer {
+                padding-top: 1.5rem;
+            }
+    
+            & > svg + .headline {
+                text-align: center;
+            }
+        }
+    
+        & > .decorator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--container-color);
+            box-shadow: var(--container-elevation);
+            border-radius: var(--container-shape);
+            
+            & > .state-layer{
+                background-color: var(--state-layer-color);
             }
         }
     }
