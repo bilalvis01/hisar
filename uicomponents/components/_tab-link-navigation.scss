@@ -16,9 +16,6 @@
     --icon-width: var(--component-tab-link-navigation-icon-size);
     --icon-height: var(--component-tab-link-navigation-icon-size);
     --icon-color: var(--component-tab-link-navigation-inactive-icon-color);
-    --divider-diplay: none;
-    --divider-color: var(--component-tab-link-navigation-divider-color);
-    --divider-height: var(--component-tab-link-navigation-divider-height);
     --active-indicator-height: var(--component-tab-link-navigation-container-height);
     --active-indicator-color: transparent;
     --active-indicator-shape: var(--component-tab-link-navigation-container-shape);
@@ -27,14 +24,6 @@
     --state-layer-shape: var(--component-tab-link-navigation-container-shape);
     --content-height: var(--component-tab-link-navigation-container-height);
     --content-shape: var(--component-tab-link-navigation-container-shape);
-
-    &.inline {
-        --container-height: var(--component-tab-link-navigation-inline-container-height);
-    }
-
-    &.underline {
-        --divider-display: block;
-    }
 
     &.active {
         --label-color: var(--component-tab-link-navigation-active-label-color);
@@ -87,6 +76,7 @@
         }
     }
 
+    position: relative;
     display: block;
     background: none;
     border: none;
@@ -97,9 +87,37 @@
     min-width: var(--system-spacer2);
     padding: 0;
 
-    & > .container {
-        display: block;
-        height: var(--container-height);
+    & > .content {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: var(--content-height);
+        border-radius: var(--content-shape);
+
+        & > .label {
+            font-family: var(--label-font);
+            line-height: var(--label-line-height);
+            font-size: var(--label-size);
+            font-weight: var(--label-weight);
+            letter-spacing: var(--label-tracking);
+            color: var(--label-color);
+
+        }
+
+        & > .svg {
+            width: var(--icon-width);
+            height: var(--icon-height);
+            color: var(--icon-color);
+        }
+    }
+
+    & > .decorator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background-color: var(--container-color);
         border-radius: var(--container-shape);
         outline: {
@@ -117,30 +135,7 @@
             & > .state-layer {
                 height: var(--state-layer-height);
                 background-color: var(--state-layer-color);
-                border-radius: var(--state-layer-shape);
-    
-                & > .content {
-                    display: grid;
-                    place-items: center;
-                    height: var(--content-height);
-                    border-radius: var(--content-shape);
-    
-                    & > .label {
-                        font-family: var(--label-font);
-                        line-height: var(--label-line-height);
-                        font-size: var(--label-size);
-                        font-weight: var(--label-weight);
-                        letter-spacing: var(--label-tracking);
-                        color: var(--label-color);
-    
-                    }
-        
-                    & > .svg {
-                        width: var(--icon-width);
-                        height: var(--icon-height);
-                        color: var(--icon-color);
-                    }
-                }
+                border-radius: var(--state-layer-shape);   
             }
         }
     }

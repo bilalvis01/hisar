@@ -1,7 +1,6 @@
 $tab-link-navigation-container-color: transparent !default;
 $tab-link-navigation-container-shape: var(--system-shape-corner-full) !default;
-$tab-link-navigation-inline-container-height: 3rem !default;
-$tab-link-navigation-container-height: 4rem !default;
+$tab-link-navigation-container-height: 3rem !default;
 $tab-link-navigation-container-elevation: var(--system-elevation-level0) !default;
 $tab-link-navigation-label-font: var(--system-typescale-title-small-font) !default;
 $tab-link-navigation-label-line-height: var(--system-typescale-title-small-line-height) !default;
@@ -13,8 +12,6 @@ $tab-link-navigation-inactive-label-color: var(--system-color-primary-container)
 $tab-link-navigation-icon-size: 1.5rem !default;
 $tab-link-navigation-active-icon-color: var(--system-color-on-primary) !default;
 $tab-link-navigation-inactive-icon-color: var(--system-color-primary-container) !default;
-$tab-link-navigation-divider-color: var(--system-color-surface-container-highest) !default;
-$tab-link-navigation-divider-height: 0.0625rem !default;
 $tab-link-navigation-active-indicator-color: var(--system-color-secondary-container) !default;
 
 $tab-link-navigation-active-hover-label-color: var(--system-color-on-secondary-container) !default;
@@ -56,7 +53,6 @@ $tab-link-navigation-inactive-pressed-icon-color: var(--system-color-on-primary)
 $tab-link-navigation: (
     "tab-link-navigation-container-color": $tab-link-navigation-container-color,
     "tab-link-navigation-container-shape": $tab-link-navigation-container-shape,
-    "tab-link-navigation-inline-container-height": $tab-link-navigation-inline-container-height,
     "tab-link-navigation-container-height": $tab-link-navigation-container-height,
     "tab-link-navigation-container-elevation": $tab-link-navigation-container-elevation,
     "tab-link-navigation-label-font": $tab-link-navigation-label-font,
@@ -69,8 +65,6 @@ $tab-link-navigation: (
     "tab-link-navigation-icon-size": $tab-link-navigation-icon-size,
     "tab-link-navigation-active-icon-color": $tab-link-navigation-active-icon-color,
     "tab-link-navigation-inactive-icon-color": $tab-link-navigation-inactive-icon-color,
-    "tab-link-navigation-divider-color": $tab-link-navigation-divider-color,
-    "tab-link-navigation-divider-height": $tab-link-navigation-divider-height,
     "tab-link-navigation-active-indicator-color": $tab-link-navigation-active-indicator-color,
 ) !default;
 

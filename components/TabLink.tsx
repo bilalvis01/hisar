@@ -1,42 +1,37 @@
 "use client"
 
 import React from "react";
-import Link, { LinkProps } from "next/link";
 import clsx from "clsx";
 import { useTabBarContext } from "./TabBar";
 
-interface TabLinkProps extends LinkProps {
-    children: React.ReactNode;
-    className?: string;
-    role?: string;
-    active?: boolean;
-}
-
-export default function TabLink({
+const TabLink = React.forwardRef<
+    HTMLAnchorElement,
+    React.HTMLProps<HTMLAnchorElement>
+>(function TabLink({
     children,
     className,
-    role,
     href,
     ...props
-}: TabLinkProps) {
+}, ref) {
     const { select } = useTabBarContext();
 
     return (
-        <Link 
-            href={href}
-            role={role}
-            className={clsx("tab-link-navigation", { active: href === select }, className)} 
+        <a
             {...props}
+            ref={ref}
+            href={href}
+            className={clsx("tab-link-navigation", { active: href === select }, className)} 
         >
-            <div className="container">
+            <div className="decorator">
                 <div className="active-indicator">
-                    <div className="state-layer">
-                        <div className="content">
-                            <span className="label">{children}</span>
-                        </div>
-                    </div>
+                    <div className="state-layer" />
                 </div>
             </div>
-        </Link>
+            <span className="content">
+                <span className="label">{children}</span>
+            </span>
+        </a>
     );
-}
+});
+
+export default TabLink;
