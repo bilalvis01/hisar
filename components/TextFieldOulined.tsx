@@ -104,6 +104,7 @@ export default function TextFieldOutlined({
             )}
         >
             <div ref={inputContainerRef} className="input-container">
+                <div className="decorator" style={outlineStyle} />
                 {startIcon && (
                     <span className="leading-icon">
                         {startIcon}
@@ -147,7 +148,6 @@ export default function TextFieldOutlined({
                         </span>
                     )}
                 </span>
-                <div className="decorator" style={outlineStyle} />
             </div>
             <div className="supporting-text-container">
                 <span className="supporting-text">
