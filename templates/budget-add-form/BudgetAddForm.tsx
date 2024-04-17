@@ -33,7 +33,7 @@ export default function AddForm({ id }: AddFormProps) {
         >
             {({ isSubmitting }) => (
                 <Form id={id}>
-                    <TextField className={style.field} type="text" label="Deskripsi" name="description" inputMax={50}/> 
+                    <TextField className={style.field} type="text" label="Deskripsi" name="description" counter={50}/> 
                     <TextField className={style.field} type="text" label="Budget" name="budget" />
                 </Form>
             )}
