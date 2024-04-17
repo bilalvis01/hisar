@@ -13,13 +13,7 @@ import ButtonText from "../../components/ButtonText";
 import style from "./BudgetAdd.module.scss";
 import BudgetAddForm from "../budget-add-form/BudgetAddForm";
 
-interface AddProps {
-    heading: string;
-}
-
-export default function Add({ 
-    heading
-}) {
+export default function Add() {
     const id = React.useId();
     const [open, setOpen] = React.useState(false);
 
@@ -37,7 +31,7 @@ export default function Add({
                 Tambah
             </ButtonFilled>
             <DialogContent className={style.dialog}>
-                <DialogHeadline>{heading}</DialogHeadline>
+                <DialogHeadline>Tambah Budget</DialogHeadline>
                 <DialogBody>
                     <BudgetAddForm id={id} />
                 </DialogBody>
