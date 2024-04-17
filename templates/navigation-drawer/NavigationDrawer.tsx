@@ -3,7 +3,6 @@
 import React from "react";
 import { 
     NavigationDrawer as NavigationDrawerBase, 
-    NavigationDrawerContent,
     NavigationBody,
     NavigationLink, 
     NavigationHeader, 
@@ -13,14 +12,16 @@ import IconButtonFilled from "../../components/IconButtonFilled";
 import IconButtonStandard from "../../components/IconButtonStandard";
 import IconClose from "../../icons/Close";
 import IconList from "../../icons/List";
+import { usePathname } from "next/navigation";
+import NextLink from "next/link";
 
 interface NavigationDrawerProps {
     className?: string,
-    select?: string,
 }
 
-export default function NavigationDrawer({ className, select }: NavigationDrawerProps) {
+export default function NavigationDrawer({ className }: NavigationDrawerProps) {
     const [open, setOpen] = React.useState(false);
+    const pathname = usePathname();
 
     const handleResize = React.useCallback(() => {
         if (window.innerWidth >= 992) {
@@ -36,40 +37,44 @@ export default function NavigationDrawer({ className, select }: NavigationDrawer
 
     React.useEffect(() => {
         setOpen(false);
-    }, [select]);
+    }, [pathname]);
 
     return (
         <nav className={className}>
+            <IconButtonFilled onClick={() => setOpen(true)}>
+                <IconList />
+            </IconButtonFilled>
             <NavigationDrawerBase 
                 variant="modal"
                 open={open}
                 onOpenChange={setOpen}
-                select={select}
+                select={pathname}
             >
-                <IconButtonFilled onClick={() => setOpen(true)}>
-                    <IconList />
-                </IconButtonFilled>
-                <NavigationDrawerContent>
-                    <NavigationHeader>
-                        <NavigationHeadline>HISAR</NavigationHeadline>
-                        <IconButtonStandard onClick={() => setOpen(false)}>
-                            <IconClose />
-                        </IconButtonStandard>
-                    </NavigationHeader>
-                    <NavigationBody>
-                        <ul>
-                            <li>
-                                <NavigationLink href={"/"}>Home</NavigationLink>
-                            </li>
-                            <li>
-                                <NavigationLink href={"/budget"}>Budget</NavigationLink>
-                            </li>
-                            <li>
-                                <NavigationLink href={"/expense"}>Expense</NavigationLink>
-                            </li>
-                        </ul>
-                    </NavigationBody>
-                </NavigationDrawerContent>
+                <NavigationHeader>
+                    <NavigationHeadline>HISAR</NavigationHeadline>
+                    <IconButtonStandard onClick={() => setOpen(false)}>
+                        <IconClose />
+                    </IconButtonStandard>
+                </NavigationHeader>
+                <NavigationBody>
+                    <ul>
+                        <li>
+                            <NextLink href={"/"} passHref legacyBehavior>
+                                <NavigationLink>Home</NavigationLink>
+                            </NextLink>
+                        </li>
+                        <li>
+                            <NextLink href={"/budget"} passHref legacyBehavior>
+                                <NavigationLink>Budget</NavigationLink>
+                            </NextLink>
+                        </li>
+                        <li>
+                            <NextLink href={"/expense"} passHref legacyBehavior>
+                                <NavigationLink>Expense</NavigationLink>
+                            </NextLink>
+                        </li>
+                    </ul>
+                </NavigationBody>
             </NavigationDrawerBase>
         </nav>
     );
