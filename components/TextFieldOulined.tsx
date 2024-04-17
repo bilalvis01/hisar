@@ -13,7 +13,7 @@ export interface TextFieldOutlinedProps extends React.InputHTMLAttributes<HTMLIn
     supportingText?: string;
     suffixSupportingText?: string;
     error?: string;
-    inputMax?: number;
+    counter?: boolean | number;
 }
 
 export default function TextFieldOutlined({
@@ -25,7 +25,7 @@ export default function TextFieldOutlined({
     supportingText: supportingText_,
     suffixSupportingText: suffixSupportingText_,
     error,
-    inputMax,
+    counter,
     className,
     type,
     placeholder,
@@ -48,8 +48,6 @@ export default function TextFieldOutlined({
     const hasValue = !!value || (placeholder && placeholder.length > 0);
 
     const supportingText = error ?? supportingText_;
-
-    const suffixSupportingText = inputMax ?? suffixSupportingText_;
 
     const endIcon = !!error ? <ExclamationCircleFill /> : endIcon_;
 
@@ -105,66 +103,64 @@ export default function TextFieldOutlined({
                 className,
             )}
         >
-            <div className="container">
-                <div ref={inputContainerRef} className="input-container">
-                    {startIcon && (
-                        <span className="leading-icon">
-                            {startIcon}
-                        </span>
-                    )}
-                    <div className="input-container-inner">
-                        {label && (
-                            <label 
-                                htmlFor={id}
-                                ref={labelRef}
-                                className="label"
-                            >
-                                {label}
-                            </label>
-                        )}
-                        {prefix && (
-                            <span className="prefix">
-                                {prefix}
-                            </span>
-                        )}
-                        <input 
-                            {...props} 
-                            ref={inputRef}
-                            id={id}
-                            className="input"
-                            type={type} 
-                            value={value} 
-                            placeholder={placeholder}
-                            onChange={handleChange} 
-                            onFocus={handleFocus} 
-                            onBlur={handleBlur} 
-                        />
-                        {suffix && (
-                            <span className="suffix">
-                                {suffix}
-                            </span>
-                        )}
-                        {endIcon && (
-                            <span className="trailing-icon">
-                                {endIcon}
-                            </span>
-                        )}
-                    </div>
-                    <div className="outline-decorator" style={outlineStyle} />
-                </div>
-                <div className="supporting-text-container">
-                    <span className="supporting-text">
-                        {supportingText}
+            <div ref={inputContainerRef} className="input-container">
+                {startIcon && (
+                    <span className="leading-icon">
+                        {startIcon}
                     </span>
-                    {suffixSupportingText && (
-                        <span className="supporting-text-suffix">
-                            {typeof inputMax == "number" && type == "text"
-                                ? `${(value as string).length}/${inputMax}`
-                                : suffixSupportingText
-                            }
+                )}
+                <span className="input-container-inner">
+                    {label && (
+                        <label 
+                            htmlFor={id}
+                            ref={labelRef}
+                            className="label"
+                        >
+                            {label}
+                        </label>
+                    )}
+                    {prefix && (
+                        <span className="prefix">
+                            {prefix}
                         </span>
                     )}
-                </div>
+                    <input 
+                        {...props} 
+                        ref={inputRef}
+                        id={id}
+                        className="input"
+                        type={type} 
+                        value={value} 
+                        placeholder={placeholder}
+                        onChange={handleChange} 
+                        onFocus={handleFocus} 
+                        onBlur={handleBlur} 
+                    />
+                    {suffix && (
+                        <span className="suffix">
+                            {suffix}
+                        </span>
+                    )}
+                    {endIcon && (
+                        <span className="trailing-icon">
+                            {endIcon}
+                        </span>
+                    )}
+                </span>
+                <div className="decorator" style={outlineStyle} />
+            </div>
+            <div className="supporting-text-container">
+                <span className="supporting-text">
+                    {supportingText}
+                </span>
+                {counter && (
+                    <span className="counter">
+                        {typeof counter == "number" && (type == "text" || type == "password")
+                            ? `${(value as string).length}/${counter}`
+                            : (value as string).length
+                        }
+                    </span>
+                )}
             </div>
         </div>
     );
