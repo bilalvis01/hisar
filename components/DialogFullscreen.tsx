@@ -24,7 +24,7 @@ export function useDialog({
 
     React.useEffect(() => {
         if (dialogRef.current instanceof HTMLDialogElement) {
-            if (open) dialogRef.current.show()
+            if (open) dialogRef.current.showModal()
             else dialogRef.current.close()
         }
     }, [open]);
