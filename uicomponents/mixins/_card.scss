@@ -1,11 +1,32 @@
 @mixin card {
+    position: relative;
     background-color: none;
     border: none;
     outline: none;
     box-shadow: none;
     padding: 0;
 
-    & > .container {
+    & > .content {
+        position: relative;
+        height: 100%;
+        border-radius: var(--content-shape);
+        padding: {
+            left: 1rem;
+            right: 1rem;
+        }
+
+        & svg {
+            color: var(--icon-color);
+            width: var(--icon-width);
+            height: var(--icon-height);
+        }
+    }
+
+    & > .decorator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 100%;
         background-color: var(--container-color);
         box-shadow: var(--container-elevation);
@@ -23,21 +44,6 @@
             height: 100%;
             background-color: var(--state-layer-color);
             border-radius: var(--state-layer-shape);
-
-            & > .content {
-                height: 100%;
-                border-radius: var(--content-shape);
-                padding: {
-                    left: 1rem;
-                    right: 1rem;
-                }
-
-                & svg {
-                    color: var(--icon-color);
-                    width: var(--icon-width);
-                    height: var(--icon-height);
-                }
-            }
         }
     }
 }
