@@ -22,11 +22,12 @@ export default function IconButtonBase({
             className={clsx(`icon-button-${variant}`, { "toggle-button": toggle, "selected": selected }, className)}
             {...props}
         >
-            <div className="container">
-                <div className="state-layer">
-                    {children}
+            <div className="decorator">
+                <div className="base">
+                    <div className="state-layer" />
                 </div>
             </div>
+            {children}
         </button>
     );
 }
