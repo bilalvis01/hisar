@@ -3,54 +3,65 @@
     border: none;
     outline: none;
     box-shadow: none;
+    position: relative;
     min-height: var(--system-spacer2);
     min-width: var(--system-spacer2);
     padding: 0;
 
-    & > .container {
-        border-radius: var(--container-shape);
-        height: var(--container-height);
-        box-shadow: var(--container-elevation);
-        background-color: var(--container-color);
-        overflow: hidden;
-        outline: {
-            style: var(--focus-indicator-style);
-            color: var(--focus-indicator-color);
-            width: var(--focus-indicator-width);
-            offset: var(--focus-indicator-offset);
+    & > .content {
+        position: relative;
+        padding: {
+            left: var(--system-padding4);
+            right: var(--system-padding4);
         };
+        z-index: 1;
+        
+        & > svg {
+            width: var(--icon-width);
+            height: var(--icon-height);
+            color: var(--icon-color);
+        }
 
-        & > .state-layer {
+        & > .label {
+            font-family: var(--label-font);
+            line-height: var(--label-line-height);
+            font-size: var(--label-size);
+            font-weight: var(--label-weight);
+            letter-spacing: var(--label-tracking);
+            color: var(--label-color);
             padding: {
-                left: var(--system-padding4);
-                right: var(--system-padding4);
+                left: var(--system-padding2);
+                right: var(--system-padding2);
+            }
+        }
+    }
+
+    & > .decorator {
+        display: grid;
+        align-items: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        & > .base {
+            border-radius: var(--container-shape);
+            width: 100%;
+            height: var(--container-height);
+            box-shadow: var(--container-elevation);
+            background-color: var(--container-color);
+            overflow: hidden;
+            outline: {
+                style: var(--focus-indicator-style);
+                color: var(--focus-indicator-color);
+                width: var(--focus-indicator-width);
+                offset: var(--focus-indicator-offset);
             };
-            height: 100%;
-            background-color: var(--state-layer-color);
-            
-            & > .content {
-                display: grid;
-                place-items: center;
-                height: 100%;
-                
-                & > svg {
-                    width: var(--icon-width);
-                    height: var(--icon-height);
-                    color: var(--icon-color);
-                }
     
-                & > .label {
-                    font-family: var(--label-font);
-                    line-height: var(--label-line-height);
-                    font-size: var(--label-size);
-                    font-weight: var(--label-weight);
-                    letter-spacing: var(--label-tracking);
-                    color: var(--label-color);
-                    padding: {
-                        left: var(--system-padding2);
-                        right: var(--system-padding2);
-                    }
-                }
+            & > .state-layer {
+                height: 100%;
+                background-color: var(--state-layer-color);
             }
         }
     }
