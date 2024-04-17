@@ -114,7 +114,6 @@
                 width: var(--icon-width);
                 height: var(--icon-height);
                 color: var(--icon-color);
-                z-index: 1;
             }
 
             & > .decorator {
@@ -180,7 +179,6 @@
                 font-weight: var(--header-action-label-weight);
                 letter-spacing: var(--header-action-label-tracking);
                 color: var(--header-action-label-color);
-                z-index: 1;
             }
 
             & > .decorator { 

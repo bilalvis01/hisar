@@ -155,14 +155,14 @@ export const DialogAction = React.forwardRef<
             {...props}
             className="action"
         >
-            <span className="content">
-                {children}
-            </span>
             <div className="decorator">
                 <div className="base">
                     <div className="state-layer" />
                 </div>
             </div>
+            <span className="content">
+                {children}
+            </span>
         </button>
     )
 });
@@ -175,12 +175,12 @@ export const DialogClose = React.forwardRef<
 
     return (
         <button type="button" {...props} className="close" ref={ref} onClick={() => setOpen(false)}>
-            <IconClose />
             <div className="decorator">
                 <div className="base">
                     <div className="state-layer" />
                 </div>
             </div>
+            <IconClose />
         </button>
     );
 });
