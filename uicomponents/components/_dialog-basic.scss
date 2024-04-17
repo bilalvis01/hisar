@@ -32,6 +32,8 @@
     --divider-width: var(--component-dialog-basic-divider-size);
     --divider-color: var(--component-dialog-basic-divider-color);
     --state-layer-color: transparent;
+    --scrim-color: var(--reference-palette-neutral-variant20);
+    --scrim-opacity: 0.4;
 
     &:hover {
         --action-label-color: var(--component-dialog-basic-action-hover-label-color);
@@ -55,6 +57,11 @@
     padding: 0;
     min-width: 17.5rem;
     max-width: 35rem;
+
+    &::backdrop {
+        background-color: var(--scrim-color);
+        opacity: var(--scrim-opacity);
+    }
 
     & > .container {
         position: relative;
