@@ -90,7 +90,9 @@ export function NavigationDrawer({
                 aria-modal={context.open}
                 className={clsx("navigation-drawer", variant)}
             >
-                {props.children}
+                <div className="container">
+                    {props.children}
+                </div>
             </dialog>
         </NavigationDrawerContext.Provider>
     );
