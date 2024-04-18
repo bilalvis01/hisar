@@ -1,0 +1,67 @@
+.top-app-bar-small {
+    --container-color: var(--component-top-app-bar-small-container-color);
+    --container-shape: var(--component-top-app-bar-small-container-shape);
+    --container-height: var(--component-top-app-bar-small-container-height);
+    --container-elevation: var(--component-top-app-bar-small-container-elevation);
+    --leading-icon-size: var(--component-top-app-bar-small-leading-icon-size);
+    --leading-icon-color: var(--component-top-app-bar-small-leading-icon-color);
+    --trailing-icon-size: var(--component-top-app-bar-small-trailing-icon-size);
+    --trailing-icon-color: var(--component-top-app-bar-small-trailing-icon-color);
+    --headline-font: var(--component-top-app-bar-small-headline-font);
+    --headline-line-height: var(--component-top-app-bar-small-headline-line-height);
+    --headline-size: var(--component-top-app-bar-small-headline-size);
+    --headline-tracking: var(--component-top-app-bar-small-headline-tracking);
+    --headline-weight: var(--component-top-app-bar-small-headline-weight);
+    --headline-color: var(--component-top-app-bar-small-headline-color);
+
+    &.on-scroll {
+        --container-color: var(--component-top-app-bar-small-on-scroll-container-color);
+        --container-elevation: var(--component-top-app-bar-small-on-scroll-container-elevation);
+    }
+
+    &.color-primary {
+        --container-color: var(--system-color-primary);
+        --headline-color: var(--system-color-on-primary);
+        --leading-icon-color: var(--system-color-on-primary);
+    }
+
+    background-color: var(--container-color);
+    border-radius: var(--container-shape);
+    height: var(--container-height);
+    box-shadow: var(--container-elevation);
+    display: flex;
+    align-items: center;
+
+    & > .brand {
+        display: flex;
+        align-items: center;
+        padding-left: 1rem;
+
+        & > a {
+            text-decoration: none;
+        }
+
+        & > a > .logo,
+        & > a > img,
+        & > .logo,
+        & > img {
+            padding-right: 1rem;
+        }
+
+        & > a > .headline,
+        & > .headline {
+            padding-right: 1rem;
+            margin: 0;
+            font-family: var(--headline-font);
+            line-height: var(--headline-line-height);
+            font-size: var(--headline-size);
+            letter-spacing: var(--headline-tracking);
+            font-weight: var(--headline-weight);
+            color: var(--headline-color);
+        }
+    }
+
+    & > nav + .brand {
+        padding-left: 0;
+    }
+}
