@@ -8,7 +8,7 @@ $fab-primary-icon-size: 1.5rem !default;
 $fab-primary-icon-color: var(--system-color-on-primary-container) !default;
 
 $fab-primary-hover-container-elevation: var(--system-elevation-level4) !default;
-$fab-primary-hover-container-lowered-elevation: var(--system-elevation-level2) !default;
+$fab-primary-lowered-hover-container-elevation: var(--system-elevation-level2) !default;
 $fab-primary-hover-state-layer-color: var(--system-color-on-primary-container) !default;
 $fab-primary-hover-state-layer-color-rgb: var(--system-color-on-primary-container-rgb) !default;
 $fab-primary-hover-state-layer-color-opacity: var(--system-state-hover-state-layer-opacity) !default;
@@ -18,14 +18,14 @@ $fab-primary-focus-indicator-color: var(--system-color-secondary) !default;
 $fab-primary-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
 $fab-primary-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
 $fab-primary-focus-container-elevation: var(--system-elevation-level3) !default;
-$fab-primary-focus-container-lowered-elevation: var(--system-elevation-level1) !default;
+$fab-primary-lowered-focus-container-elevation: var(--system-elevation-level1) !default;
 $fab-primary-focus-state-layer-color: var(--system-color-on-primary-container) !default;
 $fab-primary-focus-state-layer-color-rgb: var(--system-color-on-primary-container-rgb) !default;
 $fab-primary-focus-state-layer-color-opacity: var(--system-state-focus-state-layer-opacity) !default;
 $fab-primary-focus-icon-color: var(--system-color-on-primary-container) !default;
 
 $fab-primary-pressed-container-elevation: var(--system-elevation-level3) !default;
-$fab-primary-pressed-container-lowered-elevation: var(--system-elevation-level1) !default;
+$fab-primary-lowered-pressed-container-elevation: var(--system-elevation-level1) !default;
 $fab-primary-pressed-state-layer-color: var(--system-color-on-primary-container) !default;
 $fab-primary-pressed-state-layer-color-rgb: var(--system-color-on-primary-container-rgb) !default;
 $fab-primary-pressed-state-layer-color-opacity: var(--system-state-pressed-state-layer-opacity) !default;
@@ -44,7 +44,7 @@ $fab-primary: (
 
 $fab-primary-hover: (
     "fab-primary-hover-container-elevation": $fab-primary-hover-container-elevation,
-    "fab-primary-hover-container-lowered-elevation": $fab-primary-hover-container-lowered-elevation,
+    "fab-primary-lowered-hover-container-elevation": $fab-primary-lowered-hover-container-elevation,
     "fab-primary-hover-state-layer-color": $fab-primary-hover-state-layer-color,
     "fab-primary-hover-state-layer-color-rgb": $fab-primary-hover-state-layer-color-rgb,
     "fab-primary-hover-state-layer-color-opacity": $fab-primary-hover-state-layer-color-opacity,
@@ -56,7 +56,7 @@ $fab-primary-focus: (
     "fab-primary-focus-indicator-thickness": $fab-primary-focus-indicator-thickness,
     "fab-primary-focus-indicator-offset": $fab-primary-focus-indicator-offset,
     "fab-primary-focus-container-elevation": $fab-primary-focus-container-elevation,
-    "fab-primary-focus-container-lowered-elevation": $fab-primary-focus-container-lowered-elevation,
+    "fab-primary-lowered-focus-container-elevation": $fab-primary-lowered-focus-container-elevation,
     "fab-primary-focus-state-layer-color": $fab-primary-focus-state-layer-color,
     "fab-primary-focus-state-layer-color-rgb": $fab-primary-focus-state-layer-color-rgb,
     "fab-primary-focus-state-layer-color-opacity": $fab-primary-focus-state-layer-color-opacity,
@@ -65,7 +65,7 @@ $fab-primary-focus: (
 
 $fab-primary-pressed: (
     "fab-primary-pressed-container-elevation": $fab-primary-pressed-container-elevation,
-    "fab-primary-pressed-container-lowered-elevation": $fab-primary-pressed-container-lowered-elevation,
+    "fab-primary-lowered-pressed-container-elevation": $fab-primary-lowered-pressed-container-elevation,
     "fab-primary-pressed-state-layer-color": $fab-primary-pressed-state-layer-color,
     "fab-primary-pressed-state-layer-color-rgb": $fab-primary-pressed-state-layer-color-rgb,
     "fab-primary-pressed-state-layer-color-opacity": $fab-primary-pressed-state-layer-color-opacity,
