@@ -24,7 +24,7 @@ export default function NavigationDrawer({ className }: NavigationDrawerProps) {
     const pathname = usePathname();
 
     const handleResize = React.useCallback(() => {
-        if (window.innerWidth >= 992) {
+        if (window.innerWidth >= 840) {
             setOpen(false);
         }
     }, [setOpen]);
