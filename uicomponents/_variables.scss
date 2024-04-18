@@ -331,6 +331,10 @@
     @each $token, $value in comp.$text-field-outlined-error {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$top-app-bar-small {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {
