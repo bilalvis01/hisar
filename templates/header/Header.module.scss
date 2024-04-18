@@ -1,7 +1,27 @@
+.appBar.important {
+    --container-color: var(--system-color-primary);
+    --headline-color: var(--system-color-on-primary);
+    --leading-icon-color: var(--system-color-on-primary);
+}
+
 .navigation {
     padding-right: 1rem;
 }
 
-.brandOnLargeWindow {
+.largeWindowBrand {
     flex-grow: 1;
+}
+
+.largeWindowAppBar {
+    display: none;
+}
+
+@media (min-width: 840px) {
+    .largeWindowAppBar {
+        display: block;
+    }
+
+    .mediumWindowAppBar {
+        display: none;
+    }
 }

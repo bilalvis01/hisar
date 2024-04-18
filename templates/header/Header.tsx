@@ -10,46 +10,27 @@ import Link from "next/link";
 import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 
 export default function Header({ className }) {
-    const [windowSize, setWindowSize] = React.useState(window.innerWidth >= 840 ? "large" : "medium");
-
-    const handleResize = React.useCallback(() => {
-        if (window.innerWidth >= 840) setWindowSize("large");
-        else setWindowSize("medium");
-    }, []);
-
-    React.useEffect(() => {
-        window.addEventListener("resize", handleResize);
-
-        return () => window.removeEventListener("resize", handleResize);
-    });
-
     return (
-        <TopAppBarSmall className={clsx("color-primary", className)}>
-            {windowSize === "large"
-                ? (
-                    <>
-                        <Brand className={style.brandOnLargeWindow}>
-                            <Link href="/">
-                                <Logo />
-                            </Link>
-                            <Link href="/">
-                                <Headline>HISAR</Headline>
-                            </Link>
-                        </Brand>
-                        <Navigation className={style.navigation} />
-                    </>
-                )
-                : (
-                    <>
-                        <NavigationDrawer />
-                        <Brand>
-                            <Link href="/">
-                                <Logo />
-                            </Link>
-                        </Brand>
-                    </>
-                )
-            }
-        </TopAppBarSmall>
+        <>
+            <TopAppBarSmall className={clsx(style.appBar, style.important, style.largeWindowAppBar, className)}>
+                <Brand className={style.largeWindowBrand}>
+                    <Link href="/">
+                        <Logo />
+                    </Link>
+                    <Link href="/">
+                        <Headline>HISAR</Headline>
+                    </Link>
+                </Brand>
+                <Navigation className={style.navigation} />
+            </TopAppBarSmall>
+            <TopAppBarSmall className={clsx(style.appBar, style.important, style.mediumWindowAppBar, className)}>
+                <NavigationDrawer />
+                <Brand>
+                    <Link href="/">
+                        <Logo />
+                    </Link>
+                </Brand>
+            </TopAppBarSmall>
+        </>
     )
 }
