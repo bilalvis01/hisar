@@ -335,6 +335,22 @@
     @each $token, $value in comp.$top-app-bar-small {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$fab-primary {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$fab-primary-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$fab-primary-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$fab-primary-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {
