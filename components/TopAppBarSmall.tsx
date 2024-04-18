@@ -3,10 +3,15 @@ import clsx from "clsx";
 
 export function TopAppBarSmall({
     className,
+    children,
     ...props
 }: React.HTMLProps<HTMLElement>) {
     return (
-        <header {...props} className={clsx("top-app-bar-small", className)} />
+        <header {...props} className={clsx("top-app-bar-small", className)}>
+            <div className="content">
+                {children}
+            </div>
+        </header>
     )
 }
 
