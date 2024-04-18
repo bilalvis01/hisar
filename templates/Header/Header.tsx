@@ -2,21 +2,57 @@
 
 import React from "react";
 import Navigation from "../navigation/Navigation";
-import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 import Logo from "../logo/Logo";
-import { usePathname } from "next/navigation";
 import style from "./Header.module.scss";
+import { TopAppBarSmall, Headline, Brand } from "../../components/TopAppBarSmall";
+import clsx from "clsx";
+import Link from "next/link";
+import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 
 export default function Header({ className }) {
-    const pathname = usePathname();
+    const [windowSize, setWindowSize] = React.useState("large");
+
+    const handleResize = React.useCallback(() => {
+        if (window.innerWidth >= 840) setWindowSize("large");
+        else setWindowSize("medium");
+    }, []);
+
+    React.useEffect(() => {
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    });
 
     return (
-        <header className={className}>
-            <NavigationDrawer select={pathname} className={style.navigationDrawer} />
-            <nav className={style.logo}>
-                <Logo />
-            </nav>
-            <Navigation select={pathname} className={style.navigation} />
-        </header>
+        <TopAppBarSmall className={clsx("color-primary", className)}>
+            {windowSize === "large"
+                ? (
+                    <>
+                        <Brand className={style.brandOnLargeWindow}>
+                            <Link href="/">
+                                <Logo />
+                            </Link>
+                            <Link href="/">
+                                <Headline>Hisar</Headline>
+                            </Link>
+                        </Brand>
+                        <Navigation className={style.navigation} />
+                    </>
+                )
+                : (
+                    <>
+                        <NavigationDrawer />
+                        <Brand>
+                            <Link href="/">
+                                <Logo />
+                            </Link>
+                            <Link href="/">
+                                <Headline>Hisar</Headline>
+                            </Link>
+                        </Brand>
+                    </>
+                )
+            }
+        </TopAppBarSmall>
     )
 }

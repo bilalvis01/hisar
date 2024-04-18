@@ -3,19 +3,18 @@ import style from "./Navigation.module.scss";
 import TabLink from "../../components/TabLink";
 import TabBar from "../../components/TabBar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavigationProps {
     className?: string;
-    select?: string;
 }
 
-export default function Navigation({ 
-    className,
-    select,
-}: NavigationProps) {
+export default function Navigation({ className }: NavigationProps) {
+    const pathname = usePathname();
+
     return (
         <nav className={className} aria-label="Main Navigation">
-            <TabBar select={select}>
+            <TabBar select={pathname}>
                 <ul className={style.list} role="navigation" aria-label="Main Navigation">
                     <li role="none">
                         <Link href="/" passHref legacyBehavior>

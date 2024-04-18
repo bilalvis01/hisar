@@ -5,7 +5,7 @@
         "main"
         "footer";
     grid-template-columns: 1fr;
-    grid-template-rows: 6rem 1fr 4rem;
+    grid-template-rows: 4rem 1fr 4rem;
     background: linear-gradient(
         to bottom,
         var(--system-color-primary) 16rem,
@@ -17,25 +17,6 @@
 
 .header {
     grid-area: header;
-    display: grid;
-    grid-template-areas: "navigation logo";
-    grid-template-columns: 5rem 1fr;
-    padding: {
-        left: 1rem;
-        right: 1rem;
-    };
-
-    @media (min-width: 600px) {
-        padding: {
-            left: 1.5em;
-            right: 1.5rem;
-        };
-    }
-
-    @media (min-width: 840px) {
-        grid-template-areas: "logo navigation";
-        grid-template-columns: 5rem 1fr;
-    }
 }
 
 .main {
