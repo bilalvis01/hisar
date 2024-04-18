@@ -10,7 +10,7 @@ import Link from "next/link";
 import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 
 export default function Header({ className }) {
-    const [windowSize, setWindowSize] = React.useState("large");
+    const [windowSize, setWindowSize] = React.useState(window.innerWidth >= 840 ? "large" : "medium");
 
     const handleResize = React.useCallback(() => {
         if (window.innerWidth >= 840) setWindowSize("large");
@@ -33,7 +33,7 @@ export default function Header({ className }) {
                                 <Logo />
                             </Link>
                             <Link href="/">
-                                <Headline>Hisar</Headline>
+                                <Headline>HISAR</Headline>
                             </Link>
                         </Brand>
                         <Navigation className={style.navigation} />
@@ -45,9 +45,6 @@ export default function Header({ className }) {
                         <Brand>
                             <Link href="/">
                                 <Logo />
-                            </Link>
-                            <Link href="/">
-                                <Headline>Hisar</Headline>
                             </Link>
                         </Brand>
                     </>

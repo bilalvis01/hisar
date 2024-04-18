@@ -1,5 +1,5 @@
 import React from "react";
-import style from "./template.module.scss";
+import style from "./Template.module.scss";
 import Header from "./header/Header";
 
 export default function Template({
@@ -16,13 +16,13 @@ export default function Template({
             </head>
             <body>
                 <div className={style.app}>
-                    <Header className={style.header} />
                     <main className={style.main}>
                         {children}
                     </main>
                     <footer className={style.footer}>
                         2024
                     </footer>
+                    <Header className={style.header} />
                 </div>
             </body>
         </html>
