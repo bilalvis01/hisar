@@ -12,7 +12,7 @@ $checkbox-icon-height: 1.125rem !default;
 $checkbox-selected-icon-color: var(--system-color-on-primary) !default;
 $checkbox-selected-error-icon-color: var(--system-color-on-error) !default;
 $checkbox-unselected-icon-color: var(--system-color-on-surface) !default;
-$checkbox-state-layer-width: 2.5rem !default;
+$checkbox-state-layer-size: 2.5rem !default;
 $checkbox-state-layer-shape: var(--system-shape-corner-full) !default;
 
 $checkbox-unselected-disabled-outline-color: var(--system-color-on-surface) !default;
@@ -111,7 +111,7 @@ $checkbox: (
     "checkbox-selected-icon-color": $checkbox-selected-icon-color,
     "checkbox-selected-error-icon-color": $checkbox-selected-error-icon-color,
     "checkbox-unselected-icon-color": $checkbox-unselected-icon-color,
-    "checkbox-state-layer-width": $checkbox-state-layer-width,
+    "checkbox-state-layer-size": $checkbox-state-layer-size,
     "checkbox-state-layer-shape": $checkbox-state-layer-shape,
 ) !default;
 
