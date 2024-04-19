@@ -11,7 +11,7 @@ $fab-primary-hover-container-elevation: var(--system-elevation-level4) !default;
 $fab-primary-lowered-hover-container-elevation: var(--system-elevation-level2) !default;
 $fab-primary-hover-state-layer-color: var(--system-color-on-primary-container) !default;
 $fab-primary-hover-state-layer-color-rgb: var(--system-color-on-primary-container-rgb) !default;
-$fab-primary-hover-state-layer-color-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$fab-primary-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
 $fab-primary-hover-icon-color: var(--system-color-on-primary-container) !default;
 
 $fab-primary-focus-indicator-color: var(--system-color-secondary) !default;
@@ -21,14 +21,14 @@ $fab-primary-focus-container-elevation: var(--system-elevation-level3) !default;
 $fab-primary-lowered-focus-container-elevation: var(--system-elevation-level1) !default;
 $fab-primary-focus-state-layer-color: var(--system-color-on-primary-container) !default;
 $fab-primary-focus-state-layer-color-rgb: var(--system-color-on-primary-container-rgb) !default;
-$fab-primary-focus-state-layer-color-opacity: var(--system-state-focus-state-layer-opacity) !default;
+$fab-primary-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
 $fab-primary-focus-icon-color: var(--system-color-on-primary-container) !default;
 
 $fab-primary-pressed-container-elevation: var(--system-elevation-level3) !default;
 $fab-primary-lowered-pressed-container-elevation: var(--system-elevation-level1) !default;
 $fab-primary-pressed-state-layer-color: var(--system-color-on-primary-container) !default;
 $fab-primary-pressed-state-layer-color-rgb: var(--system-color-on-primary-container-rgb) !default;
-$fab-primary-pressed-state-layer-color-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+$fab-primary-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
 $fab-primary-pressed-icon-color: var(--system-color-on-primary-container) !default;
 
 $fab-primary: (
@@ -47,7 +47,7 @@ $fab-primary-hover: (
     "fab-primary-lowered-hover-container-elevation": $fab-primary-lowered-hover-container-elevation,
     "fab-primary-hover-state-layer-color": $fab-primary-hover-state-layer-color,
     "fab-primary-hover-state-layer-color-rgb": $fab-primary-hover-state-layer-color-rgb,
-    "fab-primary-hover-state-layer-color-opacity": $fab-primary-hover-state-layer-color-opacity,
+    "fab-primary-hover-state-layer-opacity": $fab-primary-hover-state-layer-opacity,
     "fab-primary-hover-icon-color": $fab-primary-hover-icon-color,
 ) !default;
 
@@ -59,7 +59,7 @@ $fab-primary-focus: (
     "fab-primary-lowered-focus-container-elevation": $fab-primary-lowered-focus-container-elevation,
     "fab-primary-focus-state-layer-color": $fab-primary-focus-state-layer-color,
     "fab-primary-focus-state-layer-color-rgb": $fab-primary-focus-state-layer-color-rgb,
-    "fab-primary-focus-state-layer-color-opacity": $fab-primary-focus-state-layer-color-opacity,
+    "fab-primary-focus-state-layer-opacity": $fab-primary-focus-state-layer-opacity,
     "fab-primary-focus-icon-color": $fab-primary-focus-icon-color,
 ) !default;
 
@@ -68,6 +68,6 @@ $fab-primary-pressed: (
     "fab-primary-lowered-pressed-container-elevation": $fab-primary-lowered-pressed-container-elevation,
     "fab-primary-pressed-state-layer-color": $fab-primary-pressed-state-layer-color,
     "fab-primary-pressed-state-layer-color-rgb": $fab-primary-pressed-state-layer-color-rgb,
-    "fab-primary-pressed-state-layer-color-opacity": $fab-primary-pressed-state-layer-color-opacity,
+    "fab-primary-pressed-state-layer-opacity": $fab-primary-pressed-state-layer-opacity,
     "fab-primary-pressed-icon-color": $fab-primary-pressed-icon-color,
 ) !default;
