@@ -2,15 +2,20 @@
     display: grid;
     grid-template-areas: 
         "header"
-        "main"
-        "footer";
+        "main";
     grid-template-columns: 1fr;
-    grid-template-rows: 4rem 1fr 4rem;
+    grid-template-rows: 4rem 1fr;
     min-height: 100vh;
     max-width: 100%;
     background-color: var(--system-color-surface);
 
     @media (min-width: 600px) {
+        grid-template-areas: 
+            "header"
+            "main"
+            "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: 4rem 1fr 4rem;
         background: linear-gradient(
             to bottom,
             var(--system-color-primary) 16rem,
@@ -45,9 +50,7 @@
     grid-area: footer;
     background-color: var(--system-color-surface-dim);
     color: var(--system-color-on-surface-variant);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: none;
     font-weight: bold;
     padding: {
         left: 1rem;
@@ -55,6 +58,8 @@
     };
 
     @media (min-width: 600px) {
+        display: grid;
+        place-items: center;
         padding: {
             left: 1.5em;
             right: 1.5rem;
