@@ -3,25 +3,30 @@
     border: none;
     outline: none;
     box-shadow: none;
-    position: relative;
     min-height: var(--system-spacer2);
     min-width: var(--system-spacer2);
     padding: 0;
 
-    & > .content {
+    & > .container {
         position: relative;
+        min-height: var(--system-spacer2);
+        min-width: var(--system-spacer2);
         padding: {
             left: var(--system-padding4);
             right: var(--system-padding4);
         };
-        
+        display: flex;
+        align-items: center;
+
         & > svg {
+            position: relative;
             width: var(--icon-width);
             height: var(--icon-height);
             color: var(--icon-color);
         }
 
         & > .label {
+            position: relative;
             font-family: var(--label-font);
             line-height: var(--label-line-height);
             font-size: var(--label-size);
@@ -33,34 +38,34 @@
                 right: var(--system-padding2);
             }
         }
-    }
-
-    & > .decorator {
-        display: grid;
-        align-items: center;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-
-        & > .base {
-            border-radius: var(--container-shape);
-            width: 100%;
-            height: var(--container-height);
-            box-shadow: var(--container-elevation);
-            background-color: var(--container-color);
-            overflow: hidden;
-            outline: {
-                style: var(--focus-indicator-style);
-                color: var(--focus-indicator-color);
-                width: var(--focus-indicator-width);
-                offset: var(--focus-indicator-offset);
-            };
     
-            & > .state-layer {
-                height: 100%;
-                background-color: var(--state-layer-color);
+        & > .decorator {
+            display: grid;
+            align-items: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+    
+            & > .base {
+                border-radius: var(--container-shape);
+                width: 100%;
+                height: var(--container-height);
+                box-shadow: var(--container-elevation);
+                background-color: var(--container-color);
+                overflow: hidden;
+                outline: {
+                    style: var(--focus-indicator-style);
+                    color: var(--focus-indicator-color);
+                    width: var(--focus-indicator-width);
+                    offset: var(--focus-indicator-offset);
+                };
+        
+                & > .state-layer {
+                    height: 100%;
+                    background-color: var(--state-layer-color);
+                }
             }
         }
     }

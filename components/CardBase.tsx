@@ -16,13 +16,13 @@ export default function CardBase({
 }: CardBaseProps) {
     return (
         <div className={clsx(`card-${variant}`, className)}>
-            <div className="decorator">
-                <div className="state-layer">
-                    
+            <div className="container">
+                <div className="decorator">
+                    <div className="state-layer" />
                 </div>
-            </div>
-            <div className={"content"}>
-                {children}
+                <div className="content">
+                    {children}
+                </div>
             </div>
         </div>
     );

@@ -64,7 +64,7 @@ export const useDialogContext = () => {
 
 interface DialogProps extends React.HTMLProps<HTMLDialogElement>, DialogOptions {}
 
-export function Dialog({ initialOpen, open, onOpenChange, ...props}: DialogProps) {
+export function Dialog({ children, initialOpen, open, onOpenChange, ...props}: DialogProps) {
     const context = useDialog({ initialOpen, open, onOpenChange });
 
     return (
@@ -76,7 +76,11 @@ export function Dialog({ initialOpen, open, onOpenChange, ...props}: DialogProps
                 {...props}
                 ref={context.dialogRef}
                 className="dialog-fullscreen"
-            />
+            >
+                <div className="container">
+                    {children}
+                </div>
+            </dialog>
         </DialogContext.Provider>
     );
 };

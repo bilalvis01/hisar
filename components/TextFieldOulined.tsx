@@ -35,7 +35,6 @@ export default function TextFieldOutlined({
     ...props
 }: TextFieldOutlinedProps) {
     const id = React.useId();
-    const rootRef = React.useRef(null);
     const inputRef = React.useRef(null);
     const inputContainerRef = React.useRef(null);
     const labelRef = React.useRef(null);
@@ -64,18 +63,17 @@ export default function TextFieldOutlined({
     }
 
     React.useEffect(() => {
-        if (populated && rootRef.current instanceof HTMLElement && inputContainerRef.current instanceof HTMLElement && labelRef.current instanceof HTMLElement) {
-            const root = rootRef.current;
+        if (populated && inputContainerRef.current instanceof HTMLElement && labelRef.current instanceof HTMLElement) {
             const inputContainer = inputContainerRef.current;
             const label = labelRef.current;
-            const rootRect = root.getBoundingClientRect();
+            const inputContainerRect = inputContainer.getBoundingClientRect();
             const labelRect = label.getBoundingClientRect();
-            const focusIndicatorThickness = window.getComputedStyle(root).getPropertyValue("--focus-indicator-thickness");
+            const focusIndicatorThickness = window.getComputedStyle(inputContainer).getPropertyValue("--focus-indicator-thickness");
             const inputContainerWidth = inputContainer.offsetWidth;  
             const inputContainerHeight = inputContainer.offsetHeight; 
             const labelWidth = label.offsetWidth;
-            const labelMargin = labelRect.left - rootRect.left;
-            const labelSeatDepth = labelRect.bottom - rootRect.top;
+            const labelMargin = labelRect.left - inputContainerRect.left;
+            const labelSeatDepth = labelRect.bottom - inputContainerRect.top;
             const clipPath = `polygon(
                 -${focusIndicatorThickness} -${focusIndicatorThickness}, 
                 ${labelMargin}px -${focusIndicatorThickness}, 
@@ -95,7 +93,7 @@ export default function TextFieldOutlined({
 
     return (
         <div 
-            ref={rootRef} 
+            ref={inputContainerRef} 
             className={clsx(
                 "text-field-outlined", 
                 { "populated": populated },
@@ -103,64 +101,66 @@ export default function TextFieldOutlined({
                 className,
             )}
         >
-            <div ref={inputContainerRef} className="input-container">
-                <div className="decorator" style={outlineStyle} />
-                {startIcon && (
-                    <span className="leading-icon">
-                        {startIcon}
+            <div className="container">
+                <div ref={inputContainerRef} className="input-container">
+                    <div className="decorator" style={outlineStyle} />
+                    {startIcon && (
+                        <span className="leading-icon">
+                            {startIcon}
+                        </span>
+                    )}
+                    <span className="input-container-inner">
+                        {label && (
+                            <label 
+                                htmlFor={id}
+                                ref={labelRef}
+                                className="label"
+                            >
+                                {label}
+                            </label>
+                        )}
+                        {prefix && (
+                            <span className="prefix">
+                                {prefix}
+                            </span>
+                        )}
+                        <input 
+                            {...props} 
+                            ref={inputRef}
+                            id={id}
+                            className="input"
+                            type={type} 
+                            value={value} 
+                            placeholder={placeholder}
+                            onChange={handleChange} 
+                            onFocus={handleFocus} 
+                            onBlur={handleBlur} 
+                        />
+                        {suffix && (
+                            <span className="suffix">
+                                {suffix}
+                            </span>
+                        )}
+                        {endIcon && (
+                            <span className="trailing-icon">
+                                {endIcon}
+                            </span>
+                        )}
                     </span>
-                )}
-                <span className="input-container-inner">
-                    {label && (
-                        <label 
-                            htmlFor={id}
-                            ref={labelRef}
-                            className="label"
-                        >
-                            {label}
-                        </label>
-                    )}
-                    {prefix && (
-                        <span className="prefix">
-                            {prefix}
-                        </span>
-                    )}
-                    <input 
-                        {...props} 
-                        ref={inputRef}
-                        id={id}
-                        className="input"
-                        type={type} 
-                        value={value} 
-                        placeholder={placeholder}
-                        onChange={handleChange} 
-                        onFocus={handleFocus} 
-                        onBlur={handleBlur} 
-                    />
-                    {suffix && (
-                        <span className="suffix">
-                            {suffix}
-                        </span>
-                    )}
-                    {endIcon && (
-                        <span className="trailing-icon">
-                            {endIcon}
-                        </span>
-                    )}
-                </span>
-            </div>
-            <div className="supporting-text-container">
-                <span className="supporting-text">
-                    {supportingText}
-                </span>
-                {counter && (
-                    <span className="counter">
-                        {typeof counter == "number" && (type == "text" || type == "password")
-                            ? `${(value as string).length}/${counter}`
-                            : (value as string).length
-                        }
+                </div>
+                <div className="supporting-text-container">
+                    <span className="supporting-text">
+                        {supportingText}
                     </span>
-                )}
+                    {counter && (
+                        <span className="counter">
+                            {typeof counter == "number" && (type == "text" || type == "password")
+                                ? `${(value as string).length}/${counter}`
+                                : (value as string).length
+                            }
+                        </span>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -8,7 +8,7 @@ export function TopAppBarSmall({
 }: React.HTMLProps<HTMLElement>) {
     return (
         <header {...props} className={clsx("top-app-bar-small", className)}>
-            <div className="content">
+            <div className="container">
                 {children}
             </div>
         </header>

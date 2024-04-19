@@ -22,12 +22,12 @@ const TabLink = React.forwardRef<
             href={href}
             className={clsx("tab-link-navigation", { active: href === select }, className)} 
         >
-            <div className="decorator">
-                <div className="active-indicator">
-                    <div className="state-layer" />
+            <span className="container">
+                <div className="decorator">
+                    <div className="active-indicator">
+                        <div className="state-layer" />
+                    </div>
                 </div>
-            </div>
-            <span className="content">
                 <span className="label">{children}</span>
             </span>
         </a>
