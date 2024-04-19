@@ -351,6 +351,26 @@
     @each $token, $value in comp.$fab-primary-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$checkbox {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$checkbox-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$checkbox-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$checkbox-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$checkbox-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {
