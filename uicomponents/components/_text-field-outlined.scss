@@ -36,6 +36,7 @@
     --input-text-weight: var(--component-text-field-outliend-input-text-weight);
     --input-text-tracking: var(--component-text-field-outlined-input-text-tracking);
     --caret-color: var(--component-text-field-outlined-caret-color);
+    --input-z-index: auto;
 
     &.populated {
         --label-top: -0.625rem;
@@ -45,6 +46,7 @@
         --label-line-height: var(--component-text-field-outlined-label-populated-line-height);
         --label-size: var(--component-text-field-outlined-label-populated-size);
         --input-container-inner-position: static;
+        --input-z-index: 1;
     }  
 
     &:disabled {
@@ -147,6 +149,7 @@
                         right: 1rem;
                     };
                     flex-grow: 1;
+                    z-index: var(--input-z-index);
     
                     &:focus {
                         outline: none;
