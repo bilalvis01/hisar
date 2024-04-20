@@ -10,6 +10,7 @@ import {
 import clsx from "clsx";
 import style from "./BudgetTable.module.scss";
 import format from "../../utils/format";
+import Checkbox from "../../components/Checkbox";
 
 interface Budget {
     deskripsi: string;
@@ -156,23 +157,16 @@ export default function Table() {
 }
 
 function IndeterminateCheckbox({
-    indeterminate,
     className = "",
     ...rest
 }: { indeterminate?: boolean } & React.HTMLProps<HTMLInputElement>) {
     const ref = React.useRef<HTMLInputElement>(null!);
 
-    React.useEffect(() => {
-        if (typeof indeterminate === "boolean") {
-            ref.current.indeterminate = !rest.checked && indeterminate
-        }
-    }, [ref, indeterminate])
-
     return (
-        <input 
+        <Checkbox
             type="checkbox"
             ref={ref}
-            className={clsx(className, style.cursorPointer)}
+            className={className}
             {...rest}
         />
     )
