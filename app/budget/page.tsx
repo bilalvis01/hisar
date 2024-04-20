@@ -10,7 +10,7 @@ export default function Page() {
             <div className={style.container}>
                 <div className={style.card}>
                     <header className={style.header}>
-                        <h2 className={clsx("text-title-medium", style.headline)}>Tambah Budget</h2>
+                        <h2 className={clsx("text-title-medium", style.headline)}>Budget</h2>
                         <div className={style.toolbar}>
                             <BudgetAddForm />
                         </div>
