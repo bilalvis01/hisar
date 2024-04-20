@@ -1,4 +1,4 @@
-.appBar.important {
+:global(.top-app-bar-small).colorPrimary {
     --container-color: var(--system-color-primary);
     --headline-color: var(--system-color-on-primary);
     --leading-icon-color: var(--system-color-on-primary);

@@ -12,7 +12,7 @@ import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 export default function Header({ className }) {
     return (
         <>
-            <TopAppBarSmall className={clsx(style.appBar, style.important, style.largeWindowAppBar, className)}>
+            <TopAppBarSmall className={clsx(style.colorPrimary, style.largeWindowAppBar, className)}>
                 <Brand className={style.largeWindowBrand}>
                     <Link href="/">
                         <Logo />
