@@ -22,7 +22,7 @@ $checkbox-selected-disabled-container-color: var(--system-color-on-surface) !def
 $checkbox-selected-disabled-container-color-rgb: var(--system-color-on-surface-rgb) !default;
 $checkbox-selected-disabled-container-opacity: 0.38 !default;
 $checkbox-selected-disabled-outline-width: 0 !default;
-$checkbox-selected-disabled-icon-color: var(--system-color-surface) !default;
+// $checkbox-selected-disabled-icon-color: var(--system-color-surface) !default;
 $checkbox-disabled-selected-icon-color: var(--system-color-primary) !default;
 $checkbox-disabled-selected-icon-color-rgb: var(--system-color-primary-rgb) !default;
 $checkbox-disabled-selected-icon-opacity: 0.38 !default;
@@ -33,7 +33,7 @@ $checkbox-disabled-unselected-icon-opacity: 0.38 !default;
 $checkbox-unselected-hover-outline-color: var(--system-color-on-surface) !default;
 $checkbox-unselected-hover-outline-width: 0.125rem !default;
 $checkbox-selected-hover-container-color: var(--system-color-primary) !default;
-$checkbox-selected-hover-hover-outline-width: 0 !default;
+$checkbox-selected-hover-outline-width: 0 !default;
 $checkbox-unselected-error-hover-outline-color: var(--system-color-error) !default;
 $checkbox-unselected-error-hover-outline-width: 0.125rem !default;
 $checkbox-selected-error-hover-container-color: var(--system-color-error) !default;
@@ -123,7 +123,7 @@ $checkbox-disabled: (
     "checkbox-selected-disabled-container-color-rgb": $checkbox-selected-disabled-container-color-rgb,
     "checkbox-selected-disabled-container-opacity": $checkbox-selected-disabled-container-opacity,
     "checkbox-selected-disabled-outline-width": $checkbox-selected-disabled-outline-width,
-    "checkbox-selected-disabled-icon-color": $checkbox-selected-disabled-icon-color,
+    // "checkbox-selected-disabled-icon-color": $checkbox-selected-disabled-icon-color,
     "checkbox-disabled-selected-icon-color": $checkbox-disabled-selected-icon-color,
     "checkbox-disabled-selected-icon-color-rgb": $checkbox-disabled-selected-icon-color-rgb,
     "checkbox-disabled-selected-icon-opacity": $checkbox-disabled-selected-icon-opacity,
@@ -136,7 +136,7 @@ $checkbox-hover: (
     "checkbox-unselected-hover-outline-color": $checkbox-unselected-hover-outline-color,
     "checkbox-unselected-hover-outline-width": $checkbox-unselected-hover-outline-width,
     "checkbox-selected-hover-container-color": $checkbox-selected-hover-container-color,
-    "checkbox-selected-hover-hover-outline-width": $checkbox-selected-hover-hover-outline-width,
+    "checkbox-selected-hover-outline-width": $checkbox-selected-hover-outline-width,
     "checkbox-unselected-error-hover-outline-color": $checkbox-unselected-error-hover-outline-color,
     "checkbox-unselected-error-hover-outline-width": $checkbox-unselected-error-hover-outline-width,
     "checkbox-selected-error-hover-container-color": $checkbox-selected-error-hover-container-color,
