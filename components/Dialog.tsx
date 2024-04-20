@@ -1,20 +1,8 @@
 "use client";
 
 import React, { ReactHTML } from "react";
-import {
-    useFloating,
-    useClick,
-    useDismiss,
-    useRole,
-    useInteractions,
-    useMergeRefs,
-    FloatingPortal,
-    FloatingFocusManager,
-    FloatingOverlay,
-    useId,
-} from "@floating-ui/react";
-import style from "./Dialog.module.scss";
 import clsx from "clsx";
+import useMergeRefs from "../hooks/useMergeRefs";
 
 interface DialogOptions {
     initialOpen?: boolean,
@@ -35,11 +23,6 @@ export function useDialog({
     const open = controlledOpen ?? uncontrolledOpen;
     const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
-    const data = useFloating({
-        open,
-        onOpenChange: setOpen,
-    });
-
     React.useEffect(() => {
         if (dialogRef.current instanceof HTMLDialogElement) {
             if (open) dialogRef.current.showModal();
@@ -57,7 +40,7 @@ export function useDialog({
             setDescriptionId,
             dialogRef,
         }),
-        [open, setOpen, data, labelId, descriptionId],
+        [open, setOpen, labelId, descriptionId],
     );
 }
 
@@ -80,10 +63,12 @@ export const useDialogContext = () => {
     return context;
 }
 
-interface DialogProps extends React.HTMLProps<HTMLDialogElement>, DialogOptions {}
-
-export function Dialog({ initialOpen, open, onOpenChange, ...props }: DialogProps) {
+export const Dialog = React.forwardRef<
+    HTMLDialogElement,
+    React.HTMLProps<HTMLDialogElement> & DialogOptions
+>(function Dialog({ initialOpen, open, onOpenChange, ...props }, propRef) {
     const context = useDialog({ initialOpen, open, onOpenChange });
+    const dialogRef = useMergeRefs([context.dialogRef, propRef]);
 
     return (
         <DialogContext.Provider value={context}>
@@ -92,7 +77,7 @@ export function Dialog({ initialOpen, open, onOpenChange, ...props }: DialogProp
                 aria-describedby={context.descriptionId}
                 aria-modal={context.open}
                 {...props}
-                ref={context.dialogRef}
+                ref={dialogRef}
                 className="dialog-basic"
             >
                 <div className="container">
@@ -106,7 +91,7 @@ export function Dialog({ initialOpen, open, onOpenChange, ...props }: DialogProp
             </dialog>
         </DialogContext.Provider>
     );
-};
+});
 
 export const DialogHeader = React.forwardRef<
     HTMLElement,
@@ -124,7 +109,7 @@ export const DialogBody = React.forwardRef<
     React.HTMLProps<HTMLDivElement>
 >(function DialogBody({ children, ...props }, ref) {
     const { setDescriptionId } = useDialogContext();
-    const id = `${useId()}`;
+    const id = React.useId();
 
     React.useLayoutEffect(() => {
         setDescriptionId(id);
@@ -154,7 +139,7 @@ export const DialogHeadline = React.forwardRef<
     React.HTMLProps<HTMLHeadingElement>
 >(function DialogHeadline({ children, ...props }, ref) {
     const { setLabelId } = useDialogContext();
-    const id = useId();
+    const id = React.useId();
 
     React.useLayoutEffect(() => {
         setLabelId(id);
@@ -184,7 +169,7 @@ export const DialogParagraph = React.forwardRef<
     React.HTMLProps<HTMLDivElement>
 >(function DialogParagraph({ children, ...props }, ref) {
     const { descriptionId, setDescriptionId } = useDialogContext();
-    const id = useId();
+    const id = React.useId();
 
     React.useLayoutEffect(() => {
         if (!descriptionId) {

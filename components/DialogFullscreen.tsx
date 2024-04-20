@@ -2,6 +2,7 @@
 
 import React from "react";
 import IconClose from "../icons/Close";
+import useMergeRefs from "../hooks/useMergeRefs";
 
 interface DialogOptions {
     initialOpen?: boolean,
@@ -62,10 +63,18 @@ export const useDialogContext = () => {
     return context;
 }
 
-interface DialogProps extends React.HTMLProps<HTMLDialogElement>, DialogOptions {}
-
-export function Dialog({ children, initialOpen, open, onOpenChange, ...props}: DialogProps) {
+export const Dialog = React.forwardRef<
+    HTMLDialogElement,
+    React.HTMLProps<HTMLDialogElement> & DialogOptions
+>(function Dialog({ 
+    children, 
+    initialOpen, 
+    open, 
+    onOpenChange, 
+    ...props
+}, propRef) {
     const context = useDialog({ initialOpen, open, onOpenChange });
+    const dialogRef = useMergeRefs([context.dialogRef, propRef]);
 
     return (
         <DialogContext.Provider value={context}>
@@ -74,7 +83,7 @@ export function Dialog({ children, initialOpen, open, onOpenChange, ...props}: D
                 aria-describedby={context.descriptionId}
                 aria-modal={context.open}
                 {...props}
-                ref={context.dialogRef}
+                ref={dialogRef}
                 className="dialog-fullscreen"
             >
                 <div className="container">
@@ -83,7 +92,7 @@ export function Dialog({ children, initialOpen, open, onOpenChange, ...props}: D
             </dialog>
         </DialogContext.Provider>
     );
-};
+});
 
 export const DialogHeader = React.forwardRef<
     HTMLElement,
