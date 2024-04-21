@@ -19,7 +19,6 @@
     "formik": "^2.4.5",
     "graphql": "^16.8.1",
     "next": "^14.1.4",
-    "prisma": "^5.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "yup": "^1.4.0"
@@ -27,6 +26,7 @@
   "devDependencies": {
     "@types/node": "20.11.30",
     "@types/react": "18.2.71",
+    "prisma": "^5.12.1",
     "sass": "^1.72.0",
     "typescript": "5.4.3"
   }
