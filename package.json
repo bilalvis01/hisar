@@ -12,6 +12,7 @@
   "author": "team dev",
   "dependencies": {
     "@floating-ui/react": "^0.26.10",
+    "@prisma/client": "^5.12.1",
     "@tanstack/react-table": "^8.15.3",
     "clsx": "^2.1.0",
     "formik": "^2.4.5",
