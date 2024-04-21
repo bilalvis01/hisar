@@ -27,6 +27,7 @@ model Debet {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   corrected   Int       @default(0)
+  debet       Decimal    @db.Decimal(10, 2)
   budget      Budget    @relation(fields: [budgetId], references: [id])
   budgetId    Int
 }
