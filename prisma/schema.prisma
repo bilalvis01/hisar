@@ -9,6 +9,35 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Budget {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String    @db.VarChar(255)
+  debet       Debet[]
+  expense     Expense[]
+}
+
+model Debet {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  corrected   Int       @default(0)
+  budget      Budget    @relation(fields: [budgetId], references: [id])
+  budgetId    Int
+}
+
+model Expense {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String    @db.VarChar(255)
+  expense     Decimal   @db.Decimal(10, 2)
+  corrected   Int       @default(0)
+  budget      Budget    @relation(fields: [budgetId], references: [id])
+  budgetId    Int
 }
