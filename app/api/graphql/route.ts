@@ -23,9 +23,9 @@ const resolvers: Resolvers = {
                     .reduce((acc, val) => acc + val.amount, BigInt(0));
                 return {
                     name: record.name,
-                    budget: Number(budget),
-                    expense: Number(expense),
-                    balance: Number(record.balance),
+                    budget: Number(budget / BigInt(10000)),
+                    expense: Number(expense / BigInt(10000)),
+                    balance: Number(record.balance / BigInt(10000)),
                     cratedAt: record.createdAt.toISOString(),
                     updatedAt: record.updatedAt.toISOString(),
                 }
