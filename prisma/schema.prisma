@@ -13,32 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Budget {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  name        String    @db.VarChar(255)
-  debet       Debet[]
-  expense     Expense[]
+model Account {
+  id            Int           @id @default(autoincrement())
+  name          String        @db.VarChar(255)
+  type          String        @db.VarChar(20)
+  balance       BigInt
+  entries       Entry[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
-model Debet {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  corrected   Int       @default(0)
-  debet       Decimal    @db.Decimal(10, 2)
-  budget      Budget    @relation(fields: [budgetId], references: [id])
-  budgetId    Int
+model Ledger {
+  id            Int           @id @default(autoincrement())
+  description   String        @db.VarChar(255)
+  entries       Entry[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
-model Expense {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  name        String    @db.VarChar(255)
-  expense     Decimal   @db.Decimal(10, 2)
-  corrected   Int       @default(0)
-  budget      Budget    @relation(fields: [budgetId], references: [id])
-  budgetId    Int
-}
+model Entry {
+  id            Int           @id @default(autoincrement())
+  ledger        Ledger        @relation(fields: [ledgerId], references: [id])
+  ledgerId      Int
+  account       Account       @relation(fields: [accountId], references: [id])
+  accountId     Int
+  amount        BigInt
+  balance       BigInt
+  direction     Int           @db.TinyInt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+} 
