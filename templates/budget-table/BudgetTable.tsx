@@ -11,34 +11,15 @@ import clsx from "clsx";
 import style from "./BudgetTable.module.scss";
 import format from "../../utils/format";
 import Checkbox from "../../components/Checkbox";
+import { useQuery } from "@apollo/client";
+import { gql } from "../../graphql-tag";
 
 interface Budget {
-    deskripsi: string;
-    budget: number;
-    terpakai: number;
-    sisa: number;
+    name: string;
+    budget?: number;
+    expense?: number;
+    balance?: number;
 }
-
-const defaultData: Budget[] = [
-    {
-        deskripsi: "Budget A",
-        budget: 1_000_000,
-        terpakai: 300_000,
-        sisa: 700_000,
-    },
-    {
-        deskripsi: "Budget B",
-        budget: 2_000_000,
-        terpakai: 300_000,
-        sisa: 1_700_000,
-    },
-    {
-        deskripsi: "Budget C",
-        budget: 300_000,
-        terpakai: 100_000,
-        sisa: 200_000,
-    },
-];
 
 const columnHelper = createColumnHelper<Budget>();
 
@@ -63,7 +44,7 @@ const columns = [
             </div>
         )
     }),
-    columnHelper.accessor("deskripsi", {
+    columnHelper.accessor("name", {
         header: () => (
             <span className={clsx(style.description, "text-title-small")}>DESKRIPSI</span>
         ),
@@ -85,7 +66,7 @@ const columns = [
             </span>
         ),
     }),
-    columnHelper.accessor("terpakai", {
+    columnHelper.accessor("expense", {
         header: () => (
             <span className={clsx(style.currency, "text-title-small")}>
                 TERPAKAI
@@ -97,7 +78,7 @@ const columns = [
             </span>
         ),
     }),
-    columnHelper.accessor("sisa", {
+    columnHelper.accessor("balance", {
         header: () => (
             <span className={clsx(style.currency, "text-title-small")}>
                 SISA
@@ -111,16 +92,31 @@ const columns = [
     })
 ];
 
+const GET_BUDGETS = gql(/* GraphQL */ `
+    query GetBudget {
+        budgets {
+            name
+            budget
+            expense
+            balance
+        }
+    }
+`);
+
 export default function Table() {
-    const [data, setData] = React.useState([...defaultData]);
-    const rerender = React.useReducer(() => ({}), {})[1];
+    const { loading, error, data } = useQuery(GET_BUDGETS);
+
+    const budgets = data ? data.budgets : [];
 
     const table = useReactTable({
-        data,
+        data: budgets,
         columns,
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
     });
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error : {error.message}</p>;
 
     return (
         <table className={style.table}>
