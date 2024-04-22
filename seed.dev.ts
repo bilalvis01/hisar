@@ -83,7 +83,7 @@ async function main() {
                 id: CASH_ACCOUNT,
                 name: "cash",
                 type: "asset",
-                balance: 1_000_000_000_00
+                balance: 1_000_000_000_0000
             },
             {
                 id: EXPENSE_ACCOUNT,
@@ -112,17 +112,17 @@ async function main() {
         ],
     });
 
-    await transfer(CASH_ACCOUNT, BUDGET_PERALATAN, BigInt(2_000_000_00), "tambah saldo budget peralatan");
-    await transfer(CASH_ACCOUNT, BUDGET_MAKAN, BigInt(2_000_000_00), "tambah saldo budget makan");
-    await transfer(CASH_ACCOUNT, BUDGET_TRANSPORTASI, BigInt(1_500_000_00), "tambah saldo budget transportasi");
-    await transfer(BUDGET_PERALATAN, EXPENSE_ACCOUNT, BigInt(300_000_00), "beli sapu");
-    await transfer(BUDGET_PERALATAN, EXPENSE_ACCOUNT, BigInt(200_000_00), "beli pengki");
-    await transfer(BUDGET_MAKAN, EXPENSE_ACCOUNT, BigInt(300_000_00), "beli minum");
-    await transfer(BUDGET_MAKAN, EXPENSE_ACCOUNT, BigInt(300_000_00), "beli makan pagi");
-    await transfer(BUDGET_MAKAN, EXPENSE_ACCOUNT, BigInt(300_000_00), "beli makan malam");
-    await transfer(BUDGET_MAKAN, EXPENSE_ACCOUNT, BigInt(300_000_00), "beli makan sore");
-    await transfer(BUDGET_TRANSPORTASI, EXPENSE_ACCOUNT, BigInt(60_000_00), "naik gojek berangkat");
-    await transfer(BUDGET_TRANSPORTASI, EXPENSE_ACCOUNT, BigInt(60_000_00), "naik gojek pulang");
+    await transfer(CASH_ACCOUNT, BUDGET_PERALATAN, BigInt(2_000_000_0000), "tambah saldo budget peralatan");
+    await transfer(CASH_ACCOUNT, BUDGET_MAKAN, BigInt(2_000_000_0000), "tambah saldo budget makan");
+    await transfer(CASH_ACCOUNT, BUDGET_TRANSPORTASI, BigInt(1_500_000_0000), "tambah saldo budget transportasi");
+    await transfer(BUDGET_PERALATAN, EXPENSE_ACCOUNT, BigInt(300_000_0000), "beli sapu");
+    await transfer(BUDGET_PERALATAN, EXPENSE_ACCOUNT, BigInt(200_000_0000), "beli pengki");
+    await transfer(BUDGET_MAKAN, EXPENSE_ACCOUNT, BigInt(300_000_0000), "beli minum");
+    await transfer(BUDGET_MAKAN, EXPENSE_ACCOUNT, BigInt(300_000_0000), "beli makan pagi");
+    await transfer(BUDGET_MAKAN, EXPENSE_ACCOUNT, BigInt(300_000_0000), "beli makan malam");
+    await transfer(BUDGET_MAKAN, EXPENSE_ACCOUNT, BigInt(300_000_0000), "beli makan sore");
+    await transfer(BUDGET_TRANSPORTASI, EXPENSE_ACCOUNT, BigInt(60_000_0000), "naik gojek berangkat");
+    await transfer(BUDGET_TRANSPORTASI, EXPENSE_ACCOUNT, BigInt(60_000_0000), "naik gojek pulang");
 }
 
 main()
