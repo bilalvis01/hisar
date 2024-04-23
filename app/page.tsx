@@ -1,8 +1,8 @@
 import React from "react";
 import style from "./home.module.scss";
-import CardOutlined from "../components/CardOutlined";
+import CardOutlined from "../lib/components/CardOutlined";
 import clsx from "clsx";
-import format from "../utils/format";
+import format from "../lib/utils/format";
 
 export default function Page() {
     return (

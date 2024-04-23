@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./budget.module.scss";
-import Table from "../../templates/budget-table/BudgetTable";
-import BudgetAddForm from "../../templates/budget-add-form/BudgetAddForm";
+import Table from "../../lib/tamplates/budget-table/BudgetTable";
+import BudgetAddForm from "../../lib/tamplates/budget-add-form/BudgetAddForm";
 import clsx from "clsx";
 
 export default function Page() {

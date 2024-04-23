@@ -1,6 +1,6 @@
 import React from "react";
 import "../uicomponents/components.scss";
-import Template from "../templates/Template";
+import Template from "../lib/tamplates/Template";
 
 interface RootLayoutProps {
     children: React.ReactNode;

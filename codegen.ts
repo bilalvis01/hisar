@@ -9,13 +9,13 @@ const config: CodegenConfig = {
     "app/**/*.ts"
   ],
   generates: {
-    './resolvers-types.ts': {
+    './lib/resolvers-types.ts': {
       config: {
         contextType: "./context#Context",
       },
       plugins: ['typescript', 'typescript-resolvers']
     },
-    'graphql-tag/': {
+    './lib/graphql-tag/': {
       preset: 'client',
       plugins: [],
       presetConfig: {
