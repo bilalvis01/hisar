@@ -7,6 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -27,6 +28,19 @@ export type Budget = {
   updatedAt: Scalars['String']['output'];
 };
 
+export type CreateBudgetInput = {
+  budget: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type CreateBudgetPayload = {
+  __typename?: 'CreateBudgetPayload';
+  budget?: Maybe<Budget>;
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type Expense = {
   __typename?: 'Expense';
   amount: Scalars['Int']['output'];
@@ -36,6 +50,16 @@ export type Expense = {
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   updatedAt: Scalars['String']['output'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createBudget: CreateBudgetPayload;
+};
+
+
+export type MutationCreateBudgetArgs = {
+  input: CreateBudgetInput;
 };
 
 export type Query = {
@@ -117,8 +141,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Budget: ResolverTypeWrapper<Budget>;
+  CreateBudgetInput: CreateBudgetInput;
+  CreateBudgetPayload: ResolverTypeWrapper<CreateBudgetPayload>;
   Expense: ResolverTypeWrapper<Expense>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 };
@@ -127,8 +154,11 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Budget: Budget;
+  CreateBudgetInput: CreateBudgetInput;
+  CreateBudgetPayload: CreateBudgetPayload;
   Expense: Expense;
   Int: Scalars['Int']['output'];
+  Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
 };
@@ -144,6 +174,14 @@ export type BudgetResolvers<ContextType = Context, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CreateBudgetPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateBudgetPayload'] = ResolversParentTypes['CreateBudgetPayload']> = {
+  budget?: Resolver<Maybe<ResolversTypes['Budget']>, ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ExpenseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Expense'] = ResolversParentTypes['Expense']> = {
   amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   budgetAccount?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -155,6 +193,10 @@ export type ExpenseResolvers<ContextType = Context, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createBudget?: Resolver<ResolversTypes['CreateBudgetPayload'], ParentType, ContextType, RequireFields<MutationCreateBudgetArgs, 'input'>>;
+};
+
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   budgets?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType>;
   expenses?: Resolver<Array<ResolversTypes['Expense']>, ParentType, ContextType>;
@@ -162,7 +204,9 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
 
 export type Resolvers<ContextType = Context> = {
   Budget?: BudgetResolvers<ContextType>;
+  CreateBudgetPayload?: CreateBudgetPayloadResolvers<ContextType>;
   Expense?: ExpenseResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
 
