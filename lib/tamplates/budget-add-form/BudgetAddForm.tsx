@@ -4,6 +4,7 @@ import React from "react";
 import { 
     Formik, 
     Form as FormikForm, 
+    FormikBag,
 } from "formik";
 import * as Yup from "yup";
 import ButtonFilled from "../../components/ButtonFIlled";
@@ -25,9 +26,10 @@ import {
 } from "../../components/Dialog";
 import FabPrimary from "../../components/FabPrimary";
 import IconPlusLg from "../../icons/PlusLg";
-import ButtonText from "../../components/ButtonText"
-
-type Open = "none" | "desktop" | "mobile";
+import ButtonText from "../../components/ButtonText";
+import { gql } from "../../graphql-tag";
+import { CreateBudgetInput } from "../../graphql-tag/graphql";
+import { useMutation } from "@apollo/client";
 
 interface FormProps {
     id: string;
@@ -35,38 +37,21 @@ interface FormProps {
 
 function Form({ id }: FormProps) {
     return (
-        <Formik
-            initialValues={{
-                description: "",
-                budget: "",
-            }}
-            validationSchema={Yup.object({
-                description: Yup.string().required("Wajib diisi"),
-                budget: Yup.number().typeError("Wajib masukan angka").required("Wajib diisi"),
-            })}
-            onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                }, 2000);
-            }}
-        >
-            {() => (
-                <FormikForm id={id}>
-                    <TextField className={style.field} type="text" label="Deskripsi" name="description" counter={50}/> 
-                    <TextField className={style.field} type="text" label="Budget" name="budget" />
-                </FormikForm>
-            )}
-        </Formik>
+        <FormikForm id={id}>
+            <TextField className={style.field} type="text" label="Nama" name="name" counter={50}/> 
+            <TextField className={style.field} type="number" label="Budget" name="budget" />
+        </FormikForm>
     )
 }
 
 function FormDialogMobile({
     open,
     onOpenChange: setOpen,
+    isSubmitting,
 }: {
-    open: Open,
+    open: boolean,
     onOpenChange: (open: boolean) => void,
+    isSubmitting: boolean,
 }) {
     const formId = React.useId();
     const fabRef = React.useRef(null);
@@ -102,11 +87,11 @@ function FormDialogMobile({
                     <IconPlusLg />
                 </FabPrimary>
             </dialog>
-            <DialogFullscreen open={open === "mobile"} onOpenChange={setOpen}>
+            <DialogFullscreen open={open} onOpenChange={setOpen}>
                 <DialogFullscreenHeader>
                     <DialogFullscreenClose></DialogFullscreenClose>
                     <DialogFullscreenHeadline>Tambah Budget</DialogFullscreenHeadline>
-                    <DialogFullscreenAction form={formId}>Simpan</DialogFullscreenAction>
+                    <DialogFullscreenAction form={formId} disabled={isSubmitting}>Simpan</DialogFullscreenAction>
                 </DialogFullscreenHeader>
                 <DialogFullscreenBody>
                     <Form id={formId} />
@@ -119,9 +104,11 @@ function FormDialogMobile({
 function FormDialogDesktop({
     open,
     onOpenChange: setOpen,
+    isSubmitting,
 }: {
-    open: Open,
+    open: boolean,
     onOpenChange: (open: boolean) => void,
+    isSubmitting: boolean,
 }) {
     const id = React.useId();
 
@@ -138,38 +125,69 @@ function FormDialogDesktop({
             <ButtonFilled onClick={handleOpen}>
                 Tambah
             </ButtonFilled>
-            <Dialog open={open === "desktop"} onOpenChange={setOpen}>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogHeadline>Tambah Budget</DialogHeadline>
                 <DialogBody>
                     <Form id={id} />
                 </DialogBody>
                 <DialogFooter>
                     <ButtonText onClick={handleClose}>Batal</ButtonText>
-                    <ButtonText type="submit" form={id}>Simpan</ButtonText>
+                    <ButtonText type="submit" form={id} disabled={isSubmitting}>Simpan</ButtonText>
                     </DialogFooter>
             </Dialog>
         </>
     );
 }
 
+const CREATE_BUDGET = gql(/* GraphQL */`
+    mutation CreateBudget($input: CreateBudgetInput!) {
+        createBudget(input: $input) {
+            code
+            success
+            message
+            budget {
+                id
+                name
+                budget
+                expense
+                balance
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`);
+
 export default function BudgetAddForm() {
-    const [open, setOpen] = React.useState<Open>("none");
+    const [dialog, setDialog] = React.useState<"none" | "desktop" | "mobile">("none");
+
+    const [createBudget, { loading, data }] = useMutation(CREATE_BUDGET);
+
+    console.log(data);
 
     const handleOpen = React.useCallback((open) => {
         if (open) {
-            if (window.innerWidth < 600) setOpen("mobile");
-            else setOpen("desktop");
+            if (window.innerWidth < 600) setDialog("mobile");
+            else setDialog("desktop");
         } else {
-            setOpen("none");
+            setDialog("none");
         }
     }, []);
 
     const handleResize = React.useCallback(() => {
-        if (open !== "none") {
-            if (window.innerWidth < 600) setOpen("mobile");
-            else setOpen("desktop");
+        if (dialog !== "none") {
+            if (window.innerWidth < 600) setDialog("mobile");
+            else setDialog("desktop");
         }
-    }, [open]);
+    }, [dialog]);
+
+    const handleSubmit = React.useCallback((value) => {
+        createBudget({
+            variables: {
+                input: value
+            }
+        })
+    }, [createBudget]);
 
     React.useEffect(() => {
         window.addEventListener("resize", handleResize);
@@ -178,9 +196,23 @@ export default function BudgetAddForm() {
     });
 
     return (
-        <div>
-            <FormDialogDesktop open={open} onOpenChange={handleOpen} />
-            <FormDialogMobile open={open} onOpenChange={handleOpen} />
-        </div>
+        <Formik<CreateBudgetInput>
+            initialValues={{
+                name: null,
+                budget: null,
+            }}
+            validationSchema={Yup.object({
+                name: Yup.string().required("Wajib diisi"),
+                budget: Yup.number().typeError("Wajib masukan angka").required("Wajib diisi"),
+            })}
+            onSubmit={handleSubmit}
+        >
+            {({ isSubmitting }) => (
+                <div>
+                    <FormDialogDesktop isSubmitting={loading} open={dialog === "desktop"} onOpenChange={handleOpen} />
+                    <FormDialogMobile isSubmitting={loading} open={dialog === "mobile"} onOpenChange={handleOpen} />
+                </div>
+            )}
+        </Formik>
     );
 }
