@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./expense.module.scss";
-import Table from "../../lib/tamplates/expense-table/ExpenseTable";
-import BudgetAddForm from "../../lib/tamplates/expense-add-form/ExpenseAddForm";
+import Table from "../../lib/templates/expense-table/ExpenseTable";
+import BudgetAddForm from "../../lib/templates/expense-add-form/ExpenseAddForm";
 import clsx from "clsx";
 
 export default function Page() {
