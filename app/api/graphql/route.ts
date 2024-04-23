@@ -47,13 +47,13 @@ const resolvers: Resolvers = {
         
             return data.map((record) => {
                 const budgetAccount = record.entries.filter(entry => entry.account.type == "budget")[0].account;
-                const expenseEntry = record.entries.filter(entry => entry.account.type == "budget")[0];
+                const expenseEntry = record.entries.filter(entry => entry.account.type == "expense")[0];
                 return {
                     id: record.id,
                     description: record.description,
                     budgetAccount: budgetAccount.name,
                     budgetAccountId: budgetAccount.id,
-                    amount: Number(expenseEntry.amount / BigInt(1000)),
+                    amount: Number(expenseEntry.amount / BigInt(10000)),
                     createdAt: record.createdAt.toISOString(),
                     updatedAt: record.updatedAt.toISOString(),
                 };
