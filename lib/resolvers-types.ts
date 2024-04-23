@@ -30,8 +30,8 @@ export type Budget = {
 export type Expense = {
   __typename?: 'Expense';
   amount: Scalars['Int']['output'];
-  budget: Scalars['Int']['output'];
-  budgetId: Scalars['Int']['output'];
+  budgetAccount: Scalars['String']['output'];
+  budgetAccountId: Scalars['Int']['output'];
   createdAt: Scalars['String']['output'];
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
@@ -40,8 +40,8 @@ export type Expense = {
 
 export type Query = {
   __typename?: 'Query';
-  budgets: Array<Maybe<Budget>>;
-  expenses: Array<Maybe<Expense>>;
+  budgets: Array<Budget>;
+  expenses: Array<Expense>;
 };
 
 
@@ -146,8 +146,8 @@ export type BudgetResolvers<ContextType = Context, ParentType extends ResolversP
 
 export type ExpenseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Expense'] = ResolversParentTypes['Expense']> = {
   amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  budget?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  budgetId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  budgetAccount?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  budgetAccountId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -156,8 +156,8 @@ export type ExpenseResolvers<ContextType = Context, ParentType extends Resolvers
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  budgets?: Resolver<Array<Maybe<ResolversTypes['Budget']>>, ParentType, ContextType>;
-  expenses?: Resolver<Array<Maybe<ResolversTypes['Expense']>>, ParentType, ContextType>;
+  budgets?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType>;
+  expenses?: Resolver<Array<ResolversTypes['Expense']>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = Context> = {

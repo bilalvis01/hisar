@@ -1,0 +1,49 @@
+@use "../mixins";
+
+.container {
+    @include mixins.page-padding;
+}
+
+.card {
+    @include mixins.card-outlined;
+    padding: {
+        top: var(--system-padding4);
+        bottom: var(--system-padding4);
+    };
+    display: grid;
+    grid-template-areas: 
+        "header"
+        "body"
+        "footer";
+    grid-template-rows: 4rem 1fr 4rem;
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+
+.header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+}
+
+.headline {
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    };
+    flex-grow: 1;
+}
+
+.toolbar {
+    margin-right: -20rem;
+
+    @media (min-width: 600px) {
+        margin-right: 0;
+    }
+}
+
+.body {
+    grid-area: body;
+    width: 100%;
+    overflow-x: auto;
+}

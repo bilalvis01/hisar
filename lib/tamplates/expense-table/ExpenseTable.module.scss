@@ -1,0 +1,68 @@
+.table {
+    width: 100%;
+    border: 1px solid var(--system-color-outline-variant);
+    border-collapse: collapse;
+}
+
+%row {
+    background-color: var(--system-color-tertiary-container);
+    height: var(--system-spacer2);
+}
+
+.head {
+    @extend %row;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--system-color-on-primary);
+    background-color: var(--system-color-primary);
+
+    .cell {
+        padding: {
+            top: 0.5rem;
+            bottom: 0.5rem;
+        };
+    }
+}
+
+.body {
+    @extend %row;
+  
+    &:nth-of-type(odd) {
+        background: var(--system-color-primary-container);
+        color: var(--system-color-on-surface);
+    }
+
+    .cell {
+        padding: {
+            top: 0.5rem;
+            bottom: 0.5rem; 
+        };
+    }
+}
+
+.select {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.description {
+    width: 100%;
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    };
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.currency {
+    width: 100%;
+    padding: {
+        left: 1rem;
+        right: 1rem;
+    };
+    display: inline-block;
+    vertical-align: middle;
+    text-align: end;
+}
