@@ -1,6 +1,6 @@
 type Query {
-    budgets: [Budget]!
-    expenses: [Expense]!
+    budgets: [Budget!]!
+    expenses: [Expense!]!
 }
 
 type Budget {
