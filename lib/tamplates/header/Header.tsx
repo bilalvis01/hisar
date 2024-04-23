@@ -23,7 +23,7 @@ export default function Header({ className }) {
                 </Brand>
                 <Navigation className={style.navigation} />
             </TopAppBarSmall>
-            <TopAppBarSmall className={clsx(style.appBar, style.important, style.mediumWindowAppBar, className)}>
+            <TopAppBarSmall className={clsx(style.colorPrimary, style.mediumWindowAppBar, className)}>
                 <NavigationDrawer />
                 <Brand>
                     <Link href="/">
