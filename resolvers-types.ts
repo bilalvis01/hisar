@@ -18,30 +18,30 @@ export type Scalars = {
 
 export type Budget = {
   __typename?: 'Budget';
-  balance?: Maybe<Scalars['Int']['output']>;
-  budget?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
-  expense?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
+  balance: Scalars['Int']['output'];
+  budget: Scalars['Int']['output'];
+  createdAt: Scalars['String']['output'];
+  expense: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['String']['output'];
 };
 
 export type Expense = {
   __typename?: 'Expense';
-  budget?: Maybe<Scalars['Int']['output']>;
-  budgetId?: Maybe<Scalars['Int']['output']>;
-  corrected?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
-  expense?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  amount: Scalars['Int']['output'];
+  budget: Scalars['Int']['output'];
+  budgetId: Scalars['Int']['output'];
+  createdAt: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  budgets?: Maybe<Array<Maybe<Budget>>>;
-  expenses?: Maybe<Array<Maybe<Expense>>>;
+  budgets: Array<Maybe<Budget>>;
+  expenses: Array<Maybe<Expense>>;
 };
 
 
@@ -134,30 +134,30 @@ export type ResolversParentTypes = {
 };
 
 export type BudgetResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Budget'] = ResolversParentTypes['Budget']> = {
-  balance?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  budget?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  expense?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  balance?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  budget?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  expense?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ExpenseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Expense'] = ResolversParentTypes['Expense']> = {
-  budget?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  budgetId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  corrected?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  expense?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  budget?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  budgetId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  budgets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Budget']>>>, ParentType, ContextType>;
-  expenses?: Resolver<Maybe<Array<Maybe<ResolversTypes['Expense']>>>, ParentType, ContextType>;
+  budgets?: Resolver<Array<Maybe<ResolversTypes['Budget']>>, ParentType, ContextType>;
+  expenses?: Resolver<Array<Maybe<ResolversTypes['Expense']>>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = Context> = {

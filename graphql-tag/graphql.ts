@@ -18,36 +18,36 @@ export type Scalars = {
 
 export type Budget = {
   __typename?: 'Budget';
-  balance?: Maybe<Scalars['Int']['output']>;
-  budget?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
-  expense?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
+  balance: Scalars['Int']['output'];
+  budget: Scalars['Int']['output'];
+  createdAt: Scalars['String']['output'];
+  expense: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['String']['output'];
 };
 
 export type Expense = {
   __typename?: 'Expense';
-  budget?: Maybe<Scalars['Int']['output']>;
-  budgetId?: Maybe<Scalars['Int']['output']>;
-  corrected?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
-  expense?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  amount: Scalars['Int']['output'];
+  budget: Scalars['Int']['output'];
+  budgetId: Scalars['Int']['output'];
+  createdAt: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  budgets?: Maybe<Array<Maybe<Budget>>>;
-  expenses?: Maybe<Array<Maybe<Expense>>>;
+  budgets: Array<Maybe<Budget>>;
+  expenses: Array<Maybe<Expense>>;
 };
 
 export type GetBudgetQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBudgetQuery = { __typename?: 'Query', budgets?: Array<{ __typename?: 'Budget', name: string, budget?: number | null, expense?: number | null, balance?: number | null } | null> | null };
+export type GetBudgetQuery = { __typename?: 'Query', budgets: Array<{ __typename?: 'Budget', name: string, budget: number, expense: number, balance: number } | null> };
 
 
 export const GetBudgetDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBudget"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"budgets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"budget"}},{"kind":"Field","name":{"kind":"Name","value":"expense"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]}}]} as unknown as DocumentNode<GetBudgetQuery, GetBudgetQueryVariables>;

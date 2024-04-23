@@ -1,24 +1,24 @@
 type Query {
-    budgets: [Budget]
-    expenses: [Expense]
+    budgets: [Budget]!
+    expenses: [Expense]!
 }
 
 type Budget {
-    id: Int
+    id: Int!
     name: String!
-    budget: Int
-    expense: Int
-    balance: Int
-    createdAt: String
-    updatedAt: String
+    budget: Int!
+    expense: Int!
+    balance: Int!
+    createdAt: String!
+    updatedAt: String!
 }
 
 type Expense {
-    id: Int
-    expense: Int
-    corrected: Int
-    budget: Int
-    budgetId: Int
-    createdAt: String
-    updatedAt: String
+    id: Int!
+    description: String!
+    amount: Int!
+    budget: Int!
+    budgetId: Int!
+    createdAt: String!
+    updatedAt: String!
 }
