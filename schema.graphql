@@ -3,6 +3,10 @@ type Query {
     expenses: [Expense!]!
 }
 
+type Mutation {
+    createBudget(input: CreateBudgetInput!): CreateBudgetPayload!
+}
+
 type Budget {
     id: Int!
     name: String!
@@ -11,6 +15,18 @@ type Budget {
     balance: Int!
     createdAt: String!
     updatedAt: String!
+}
+
+type CreateBudgetPayload {
+    code: Int!
+    success: Boolean!
+    message: String!
+    budget: Budget
+}
+
+input CreateBudgetInput {
+    name: String!
+    budget: Int!
 }
 
 type Expense {
