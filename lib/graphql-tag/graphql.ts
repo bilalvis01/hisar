@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -30,8 +29,8 @@ export type Budget = {
 export type Expense = {
   __typename?: 'Expense';
   amount: Scalars['Int']['output'];
-  budget: Scalars['Int']['output'];
-  budgetId: Scalars['Int']['output'];
+  budgetAccount: Scalars['Int']['output'];
+  budgetAccountId: Scalars['Int']['output'];
   createdAt: Scalars['String']['output'];
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
@@ -43,11 +42,3 @@ export type Query = {
   budgets: Array<Maybe<Budget>>;
   expenses: Array<Maybe<Expense>>;
 };
-
-export type GetBudgetQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetBudgetQuery = { __typename?: 'Query', budgets: Array<{ __typename?: 'Budget', name: string, budget: number, expense: number, balance: number } | null> };
-
-
-export const GetBudgetDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBudget"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"budgets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"budget"}},{"kind":"Field","name":{"kind":"Name","value":"expense"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]}}]} as unknown as DocumentNode<GetBudgetQuery, GetBudgetQueryVariables>;
