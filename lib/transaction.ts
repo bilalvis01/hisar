@@ -75,17 +75,40 @@ export async function entry(client: PrismaClient, senderId: number, recipientId:
 
 export async function createBudget(client: PrismaClient, name: string, budget: bigint) {
     return await client.$transaction(async (tx: PrismaClient) => {
+        const budgetAccountCode = await client.accountCode.findFirst({
+            where: {
+                code: 101,
+            }
+        });
+        const latestSubBudgetCode = await client.accountCode.aggregate({
+            where: {
+                supcodeId: budgetAccountCode.id,
+            },
+            _max: {
+                code: true
+            },
+        });
+        const subBudgetCode = await client.accountCode.create({
+            data: {
+                supcodeId: budgetAccountCode.id,
+                code: latestSubBudgetCode._max.code + 1,
+            }
+        });
         const budgetAccount = await client.account.create({
             data: {
                 name: name,
-                type: "asset",
-                code: 101,
+                codeId: subBudgetCode.id,
                 balance: 0,
+            }
+        });
+        const cashAccountCode = await client.accountCode.findFirst({
+            where: {
+                code: 100,
             }
         });
         const cashAccount = await client.account.findFirst({
             where: {
-                code: 100,
+                codeId: cashAccountCode.id,
             }
         });
         const ledger = await entryProcedure(tx, cashAccount.id, budgetAccount.id, budget, `tambah saldo ${name}`);
