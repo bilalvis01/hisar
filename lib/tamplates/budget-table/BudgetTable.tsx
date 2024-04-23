@@ -46,7 +46,7 @@ const columns = [
     }),
     columnHelper.accessor("name", {
         header: () => (
-            <span className={clsx(style.description, "text-title-small")}>DESKRIPSI</span>
+            <span className={clsx(style.description, "text-title-small")}>NAMA</span>
         ),
         cell: info => (
             <span className={clsx(style.description, "text-body-small")}>
