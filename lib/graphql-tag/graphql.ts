@@ -30,7 +30,7 @@ export type Budget = {
 export type Expense = {
   __typename?: 'Expense';
   amount: Scalars['Int']['output'];
-  budgetAccount: Scalars['Int']['output'];
+  budgetAccount: Scalars['String']['output'];
   budgetAccountId: Scalars['Int']['output'];
   createdAt: Scalars['String']['output'];
   description: Scalars['String']['output'];
@@ -52,7 +52,7 @@ export type GetBudgetQuery = { __typename?: 'Query', budgets: Array<{ __typename
 export type GetExpensesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetExpensesQuery = { __typename?: 'Query', expenses: Array<{ __typename?: 'Expense', id: number, description: string, budgetAccount: number, budgetAccountId: number, amount: number }> };
+export type GetExpensesQuery = { __typename?: 'Query', expenses: Array<{ __typename?: 'Expense', id: number, description: string, budgetAccount: string, budgetAccountId: number, amount: number }> };
 
 
 export const GetBudgetDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetBudget"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"budgets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"budget"}},{"kind":"Field","name":{"kind":"Name","value":"expense"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}}]}}]}}]} as unknown as DocumentNode<GetBudgetQuery, GetBudgetQueryVariables>;

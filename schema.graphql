@@ -17,7 +17,7 @@ type Expense {
     id: Int!
     description: String!
     amount: Int!
-    budgetAccount: Int!
+    budgetAccount: String!
     budgetAccountId: Int!
     createdAt: String!
     updatedAt: String!
