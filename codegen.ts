@@ -4,14 +4,13 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
   schema: "./schema.graphql",
   documents: [
-    "templates/**/*.tsx", 
-    "app/**/*.tsx", 
-    "app/**/*.ts"
+    "lib/**/*.tsx",
+    "app/**/*.tsx",
   ],
   generates: {
     './lib/resolvers-types.ts': {
       config: {
-        contextType: "./context#Context",
+        contextType: "./graphql-context#Context",
       },
       plugins: ['typescript', 'typescript-resolvers']
     },
