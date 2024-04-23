@@ -16,9 +16,9 @@ import { gql } from "../../graphql-tag";
 
 interface Budget {
     name: string;
-    budget?: number;
-    expense?: number;
-    balance?: number;
+    budget: number;
+    expense: number;
+    balance: number;
 }
 
 const columnHelper = createColumnHelper<Budget>();
@@ -27,7 +27,7 @@ const columns = [
     columnHelper.display({
         id: "select",
         header: ({ table }) => (
-            <IndeterminateCheckbox 
+            <Checkbox 
                 checked={table.getIsAllRowsSelected()}
                 indeterminate={table.getIsSomeRowsSelected()}
                 onChange={table.getToggleAllRowsSelectedHandler()}
@@ -35,7 +35,7 @@ const columns = [
         ),
         cell: ({ row }) => (
             <div className={style.select}>
-                <IndeterminateCheckbox 
+                <Checkbox 
                     checked={row.getIsSelected()}
                     disabled={!row.getCanSelect()}
                     indeterminate={row.getIsSomeSelected()}
@@ -150,20 +150,4 @@ export default function Table() {
             </tbody>
         </table>
     );
-}
-
-function IndeterminateCheckbox({
-    className = "",
-    ...rest
-}: { indeterminate?: boolean } & React.HTMLProps<HTMLInputElement>) {
-    const ref = React.useRef<HTMLInputElement>(null!);
-
-    return (
-        <Checkbox
-            type="checkbox"
-            ref={ref}
-            className={className}
-            {...rest}
-        />
-    )
 }
