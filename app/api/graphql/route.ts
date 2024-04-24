@@ -3,13 +3,13 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers } from "../../../lib/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient } from "@prisma/client";
-import { createBudget } from "../../../lib/transaction";
+import { createBudget } from "../../../lib/transactions";
 
 const resolvers: Resolvers = {
     Query: {
         async budgets(_, __, context) {
             const data = await context.dataSources.account.findMany({ 
-                where: { code: { supcode: { code: 101 } } },
+                where: { accountCode: { accountSupercode: { code: 101 } } },
                 include: {
                     entries: true,
                 }
@@ -36,27 +36,17 @@ const resolvers: Resolvers = {
 
         async expenses(_, __, context) {
             const data = await context.dataSources.ledger.findMany({ 
-                where: { entries: { some: { account: { code: { code: 200 } } } } },
-                include: {
-                    entries: {
-                        include: {
-                            account: {
-                                include: {
-                                    code: {
-                                        include: {
-                                            supcode: true
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                    },
-                },
+                where: { entries: { some: { account: { accountCode: { code: 200 } } } } },
+                include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
             });
         
             return data.map((record) => {
-                const budgetAccount = record.entries.filter(entry => entry.account.code.supcode?.code == 101)[0].account;
-                const expenseEntry = record.entries.filter(entry => entry.account.code.code == 200)[0];
+                const budgetAccount = record.entries.filter(entry => {
+                    const accountSupercode = entry.account.accountCode.accountSupercode;
+                    if (accountSupercode) return accountSupercode.code == 101;
+                    return false;
+                })[0].account;
+                const expenseEntry = record.entries.filter(entry => entry.account.accountCode.code == 200)[0];
                 return {
                     id: record.id,
                     description: record.description,
