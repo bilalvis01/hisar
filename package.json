@@ -19,7 +19,7 @@
     "@apollo/server": "^4.10.4",
     "@as-integrations/next": "^3.0.0",
     "@floating-ui/react": "^0.26.10",
-    "@prisma/client": "^5.12.1",
+    "@prisma/client": "^5.13.0",
     "@reduxjs/toolkit": "^2.2.3",
     "@tanstack/react-table": "^8.15.3",
     "clsx": "^2.1.0",
@@ -43,7 +43,7 @@
     "@graphql-codegen/typescript-resolvers": "^4.0.6",
     "@types/node": "20.11.30",
     "@types/react": "18.2.71",
-    "prisma": "^5.12.1",
+    "prisma": "^5.13.0",
     "sass": "^1.72.0",
     "typescript": "5.4.3"
   }
