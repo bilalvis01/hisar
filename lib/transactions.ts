@@ -57,13 +57,7 @@ async function entryProcedure(client: PrismaClient, senderId: number, recipientI
         where: {
             id: ledger.id,
         },
-        include: {
-            entries: {
-                include: {
-                    account: true,
-                }
-            },
-        },
+        include: { entries: { include: { account: true } } },
     });
 }
 
@@ -76,28 +70,22 @@ export async function entry(client: PrismaClient, senderId: number, recipientId:
 export async function createBudget(client: PrismaClient, name: string, budget: bigint) {
     return await client.$transaction(async (tx: PrismaClient) => {
         const budgetAccountCode = await client.accountCode.findFirst({
-            where: {
-                code: 101,
-            }
+            where: { code: 101 }
         });
         const latestSubBudgetCode = await client.accountCode.aggregate({
-            where: {
-                supcodeId: budgetAccountCode.id,
-            },
-            _max: {
-                code: true
-            },
+            where: { accountSupercodeId: budgetAccountCode.id },
+            _max: { code: true },
         });
         const subBudgetCode = await client.accountCode.create({
             data: {
-                supcodeId: budgetAccountCode.id,
+                accountSupercodeId: budgetAccountCode.id,
                 code: latestSubBudgetCode._max.code + 1,
             }
         });
         const budgetAccount = await client.account.create({
             data: {
                 name: name,
-                codeId: subBudgetCode.id,
+                accountCodeId: subBudgetCode.id,
                 balance: 0,
             }
         });
@@ -108,7 +96,7 @@ export async function createBudget(client: PrismaClient, name: string, budget: b
         });
         const cashAccount = await client.account.findFirst({
             where: {
-                codeId: cashAccountCode.id,
+                accountCodeId: cashAccountCode.id,
             }
         });
         const ledger = await entryProcedure(tx, cashAccount.id, budgetAccount.id, budget, `tambah saldo ${name}`);
