@@ -14,46 +14,46 @@ datasource db {
 }
 
 model Account {
-  id            Int           @id @default(autoincrement())
-  codeId        Int           @unique
-  code          AccountCode   @relation(fields: [codeId], references: [id])
-  name          String        @db.VarChar(255)
-  balance       BigInt
-  active        Boolean       @default(true)
-  entries       Entry[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id                  Int           @id @default(autoincrement())
+  accountCodeId       Int           @unique
+  accountCode         AccountCode   @relation(fields: [accountCodeId], references: [id])
+  name                String        @db.VarChar(255)
+  balance             BigInt
+  active              Boolean       @default(true)
+  entries             Entry[]
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
 }
 
 model AccountCode {
-  id            Int           @id @default(autoincrement())
-  code          Int
-  supcodeId     Int?          
-  supcode       AccountCode?  @relation("AccountSupcode", fields: [supcodeId], references: [id])  
-  subcode       AccountCode[] @relation("AccountSupcode")
-  category      String?       @db.VarChar(20)
-  account       Account?
+  id                  Int           @id @default(autoincrement())
+  code                Int
+  accountSupercodeId  Int?          
+  accountSupercode    AccountCode?  @relation("AccountSubcode", fields: [accountSupercodeId], references: [id])  
+  accountSubcode      AccountCode[] @relation("AccountSubcode")
+  category            String?       @db.VarChar(20)
+  account             Account?
   
-  @@unique([code, supcodeId])
+  @@unique([code, accountSupercodeId])
 }
 
 model Ledger {
-  id            Int           @id @default(autoincrement())
-  description   String        @db.VarChar(255)
-  entries       Entry[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id                  Int           @id @default(autoincrement())
+  description         String        @db.VarChar(255)
+  entries             Entry[]
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
 }
 
 model Entry {
-  id            Int           @id @default(autoincrement())
-  ledgerId      Int
-  ledger        Ledger        @relation(fields: [ledgerId], references: [id])
-  account       Account       @relation(fields: [accountId], references: [id])
-  accountId     Int
-  amount        BigInt
-  balance       BigInt
-  direction     Int           @db.TinyInt
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id                  Int           @id @default(autoincrement())
+  ledgerId            Int
+  ledger              Ledger        @relation(fields: [ledgerId], references: [id])
+  account             Account       @relation(fields: [accountId], references: [id])
+  accountId           Int
+  amount              BigInt
+  balance             BigInt
+  direction           Int           @db.TinyInt
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
 } 
