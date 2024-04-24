@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { entry, createBudget } from "./lib/transaction";
+import { entry, createBudget } from "./lib/transactions";
 
 const prisma = new PrismaClient();
 
@@ -37,12 +37,12 @@ async function main() {
     await prisma.account.createMany({
         data: [
             {
-                codeId: cashAccountCode.id,
+                accountCodeId: cashAccountCode.id,
                 name: "cash account",
                 balance: 1_000_000_000_0000
             },
             {
-                codeId: expenseAccountCode.id,
+                accountCodeId: expenseAccountCode.id,
                 name: "expense account",
                 balance: 0,
             },
@@ -50,7 +50,7 @@ async function main() {
     });
     const expenseAccount = await prisma.account.findFirst({
         where: {
-            codeId: expenseAccountCode.id,
+            accountCodeId: expenseAccountCode.id,
         }
     });
     const budgetPeralatan = await createBudget(prisma, "budget peralatan", BigInt(2_000_000_0000));
