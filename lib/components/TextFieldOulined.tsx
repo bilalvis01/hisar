@@ -40,16 +40,15 @@ export default function TextFieldOutlined({
     const labelRef = React.useRef(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState("");
     const [populated, setPopulated] = React.useState(false);
-    const [outlineStyle, setOutlineStyle] = React.useState<React.CSSProperties | null>(null);
+    const [outlineClipPath, setOutlineClipPath] = React.useState<string | null>(null);
 
-    const value = controlledValue ?? uncontrolledValue;
+    const value = !!controlledValue ? controlledValue : uncontrolledValue;
 
-    const hasValue = !!value || (placeholder && placeholder.length > 0);
+    const hasValue = !!value || !!placeholder;
 
     const supportingText = error ?? supportingText_;
 
     const endIcon = !!error ? <ExclamationCircleFill /> : endIcon_;
-
 
     const handleChange = externalHandleChange ?? ((event) => setUncontrolledValue(event.target.value));
 
@@ -62,7 +61,7 @@ export default function TextFieldOutlined({
         setPopulated(hasValue);
     }
 
-    React.useEffect(() => {
+    const handleOutlineStyle = React.useCallback(() => {
         if (populated && inputContainerRef.current instanceof HTMLElement && labelRef.current instanceof HTMLElement) {
             const inputContainer = inputContainerRef.current;
             const label = labelRef.current;
@@ -85,15 +84,32 @@ export default function TextFieldOutlined({
                 -${focusIndicatorThickness} calc(${inputContainerHeight}px + ${focusIndicatorThickness}), 
                 -${focusIndicatorThickness} -${focusIndicatorThickness}
             )`;
-            setOutlineStyle({ clipPath });
+            setOutlineClipPath(clipPath);
         } else {
-            setOutlineStyle(null);
+            setOutlineClipPath(null);
         }
-    }, [populated]);
+    }, [populated, inputContainerRef, labelRef]);
+
+    const handleResize = React.useCallback(() => {
+        handleOutlineStyle();
+    }, [handleOutlineStyle]);
+
+    React.useEffect(() => {
+        handleOutlineStyle();
+    }, [handleOutlineStyle]);
+
+    React.useEffect(() => {
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, [handleResize]);
+
+    React.useEffect(() => {
+        setPopulated(hasValue);
+    }, [hasValue]);
 
     return (
         <div 
-            ref={inputContainerRef} 
             className={clsx(
                 "text-field-outlined", 
                 { "populated": populated },
@@ -103,7 +119,7 @@ export default function TextFieldOutlined({
         >
             <div className="container">
                 <div ref={inputContainerRef} className="input-container">
-                    <div className="decorator" style={outlineStyle} />
+                    <div className="decorator" style={{ clipPath: outlineClipPath }} />
                     {startIcon && (
                         <span className="leading-icon">
                             {startIcon}

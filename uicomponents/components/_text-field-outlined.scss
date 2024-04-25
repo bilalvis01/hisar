@@ -2,8 +2,8 @@
     --container-height: var(--component-text-field-outlined-container-height);
     --container-shape: var(--component-text-field-outlined-container-shape);
     --focus-indicator-style: none;
-    --focus-indicator-color: unset;
-    --focus-indicator-thickness: unset;
+    --focus-indicator-color: var(--component-text-field-outlined-focus-indicator-color);
+    --focus-indicator-thickness: var(--component-text-field-outlined-focus-indicator-thickness);
     --outline-width: var(--component-text-field-outlined-outline-width);
     --outline-color: var(--component-text-field-outlined-outline-color);
     --label-top: unset;
@@ -78,8 +78,6 @@
         --supporting-text-color: var(--component-text-field-outlined-focus-supporting-text-color);
         --input-text-color: var(--component-text-field-outlined-focus-input-text-color);
         --focus-indicator-style: solid;
-        --focus-indicator-color: var(--component-text-field-outlined-focus-indicator-color);
-        --focus-indicator-thickness: var(--component-text-field-outlined-focus-indicator-thickness);
 
         &.error {
             --focus-indicator-color: var(--component-text-field-outlined-focus-indicator-color-error);
