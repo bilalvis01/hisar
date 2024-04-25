@@ -12,7 +12,7 @@ import style from "./BudgetTable.module.scss";
 import format from "../../utils/format";
 import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { gql } from "../../graphql-tag";
+import { GET_BUDGETS } from "../../graphql-documents";
 
 interface Budget {
     name: string;
@@ -91,17 +91,6 @@ const columns = [
         ),
     })
 ];
-
-const GET_BUDGETS = gql(/* GraphQL */ `
-    query GetBudget {
-        budgets {
-            name
-            budget
-            expense
-            balance
-        }
-    }
-`);
 
 export default function Table() {
     const { loading, error, data } = useQuery(GET_BUDGETS);
