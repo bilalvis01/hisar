@@ -371,6 +371,22 @@
     @each $token, $value in comp.$checkbox-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$snackbar {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$snackbar-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$snackbar-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$snackbar-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {

@@ -1,0 +1,99 @@
+$snackbar-container-color: var(--system-color-inverse-surface) !default;
+$snackbar-container-elevation: var(--system-color-elevation-level3) !default;
+$snackbar-container-shape: var(--system-shape-coner-extra-small) !default;
+$snackbar-container-with-single-line-height: 3rem !default;
+$snackbar-container-with-two-line-height: 4.25rem !default;
+$snackbar-label-color: var(--system-color-inverse-primary) !default;
+$snackbar-label-font: var(--system-typescale-label-large-font) !default;
+$snackbar-label-line-height: var(--system-typescale-label-large-line-height) !default;
+$snackbar-label-size: var(--system-typescale-label-large-size) !default;
+$snackbar-label-tracking: var(--system-typescale-label-large-tracking) !default;
+$snackbar-label-weight: var(--system-typescale-label-large-weight) !default;
+$snackbar-icon-color: var(--system-color-inverse-on-surface) !default;
+$snackbar-supporting-text-color: var(--system-color-inverse-primary) !default;
+$snackbar-supporting-text-font: var(--system-typescale-body-medium-font) !default;
+$snackbar-supporting-text-line-height: var(--system-typescale-body-medium-line-height) !default;
+$snackbar-supporting-text-size: var(--system-typescale-body-medium-size) !default;
+$snackbar-supporting-text-tracking: var(--system-typescale-body-medium-tracking) !default;
+$snackbar-supporting-text-weight: var(--system-typescale-body-medium-weight) !default;
+
+$snackbar-hover-label-color: var(--system-color-inverse-primary) !default;
+$snackbar-hover-state-layer-color: var(--system-color-inverse-primary) !default;
+$snackbar-hover-state-layer-color-rgb: var(--system-color-inverse-primary-rgb) !default;
+$snackbar-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$snackbar-icon-hover-state-layer-color: var(--system-color-inverse-on-surface) !default;
+$snackbar-icon-hover-state-layer-color-rgb: var(--system-color-inverse-on-surface-rgb) !default;
+$snackbar-icon-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$snackbar-icon-hover-icon-color: var(--system-color-inverse-on-surface) !default;
+
+$snackbar-focus-label-color: var(--system-color-inverse-primary) !default;
+$snackbar-focus-state-layer-color: var(--system-color-inverse-primary) !default;
+$snackbar-focus-state-layer-color-rgb: var(--system-color-inverse-primary-rgb) !default;
+$snackbar-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+$snackbar-icon-focus-state-layer-color: var(--system-color-inverse-on-surface) !default;
+$snackbar-icon-focus-state-layer-color-rgb: var(--system-color-inverse-on-surface-rgb) !default;
+$snackbar-icon-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+$snackbar-icon-focus-icon-color: var(--system-color-inverse-on-surface) !default;
+
+$snackbar-pressed-label-color: var(--system-color-inverse-primary) !default;
+$snackbar-pressed-state-layer-color: var(--system-color-inverse-primary) !default;
+$snackbar-pressed-state-layer-color-rgb: var(--system-color-inverse-primary-rgb) !default;
+$snackbar-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+$snackbar-icon-pressed-state-layer-color: var(--system-color-inverse-on-surface) !default;
+$snackbar-icon-pressed-state-layer-color-rgb: var(--system-color-inverse-on-surface-rgb) !default;
+$snackbar-icon-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+$snackbar-icon-pressed-icon-color: var(--system-color-inverse-on-surface) !default;
+
+$snackbar: (
+    "snackbar-container-color": $snackbar-container-color,
+    "snackbar-container-elevation": $snackbar-container-elevation,
+    "snackbar-container-shape": $snackbar-container-shape,
+    "snackbar-container-with-single-line-height": $snackbar-container-with-single-line-height,
+    "snackbar-container-with-two-line-height": $snackbar-container-with-two-line-height,
+    "snackbar-label-color": $snackbar-label-color,
+    "snackbar-label-font": $snackbar-label-font,
+    "snackbar-label-line-height": $snackbar-label-line-height,
+    "snackbar-label-size": $snackbar-label-size,
+    "snackbar-label-tracking": $snackbar-label-tracking,
+    "snackbar-label-weight": $snackbar-label-weight,
+    "snackbar-icon-color": $snackbar-icon-color,
+    "snackbar-supporting-text-color": $snackbar-supporting-text-color,
+    "snackbar-supporting-text-font": $snackbar-supporting-text-font,
+    "snackbar-supporting-text-line-height": $snackbar-supporting-text-line-height,
+    "snackbar-supporting-text-size": $snackbar-supporting-text-size,
+    "snackbar-supporting-text-tracking": $snackbar-supporting-text-tracking,
+    "snackbar-supporting-text-weight": $snackbar-supporting-text-weight,
+) !default;
+
+$snackbar-hover: (
+    "snackbar-hover-label-color": $snackbar-hover-label-color,
+    "snackbar-hover-state-layer-color": $snackbar-hover-state-layer-color,
+    "snackbar-hover-state-layer-color-rgb": $snackbar-hover-state-layer-color-rgb,
+    "snackbar-hover-state-layer-opacity": $snackbar-hover-state-layer-opacity,
+    "snackbar-icon-hover-state-layer-color": $snackbar-icon-hover-state-layer-color,
+    "snackbar-icon-hover-state-layer-color-rgb": $snackbar-icon-hover-state-layer-color-rgb,
+    "snackbar-icon-hover-state-layer-opacity": $snackbar-icon-hover-state-layer-opacity,
+    "snackbar-icon-hover-icon-color": $snackbar-icon-hover-icon-color,
+) !default;
+
+$snackbar-focus: (
+    "snackbar-focus-label-color": $snackbar-focus-label-color,
+    "snackbar-focus-state-layer-color": $snackbar-focus-state-layer-color,
+    "snackbar-focus-state-layer-color-rgb": $snackbar-focus-state-layer-color-rgb,
+    "snackbar-focus-state-layer-opacity": $snackbar-focus-state-layer-opacity,
+    "snackbar-icon-focus-state-layer-color": $snackbar-icon-focus-state-layer-color,
+    "snackbar-icon-focus-state-layer-color-rgb": $snackbar-icon-focus-state-layer-color-rgb,
+    "snackbar-icon-focus-state-layer-opacity": $snackbar-icon-focus-state-layer-opacity,
+    "snackbar-icon-focus-icon-color": $snackbar-icon-focus-icon-color,
+) !default;
+
+$snackbar-pressed: (
+    "snackbar-pressed-label-color": $snackbar-pressed-label-color,
+    "snackbar-pressed-state-layer-color": $snackbar-pressed-state-layer-color,
+    "snackbar-pressed-state-layer-color-rgb": $snackbar-pressed-state-layer-color-rgb,
+    "snackbar-pressed-state-layer-opacity": $snackbar-pressed-state-layer-opacity,
+    "snackbar-icon-pressed-state-layer-color": $snackbar-icon-pressed-state-layer-color,
+    "snackbar-icon-pressed-state-layer-color-rgb": $snackbar-icon-pressed-state-layer-color-rgb,
+    "snackbar-icon-pressed-state-layer-opacity": $snackbar-icon-pressed-state-layer-opacity,
+    "snackbar-icon-pressed-icon-color": $snackbar-icon-pressed-icon-color,
+) !default;
