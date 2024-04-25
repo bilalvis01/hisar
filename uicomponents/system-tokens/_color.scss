@@ -31,6 +31,10 @@ $on-error: var(--reference-palette-error100) !default;
 $error-container: var(--reference-palette-error90) !default;
 $on-error-container: var(--reference-palette-error10) !default; 
 
+$inverse-surface: var(--reference-palette-neutral20) !default;
+$inverse-on-surface: var(--reference-palette-neutral95) !default;
+$inverse-primary: var(--reference-palette-primary80) !default;
+
 $outline: var(--reference-palette-neutral-variant50) !default;
 $outline-variant: var(--reference-palette-neutral-variant80) !default;
 
@@ -62,6 +66,9 @@ $light: (
     "on-error": $on-error,
     "error-container": $error-container,
     "on-error-container": $on-error-container,
+    "inverse-surface": $inverse-surface,
+    "inverse-on-surface": $inverse-on-surface,
+    "inverse-primary": $inverse-primary,
     "outline": $outline,
     "outline-variant": $outline-variant,
 ) !default;
@@ -99,6 +106,10 @@ $on-error-rgb: var(--reference-palette-error100-rgb) !default;
 $error-container-rgb: var(--reference-palette-error90-rgb) !default;
 $on-error-container-rgb: var(--reference-palette-error10-rgb) !default;
 
+$inverse-surface-rgb: var(--reference-palette-neutral20-rgb) !default;
+$inverse-on-surface-rgb: var(--reference-palette-neutral95-rgb) !default;
+$inverse-primary-rgb: var(--reference-palette-primary80-rgb) !default;
+
 $outline-rgb: var(--reference-palette-neutral-variant50-rgb) !default;
 $outline-variant-rgb: var(--reference-palette-neutral-variant80-rgb) !default;
 
@@ -130,6 +141,9 @@ $light-rgb: (
     "on-error-rgb": $on-error-rgb,
     "error-container-rgb": $error-container-rgb,
     "on-error-container-rgb": $on-error-container-rgb,
+    "inverse-surface-rgb": $inverse-surface-rgb,
+    "inverse-on-surface-rgb": $inverse-on-surface-rgb,
+    "inverse-primary-rgb": $inverse-primary-rgb,
     "outline-rgb": $outline-rgb,
     "outline-variant-rgb": $outline-variant-rgb,
 ) !default;
@@ -168,6 +182,10 @@ $on-error-dark: var(--reference-palette-error20) !default;
 $error-container-dark: var(--reference-palette-error30) !default;
 $on-error-container-dark: var(--reference-palette-error90) !default;
 
+$inverse-surface-dark: var(--reference-palette-neutral90) !default;
+$inverse-on-surface-dark: var(--reference-palette-neutral20) !default;
+$inverse-primary-dark: var(--reference-palette-primary40) !default;
+
 $outline-dark: var(--reference-palette-neutral-variant60) !default;
 $outline-variant-dark: var(--reference-palette-neutral-variant30) !default;
 
@@ -199,6 +217,9 @@ $dark: (
     "on-error": $on-error-dark,
     "error-container": $error-container-dark,
     "on-error-container": $on-error-container-dark,
+    "inverse-surface-dark": $inverse-surface-dark,
+    "inverse-on-surface-dark": $inverse-on-surface-dark,
+    "inverse-primary-dark": $inverse-primary-dark,
     "outline": $outline-dark,
     "outline-variant": $outline-variant-dark,
 ) !default;
@@ -236,6 +257,10 @@ $on-error-dark-rgb: var(--reference-palette-error20-rgb) !default;
 $error-container-dark-rgb: var(--reference-palette-error30-rgb) !default;
 $on-error-container-dark-rgb: var(--reference-palette-error90-rgb) !default;
 
+$inverse-surface-dark-rgb: var(--reference-palette-neutral90-rgb) !default;
+$inverse-on-surface-dark-rgb: var(--reference-palette-neutral20-rgb) !default;
+$inverse-primary-dark-rgb: var(--reference-palette-primary40-rgb) !default;
+
 $outline-dark-rgb: var(--reference-palette-neutral-variant60-rgb) !default;
 $outline-variant-dark-rgb: var(--reference-palette-neutral-variant30-rgb) !default;
 
@@ -267,6 +292,9 @@ $dark-rgb: (
     "on-error-rgb": $on-error-dark-rgb,
     "error-container-rgb": $error-container-dark-rgb,
     "on-error-container-rgb": $on-error-container-dark-rgb,
+    "inverse-surface-dark-rgb": $inverse-surface-dark-rgb,
+    "inverse-on-surface-dark-rgb": $inverse-on-surface-dark-rgb,
+    "inverse-primary-dark-rgb": $inverse-primary-dark-rgb,
     "outline-rgb": $outline-dark-rgb,
     "outline-variant-rgb": $outline-variant-dark-rgb,
 ) !default;
