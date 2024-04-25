@@ -4,43 +4,40 @@
     border-collapse: collapse;
 }
 
-%row {
-    background-color: var(--system-color-tertiary-container);
-    height: var(--system-spacer2);
+%cell {
+    padding: {
+        top: 0.5rem;
+        bottom: 0.5rem;
+    };
 }
 
-.head {
-    @extend %row;
+.table > thead > tr {
+    height: 4rem;
     font-weight: bold;
     font-size: 1.2rem;
-    color: var(--system-color-on-primary);
-    background-color: var(--system-color-primary);
+    color: var(--system-color-on-primary-container);
+    background-color: var(--system-color-primary-container);
 
-    .cell {
-        padding: {
-            top: 0.5rem;
-            bottom: 0.5rem;
-        };
+    & > th {
+        @extend %cell;
     }
 }
 
-.body {
-    @extend %row;
+.table > tbody > tr {
+    height: var(--system-spacer2);
+    background-color: var(--system-color-primary-container);
   
     &:nth-of-type(odd) {
-        background: var(--system-color-primary-container);
+        background: var(--system-color-tertiary-container);
         color: var(--system-color-on-surface);
     }
 
-    .cell {
-        padding: {
-            top: 0.5rem;
-            bottom: 0.5rem; 
-        };
+    & > td {
+        @extend %cell;
     }
 }
 
-.select {
+.checkboxContainer {
     vertical-align: middle;
     text-align: center;
 }

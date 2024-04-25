@@ -34,7 +34,7 @@ const columns = [
             />
         ),
         cell: ({ row }) => (
-            <div className={style.select}>
+            <div className={style.checkboxContainer}>
                 <Checkbox 
                     checked={row.getIsSelected()}
                     disabled={!row.getCanSelect()}
@@ -111,9 +111,9 @@ export default function Table() {
         <table className={style.table}>
             <thead>
                 {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} className={style.head}>
+                    <tr key={headerGroup.id}>
                         {headerGroup.headers.map(header => (
-                            <th key={header.id} className={style.cell}>
+                            <th key={header.id}>
                                 {header.isPlaceholder
                                     ? null
                                     : flexRender(
@@ -128,9 +128,9 @@ export default function Table() {
             </thead>
             <tbody>
                 {table.getRowModel().rows.map(row => (
-                    <tr key={row.id}  className={style.body}>
+                    <tr key={row.id}>
                         {row.getVisibleCells().map(cell => (
-                            <td key={cell.id} className={style.cell}>
+                            <td key={cell.id}>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}
