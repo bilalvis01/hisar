@@ -24,7 +24,7 @@ $snackbar-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacit
 $snackbar-icon-hover-state-layer-color: var(--system-color-inverse-on-surface) !default;
 $snackbar-icon-hover-state-layer-color-rgb: var(--system-color-inverse-on-surface-rgb) !default;
 $snackbar-icon-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
-$snackbar-icon-hover-icon-color: var(--system-color-inverse-on-surface) !default;
+$snackbar-hover-icon-color: var(--system-color-inverse-on-surface) !default;
 
 $snackbar-focus-label-color: var(--system-color-inverse-primary) !default;
 $snackbar-focus-state-layer-color: var(--system-color-inverse-primary) !default;
@@ -33,7 +33,7 @@ $snackbar-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacit
 $snackbar-icon-focus-state-layer-color: var(--system-color-inverse-on-surface) !default;
 $snackbar-icon-focus-state-layer-color-rgb: var(--system-color-inverse-on-surface-rgb) !default;
 $snackbar-icon-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
-$snackbar-icon-focus-icon-color: var(--system-color-inverse-on-surface) !default;
+$snackbar-focus-icon-color: var(--system-color-inverse-on-surface) !default;
 
 $snackbar-pressed-label-color: var(--system-color-inverse-primary) !default;
 $snackbar-pressed-state-layer-color: var(--system-color-inverse-primary) !default;
@@ -42,7 +42,7 @@ $snackbar-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-op
 $snackbar-icon-pressed-state-layer-color: var(--system-color-inverse-on-surface) !default;
 $snackbar-icon-pressed-state-layer-color-rgb: var(--system-color-inverse-on-surface-rgb) !default;
 $snackbar-icon-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
-$snackbar-icon-pressed-icon-color: var(--system-color-inverse-on-surface) !default;
+$snackbar-pressed-icon-color: var(--system-color-inverse-on-surface) !default;
 
 $snackbar: (
     "snackbar-container-color": $snackbar-container-color,
@@ -73,7 +73,7 @@ $snackbar-hover: (
     "snackbar-icon-hover-state-layer-color": $snackbar-icon-hover-state-layer-color,
     "snackbar-icon-hover-state-layer-color-rgb": $snackbar-icon-hover-state-layer-color-rgb,
     "snackbar-icon-hover-state-layer-opacity": $snackbar-icon-hover-state-layer-opacity,
-    "snackbar-icon-hover-icon-color": $snackbar-icon-hover-icon-color,
+    "snackbar-hover-icon-color": $snackbar-hover-icon-color,
 ) !default;
 
 $snackbar-focus: (
@@ -84,7 +84,7 @@ $snackbar-focus: (
     "snackbar-icon-focus-state-layer-color": $snackbar-icon-focus-state-layer-color,
     "snackbar-icon-focus-state-layer-color-rgb": $snackbar-icon-focus-state-layer-color-rgb,
     "snackbar-icon-focus-state-layer-opacity": $snackbar-icon-focus-state-layer-opacity,
-    "snackbar-icon-focus-icon-color": $snackbar-icon-focus-icon-color,
+    "snackbar-focus-icon-color": $snackbar-focus-icon-color,
 ) !default;
 
 $snackbar-pressed: (
@@ -95,5 +95,5 @@ $snackbar-pressed: (
     "snackbar-icon-pressed-state-layer-color": $snackbar-icon-pressed-state-layer-color,
     "snackbar-icon-pressed-state-layer-color-rgb": $snackbar-icon-pressed-state-layer-color-rgb,
     "snackbar-icon-pressed-state-layer-opacity": $snackbar-icon-pressed-state-layer-opacity,
-    "snackbar-icon-pressed-icon-color": $snackbar-icon-pressed-icon-color,
+    "snackbar-pressed-icon-color": $snackbar-pressed-icon-color,
 ) !default;
