@@ -6,6 +6,8 @@ async function entryProcedure(client: PrismaClient, senderId: number, recipientI
             description,
         },
     });
+    const senderDirection = -1;
+    const recipientDirection = 1;
     const sender = await client.account.findUnique({
         where: {
             id: senderId,
@@ -16,8 +18,8 @@ async function entryProcedure(client: PrismaClient, senderId: number, recipientI
             id: recipientId,
         },
     });
-    const senderBalance = sender.balance - amount;
-    const recipientBalance = recipient.balance + amount;
+    const senderBalance = sender.balance + amount * BigInt(sender.direction) * BigInt(senderDirection);
+    const recipientBalance = recipient.balance + amount * BigInt(recipient.direction) * BigInt(recipientDirection);
     await client.account.update({
         where: {
             id: senderId
@@ -40,7 +42,7 @@ async function entryProcedure(client: PrismaClient, senderId: number, recipientI
             accountId: senderId,
             amount: amount,
             balance: senderBalance,
-            direction: -1,
+            direction: senderDirection,
         },
     });
     await client.entry.create({
@@ -49,7 +51,7 @@ async function entryProcedure(client: PrismaClient, senderId: number, recipientI
             accountId: recipientId,
             amount: amount,
             balance: recipientBalance,
-            direction: 1,
+            direction: recipientDirection,
         },
     });
     
@@ -87,6 +89,7 @@ export async function createBudget(client: PrismaClient, name: string, budget: b
                 name: name,
                 accountCodeId: subBudgetCode.id,
                 balance: 0,
+                direction: 1,
             }
         });
         const cashAccountCode = await client.accountCode.findFirst({
