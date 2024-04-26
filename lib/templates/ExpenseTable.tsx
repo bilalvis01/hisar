@@ -8,20 +8,19 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import style from "./BudgetTable.module.scss";
-import format from "../../utils/format";
-import Checkbox from "../../components/Checkbox";
+import format from "../utils/format";
+import Checkbox from "../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { GET_BUDGETS } from "../../graphql-documents";
+import { gql } from "../graphql-tag";
 
-interface Budget {
-    name: string;
-    budget: number;
-    expense: number;
-    balance: number;
+interface Expense {
+    description: string;
+    budgetAccount: string;
+    budgetAccountId: number;
+    amount: number;
 }
 
-const columnHelper = createColumnHelper<Budget>();
+const columnHelper = createColumnHelper<Expense>();
 
 const columns = [
     columnHelper.display({
@@ -34,7 +33,7 @@ const columns = [
             />
         ),
         cell: ({ row }) => (
-            <div className={style.checkboxContainer}>
+            <div className="checkbox-container">
                 <Checkbox 
                     checked={row.getIsSelected()}
                     disabled={!row.getCanSelect()}
@@ -44,61 +43,61 @@ const columns = [
             </div>
         )
     }),
-    columnHelper.accessor("name", {
+    columnHelper.accessor("description", {
         header: () => (
-            <span className={clsx(style.description, "text-title-small")}>NAMA</span>
+            <span className={clsx("description", "text-title-small")}>DESKRIPSI</span>
         ),
         cell: info => (
-            <span className={clsx(style.description, "text-body-small")}>
+            <span className={clsx("description", "text-body-small")}>
                 {info.getValue()}
             </span>
         ),
     }),
-    columnHelper.accessor("budget", {
+    columnHelper.accessor("budgetAccount", {
         header: () => (
-            <span className={clsx(style.currency, "text-title-small")}>
+            <span className={clsx("description", "text-title-small")}>
                 BUDGET
             </span>
         ),
         cell: info => (
-            <span className={clsx(style.currency, "text-body-small")}>
-                {format.currency(info.getValue())}
+            <span className={clsx("description", "text-body-small")}>
+                {info.getValue()}
             </span>
         ),
     }),
-    columnHelper.accessor("expense", {
+    columnHelper.accessor("amount", {
         header: () => (
-            <span className={clsx(style.currency, "text-title-small")}>
+            <span className={clsx("currency", "text-title-small")}>
                 TERPAKAI
             </span>
         ),
         cell: info => (
-            <span className={clsx(style.currency, "text-body-small")}>
+            <span className={clsx("currency", "text-body-small")}>
                 {format.currency(info.getValue())}
             </span>
         ),
     }),
-    columnHelper.accessor("balance", {
-        header: () => (
-            <span className={clsx(style.currency, "text-title-small")}>
-                SISA
-            </span>
-        ),
-        cell: info => (
-            <span className={clsx(style.currency, "text-body-small")}>
-                {format.currency(info.getValue())}
-            </span>
-        ),
-    })
 ];
 
-export default function Table() {
-    const { loading, error, data } = useQuery(GET_BUDGETS);
+const GET_EXPENSES = gql(/* GraphQL */ `
+    query GetExpenses {
+        expenses {
+            id
+            description
+            budgetAccount
+            budgetAccountId
+            amount
+        }
+    }
+`);
 
-    const budgets = data ? data.budgets : [];
+export default function Table() {
+    const { loading, error, data } = useQuery(GET_EXPENSES);
+
+    const expenses = data ? data.expenses : [];
 
     const table = useReactTable({
-        data: budgets,
+        data: expenses,
         columns,
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
@@ -108,7 +107,7 @@ export default function Table() {
     if (error) return <p>Error : {error.message}</p>;
 
     return (
-        <table className={style.table}>
+        <table className="table">
             <thead>
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>

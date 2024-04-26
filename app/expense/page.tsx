@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./expense.module.scss";
-import Table from "../../lib/templates/expense-table/ExpenseTable";
+import Table from "../../lib/templates/ExpenseTable";
 import BudgetAddForm from "../../lib/templates/expense-add-form/ExpenseAddForm";
 import clsx from "clsx";
 

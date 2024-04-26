@@ -1,3 +1,5 @@
+@use "../uicomponents/components";
+
 .table {
     width: 100%;
     border: 1px solid var(--system-color-outline-variant);
@@ -34,32 +36,32 @@
 
     & > td {
         @extend %cell;
+
+        & > .checkbox-container {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        & > .description {
+            width: 100%;
+            padding: {
+                left: 1rem;
+                right: 1rem;
+            };
+            display: inline-block;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        & > .currency {
+            width: 100%;
+            padding: {
+                left: 1rem;
+                right: 1rem;
+            };
+            display: inline-block;
+            vertical-align: middle;
+            text-align: end;
+        }
     }
-}
-
-.checkboxContainer {
-    vertical-align: middle;
-    text-align: center;
-}
-
-.description {
-    width: 100%;
-    padding: {
-        left: 1rem;
-        right: 1rem;
-    };
-    display: inline-block;
-    vertical-align: middle;
-    text-align: left;
-}
-
-.currency {
-    width: 100%;
-    padding: {
-        left: 1rem;
-        right: 1rem;
-    };
-    display: inline-block;
-    vertical-align: middle;
-    text-align: end;
 }

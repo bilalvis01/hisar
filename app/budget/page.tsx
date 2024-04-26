@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./budget.module.scss";
-import Table from "../../lib/templates/budget-table/BudgetTable";
+import Table from "../../lib/templates/BudgetTable";
 import BudgetAddForm from "../../lib/templates/budget-add-form/BudgetAddForm";
 import clsx from "clsx";
 
