@@ -387,6 +387,26 @@
     @each $token, $value in comp.$snackbar-pressed {
         --component-#{$token}: #{$value};
     }
+
+    @each $token, $value in comp.$menu {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$menu-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$menu-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$menu-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$menu-pressed {
+        --component-#{$token}: #{$value};
+    }
 }
 
 [data-theme="dark"] {
