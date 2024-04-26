@@ -8,6 +8,22 @@ const EXPENSE_ACCOUNT_CODE = 200;
 const BUDGET_ACCOUNT_CODE = 101;
 
 async function main() {
+    await prisma.state.createMany({
+        data: [
+            {
+                id: 1,
+                desciption: "active",
+            },
+            {
+                id: 2,
+                desciption: "archived",
+            },
+            {
+                id: 3,
+                desciption: "soft_deleted",
+            }
+        ],
+    });
     await prisma.accountCode.createMany({
         data: [
             {
@@ -39,12 +55,14 @@ async function main() {
             {
                 accountCodeId: cashAccountCode.id,
                 name: "cash account",
-                balance: 1_000_000_000_0000
+                balance: 1_000_000_000_0000,
+                direction: 1,
             },
             {
                 accountCodeId: expenseAccountCode.id,
                 name: "expense account",
                 balance: 0,
+                direction: 1,
             },
         ],
     });
