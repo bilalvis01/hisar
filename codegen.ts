@@ -4,8 +4,8 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
   schema: "./schema.graphql",
   documents: [
-    "lib/**/*.tsx",
-    "app/**/*.tsx",
+    "lib/**/*.(tsx|ts)",
+    "app/**/*.(tsx|ts)",
   ],
   generates: {
     './lib/resolvers-types.ts': {
