@@ -1,6 +1,6 @@
 $menu-list-item-selected-label-color: var(--system-color-on-secondary-container) !default;
-$menu-list-item-with-leading-icon-icon-color: var(--system-color-on-secondary-container) !default;
-$menu-list-item-with-trailing-icon-icon-color: var(--system-color-on-secondary-container) !default;
+$menu-list-item-selected-leading-icon-color: var(--system-color-on-secondary-container) !default;
+$menu-list-item-selected-trailing-icon-color: var(--system-color-on-secondary-container) !default;
 $menu-container-color: var(--system-color-surface-container) !default;
 $menu-container-elevation: var(--system-elevation-level2) !default;
 $menu-container-shape: var(--system-shape-corner-extra-small) !default;
@@ -57,8 +57,8 @@ $menu-list-item-pressed-trailing-icon-color: var(--system-color-on-surface-varia
 
 $menu: (
     "menu-list-item-selected-label-color": $menu-list-item-selected-label-color,
-    "menu-list-item-with-leading-icon-icon-color": $menu-list-item-with-leading-icon-icon-color,
-    "menu-list-item-with-trailing-icon-icon-color": $menu-list-item-with-trailing-icon-icon-color,
+    "menu-list-item-selected-leading-icon-color": $menu-list-item-selected-leading-icon-color,
+    "menu-list-item-selected-trailing-icon-color": $menu-list-item-selected-trailing-icon-color,
     "menu-container-color": $menu-container-color,
     "menu-container-elevation": $menu-container-elevation,
     "menu-container-shape": $menu-container-shape,
