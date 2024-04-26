@@ -11,3 +11,17 @@
     left: 0;
     bottom: 0;
 }
+
+.infoDialog {
+    position: fixed;
+    border: none;
+    background: none;
+    width: 30rem;
+    padding: 0;
+    margin: 1rem auto;
+    bottom: 0;
+}
+
+.info {
+    width: 100%;
+}

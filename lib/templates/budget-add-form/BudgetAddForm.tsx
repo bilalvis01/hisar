@@ -30,6 +30,9 @@ import type { CreateBudgetInput, CreateBudgetMutation, CreateBudgetMutationVaria
 import { useMutation } from "@apollo/client";
 import type { MutationFunction } from "@apollo/client";
 import { CREATE_BUDGET, GET_BUDGETS } from "../../graphql-documents";
+import { Snackbar, SupportingText as SnackbarText, IconAction as SnackbarIconAction } from "../../components/Snackbar";
+import IconClose from "../../icons/Close";
+import ProgressCircular from "../../components/ProgressCircular";
 
 interface FormDialogContext {
     values: CreateBudgetInput;
@@ -152,10 +155,12 @@ function Form({ id, open }) {
                 }, [open]); 
 
                 return (
-                    <FormikForm id={id}>
-                        <TextField className={style.field} type="text" label="Nama" name="name" counter={50}/> 
-                        <TextField className={style.field} type="number" label="Budget" name="budget" />
-                    </FormikForm>
+                    <>
+                        <FormikForm id={id}>
+                            <TextField className={style.field} type="text" label="Nama" name="name" counter={50}/> 
+                            <TextField className={style.field} type="number" label="Budget" name="budget" />
+                        </FormikForm>
+                    </>
                 );
             }}
         </Formik>
@@ -207,7 +212,13 @@ function FormDialogMobile() {
                 <DialogFullscreenHeader>
                     <DialogFullscreenClose></DialogFullscreenClose>
                     <DialogFullscreenHeadline>Tambah Budget</DialogFullscreenHeadline>
-                    <DialogFullscreenAction form={formId} disabled={loading}>Simpan</DialogFullscreenAction>
+                    <DialogFullscreenAction 
+                        form={formId} 
+                        disabled={loading}
+                        progress={loading ? <ProgressCircular size="sm" /> : null}
+                    >
+                        Simpan
+                    </DialogFullscreenAction>
                 </DialogFullscreenHeader>
                 <DialogFullscreenBody>
                     <Form id={formId} open={open} />
@@ -241,14 +252,22 @@ function FormDialogDesktop() {
             </ButtonFilled>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogHeadline>Tambah Budget</DialogHeadline>
-                <DialogBody>
+                <DialogBody className={style.dialogBody}>
                     <Form id={formId} open={open} />
                 </DialogBody>
                 <DialogFooter>
                     <ButtonText onClick={handleClose}>Batal</ButtonText>
-                    <ButtonText type="submit" form={formId} disabled={loading}>Simpan</ButtonText>
-                    </DialogFooter>
+                    <ButtonText 
+                        type="submit" 
+                        form={formId} 
+                        disabled={loading} 
+                        progress={loading ? <ProgressCircular size="sm" /> : null}
+                    >
+                        Simpan
+                    </ButtonText>
+                </DialogFooter>
             </Dialog>
+            <Info open={payload && payload.success}>{payload && payload.message}</Info>
         </>
     );
 }
@@ -263,5 +282,32 @@ export default function BudgetAddForm() {
                 <FormDialogMobile />
             </div>
         </FormDialogContext.Provider>
+    );
+}
+
+function Info({ children, open }: { children: React.ReactNode, open }) {
+    const ref = React.useRef(null);
+
+    React.useEffect(() => {
+        let timeoutId;
+        if (open && ref.current instanceof HTMLDialogElement) {
+            ref.current.show();
+            timeoutId =  setTimeout(() => {
+                ref.current.close();
+            }, 5000)
+        }
+
+        () => clearTimeout(timeoutId);
+    }, [open]);
+
+    return (
+        <dialog className={style.infoDialog} ref={ref}>
+            <Snackbar className={style.info}>
+                <SnackbarText>{children}</SnackbarText>
+                <SnackbarIconAction onClick={() => ref.current.close()}>
+                    <IconClose />
+                </SnackbarIconAction>
+            </Snackbar>
+        </dialog>
     );
 }
