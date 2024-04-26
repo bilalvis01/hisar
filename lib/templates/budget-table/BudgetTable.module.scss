@@ -15,8 +15,8 @@
     height: 4rem;
     font-weight: bold;
     font-size: 1.2rem;
-    color: var(--system-color-on-primary-container);
-    background-color: var(--system-color-primary-container);
+    color: var(--system-color-on-secondary);
+    background-color: var(--system-color-secondary);
 
     & > th {
         @extend %cell;
@@ -28,7 +28,7 @@
     background-color: var(--system-color-primary-container);
   
     &:nth-of-type(odd) {
-        background: var(--system-color-tertiary-container);
+        background: var(--system-color-surface-container);
         color: var(--system-color-on-surface);
     }
 
