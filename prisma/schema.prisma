@@ -64,7 +64,7 @@ model Entry {
 } 
 
 model State {
-  id                  Int           @id @default(autoincrement())
+  id                  Int           @id
   desciption          String        @db.VarChar(20)
   account             Account[]
   ledger              Ledger[]
