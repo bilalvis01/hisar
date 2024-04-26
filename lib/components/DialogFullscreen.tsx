@@ -160,8 +160,8 @@ export const DialogTrigger = React.forwardRef<
 
 export const DialogAction = React.forwardRef<
     HTMLButtonElement,
-    React.ButtonHTMLAttributes<HTMLButtonElement>
->(function DialogAction({ children, ...props}, ref) {
+    { progress?: React.ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>
+>(function DialogAction({ children, progress, ...props}, ref) {
     return (
         <button
             ref={ref}
@@ -173,7 +173,8 @@ export const DialogAction = React.forwardRef<
                     <div className="state-layer" />
                 </div>
             </div>
-            <span className="content">
+            {progress && <span className="progress">{progress}</span>}
+            <span className="label">
                 {children}
             </span>
         </button>

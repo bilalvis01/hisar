@@ -8,6 +8,7 @@ type Variant = "elevated" | "filled" | "tonal" | "outlined" | "text" | "icon";
 export interface ButtonBaseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
+    progress?: React.ReactNode;
     variant?: Variant;
 };
 
@@ -18,6 +19,7 @@ const ButtonBase = React.forwardRef<
     children, 
     startIcon, 
     endIcon,
+    progress,
     variant = "filled",
     className,
     ...props
@@ -30,9 +32,13 @@ const ButtonBase = React.forwardRef<
                         <div className="state-layer" />
                     </div>
                 </div>
-                {startIcon}
+                {progress 
+                    ? <span className="progress">{progress}</span>
+                    : startIcon
+                    ? <span className="icon">{startIcon}</span>
+                    : null}
                 <span className="label">{children}</span>
-                {endIcon}
+                {endIcon ? <span className="icon">{endIcon}</span> : null }
             </div>
         </button>
     )
