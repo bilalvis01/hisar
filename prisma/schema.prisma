@@ -20,6 +20,8 @@ model Account {
   name                String        @db.VarChar(255)
   balance             BigInt
   direction           Int           @db.TinyInt
+  stateId             Int           @default(1)
+  state               State         @relation(fields: [stateId], references: [id])
   entries             Entry[]
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
@@ -62,4 +64,5 @@ model Entry {
 model State {
   id                  Int           @id @default(autoincrement())
   desciption          String        @db.VarChar(20)
+  account             Account[]
 }
