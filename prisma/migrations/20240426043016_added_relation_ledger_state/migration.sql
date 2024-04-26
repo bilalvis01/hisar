@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `Ledger` ADD COLUMN `stateId` INTEGER NOT NULL DEFAULT 1;
+
+-- AddForeignKey
+ALTER TABLE `Ledger` ADD CONSTRAINT `Ledger_stateId_fkey` FOREIGN KEY (`stateId`) REFERENCES `State`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

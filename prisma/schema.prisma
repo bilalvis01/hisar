@@ -46,6 +46,8 @@ model Ledger {
   correctedLedgerId   Int?          @unique
   correctedLedger     Ledger?       @relation("CorrectionLedger", fields: [correctedLedgerId], references: [id])
   corrector           Ledger?       @relation("CorrectionLedger")
+  stateId             Int           @default(1)
+  state               State         @relation(fields: [stateId], references: [id])
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
 }
@@ -65,4 +67,5 @@ model State {
   id                  Int           @id @default(autoincrement())
   desciption          String        @db.VarChar(20)
   account             Account[]
+  ledger              Ledger[]
 }
