@@ -161,6 +161,8 @@
             }
     
             & > .action {
+                display: flex;
+                align-items: center;
                 position: relative;
                 background: none;
                 border: none;
@@ -169,14 +171,20 @@
                 padding: {
                     top: 0;
                     bottom: 0;
-                    left: 1.5rem;
-                    right: 1.5rem;
+                    left: var(--system-padding4);
+                    right: var(--system-padding4);
                 };
                 margin-right: 0.5rem;
                 min-width: var(--system-spacer2);
                 min-height: var(--system-spacer2);
+
+                & > .progress {
+                    position: relative;
+                    display: grid;
+                    place-items: center;
+                }
     
-                & > .content {
+                & > .label {
                     position: relative;
                     font-family: var(--header-action-label-font);
                     line-height: var(--header-action-label-line-height);
@@ -184,6 +192,10 @@
                     font-weight: var(--header-action-label-weight);
                     letter-spacing: var(--header-action-label-tracking);
                     color: var(--header-action-label-color);
+                    padding: {
+                        left: var(--system-padding2);
+                        right: var(--system-padding2);
+                    }
                 }
     
                 & > .decorator { 

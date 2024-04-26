@@ -18,7 +18,15 @@
         display: flex;
         align-items: center;
 
-        & > svg {
+        & > .progress {
+            position: relative;
+            display: grid;
+            place-items: center;
+        }
+
+        & > .icon > svg {
+            display: grid;
+            place-items: center;
             position: relative;
             width: var(--icon-width);
             height: var(--icon-height);
