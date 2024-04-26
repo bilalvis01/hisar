@@ -54,6 +54,4 @@ model Entry {
   amount              BigInt
   balance             BigInt
   direction           Int           @db.TinyInt
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
 } 
