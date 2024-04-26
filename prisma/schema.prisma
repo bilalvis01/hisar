@@ -19,6 +19,7 @@ model Account {
   accountCode         AccountCode   @relation(fields: [accountCodeId], references: [id])
   name                String        @db.VarChar(255)
   balance             BigInt
+  direction           Int           @db.TinyInt
   entries             Entry[]
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
