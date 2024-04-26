@@ -19,7 +19,6 @@ model Account {
   accountCode         AccountCode   @relation(fields: [accountCodeId], references: [id])
   name                String        @db.VarChar(255)
   balance             BigInt
-  active              Boolean       @default(true)
   entries             Entry[]
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
