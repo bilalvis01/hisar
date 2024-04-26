@@ -41,6 +41,9 @@ model Ledger {
   id                  Int           @id @default(autoincrement())
   description         String        @db.VarChar(255)
   entries             Entry[]
+  correctedLedgerId   Int?          @unique
+  correctedLedger     Ledger?       @relation("CorrectionLedger", fields: [correctedLedgerId], references: [id])
+  correctorLedger     Ledger?       @relation("CorrectionLedger")
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
 }
