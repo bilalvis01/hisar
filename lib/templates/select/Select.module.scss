@@ -2,7 +2,7 @@
     position: relative;
 }
 
-.loadingContainer {
+.placeholder {
     display: grid; 
     place-items: center; 
     position: absolute;
@@ -11,6 +11,10 @@
     height: 7rem;
     background-color: var(--system-color-surface);
     z-index: 2;
+}
+
+.error {
+    color: var(--system-color-error);
 }
 
 .menu {

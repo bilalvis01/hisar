@@ -5,6 +5,7 @@ import { useField } from "formik";
 import IconCaretDownFill from "../../icons/CaretDownFill";
 import style from "./Select.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";
+import clsx from "clsx";
 
 interface OpenMenuHandlerReturn {
     loading: boolean,
@@ -37,6 +38,8 @@ export default function Select({
     const caretRef = React.useRef(null);
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState(options_);
+    const [filteredOptions, setFilteredOptions] = React.useState(options_);
+    const [filtering, setFiltering] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [inputValue, setInputValue] = React.useState("");
@@ -44,9 +47,9 @@ export default function Select({
     const { value } = meta;
     const { setValue } = helpers;
 
-    const handleMenuChange = (value) => {
-        setValue(value);
-        setInputValue(options.filter((option) => option.value === value)[0]?.label);
+    const handleMenuChange = (selectedValue) => {
+        setValue(selectedValue);
+        setInputValue(options.filter((option) => option.value === selectedValue)[0]?.label);
         setOpen(false);
         if (inputRef.current instanceof HTMLInputElement) {
             inputRef.current.blur();
@@ -62,10 +65,12 @@ export default function Select({
             return;
         }
         setOpen(false);
+        setFiltering(false);
     }
 
     const handleFocus = () => {
         setOpen(true);
+        setFilteredOptions([]);
     }
 
     const handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
@@ -80,16 +85,26 @@ export default function Select({
     }, [open]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
+        const inputValue = event.target.value;
+        setInputValue(inputValue);
+        const filteredOptions = options.filter((option) => {
+            return option.label.toLowerCase().includes(inputValue.toLowerCase());
+        });
+        setFilteredOptions(filteredOptions);
+        setFiltering(true);
     }
 
     React.useEffect(() => {
         if (open) {
             if (handleOpenMenu) {
                 setLoading(true);
-                handleOpenMenu().then(({ loading, error, data }) => {
-                    if (error) setError(true);
-                    else setOptions(data);
+                handleOpenMenu().then(({ error, data }) => {
+                    if (error) {
+                        setError(true);
+                    } else {
+                        setOptions(data);
+                        setFilteredOptions([]);
+                    }
                 })
                 .finally(() => {
                     setLoading(false);
@@ -99,6 +114,13 @@ export default function Select({
             }
         } else {
             setError(false);
+        }
+    }, [open]);
+
+    React.useEffect(() => {
+        if (!open) {
+            const selectedOption = options.filter((option) => option.value === value);
+            if (selectedOption.length != 0) setInputValue(selectedOption[0].label);
         }
     }, [open]);
 
@@ -114,19 +136,36 @@ export default function Select({
         </button>
     );
 
-    const filteredOptions = options.filter((option) => {
-        return option.label.toLowerCase().includes(inputValue.toLowerCase());
-    });
+    let menuHeight_;
+    
+    if (filteredOptions.length != 0 && filteredOptions.length > 4) menuHeight_ = 4;
+    else if (filteredOptions.length != 0) menuHeight_ = filteredOptions.length;
+    else if (filteredOptions.length == 0 && filtering) menuHeight_ = 1;
+    else if (options.length > 4) menuHeight_ = 4
+    else menuHeight_ = options.length;
 
-    const menuHeight = `${(filteredOptions.length > 4 ? 4 : filteredOptions.length == 0 ? 1 : filteredOptions.length) * 3 + 0.5 * 2}rem`;
+    const menuHeight = `${menuHeight_ * 3 + 0.5 * 2}rem`;
 
     const menu = loading
         ? (
-            <div className={style.loadingContainer}>
+            <div className={style.placeholder}>
                 <ProgressCircular />
             </div>
         )
-        : (
+        : error
+        ? (
+            <div className={clsx(style.placeholder, style.error, "text-label-medium")}>
+                <span>Gagal mengambil data</span>
+            </div>
+        )
+        : filteredOptions.length == 0 && filtering
+        ? (
+            <div className={clsx(style.placeholder, "text-label-medium")}>
+                <span>Pencarian tidak ada</span>
+            </div>
+        )
+        : filteredOptions.length > 0
+        ? (
             <Menu 
                 ref={menuRef}
                 initialValue={value}
@@ -156,6 +195,27 @@ export default function Select({
                     })}
                 </ul>
             </Menu>
+        )
+        : (
+            <Menu 
+                ref={menuRef}
+                initialValue={value}
+                value={value}
+                onChange={handleMenuChange} 
+                onMouseDown={handleMouseDown}
+                className={style.menu}
+                style={{ height: menuHeight }}
+            >
+                <ul>
+                    {options.map((option) => (
+                        <li key={option.value}>
+                            <MenuItem value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        </li>
+                    ))}
+                </ul>
+            </Menu>
         );
 
     return (
@@ -170,6 +230,7 @@ export default function Select({
                 onBlur={handleBlur}
                 onFocus={handleFocus}
                 onChange={handleInputChange}
+                error={meta.touched && meta.error}
             />
             {open && menu}
         </div>
