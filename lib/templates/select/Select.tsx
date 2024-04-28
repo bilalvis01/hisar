@@ -48,6 +48,9 @@ export default function Select({
         setValue(value);
         setInputValue(options.filter((option) => option.value === value)[0]?.label);
         setOpen(false);
+        if (inputRef.current instanceof HTMLInputElement) {
+            inputRef.current.blur();
+        }
     };
 
     const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
