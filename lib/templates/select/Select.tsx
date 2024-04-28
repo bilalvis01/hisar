@@ -1,5 +1,5 @@
 import React from "react";
-import TextFieldOutlined from "../../components/TextFieldOulined";
+import TextFieldOutlined from "../../components/TextFieldOutlined";
 import { Menu, MenuItem } from "../../components/Menu";
 import { useField } from "formik";
 import IconCaretDownFill from "../../icons/CaretDownFill";
