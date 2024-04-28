@@ -1,8 +1,8 @@
 import React from "react";
 import style from "./expense.module.scss";
 import Table from "../../lib/templates/ExpenseTable";
-import BudgetAddForm from "../../lib/templates/expense-add-form/ExpenseAddForm";
 import clsx from "clsx";
+import ExpenseAddForm from "../../lib/templates/expense-add-form/ExpenseAddForm";
 
 export default function Page() {
     return (
@@ -12,7 +12,7 @@ export default function Page() {
                     <header className={style.header}>
                         <h2 className={clsx("text-title-medium", style.headline)}>Budget</h2>
                         <div className={style.toolbar}>
-                            <BudgetAddForm />
+                            <ExpenseAddForm />
                         </div>
                     </header>
                     <div className={style.body}>
