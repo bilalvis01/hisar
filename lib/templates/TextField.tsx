@@ -1,7 +1,7 @@
 import React from "react";
 import { useField, FieldHookConfig } from "formik";
-import TextFieldOutlined  from "../components/TextFieldOulined";
-import type { TextFieldOutlinedProps } from "../components/TextFieldOulined";
+import TextFieldOutlined  from "../components/TextFieldOutlined";
+import type { TextFieldOutlinedProps } from "../components/TextFieldOutlined";
 
 type TextFieldProps = FieldHookConfig<TextFieldOutlinedProps> & TextFieldOutlinedProps;
 
