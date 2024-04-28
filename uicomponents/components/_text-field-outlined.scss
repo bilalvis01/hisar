@@ -148,6 +148,7 @@
                     };
                     flex-grow: 1;
                     z-index: var(--input-z-index);
+                    appearance: textfield;
     
                     &:focus {
                         outline: none;
@@ -192,6 +193,7 @@
                 }
     
                 & > .trailing-icon {
+                    position: relative;
                     display: grid;
                     align-items: center;
                     padding-right: 0.75rem;
