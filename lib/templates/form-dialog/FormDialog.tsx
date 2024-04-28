@@ -5,7 +5,6 @@ import {
     Formik, 
     Form as FormikForm,
 } from "formik";
-import * as Yup from "yup";
 import ButtonFilled from "../../components/ButtonFIlled";
 import TextField from "../TextField";
 import style from "./FormDialog.module.scss";
@@ -26,17 +25,21 @@ import {
 import FabPrimary from "../../components/FabPrimary";
 import IconPlusLg from "../../icons/PlusLg";
 import ButtonText from "../../components/ButtonText";
-import type { CreateBudgetInput, CreateBudgetMutation, CreateBudgetMutationVariables, CreateBudgetPayload } from "../../graphql-tag/graphql";
-import type { MutationFunction } from "@apollo/client";
-import { Snackbar, SupportingText as SnackbarText, IconAction as SnackbarIconAction } from "../../components/Snackbar";
+import { 
+    Snackbar, 
+    SupportingText as SnackbarText, 
+    IconAction as SnackbarIconAction 
+} from "../../components/Snackbar";
 import IconClose from "../../icons/Close";
 import ProgressCircular from "../../components/ProgressCircular";
-import { Payload } from "@prisma/client/runtime/library";
+import { Option as SelectOption } from "../select/Select";
+import Select from "../select/Select";
 
 interface InputField {
     type: string;
     name: string;
     label: string;
+    options?: SelectOption[];
 }
 
 interface FormDialogOptions<Input> {
@@ -69,11 +72,14 @@ function useFormDialogContext<Input>() {
 }
 
 function useFormDialog<Input>({
+    message,
     success,
     loading,
     inputFields,
     initialValues,
-}: FormDialogOptions<Input>) {
+    validationSchema,
+    onSubmit,
+}: FormDialogOptions<Input>): FormDialogContext<Input> {
     const [dialog, setDialog] = React.useState<"none" | "desktop" | "mobile">("none");
     const [values, setValues] = React.useState<Input>(initialValues);
 
@@ -108,10 +114,24 @@ function useFormDialog<Input>({
         setValues,
         dialog,
         onOpenChange: handleOpen,
+        message,
         success,
         loading,
         inputFields,
-    }), [dialog, values, success, loading, inputFields]);
+        onSubmit,
+        validationSchema,
+        initialValues,
+    }), [
+        dialog, 
+        values, 
+        message, 
+        success, 
+        loading, 
+        inputFields, 
+        onSubmit,
+        validationSchema,
+        initialValues,
+    ]);
 };
 
 interface FormProps {
@@ -157,14 +177,28 @@ function Form({ id, open }) {
                 return (
                     <>
                         <FormikForm id={id}>
-                            {inputFields.map((inputField) =>
-                                <TextField 
-                                    className={style.field} 
-                                    type={inputField.type} 
-                                    label={inputField.label}
-                                    name={inputField.name}
-                                /> 
-                            )}
+                            {inputFields.map((inputField) => {
+                                if (inputField.type === "select") {
+                                    return (
+                                        <Select 
+                                            key={inputField.name} 
+                                            name={inputField.name} 
+                                            label={inputField.label} 
+                                            options={inputField.options} 
+                                        />
+                                    );
+                                }
+                            
+
+                                return (
+                                    <TextField key={inputField.name}
+                                        className={style.field} 
+                                        type={inputField.type} 
+                                        label={inputField.label}
+                                        name={inputField.name}
+                                    /> 
+                                );
+                            })}
                         </FormikForm>
                     </>
                 );
@@ -236,7 +270,13 @@ function FormDialogMobile() {
 
 function FormDialogDesktop() {
     const formId = React.useId();
-    const { dialog, onOpenChange: setOpen, success, loading, message } = useFormDialogContext();
+    const { 
+        dialog, 
+        onOpenChange: setOpen, 
+        success, 
+        loading, 
+        message,
+    } = useFormDialogContext();
     const open = dialog === "desktop";
             
     const handleOpen = React.useCallback(() => {
@@ -259,6 +299,7 @@ function FormDialogDesktop() {
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogHeadline>Tambah Budget</DialogHeadline>
                 <DialogBody className={style.dialogBody}>
+                    {!success && <div>{message}</div>}
                     <Form id={formId} open={open} />
                 </DialogBody>
                 <DialogFooter>
