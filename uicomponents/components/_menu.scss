@@ -62,18 +62,21 @@
     max-width: 17.5rem;
 
     & > .container {
-        box-shadow: var(--container-elevation);
-        border-radius: var(--container-shape);
-        background-color: var(--container-color);
+        height: 100%;
         padding: {
             top: 0.5rem;
             bottom: 0.5rem;
         };
+        overflow-y: auto;
+        box-shadow: var(--container-elevation);
+        border-radius: var(--container-shape);
+        background-color: var(--container-color);
 
         & > ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
+            height: 100%;
 
             & > li {
                 & > hr {
