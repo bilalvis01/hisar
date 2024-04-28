@@ -32,7 +32,7 @@ import {
 } from "../../components/Snackbar";
 import IconClose from "../../icons/Close";
 import ProgressCircular from "../../components/ProgressCircular";
-import { Option as SelectOption } from "../select/Select";
+import { Option as SelectOption, OpenMenuHandler as SelectOpenMenuHandler } from "../select/Select";
 import Select from "../select/Select";
 
 interface InputField {
@@ -40,6 +40,7 @@ interface InputField {
     name: string;
     label: string;
     options?: SelectOption[];
+    onOpenMenu?: SelectOpenMenuHandler;
 }
 
 interface FormDialogOptions<Input> {
@@ -185,6 +186,7 @@ function Form({ id, open }) {
                                             name={inputField.name} 
                                             label={inputField.label} 
                                             options={inputField.options} 
+                                            onOpenMenu={inputField.onOpenMenu}
                                         />
                                     );
                                 }
