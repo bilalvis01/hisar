@@ -17,6 +17,20 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AddExpenseInput = {
+  amount: Scalars['Int']['input'];
+  budgetAccountId: Scalars['Int']['input'];
+  description: Scalars['String']['input'];
+};
+
+export type AddExpensePayload = {
+  __typename?: 'AddExpensePayload';
+  code: Scalars['Int']['output'];
+  expense?: Maybe<Expense>;
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type Budget = {
   __typename?: 'Budget';
   balance: Scalars['Int']['output'];
@@ -54,7 +68,13 @@ export type Expense = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addExpense: AddExpensePayload;
   createBudget: CreateBudgetPayload;
+};
+
+
+export type MutationAddExpenseArgs = {
+  input: AddExpenseInput;
 };
 
 
@@ -139,6 +159,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AddExpenseInput: AddExpenseInput;
+  AddExpensePayload: ResolverTypeWrapper<AddExpensePayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Budget: ResolverTypeWrapper<Budget>;
   CreateBudgetInput: CreateBudgetInput;
@@ -152,6 +174,8 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AddExpenseInput: AddExpenseInput;
+  AddExpensePayload: AddExpensePayload;
   Boolean: Scalars['Boolean']['output'];
   Budget: Budget;
   CreateBudgetInput: CreateBudgetInput;
@@ -161,6 +185,14 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
+};
+
+export type AddExpensePayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AddExpensePayload'] = ResolversParentTypes['AddExpensePayload']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  expense?: Resolver<Maybe<ResolversTypes['Expense']>, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type BudgetResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Budget'] = ResolversParentTypes['Budget']> = {
@@ -194,6 +226,7 @@ export type ExpenseResolvers<ContextType = Context, ParentType extends Resolvers
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addExpense?: Resolver<ResolversTypes['AddExpensePayload'], ParentType, ContextType, RequireFields<MutationAddExpenseArgs, 'input'>>;
   createBudget?: Resolver<ResolversTypes['CreateBudgetPayload'], ParentType, ContextType, RequireFields<MutationCreateBudgetArgs, 'input'>>;
 };
 
@@ -203,6 +236,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
 };
 
 export type Resolvers<ContextType = Context> = {
+  AddExpensePayload?: AddExpensePayloadResolvers<ContextType>;
   Budget?: BudgetResolvers<ContextType>;
   CreateBudgetPayload?: CreateBudgetPayloadResolvers<ContextType>;
   Expense?: ExpenseResolvers<ContextType>;
