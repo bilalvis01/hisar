@@ -2,6 +2,17 @@
     position: relative;
 }
 
+.loadingContainer {
+    display: grid; 
+    place-items: center; 
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    height: 7rem;
+    background-color: var(--system-color-surface);
+    z-index: 2;
+}
+
 .menu {
     position: absolute;
     width: 100%;
@@ -20,4 +31,8 @@
         width: 1.5rem;
         height: 1.5rem;
     }
+}
+
+.highlight {
+    color: var(--system-color-primary);
 }
