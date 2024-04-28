@@ -1,10 +1,10 @@
 "use client"
 
-import React from "react";
+import React, { ChangeEvent } from "react";
 import clsx from "clsx";
 import ExclamationCircleFill from "../icons/ExclamationCircleFill";
 
-export interface TextFieldOutlinedProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextFieldOutlinedProps extends React.HTMLProps<HTMLInputElement> {
     label?: string;
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
@@ -16,7 +16,10 @@ export interface TextFieldOutlinedProps extends React.InputHTMLAttributes<HTMLIn
     counter?: boolean | number;
 }
 
-export default function TextFieldOutlined({
+const TextFieldOulined = React.forwardRef<
+    HTMLInputElement,
+    TextFieldOutlinedProps
+>(function TextFieldOutlined({
     label,
     startIcon,
     endIcon: endIcon_,
@@ -30,12 +33,12 @@ export default function TextFieldOutlined({
     type,
     placeholder,
     value: controlledValue,
+    onFocus: externalHandleFocus,
     onChange: externalHandleChange,
     onBlur: externalHandleBlur,
     ...props
-}: TextFieldOutlinedProps) {
+}, inputRef) {
     const id = React.useId();
-    const inputRef = React.useRef(null);
     const inputContainerRef = React.useRef(null);
     const labelRef = React.useRef(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState("");
@@ -50,9 +53,12 @@ export default function TextFieldOutlined({
 
     const endIcon = !!error ? <ExclamationCircleFill /> : endIcon_;
 
-    const handleChange = externalHandleChange ?? ((event) => setUncontrolledValue(event.target.value));
+    const handleChange = externalHandleChange ?? ((event: ChangeEvent<HTMLInputElement>) => {
+        setUncontrolledValue(event.target.value);
+    });
 
-    function handleFocus() {
+    function handleFocus(event) {
+        externalHandleFocus && externalHandleFocus(event);
         setPopulated(true);
     }
 
@@ -99,9 +105,13 @@ export default function TextFieldOutlined({
     }, [handleOutlineStyle]);
 
     React.useEffect(() => {
-        window.addEventListener("resize", handleResize);
+        if (!(inputContainerRef.current instanceof HTMLElement)) return null;
+        
+        const observer = new ResizeObserver(handleResize);
 
-        return () => window.removeEventListener("resize", handleResize);
+        observer.observe(inputContainerRef.current);
+
+        return () => observer.disconnect();
     }, [handleResize]);
 
     React.useEffect(() => {
@@ -180,4 +190,6 @@ export default function TextFieldOutlined({
             </div>
         </div>
     );
-}
+});
+
+export default TextFieldOulined;
