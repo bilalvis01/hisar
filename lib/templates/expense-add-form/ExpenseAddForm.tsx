@@ -2,8 +2,8 @@
 
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
-import { useMutation } from "@apollo/client";
-import { ADD_EXPENSE, GET_EXPENSES } from "../../graphql-documents";
+import { useMutation, useLazyQuery } from "@apollo/client";
+import { ADD_EXPENSE, GET_EXPENSES, GET_BUDGETS } from "../../graphql-documents";
 import * as Yup from "yup";
 
 export default function ExpenseAddForm() {
@@ -13,6 +13,7 @@ export default function ExpenseAddForm() {
             "GetEpenses"
         ]
     });
+    const [getBudgets] = useLazyQuery(GET_BUDGETS);
 
     return (
         <FormDialog
@@ -21,9 +22,21 @@ export default function ExpenseAddForm() {
             loading={loading}
             inputFields={[
                 {
-                    type: "number",
+                    type: "select",
                     name: "budgetAccountId",
                     label: "Akun Budget",
+                    onOpenMenu: async () => {
+                        const { data: { budgets }, loading, error } = await getBudgets();
+                        const data = budgets.map((budget) => ({
+                            value: budget.id.toString(),
+                            label: budget.name,
+                        }));
+                        return {
+                            loading,
+                            error: !!error,
+                            data,
+                        }
+                    }
                 },
                 {
                     type: "text",
@@ -42,13 +55,15 @@ export default function ExpenseAddForm() {
                 amount: null,
             }}
             validationSchema={Yup.object({
-                name: Yup.string().required("Wajib diisi"),
-                budget: Yup.number().typeError("Wajib masukan angka").required("Wajib diisi"),
+                budgetAccountId: Yup.number().required("Mohon pilih salah satu"),
+                description: Yup.string().required("Mohon diisi"),
+                amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
             })}
-            onSubmit={async (input) => {
-                createBudget({
+            onSubmit={async (values) => {
+                const input = { ...values, ...{ budgetAccountId: Number(values.budgetAccountId) } };
+                await createBudget({
                     variables: { input }
-                })
+                });
             }}
         />
     );
