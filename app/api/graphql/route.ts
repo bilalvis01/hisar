@@ -3,7 +3,7 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers } from "../../../lib/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient } from "@prisma/client";
-import { createBudget } from "../../../lib/transactions";
+import { createBudget, entry } from "../../../lib/transactions";
 
 const resolvers: Resolvers = {
     Query: {
@@ -12,7 +12,10 @@ const resolvers: Resolvers = {
                 where: { accountCode: { accountSupercode: { code: 101 } } },
                 include: {
                     entries: true,
-                }
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
             });
         
             return data.map((record) => {
@@ -38,6 +41,9 @@ const resolvers: Resolvers = {
             const data = await context.dataSources.ledger.findMany({ 
                 where: { entries: { some: { account: { accountCode: { code: 200 } } } } },
                 include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
+                orderBy: {
+                    createdAt: "desc",
+                }
             });
         
             return data.map((record) => {
@@ -88,6 +94,45 @@ const resolvers: Resolvers = {
                     success: false,
                     message: `akun ${input.name} gagal dibuat`,
                     budget: null,
+                }
+            }
+        },
+
+        async addExpense(_, { input }, context) {
+            try {
+                const expenseAccount = await context.dataSources.account.findFirst({
+                    where: { accountCode: { code: 200 } }
+                });
+                const budgetAccount = await context.dataSources.account.findUnique({
+                    where: { id: input.budgetAccountId }
+                });
+                const ledger = await entry(
+                    context.dataSources, 
+                    budgetAccount.id, 
+                    expenseAccount.id, 
+                    BigInt(input.amount) * BigInt(10000), 
+                    input.description
+                ); 
+                return {
+                    code: 200,
+                    success: true,
+                    message: `${input.description} berhasil ditambahkan`,
+                    expense: {
+                        id: ledger.id,
+                        budgetAccountId: budgetAccount.id,
+                        budgetAccount: budgetAccount.name,
+                        amount: input.amount,
+                        description: ledger.description,
+                        createdAt: ledger.createdAt.toISOString(),
+                        updatedAt: ledger.updatedAt.toISOString(),
+                    },
+                };
+            } catch (error) {
+                return {
+                    code: 500,
+                    success: false,
+                    message: `akun ${input.description} gagal ditambahkan`,
+                    expense: null,
                 }
             }
         }
