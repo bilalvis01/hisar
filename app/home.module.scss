@@ -1,4 +1,4 @@
-@use "mixins";
+@use "../lib/style/mixins";
 
 .container {
     @include mixins.page-padding;
@@ -10,25 +10,4 @@
     @media (min-width: 840px) {
         flex-direction: row;
     }
-}
-
-.card {
-    width: 100%;
-    height: var(--system-spacer10);
-    flex-grow: 1;
-}
-
-.cardContent {
-    padding: {
-        top: var(--system-padding4);
-        bottom: var(--system-padding4);
-    }
-}
-
-.cardHeader {
-    text-align: center;
-}
-
-.cardBody {
-    text-align: center;
 }
