@@ -5,36 +5,56 @@ import { readFileSync } from 'fs';
 import { PrismaClient } from "@prisma/client";
 import { createBudget, entry } from "../../../lib/transactions";
 
+async function fetchBugdets(client: PrismaClient) {
+    const data = await client.account.findMany({ 
+        where: { accountCode: { accountSupercode: { code: 101 } } },
+        include: {
+            entries: true,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+
+    return data.map((record) => {
+        const budget = record.entries
+            .filter(val => val.direction == 1)
+            .reduce((acc, val) => acc + val.amount, BigInt(0));
+        const expense = record.entries
+            .filter(val => val.direction == -1)
+            .reduce((acc, val) => acc + val.amount, BigInt(0));
+        return {
+            id: record.id,
+            name: record.name,
+            budget: Number(budget / BigInt(10000)),
+            expense: Number(expense / BigInt(10000)),
+            balance: Number(record.balance / BigInt(10000)),
+            createdAt: record.createdAt.toISOString(),
+            updatedAt: record.updatedAt.toISOString(),
+        }
+    });
+};
+
 const resolvers: Resolvers = {
     Query: {
-        async budgets(_, __, context) {
-            const data = await context.dataSources.account.findMany({ 
-                where: { accountCode: { accountSupercode: { code: 101 } } },
-                include: {
-                    entries: true,
-                },
-                orderBy: {
-                    createdAt: "desc",
-                },
-            });
-        
-            return data.map((record) => {
-                const budget = record.entries
-                    .filter(val => val.direction == 1)
-                    .reduce((acc, val) => acc + val.amount, BigInt(0));
-                const expense = record.entries
-                    .filter(val => val.direction == -1)
-                    .reduce((acc, val) => acc + val.amount, BigInt(0));
+        async excerptReport(_, __, context) {
+            const budgets = await fetchBugdets(context.dataSources);
+
+            return budgets.reduce((acc, budget) => {
                 return {
-                    id: record.id,
-                    name: record.name,
-                    budget: Number(budget / BigInt(10000)),
-                    expense: Number(expense / BigInt(10000)),
-                    balance: Number(record.balance / BigInt(10000)),
-                    createdAt: record.createdAt.toISOString(),
-                    updatedAt: record.updatedAt.toISOString(),
+                    budget: acc.budget + budget.budget,
+                    expense: acc.expense + budget.expense,
+                    balance: acc.balance + budget.balance,
                 }
-            });
+            }, {
+                budget: 0,
+                expense: 0,
+                balance: 0
+            })
+        },
+
+        async budgets(_, __, context) {
+            return await fetchBugdets(context.dataSources);
         },
 
         async expenses(_, __, context) {
@@ -131,7 +151,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `akun ${input.description} gagal ditambahkan`,
+                    message: `${input.description} gagal ditambahkan`,
                     expense: null,
                 }
             }
