@@ -140,7 +140,7 @@ interface FormProps {
     open: boolean;
 }
 
-function Form({ id, open }) {
+function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: number }) {
     /* When a form dialog is going to close, at the same time the form will be unmounted.
     `preparingUnmount` give the form a time to save its values to values state */
     const [preparingUnmount, setPreparingUnmount] = React.useState(true);
@@ -186,6 +186,7 @@ function Form({ id, open }) {
                                             name={inputField.name} 
                                             label={inputField.label} 
                                             options={inputField.options} 
+                                            size={inputSize ?? 1}
                                             onOpenMenu={inputField.onOpenMenu}
                                         />
                                     );
@@ -198,6 +199,7 @@ function Form({ id, open }) {
                                         type={inputField.type} 
                                         label={inputField.label}
                                         name={inputField.name}
+                                        size={inputSize}
                                     /> 
                                 );
                             })}
@@ -263,7 +265,7 @@ function FormDialogMobile() {
                     </DialogFullscreenAction>
                 </DialogFullscreenHeader>
                 <DialogFullscreenBody>
-                    <Form id={formId} open={open} />
+                    <Form id={formId} open={open} inputSize={1} />
                 </DialogFullscreenBody>
             </DialogFullscreen>
         </>
