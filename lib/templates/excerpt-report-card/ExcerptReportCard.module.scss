@@ -1,0 +1,33 @@
+@use "../../style/mixins";
+
+.card {
+    width: 100%;
+    height: var(--system-spacer10);
+    flex-grow: 1;
+    @include mixins.card-outlined;
+}
+
+.cardContent {
+    padding: {
+        top: var(--system-padding4);
+        bottom: var(--system-padding4);
+    }
+}
+
+.cardHeader {
+    text-align: center;
+}
+
+.cardBody {
+    text-align: center;
+}
+
+.loading {
+    display: grid;
+    place-items: center;
+    
+    & > svg {
+        width: 3rem;
+        height: 3rem;
+    }
+}
