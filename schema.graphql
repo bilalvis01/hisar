@@ -1,4 +1,5 @@
 type Query {
+    excerptReport: ExcerptReport!
     budgets: [Budget!]!
     expenses: [Expense!]!
 }
@@ -6,6 +7,12 @@ type Query {
 type Mutation {
     createBudget(input: CreateBudgetInput!): CreateBudgetPayload!
     addExpense(input: AddExpenseInput!): AddExpensePayload!
+}
+
+type ExcerptReport {
+    budget: Int!
+    expense: Int!
+    balance: Int!
 }
 
 type Budget {
