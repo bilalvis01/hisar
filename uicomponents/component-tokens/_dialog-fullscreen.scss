@@ -3,6 +3,7 @@ $dialog-fullscreen-container-color: var(--system-color-surface) !default;
 $dialog-fullscreen-container-elevation: var(--system-elevation-level0) !default;
 $dialog-fullscreen-container-shape: var(--system-shape-corner-none) !default;
 $dialog-fullscreen-header-container-height: 3.5rem !default;
+$dialog-fullscreen-header-container-color: var(--system-color-surface) !default;
 $dialog-fullscreen-header-container-elevation: var(--system-elevation-level0) !default;
 $dialog-fullscreen-on-scroll-header-container-elevation: var(--system-elevation-level2) !default;
 $dialog-fullscreen-action-bar-container-height: 3.5rem !default;
@@ -30,7 +31,7 @@ $dialog-fullscreen-headline-weight: var(--system-typescale-title-large-weight) !
 $dialog-fullscreen-headline-tracking: var(--system-typescale-title-large-tracking) !default;
 $dialog-fullscreen-headline-color: var(--system-color-on-surface) !default;
 $dialog-fullscreen-divider-color: var(--system-color-surface-variant) !default;
-$dialog-fullscreen-divider-width: 0.0625rem !default;
+$dialog-fullscreen-divider-height: 0.0625rem !default;
 
 $dialog-fullscreen-header-action-hover-label-color: var(--system-color-primary) !default;
 $dialog-fullscreen-action-bar-hover-label-color: var(--system-color-primary) !default;
@@ -65,6 +66,7 @@ $dialog-fullscreen: (
     "dialog-fullscreen-container-elevation": $dialog-fullscreen-container-elevation,
     "dialog-fullscreen-container-shape": $dialog-fullscreen-container-shape,
     "dialog-fullscreen-header-container-height": $dialog-fullscreen-header-container-height,
+    "dialog-fullscreen-header-container-color": $dialog-fullscreen-header-container-color,
     "dialog-fullscreen-header-container-elevation": $dialog-fullscreen-header-container-elevation,
     "dialog-fullscreen-on-scroll-header-container-elevation": $dialog-fullscreen-on-scroll-header-container-elevation,
     "dialog-fullscreen-action-bar-container-height": $dialog-fullscreen-action-bar-container-height,
@@ -92,7 +94,7 @@ $dialog-fullscreen: (
     "dialog-fullscreen-headline-tracking": $dialog-fullscreen-headline-tracking,
     "dialog-fullscreen-headline-color": $dialog-fullscreen-headline-color,
     "dialog-fullscreen-divider-color": $dialog-fullscreen-divider-color,
-    "dialog-fullscreen-divider-width": $dialog-fullscreen-divider-width,
+    "dialog-fullscreen-divider-height": $dialog-fullscreen-divider-height,
 ) !default;
 
 $dialog-fullscreen-hover: (
