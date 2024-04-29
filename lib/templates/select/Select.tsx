@@ -1,5 +1,5 @@
 import React from "react";
-import TextFieldOutlined from "../../components/TextFieldOutlined";
+import TextFieldOutlined, { TextFieldOutlinedProps } from "../../components/TextFieldOutlined";
 import { Menu, MenuItem } from "../../components/Menu";
 import { useField } from "formik";
 import IconCaretDownFill from "../../icons/CaretDownFill";
@@ -20,11 +20,9 @@ export interface Option {
     label: string;
 }
 
-export interface SelectOutlinedProps {
-    name: string;
+export interface SelectOutlinedProps extends TextFieldOutlinedProps {
     options?: Option[];
     onOpenMenu?: OpenMenuHandler,
-    label?: string;
 }
 
 export default function Select({ 
@@ -32,6 +30,7 @@ export default function Select({
     name, 
     label,
     onOpenMenu: handleOpenMenu,
+    ...textFieldProps
 }: SelectOutlinedProps) {
     const menuRef = React.useRef(null);
     const inputRef = React.useRef(null);
@@ -221,6 +220,7 @@ export default function Select({
     return (
         <div className={style.container} >
             <TextFieldOutlined 
+                {...textFieldProps}
                 ref={inputRef}
                 type="text" 
                 value={inputValue}
