@@ -44,6 +44,7 @@ interface InputField {
 }
 
 interface FormDialogOptions<Input> {
+    headline: string;
     message: string;
     success: boolean;
     loading: boolean;
@@ -73,6 +74,7 @@ function useFormDialogContext<Input>() {
 }
 
 function useFormDialog<Input>({
+    headline,
     message,
     success,
     loading,
@@ -111,6 +113,7 @@ function useFormDialog<Input>({
     }, [dialog]);
 
     return React.useMemo(() => ({
+        headline,
         values,
         setValues,
         dialog,
@@ -123,6 +126,7 @@ function useFormDialog<Input>({
         validationSchema,
         initialValues,
     }), [
+        headline,
         dialog, 
         values, 
         message, 
@@ -214,7 +218,7 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
 function FormDialogMobile() {
     const formId = React.useId();
     const fabRef = React.useRef(null);
-    const { dialog, onOpenChange: setOpen, success, loading } = useFormDialogContext();
+    const { headline, dialog, onOpenChange: setOpen, success, loading } = useFormDialogContext();
     const open = dialog === "mobile";
 
     const handleOpen = React.useCallback(() => {
@@ -255,7 +259,7 @@ function FormDialogMobile() {
             <DialogFullscreen open={open} onOpenChange={setOpen}>
                 <DialogFullscreenHeader>
                     <DialogFullscreenClose></DialogFullscreenClose>
-                    <DialogFullscreenHeadline>Tambah Budget</DialogFullscreenHeadline>
+                    <DialogFullscreenHeadline>{headline}</DialogFullscreenHeadline>
                     <DialogFullscreenAction 
                         form={formId} 
                         disabled={loading}
@@ -275,6 +279,7 @@ function FormDialogMobile() {
 function FormDialogDesktop() {
     const formId = React.useId();
     const { 
+        headline,
         dialog, 
         onOpenChange: setOpen, 
         success, 
@@ -301,7 +306,7 @@ function FormDialogDesktop() {
                 Tambah
             </ButtonFilled>
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogHeadline>Tambah Budget</DialogHeadline>
+                <DialogHeadline>{headline}</DialogHeadline>
                 <DialogBody className={style.dialogBody}>
                     {!success && <div>{message}</div>}
                     <Form id={formId} open={open} />
