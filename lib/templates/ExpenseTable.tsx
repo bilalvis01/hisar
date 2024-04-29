@@ -3,7 +3,6 @@
 import React from "react";
 import {
     createColumnHelper,
-    flexRender,
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
@@ -12,7 +11,7 @@ import format from "../utils/format";
 import Checkbox from "../components/Checkbox";
 import { useQuery } from "@apollo/client";
 import { gql } from "../graphql-tag";
-import ProgressCircular from "../components/ProgressCircular";
+import Table from "./table/Table";
 
 interface Expense {
     description: string;
@@ -92,7 +91,7 @@ const GET_EXPENSES = gql(/* GraphQL */ `
     }
 `);
 
-export default function Table() {
+export default function ExpenseTable() {
     const { loading, error, data } = useQuery(GET_EXPENSES);
 
     const expenses = data ? data.expenses : [];
@@ -104,46 +103,7 @@ export default function Table() {
         enableRowSelection: true,
     });
 
-    if (error) return <p>Error : {error.message}</p>;
-
     return (
-        <>
-            <table className="table">
-                <thead>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => (
-                                <th key={header.id}>
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                        )
-                                    }
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map(row => (
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            {loading && (
-                <div style={{ display: "grid", placeItems: "center", height: "10rem" }}><ProgressCircular /></div>
-            )}
-            {error && (
-                <div style={{ display: "grid", placeItems: "center", height: "10rem" }}>{error.message}</div>
-            )}
-        </>
+        <Table loading={loading} success={!error} message={error ? error.message : ""} table={table} />
     );
 }
