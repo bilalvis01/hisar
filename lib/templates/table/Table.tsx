@@ -7,9 +7,9 @@ import ProgressCircular from "../../components/ProgressCircular";
 import style from "./Table.module.scss";
 
 interface TableProps<Column> {
-    loading: boolean,
-    success: boolean,
-    message: string,
+    loading: boolean;
+    success: boolean;
+    message: string;
     table: Table<Column>;
 };
 
