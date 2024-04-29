@@ -1,5 +1,15 @@
 import { gql } from "./graphql-tag";
 
+export const GET_EXCERPT_REPORT = gql(/* GraphQL */ `
+    query GetExcerptReport {
+        excerptReport {
+            budget
+            expense
+            balance
+        }
+    }
+`);
+
 export const GET_BUDGETS = gql(/* GraphQL */ `
     query GetBudget {
         budgets {
