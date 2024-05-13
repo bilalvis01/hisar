@@ -24,7 +24,7 @@ import {
 } from "../../components/Dialog";
 import FabPrimary from "../../components/FabPrimary";
 import IconPlusLg from "../../icons/PlusLg";
-import ButtonText from "../../components/ButtonText";
+import { ButtonText } from "../../components/ButtonText";
 import { 
     Snackbar, 
     SupportingText as SnackbarText, 
