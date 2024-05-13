@@ -1,9 +1,13 @@
 import React from "react";
-import ButtonBase from "./ButtonBase";
-import type { ButtonBaseProps } from "./ButtonBase";
+import { ButtonBase, LinkBase } from "./ButtonBase";
+import type { ButtonBaseProps, LinkBaseProps } from "./ButtonBase";
 
 type ButtonTextProps = ButtonBaseProps;
 
-export default function ButtonSolid(props: ButtonTextProps) {
-    return <ButtonBase variant="text" {...props} />
+export function ButtonText(props: ButtonTextProps) {
+    return <ButtonBase {...props} variant="text" />
+}
+
+export function LinkText(props: LinkBaseProps) {
+    return <LinkBase {...props} variant="text" />
 }

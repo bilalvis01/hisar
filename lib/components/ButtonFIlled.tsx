@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonBase from "./ButtonBase";
+import { ButtonBase } from "./ButtonBase";
 import type { ButtonBaseProps } from "./ButtonBase";
 
 type ButtonFilledProps = ButtonBaseProps;
