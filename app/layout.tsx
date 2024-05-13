@@ -1,5 +1,5 @@
 import React from "react";
-import "./global.scss";
+import "../style/style.scss";
 import Template from "../lib/templates/Template";
 
 interface RootLayoutProps {
