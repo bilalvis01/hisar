@@ -14,12 +14,34 @@ export const GET_BUDGETS = gql(/* GraphQL */ `
     query GetBudget {
         budgets {
             id
+            code
             name
             budget
             expense
             balance
-            createdAt,
-            updatedAt,
+            createdAt
+            updatedAt
+        }
+    }
+`);
+
+export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
+    query GetBudgetByCode($code: String!) {
+        budgetByCode(code: $code) {
+            id
+            code
+            name
+            budget
+            expense
+            balance
+            expenseDetail {
+                description
+                debit
+                credit
+                balance
+            }
+            createdAt
+            updatedAt
         }
     }
 `);
