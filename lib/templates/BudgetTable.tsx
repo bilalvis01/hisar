@@ -7,14 +7,17 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import format from "../utils/format";
+import idr from "../utils/idr";
 import Checkbox from "../components/Checkbox";
 import { useQuery } from "@apollo/client";
 import { GET_BUDGETS } from "../graphql-documents";
-import Table from "./table/Table";
+import Table from "./Table";
+import { LinkText } from "../components/ButtonText";
+import Link from "next/link";
 
 interface Budget {
     name: string;
+    code: string;
     budget: number;
     expense: number;
     balance: number;
@@ -49,7 +52,11 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
-                {info.getValue()}
+                <Link href={`budget/${info.row.original.code}`} passHref legacyBehavior>
+                    <LinkText>
+                        {info.getValue()}
+                    </LinkText>
+                </Link>
             </span>
         ),
     }),
@@ -61,7 +68,7 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("currency", "text-body-small")}>
-                {format.currency(info.getValue())}
+                {idr.format(info.getValue())}
             </span>
         ),
     }),
@@ -73,7 +80,7 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("currency", "text-body-small")}>
-                {format.currency(info.getValue())}
+                {idr.format(info.getValue())}
             </span>
         ),
     }),
@@ -85,7 +92,7 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("currency", "text-body-small")}>
-                {format.currency(info.getValue())}
+                {idr.format(info.getValue())}
             </span>
         ),
     })

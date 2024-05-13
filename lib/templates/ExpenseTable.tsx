@@ -7,11 +7,11 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import format from "../utils/format";
+import idr from "../utils/idr";
 import Checkbox from "../components/Checkbox";
 import { useQuery } from "@apollo/client";
 import { gql } from "../graphql-tag";
-import Table from "./table/Table";
+import Table from "./Table";
 
 interface Expense {
     description: string;
@@ -73,7 +73,7 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("currency", "text-body-small")}>
-                {format.currency(info.getValue())}
+                {idr.format(info.getValue())}
             </span>
         ),
     }),
