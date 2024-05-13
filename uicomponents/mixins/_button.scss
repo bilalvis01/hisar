@@ -6,6 +6,7 @@
     min-height: var(--system-spacer2);
     min-width: var(--system-spacer2);
     padding: 0;
+    text-decoration: none;
 
     & > .container {
         position: relative;
@@ -40,6 +41,7 @@
             font-size: var(--label-size);
             font-weight: var(--label-weight);
             letter-spacing: var(--label-tracking);
+            white-space: nowrap;
             color: var(--label-color);
             padding: {
                 left: var(--system-padding2);
