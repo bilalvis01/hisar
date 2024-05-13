@@ -22,6 +22,28 @@
 
     & > th {
         @extend %cell;
+
+        & > .description {
+            width: 100%;
+            padding: {
+                left: 1rem;
+                right: 1rem;
+            };
+            display: inline-block;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        & > .currency {
+            width: 100%;
+            padding: {
+                left: 1rem;
+                right: 1rem;
+            };
+            display: inline-block;
+            vertical-align: middle;
+            text-align: end;
+        }
     }
 }
 
@@ -51,6 +73,10 @@
             display: inline-block;
             vertical-align: middle;
             text-align: left;
+
+            & > a, button {
+                display: inline-block;
+            }
         }
 
         & > .currency {
