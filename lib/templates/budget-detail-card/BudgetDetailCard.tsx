@@ -113,8 +113,14 @@ export default function BudgetDetail() {
     });
 
     if (loading) return (
-        <div className={clsx(style.card, style.placeholder)}>
+        <div className={clsx(style.placeholder)}>
             <ProgressCircular />
+        </div>
+    );
+
+    if (error) return (
+        <div className={clsx(style.placeholder)}>
+            {error.message}
         </div>
     );
 
