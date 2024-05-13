@@ -103,6 +103,15 @@ export async function createBudget(client: PrismaClient, name: string, budget: b
             }
         });
         const ledger = await entryProcedure(tx, cashAccount.id, budgetAccount.id, budget, `tambah saldo ${name}`);
-        return budgetAccount
+        return await client.account.findUnique({
+            where: { id: budgetAccount.id },
+            include: {
+                accountCode: {
+                    include: {
+                        accountSupercode: true
+                    }
+                }
+            }
+        })
     })
 }
