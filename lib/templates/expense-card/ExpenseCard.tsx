@@ -7,11 +7,14 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import idr from "../utils/idr";
-import Checkbox from "../components/Checkbox";
+import idr from "../../utils/idr";
+import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { gql } from "../graphql-tag";
-import Table from "./Table";
+import { gql } from "../../graphql-tag";
+import Table from "../Table";
+import ExpenseAddForm from "../expense-add-form/ExpenseAddForm";
+import style from "./ExpenseCard.module.scss";
+import ProgressCircular from "../../components/ProgressCircular";
 
 interface Expense {
     description: string;
@@ -103,7 +106,29 @@ export default function ExpenseTable() {
         enableRowSelection: true,
     });
 
+    if (loading) return (
+        <div className={clsx(style.placeholder)}>
+            <ProgressCircular />
+        </div>
+    );
+
+    if (error) return (
+        <div className={clsx(style.placeholder)}>
+            {error.message}
+        </div>
+    );
+
     return (
-        <Table loading={loading} success={!error} message={error ? error.message : ""} table={table} />
+        <div className={style.card}>
+            <header className={style.header}>
+                <h2 className={clsx("text-title-medium", style.headline)}>Budget</h2>
+                <div className={style.toolbar}>
+                    <ExpenseAddForm />
+                </div>
+            </header>
+            <div className={style.body}>
+                <Table table={table} />
+            </div>
+        </div>
     );
 }
