@@ -11,10 +11,18 @@ const config: CodegenConfig = {
     './lib/resolvers-types.ts': {
       config: {
         contextType: "./graphql-context#Context",
+        scalars: {
+          DateTimeIso: "Date",
+        }
       },
       plugins: ['typescript', 'typescript-resolvers']
     },
     './lib/graphql-tag/': {
+      config: {
+        scalars: {
+          DateTimeIso: "Date",
+        }
+      },
       preset: 'client',
       plugins: [],
       presetConfig: {
