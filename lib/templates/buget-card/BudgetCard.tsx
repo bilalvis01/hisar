@@ -7,13 +7,16 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import clsx from "clsx";
-import idr from "../utils/idr";
-import Checkbox from "../components/Checkbox";
+import idr from "../../utils/idr";
+import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { GET_BUDGETS } from "../graphql-documents";
-import Table from "./Table";
-import { LinkText } from "../components/ButtonText";
+import { GET_BUDGETS } from "../../graphql-documents";
+import Table from "../Table";
+import { LinkText } from "../../components/ButtonText";
 import Link from "next/link";
+import BudgetAddForm from "../budget-add-form/BudgetAddForm";
+import style from "./BudgetCard.module.scss";
+import ProgressCircular from "../../components/ProgressCircular";
 
 interface Budget {
     name: string;
@@ -110,7 +113,29 @@ export default function BudgetTable() {
         enableRowSelection: true,
     });
 
+    if (loading) return (
+        <div className={clsx(style.placeholder)}>
+            <ProgressCircular />
+        </div>
+    );
+
+    if (error) return (
+        <div className={clsx(style.placeholder)}>
+            {error.message}
+        </div>
+    );
+
     return (
-        <Table loading={loading} success={!error} message={error ? error.message : ""} table={table} />
+        <div className={style.card}>
+            <header className={style.header}>
+                <h2 className={clsx("text-headline-medium", style.headline)}>BUDGET</h2>
+                <div className={style.toolbar}>
+                    <BudgetAddForm />
+                </div>
+            </header>
+            <div className={style.body}>
+                <Table table={table} />
+            </div>
+        </div>
     );
 }
