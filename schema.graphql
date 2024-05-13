@@ -1,6 +1,9 @@
+scalar DateTimeIso
+
 type Query {
     excerptReport: ExcerptReport!
     budgets: [Budget!]!
+    budgetByCode(code: String!): Budget!
     expenses: [Expense!]!
 }
 
@@ -17,12 +20,21 @@ type ExcerptReport {
 
 type Budget {
     id: Int!
+    code: String!
     name: String!
     budget: Int!
     expense: Int!
     balance: Int!
-    createdAt: String!
-    updatedAt: String!
+    expenseDetail: [BudgetExpenses!]!
+    createdAt: DateTimeIso!
+    updatedAt: DateTimeIso!
+}
+
+type BudgetExpenses {
+    description: String!
+    debit: Int
+    credit: Int
+    balance: Int!
 }
 
 type CreateBudgetPayload {
@@ -56,6 +68,6 @@ type Expense {
     budgetAccount: String!
     amount: Int!
     description: String!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: DateTimeIso!
+    updatedAt: DateTimeIso!
 }
