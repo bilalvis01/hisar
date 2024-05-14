@@ -16,6 +16,7 @@ import { useParams } from "next/navigation";
 import style from "./BudgetDetailCard.module.scss";
 import * as date from "date-fns";
 import ProgressCircular from "../../components/ProgressCircular";
+import BudgetUpdateForm from "../budget-update-form/BudgetUpdateForm";
 
 interface Budget {
     description: string;
@@ -113,9 +114,14 @@ export default function BudgetDetail() {
     });
 
     if (loading) return (
-        <div className={clsx(style.placeholder)}>
-            <ProgressCircular />
-        </div>
+        <>
+            <div className={clsx(style.placeholder)}>
+                <ProgressCircular />
+            </div>
+            <div className={clsx(style.placeholder)}>
+                <ProgressCircular />
+            </div>
+        </>
     );
 
     if (error) return (
@@ -125,48 +131,63 @@ export default function BudgetDetail() {
     );
 
     return (
-        <div className={style.card}>
-            <header className={style.header}>
-                <h2 className={clsx("text-headline-medium", style.headline)}>
-                    {data && data.budgetByCode.name.toUpperCase()}
-                </h2>
-            </header>
-            <div className={style.body}>
-                {data && (
-                    <ul className={style.description}>
-                        <li className={style.descriptionItem}>
-                            <div className="text-title-small">Kode Akun</div>
-                            <div className="text-body-small">{data.budgetByCode.code}</div>
-                        </li>
-                        <li className={style.descriptionItem}>
-                            <div className="text-title-small">Nama Akun</div>
-                            <div className="text-body-small">{data.budgetByCode.name}</div>
-                        </li>
-                        <li>
-                            <div className="text-title-small">Total Budget</div>
-                            <div className="text-body-small">{idr.format(data.budgetByCode.budget)}</div>
-                        </li>
-                        <li>
-                            <div className="text-title-small">Total Expense</div>
-                            <div className="text-body-small">{idr.format(data.budgetByCode.expense)}</div>
-                        </li>
-                        <li>
-                            <div className="text-title-small">Saldo Terakhir</div>
-                            <div className="text-body-small">{idr.format(data.budgetByCode.balance)}</div>
-                        </li>
-                        <li>
-                            <div className="text-title-small">Dibuat</div>
-                            <div className="text-body-small">{date.format(data.budgetByCode.createdAt, "d-M-y")}</div>
-                        </li>
-                        <li>
-                            <div className="text-title-small">Diperbarui</div>
-                            <div className="text-body-small">{date.format(data.budgetByCode.updatedAt, "d-M-y")}</div>
-                        </li>
-                    </ul>
-                )}
-                <h3 className={clsx("text-title-small", style.tableTitle)}>Expenses</h3>
-                <Table table={table} />
+        <>
+            <div className={style.card}>
+                <header className={style.header}>
+                    <h2 className={clsx("text-title-large", style.headline)}>
+                        {data && data.budgetByCode.name.toUpperCase()}
+                    </h2>
+                </header>
+                <div className={style.body}>
+                    {data && (
+                        <ul className={style.description}>
+                            <li className={style.descriptionItem}>
+                                <div className="text-title-small">Kode Akun</div>
+                                <div className="text-body-small">{data.budgetByCode.code}</div>
+                            </li>
+                            <li className={style.descriptionItem}>
+                                <div className="text-title-small">Nama Akun</div>
+                                <div className="text-body-small">{data.budgetByCode.name}</div>
+                            </li>
+                            <li>
+                                <div className="text-title-small">Total Budget</div>
+                                <div className="text-body-small">{idr.format(data.budgetByCode.budget)}</div>
+                            </li>
+                            <li>
+                                <div className="text-title-small">Total Expense</div>
+                                <div className="text-body-small">{idr.format(data.budgetByCode.expense)}</div>
+                            </li>
+                            <li>
+                                <div className="text-title-small">Saldo Terakhir</div>
+                                <div className="text-body-small">{idr.format(data.budgetByCode.balance)}</div>
+                            </li>
+                            <li>
+                                <div className="text-title-small">Dibuat</div>
+                                <div className="text-body-small">{date.format(data.budgetByCode.createdAt, "d-M-y")}</div>
+                            </li>
+                            <li>
+                                <div className="text-title-small">Diperbarui</div>
+                                <div className="text-body-small">{date.format(data.budgetByCode.updatedAt, "d-M-y")}</div>
+                            </li>
+                        </ul>
+                    )}
+                </div>
+                <div className={style.footer}>
+                    {data && (
+                        <BudgetUpdateForm code={code} name={data.budgetByCode.name} balance={data.budgetByCode.balance} />
+                    )}
+                </div>
             </div>
-        </div>
+            <div className={style.card}>
+                <header className={style.header}>
+                    <h2 className={clsx("text-title-large", style.headline)}>
+                        EXPENSE
+                    </h2>
+                </header>
+                <div className={style.body}>
+                    <Table table={table} />
+                </div>
+            </div>
+        </>
     );
 }
