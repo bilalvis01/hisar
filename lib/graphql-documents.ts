@@ -65,6 +65,25 @@ export const CREATE_BUDGET = gql(/* GraphQL */`
     }
 `);
 
+export const UPDATE_BUDGET = gql(/* GraphQL */`
+    mutation UpdateBudget($input: UpdateBudgetInput!) {
+        updateBudget(input: $input) {
+            code
+            success
+            message
+            budget {
+                id
+                name
+                budget
+                expense
+                balance
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`);
+
 export const ADD_EXPENSE = gql(/* GraphQL */`
     mutation AddExpense($input: AddExpenseInput!) {
         addExpense(input: $input) {
