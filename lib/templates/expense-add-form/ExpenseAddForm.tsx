@@ -18,6 +18,7 @@ export default function ExpenseAddForm() {
     return (
         <FormDialog
             headline="Tambah Expense"
+            label="Tambah"
             success={data?.addExpense?.success}
             message={data?.addExpense?.message}
             loading={loading}

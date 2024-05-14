@@ -2,11 +2,11 @@
 
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
-import { useMutation, useLazyQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { CREATE_BUDGET, GET_BUDGETS } from "../../graphql-documents";
 import * as Yup from "yup";
 
-export default function ExpenseAddForm() {
+export default function BudgetForm() {
     const [createBudget, { data, loading }] = useMutation(CREATE_BUDGET, {
         refetchQueries: [
             GET_BUDGETS,
@@ -16,7 +16,8 @@ export default function ExpenseAddForm() {
 
     return (
         <FormDialog
-            headline="Tambah Expense"
+            headline="Buat Budget"
+            label="Buat Budget"
             success={data?.createBudget?.success}
             message={data?.createBudget?.message}
             loading={loading}
