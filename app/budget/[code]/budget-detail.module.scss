@@ -1,4 +1,4 @@
-@use "../../../lib/style/mixins";
+@use "../../../style/mixins";
 
 .container {
     @include mixins.page-padding;
