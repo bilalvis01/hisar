@@ -115,3 +115,60 @@ export async function createBudget(client: PrismaClient, name: string, budget: b
         })
     })
 }
+
+export async function updateBudget(client: PrismaClient, data: { code: number[]; name: string; balance: bigint; }) {
+    return await client.$transaction(async (tx: PrismaClient) => {
+        const { code, name, balance } = data;
+
+        const budgetAccount = await client.account.findFirst({
+            where: {
+                accountCode: { 
+                    code: code[1], 
+                    accountSupercode: { code: code[0] },
+                },
+            },
+            include: {
+                accountCode: {
+                    include: {
+                        accountSupercode: true
+                    }
+                }
+            },
+        });
+
+        const cashAccountCode = await client.accountCode.findFirst({
+            where: {
+                code: 100,
+            }
+        });
+
+        const cashAccount = await client.account.findFirst({
+            where: {
+                accountCodeId: cashAccountCode.id,
+            }
+        });
+
+        if (budgetAccount.name !== name) {
+            await client.account.update({
+                where: {
+                    id: budgetAccount.id,
+                },
+                data: {
+                    name,
+                }
+            });
+        }
+
+        if (balance > budgetAccount.balance) {
+            const topup = balance - budgetAccount.balance;
+            await entryProcedure(tx, cashAccount.id, budgetAccount.id, topup, "topup saldo");
+        }
+
+        if (balance < budgetAccount.balance) {
+            const refund = budgetAccount.balance - balance;
+            await entryProcedure(tx, budgetAccount.id, cashAccount.id, refund, "refund saldo");
+        }
+
+        return budgetAccount;
+    });
+}
