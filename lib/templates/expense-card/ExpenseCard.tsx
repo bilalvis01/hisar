@@ -121,7 +121,7 @@ export default function ExpenseTable() {
     return (
         <div className={style.card}>
             <header className={style.header}>
-                <h2 className={clsx("text-headline-medium", style.headline)}>EXPENSE</h2>
+                <h2 className={clsx("text-title-large", style.headline)}>EXPENSE</h2>
                 <div className={style.toolbar}>
                     <ExpenseAddForm />
                 </div>

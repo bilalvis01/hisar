@@ -128,7 +128,7 @@ export default function BudgetTable() {
     return (
         <div className={style.card}>
             <header className={style.header}>
-                <h2 className={clsx("text-headline-medium", style.headline)}>BUDGET</h2>
+                <h2 className={clsx("text-title-large", style.headline)}>BUDGET</h2>
                 <div className={style.toolbar}>
                     <BudgetAddForm />
                 </div>
