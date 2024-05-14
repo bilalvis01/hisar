@@ -4,10 +4,6 @@
     --container-color: var(--component-card-filled-container-color);
     --container-shape: var(--component-card-filled-container-shape);
     --container-elevation: var(--component-card-filled-container-elevation);
-    --focus-indicator-style: none;
-    --focus-indicator-color: unset;
-    --focus-indicator-width: unset;
-    --focus-indicator-offset: unset;
     --icon-color: var(--component-card-filled-icon-color);
     --icon-width: var(--component-card-filled-icon-size);
     --icon-height: var(--component-card-filled-icon-size);
@@ -30,10 +26,6 @@
     }
 
     &:active {
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
         --container-elevation: var(--component-card-filled-pressed-container-elevation);
         --state-layer-color: rgba(var(--component-card-filled-pressed-state-layer-color-rgb), var(--component-card-filled-pressed-state-layer-opacity));
     }

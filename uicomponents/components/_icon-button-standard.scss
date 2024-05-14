@@ -5,10 +5,6 @@
     --container-height: var(--component-icon-button-standard-state-layer-height);
     --container-shape: var(--component-icon-button-standard-state-layer-shape);
     --container-color: transparent;
-    --focus-indicator-style: none;
-    --focus-indicator-color: unset;
-    --focus-indicator-width: unset;
-    --focus-indicator-offset: unset;
     --state-layer-color: transparent;
     --state-layer-width: var(--component-icon-button-standard-state-layer-width);
     --state-layer-height: var(--component-icon-button-standard-state-layer-height);
@@ -46,10 +42,6 @@
     }
 
     &:active {
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
         --state-layer-color: rgb(var(--component-icon-button-standard-unselected-pressed-state-layer-color-rgb), var(--component-icon-button-standard-unselected-pressed-state-layer-opacity));
         --icon-color: var(--component-icon-button-standard-unselected-pressed-icon-color);
 

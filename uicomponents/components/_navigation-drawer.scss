@@ -29,10 +29,6 @@
         --navigation-button-container-width: var(--component-navigation-drawer-active-indicator-width);
         --navigation-button-container-height: var(--component-navigation-drawer-active-indicator-height); 
         --navigation-button-container-shape: var(--component-navigation-drawer-active-indicator-shape);
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
         --label-color: var(--component-navigation-drawer-inactive-label-color);
         --label-font: var(--component-navigation-drawer-label-font);
         --label-line-height: var(--component-navigation-drawer-label-line-height);
@@ -84,10 +80,6 @@
         }
     
         &:active {
-            --focus-indicator-style: none;
-            --focus-indicator-color: unset;
-            --focus-indicator-width: unset;
-            --focus-indicator-offset: unset;
             --state-layer-color: rgba(var(--component-navigation-drawer-inactive-pressed-state-layer-color-rgb), var(--component-navigation-drawer-pressed-state-layer-opacity));
             --label-color: var(--component-navigation-drawer-inactive-pressed-label-color);
             --icon-color: var(--component-navigation-drawer-inactive-pressed-icon-color);

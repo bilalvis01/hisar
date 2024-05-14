@@ -3,10 +3,6 @@
     --container-height: var(--component-tab-link-navigation-container-height);
     --container-shape: var(--component-tab-link-navigation-container-shape);
     --container-elevation: var(--component-tab-link-navigation-container-elevation);
-    --focus-indicator-style: none;
-    --focus-indicator-color: unset;
-    --focus-indicator-width: unset;
-    --focus-indicator-offset: unset;
     --label-font: var(--component-tab-link-navigation-label-font);
     --label-line-height: var(--component-tab-link-navigation-label-line-height);
     --label-size: var(--component-tab-link-navigation-label-size);
@@ -61,10 +57,6 @@
     }
 
     &:active {
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
         --label-color: var(--component-tab-link-navigation-inactive-pressed-label-color);
         --state-layer-color: rgba(var(--component-tab-link-navigation-inactive-pressed-state-layer-color-rgb), var(--component-tab-link-navigation-inactive-pressed-state-layer-opacity));
         --icon-color: var(--component-tab-link-navigation-inactive-pressed-icon-color);

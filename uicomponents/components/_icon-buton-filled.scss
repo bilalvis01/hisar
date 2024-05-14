@@ -5,10 +5,6 @@
     --container-height: var(--component-icon-button-filled-container-height);
     --container-shape: var(--component-icon-button-filled-container-shape);
     --container-color: var(--component-icon-button-filled-container-color);
-    --focus-indicator-style: none;
-    --focus-indicator-color: unset;
-    --focus-indicator-width: unset;
-    --focus-indicator-offset: unset;
     --state-layer-color: transparent;
     --state-layer-width: 100%;
     --state-layer-height: 100%;
@@ -75,11 +71,6 @@
                 --icon-color: var(--component-icon-button-filled-selected-pressed-icon-color);
             }
         }
-        
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
     }
 
     &:disabled {  

@@ -6,10 +6,6 @@
     --container-elevation: var(--component-card-outlined-container-elevation);
     --outline-width: var(--component-card-outlined-outline-width);
     --outline-color: var(--component-card-outlined-outline-color);
-    --focus-indicator-style: none;
-    --focus-indicator-color: unset;
-    --focus-indicator-width: unset;
-    --focus-indicator-offset: unset;
     --icon-color: var(--component-card-outlined-icon-color);
     --icon-width: var(--component-card-outlined-icon-size);
     --icon-height: var(--component-card-outlined-icon-size);
@@ -36,10 +32,6 @@
     &:active {
         --outline-color: var(--component-card-outlined-pressed-outline-color);
         --container-elevation: var(--component-card-outlined-pressed-container-elevation);
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
         --state-layer-color: rgba(var(--component-card-outlined-pressed-state-layer-color-rgb), var(--component-card-outlined-pressed-state-layer-opacity));
     }
 

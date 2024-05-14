@@ -4,10 +4,6 @@
     --container-shape: var(--component-button-text-container-shape);
     --container-height: var(--component-button-text-container-height);
     --container-elevation: var(--component-button-text-container-elevation);
-    --focus-indicator-style: none;
-    --focus-indicator-color: unset;
-    --focus-indicator-width: unset;
-    --focus-indicator-offset: unset;
     --label-font: var(--component-button-text-label-font);
     --label-line-height: var(--component-button-text-label-line-height);
     --label-size: var(--component-button-text-label-size);
@@ -38,10 +34,6 @@
     }
     
     &:active {
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
         --container-elevation: var(--component-button-text-pressed-container-elevation);
         --label-color: var(--component-button-text-pressed-label-color);
         --state-layer-color: rgba(var(--component-button-text-pressed-state-layer-color-rgb), var(--component-button-text-pressed-state-layer-opacity));

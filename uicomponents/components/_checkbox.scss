@@ -10,10 +10,6 @@
     --state-layer-width: var(--component-checkbox-state-layer-size);
     --state-layer-height: var(--component-checkbox-state-layer-size);
     --state-layer-shape: var(--component-checkbox-state-layer-shape);
-    --focus-indicator-style: none;
-    --focus-indicator-color: unset;
-    --focus-indicator-width: unset;
-    --focus-indicator-offset: unset;
 
     &:hover {
         --outline-color: var(--component-checkbox-unselected-hover-outline-color);
@@ -34,10 +30,6 @@
     }
 
     &:active {
-        --focus-indicator-style: none;
-        --focus-indicator-color: unset;
-        --focus-indicator-width: unset;
-        --focus-indicator-offset: unset;
         --outline-color: var(--component-checkbox-unselected-pressed-outline-color);
         --outline-width: var(--component-checkbox-unselected-pressed-outline-width);
         --state-layer-color: rgb(var(--component-checkbox-unselected-pressed-state-layer-color-rgb), var(--component-checkbox-unselected-pressed-state-layer-opacity));
