@@ -3,8 +3,12 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers } from "../../../lib/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient, Account, AccountCode } from "@prisma/client";
-import { createBudget, entry } from "../../../lib/transactions";
+import { createBudget, updateBudget, entry } from "../../../lib/transactions";
 import { DateTimeISOTypeDefinition, DateTimeISOResolver } from "graphql-scalars";
+
+function splitCode(code: string) {
+    return code.split("-").map(Number);
+}
 
 async function getBudgetDetail(
     dataSources: PrismaClient, 
@@ -120,7 +124,7 @@ const resolvers: Resolvers = {
         },
 
         async budgetByCode(_, { code: code_ }, context) {
-            const code = code_.split("-").map(Number);
+            const code = splitCode(code_);
             const account = await context.dataSources.account.findFirst({
                 where: {
                     accountCode: { 
@@ -199,6 +203,31 @@ const resolvers: Resolvers = {
                     success: false,
                     message: `akun ${input.name} gagal dibuat`,
                     budget: null,
+                }
+            }
+        },
+
+        async updateBudget(_, { input }, context) {
+            try {
+                const data = {
+                    code: splitCode(input.code),
+                    name: input.name,
+                    balance: BigInt(input.balance) * BigInt(10000),
+                };
+                const account = await updateBudget(context.dataSources, data);
+                const budget = await getBudgetDetail(context.dataSources, account);
+                return {
+                    code: 200,
+                    success: true,
+                    message: `${input.name} berhasil diperbarui`,
+                    budget,
+                };
+            } catch (error) {
+                return {
+                    code: 500,
+                    success: false,
+                    message: `${input.name} gagal diperbarui`,
+                    expense: null,
                 }
             }
         },
