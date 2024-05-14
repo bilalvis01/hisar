@@ -2,9 +2,8 @@
 
 import React from "react";
 import style from "./ExcerptReportCard.module.scss";
-import CardOutlined from "../../../lib/components/CardOutlined";
 import clsx from "clsx";
-import format from "../../utils/idr";
+import idr from "../../utils/idr";
 import { GET_EXCERPT_REPORT } from "../../../lib/graphql-documents";
 import { useQuery } from "@apollo/client";
 import ProgressCircular from "../../../lib/components/ProgressCircular";
@@ -14,18 +13,24 @@ export default function ExcerptReportCard({ report = "budget" }: { report: "budg
 
     return (
         <div className={style.card}>
-            <div className={style.cardContent}>
-                <h2 className={clsx(style.cardHeader, "text-title-medium")}>{report.toUpperCase()}</h2>
-                {loading && (
-                    <div className={style.loading}>
-                        <ProgressCircular />
-                    </div>
-                )}
-                {error && <span>Server Error</span>}
-                {data && data.excerptReport && (
-                    <p className={clsx(style.cardBody, "text-headline-small")}>{format.currency(data.excerptReport[report])}</p>
-                )}
-            </div>
+            <header className={style.cardHeader}>
+                <h2 className="text-title-medium">{report.toUpperCase()}</h2>
+            </header>
+            {loading && (
+                <div className={style.placeholder}>
+                    <ProgressCircular />
+                </div>
+            )}
+            {error && (
+                <div className={style.placeholder}>
+                    {error.message}
+                </div>
+            )}
+            {data && data.excerptReport && (
+                <div className={clsx(style.cardBody, "text-headline-small")}>
+                    {idr.format(data.excerptReport[report])}
+                </div>
+            )}
         </div>
     )
 }
