@@ -39,17 +39,20 @@ interface InputField {
     type: string;
     name: string;
     label: string;
+    disabled?: boolean;
     options?: SelectOption[];
     onOpenMenu?: SelectOpenMenuHandler;
 }
 
 interface FormDialogOptions<Input> {
     headline: string;
+    label: string;
     message: string;
     success: boolean;
     loading: boolean;
     inputFields: InputField[];
     initialValues: Input;
+    enableReinitialize?: boolean;
     validationSchema: any;
     onSubmit: (input: Input) => Promise<void>;
 }
@@ -75,11 +78,13 @@ function useFormDialogContext<Input>() {
 
 function useFormDialog<Input>({
     headline,
+    label,
     message,
     success,
     loading,
     inputFields,
     initialValues,
+    enableReinitialize,
     validationSchema,
     onSubmit,
 }: FormDialogOptions<Input>): FormDialogContext<Input> {
@@ -114,6 +119,7 @@ function useFormDialog<Input>({
 
     return React.useMemo(() => ({
         headline,
+        label,
         values,
         setValues,
         dialog,
@@ -125,8 +131,10 @@ function useFormDialog<Input>({
         onSubmit,
         validationSchema,
         initialValues,
+        enableReinitialize,
     }), [
         headline,
+        label,
         dialog, 
         values, 
         message, 
@@ -136,6 +144,7 @@ function useFormDialog<Input>({
         onSubmit,
         validationSchema,
         initialValues,
+        enableReinitialize,
     ]);
 };
 
@@ -154,7 +163,7 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
     */
     const [preparingMount, setPreparingMount] = React.useState(true);
 
-    const { values, setValues, validationSchema, onSubmit, inputFields } = useFormDialogContext();
+    const { values, setValues, validationSchema, onSubmit, inputFields, enableReinitialize } = useFormDialogContext();
 
     React.useEffect(() => {
         if (open) {
@@ -172,6 +181,7 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
         <Formik
             initialValues={values}
             validationSchema={validationSchema}
+            enableReinitialize={enableReinitialize}
             onSubmit={onSubmit}
         >
             {({ values }) => {
@@ -189,6 +199,7 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
                                             key={inputField.name} 
                                             name={inputField.name} 
                                             label={inputField.label} 
+                                            disabled={inputField.disabled ? inputField.disabled : false}
                                             options={inputField.options} 
                                             size={inputSize ?? 1}
                                             onOpenMenu={inputField.onOpenMenu}
@@ -203,6 +214,7 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
                                         type={inputField.type} 
                                         label={inputField.label}
                                         name={inputField.name}
+                                        disabled={inputField.disabled ? inputField.disabled : false}
                                         size={inputSize}
                                     /> 
                                 );
@@ -280,6 +292,7 @@ function FormDialogDesktop() {
     const formId = React.useId();
     const { 
         headline,
+        label,
         dialog, 
         onOpenChange: setOpen, 
         success, 
@@ -303,7 +316,7 @@ function FormDialogDesktop() {
     return (
         <>
             <ButtonFilled onClick={handleOpen}>
-                Tambah
+                {label}
             </ButtonFilled>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogHeadline>{headline}</DialogHeadline>
