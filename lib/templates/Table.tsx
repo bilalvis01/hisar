@@ -3,15 +3,17 @@
 import React from "react";
 import { flexRender } from "@tanstack/react-table";
 import type { Table } from "@tanstack/react-table";
+import clsx from "clsx";
 
 interface TableProps<Column> {
     table: Table<Column>;
+    className?: string;
 };
 
-export default function Table<Column>({ table }: TableProps<Column>) {
+export default function Table<Column>({ table, className }: TableProps<Column>) {
     return (
         <>
-            <table className="table">
+            <table className={clsx("table", className)}>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
