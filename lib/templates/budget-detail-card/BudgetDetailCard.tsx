@@ -166,11 +166,11 @@ export default function BudgetDetail() {
                             </li>
                             <li>
                                 <div className="text-title-small">Dibuat</div>
-                                <div className="text-body-small">{date.format(data.budgetByCode.createdAt, "d-M-y")}</div>
+                                <div className="text-body-small">{date.format(data.budgetByCode.createdAt, "d-M-y H:m:s")}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Diperbarui</div>
-                                <div className="text-body-small">{date.format(data.budgetByCode.updatedAt, "d-M-y")}</div>
+                                <div className="text-body-small">{date.format(data.budgetByCode.updatedAt, "d-M-y H:m:s")}</div>
                             </li>
                         </ul>
                     )}
