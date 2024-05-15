@@ -208,30 +208,44 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
                     <>
                         <FormikForm id={id}>
                             {inputFields.map((inputField) => {
-                                if (inputField.type === "select") {
+                                const {
+                                    type,
+                                    name,
+                                    label,
+                                    disabled,
+                                    autoFocus,
+                                    options,
+                                    onOpenMenu,
+                                } = { 
+                                    ...{ disabled: false, autoFocus: false },
+                                    ...inputField
+                                }
+
+                                if (type === "select") {
                                     return (
                                         <Select 
-                                            key={inputField.name} 
-                                            name={inputField.name} 
-                                            label={inputField.label} 
-                                            disabled={inputField.disabled ? inputField.disabled : false}
-                                            autoFocus={inputField.autoFocus ? inputField.autoFocus : false}
-                                            options={inputField.options} 
+                                            key={name} 
+                                            name={name} 
+                                            label={label} 
+                                            disabled={disabled}
+                                            autoFocus={autoFocus}
+                                            options={options} 
                                             size={inputSize ?? 1}
-                                            onOpenMenu={inputField.onOpenMenu}
+                                            onOpenMenu={onOpenMenu}
                                         />
                                     );
                                 }
                             
 
                                 return (
-                                    <TextField key={inputField.name}
+                                    <TextField 
+                                        key={name}
                                         className={style.field} 
-                                        type={inputField.type} 
-                                        label={inputField.label}
-                                        name={inputField.name}
-                                        disabled={inputField.disabled ? inputField.disabled : false}
-                                        autoFocus={inputField.autoFocus ? inputField.autoFocus : false}
+                                        type={type} 
+                                        label={label}
+                                        name={name}
+                                        disabled={disabled}
+                                        autoFocus={autoFocus}
                                         size={inputSize}
                                     /> 
                                 );
