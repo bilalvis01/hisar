@@ -1,9 +1,12 @@
 import React from "react";
 import clsx from "clsx";
 
-export default function FabPrimary({ children, className, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+const FabPrimary = React.forwardRef<
+    HTMLButtonElement,
+    React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+>(function FabPrimary({ children, className, ...props }, ref) {
     return (
-        <button {...props} className={clsx("fab-primary", className)}>
+        <button {...props} ref={ref} className={clsx("fab-primary", className)}>
             <div className="container">
                 <div className="decorator">
                     <div className="state-layer" />
@@ -12,4 +15,6 @@ export default function FabPrimary({ children, className, ...props }: React.Butt
             </div>
         </button>
     )
-}
+});
+
+export default FabPrimary;
