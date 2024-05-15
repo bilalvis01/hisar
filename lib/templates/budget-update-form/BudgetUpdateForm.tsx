@@ -10,7 +10,7 @@ export default function BudgetUpdateForm(
     { code, name, balance }: 
     { code: string; name: string; balance: number; }
 ) {
-    const [createBudget, { data, loading }] = useMutation(UPDATE_BUDGET, {
+    const [createBudget, { data, loading, reset }] = useMutation(UPDATE_BUDGET, {
         refetchQueries: [
             { query: GET_BUDGET_BY_CODE, variables: { code } },
             "GetBudgetByCode"
@@ -57,6 +57,7 @@ export default function BudgetUpdateForm(
                     variables: { input }
                 });
             }}
+            onCloseInfo={() => reset()}
         />
     );
 }
