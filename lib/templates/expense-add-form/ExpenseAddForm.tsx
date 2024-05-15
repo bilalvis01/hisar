@@ -5,6 +5,7 @@ import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { ADD_EXPENSE, GET_EXPENSES, GET_BUDGETS } from "../../graphql-documents";
 import * as Yup from "yup";
+import IconPlusLg from "../../icons/PlusLg";
 
 export default function ExpenseAddForm() {
     const [createBudget, { data, loading }] = useMutation(ADD_EXPENSE, {
@@ -19,6 +20,7 @@ export default function ExpenseAddForm() {
         <FormDialog
             headline="Tambah Expense"
             label="Tambah"
+            fabIcon={<IconPlusLg />}
             success={data?.addExpense?.success}
             message={data?.addExpense?.message}
             loading={loading}

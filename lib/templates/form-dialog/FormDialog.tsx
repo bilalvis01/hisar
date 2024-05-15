@@ -24,7 +24,6 @@ import {
     DialogFooter,
 } from "../../components/Dialog";
 import FabPrimary from "../../components/FabPrimary";
-import IconPlusLg from "../../icons/PlusLg";
 import { ButtonText } from "../../components/ButtonText";
 import { 
     Snackbar, 
@@ -57,6 +56,7 @@ interface FormDialogOptions<Input> {
     initialValues: Input;
     enableReinitialize?: boolean;
     validationSchema: any;
+    fabIcon?: React.ReactNode;
     onSubmit: (input: Input) => Promise<void>;
     onCloseInfo?: () => void;
 }
@@ -91,6 +91,7 @@ function useFormDialog<Input>({
     initialValues,
     enableReinitialize,
     validationSchema,
+    fabIcon,
     onSubmit,
     onCloseInfo,
 }: FormDialogOptions<Input>): FormDialogContext<Input> {
@@ -138,6 +139,7 @@ function useFormDialog<Input>({
         validationSchema,
         initialValues,
         enableReinitialize,
+        fabIcon,
     }), [
         media,
         open,
@@ -153,6 +155,7 @@ function useFormDialog<Input>({
         validationSchema,
         initialValues,
         enableReinitialize,
+        fabIcon,
     ]);
 };
 
@@ -248,7 +251,8 @@ function FormDialogMobile() {
         onOpenChange: setOpen, 
         success, 
         loading, 
-        message 
+        message,
+        fabIcon,
     } = useFormDialogContext();
     const open = open_ && media === "mobile";
 
@@ -277,7 +281,7 @@ function FormDialogMobile() {
             {createPortal(
                 <dialog ref={fabDialogRef} className={style.fabDialog}>
                     <FabPrimary className={style.fab} onClick={handleOpen}>
-                        <IconPlusLg />
+                        {fabIcon}
                     </FabPrimary>
                 </dialog>,
                 document.body

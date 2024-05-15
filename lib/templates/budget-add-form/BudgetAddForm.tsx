@@ -5,6 +5,7 @@ import FormDialog from "../form-dialog/FormDialog";
 import { useMutation } from "@apollo/client";
 import { CREATE_BUDGET, GET_BUDGETS } from "../../graphql-documents";
 import * as Yup from "yup";
+import IconPlusLg from "../../icons/PlusLg";
 
 export default function BudgetForm() {
     const [createBudget, { data, loading, reset }] = useMutation(CREATE_BUDGET, {
@@ -18,6 +19,7 @@ export default function BudgetForm() {
         <FormDialog
             headline="Buat Budget"
             label="Buat Budget"
+            fabIcon={<IconPlusLg />}
             success={data?.createBudget?.success}
             message={data?.createBudget?.message}
             loading={loading}
