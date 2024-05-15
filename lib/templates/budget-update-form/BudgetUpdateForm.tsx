@@ -2,7 +2,7 @@
 
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { UPDATE_BUDGET, GET_BUDGET_BY_CODE } from "../../graphql-documents";
 import * as Yup from "yup";
 
@@ -10,6 +10,8 @@ export default function BudgetUpdateForm(
     { code, name, balance }: 
     { code: string; name: string; balance: number; }
 ) {
+    const [getBudgetByCode] = useLazyQuery(GET_BUDGET_BY_CODE, { variables: { code } });
+
     const [createBudget, { data, loading, reset }] = useMutation(UPDATE_BUDGET, {
         refetchQueries: [
             { query: GET_BUDGET_BY_CODE, variables: { code } },
@@ -58,6 +60,18 @@ export default function BudgetUpdateForm(
                 });
             }}
             onCloseInfo={() => reset()}
+            onOpenForm={async () => {
+                const { data: { budgetByCode }, error } = await getBudgetByCode();
+                const data = {
+                    code: budgetByCode.code,
+                    name: budgetByCode.name,
+                    balance: budgetByCode.balance,
+                };
+                return {
+                    error,
+                    data,
+                };
+            }}
         />
     );
 }
