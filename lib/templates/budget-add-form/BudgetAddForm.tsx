@@ -19,6 +19,7 @@ export default function BudgetForm() {
         <FormDialog
             headline="Buat Budget"
             label="Buat Budget"
+            fab={true}
             fabIcon={<IconPlusLg />}
             success={data?.createBudget?.success}
             message={data?.createBudget?.message}

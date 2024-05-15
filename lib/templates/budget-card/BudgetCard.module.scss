@@ -30,14 +30,6 @@
     flex-grow: 1;
 }
 
-.toolbar {
-    margin-right: -20rem;
-
-    @media (min-width: 600px) {
-        margin-right: 0;
-    }
-}
-
 .body {
     grid-area: body;
     width: 100%;

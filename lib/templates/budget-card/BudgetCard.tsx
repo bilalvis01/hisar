@@ -129,9 +129,7 @@ export default function BudgetTable() {
         <div className={style.card}>
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>BUDGET</h2>
-                <div className={style.toolbar}>
-                    <BudgetAddForm />
-                </div>
+                <BudgetAddForm />
             </header>
             <div className={style.body}>
                 <Table table={table} />

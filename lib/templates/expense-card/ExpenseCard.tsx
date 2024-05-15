@@ -122,9 +122,7 @@ export default function ExpenseTable() {
         <div className={style.card}>
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>EXPENSE</h2>
-                <div className={style.toolbar}>
-                    <ExpenseAddForm />
-                </div>
+                <ExpenseAddForm />
             </header>
             <div className={style.body}>
                 <Table table={table} />

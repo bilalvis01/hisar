@@ -20,6 +20,7 @@ export default function ExpenseAddForm() {
         <FormDialog
             headline="Tambah Expense"
             label="Tambah"
+            fab={true}
             fabIcon={<IconPlusLg />}
             success={data?.addExpense?.success}
             message={data?.addExpense?.message}

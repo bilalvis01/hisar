@@ -56,6 +56,7 @@ interface FormDialogOptions<Input> {
     initialValues: Input;
     enableReinitialize?: boolean;
     validationSchema: any;
+    fab?: boolean;
     fabIcon?: React.ReactNode;
     onSubmit: (input: Input) => Promise<void>;
     onCloseInfo?: () => void;
@@ -91,6 +92,7 @@ function useFormDialog<Input>({
     initialValues,
     enableReinitialize,
     validationSchema,
+    fab = false,
     fabIcon,
     onSubmit,
     onCloseInfo,
@@ -139,6 +141,7 @@ function useFormDialog<Input>({
         validationSchema,
         initialValues,
         enableReinitialize,
+        fab,
         fabIcon,
     }), [
         media,
@@ -155,6 +158,7 @@ function useFormDialog<Input>({
         validationSchema,
         initialValues,
         enableReinitialize,
+        fab,
         fabIcon,
     ]);
 };
@@ -252,6 +256,7 @@ function FormDialogMobile() {
         success, 
         loading, 
         message,
+        fab,
         fabIcon,
     } = useFormDialogContext();
     const open = open_ && media === "mobile";
@@ -262,7 +267,7 @@ function FormDialogMobile() {
 
     React.useEffect(() => {
         if (fabDialogRef.current instanceof HTMLDialogElement) {
-            if (media === "mobile") {
+            if (fab && media === "mobile") {
                 fabDialogRef.current.show();
                 const rect = fabDialogRef.current.getBoundingClientRect();
                 setInfoStyle({ bottom: `calc(${window.innerHeight - rect.top}px + 1rem)` });
@@ -270,7 +275,7 @@ function FormDialogMobile() {
                 fabDialogRef.current.close();
             }
         }
-    }, [media]);
+    }, [fab, media]);
 
     return (
         <>
@@ -317,6 +322,7 @@ function FormDialogDesktop() {
         success, 
         loading, 
         message,
+        fab,
     } = useFormDialogContext();
     const open = open_ && media === "desktop";
             
@@ -330,7 +336,7 @@ function FormDialogDesktop() {
 
     return (
         <>
-            {media === "desktop" && (
+            {(!fab || media === "desktop") && (
                 <ButtonFilled onClick={handleOpen}>
                     {label}
                 </ButtonFilled>
