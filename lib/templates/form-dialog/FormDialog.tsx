@@ -379,7 +379,7 @@ const Info = React.forwardRef<
     const { onCloseInfo } = useFormDialogContext();
 
     const handleClose = () => {
-        onCloseInfo();
+        if (onCloseInfo) onCloseInfo();
         if (dialogRef.current instanceof HTMLDialogElement) dialogRef.current.close();
     };
 
@@ -390,7 +390,7 @@ const Info = React.forwardRef<
             if (dialogRef.current instanceof HTMLDialogElement) dialogRef.current.show();
 
             timeoutId =  setTimeout(() => {
-                onCloseInfo();
+                if (onCloseInfo) onCloseInfo();
                 if (dialogRef.current instanceof HTMLDialogElement) dialogRef.current.close();
             }, 5000);
         }
