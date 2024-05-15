@@ -137,6 +137,9 @@ export default function BudgetDetail() {
                     <h2 className={clsx("text-title-large", style.headline)}>
                         {data && data.budgetByCode.name.toUpperCase()}
                     </h2>
+                    {data && (
+                        <BudgetUpdateForm code={code} name={data.budgetByCode.name} balance={data.budgetByCode.balance} />
+                    )}
                 </header>
                 <div className={style.body}>
                     {data && (
@@ -170,11 +173,6 @@ export default function BudgetDetail() {
                                 <div className="text-body-small">{date.format(data.budgetByCode.updatedAt, "d-M-y")}</div>
                             </li>
                         </ul>
-                    )}
-                </div>
-                <div className={style.footer}>
-                    {data && (
-                        <BudgetUpdateForm code={code} name={data.budgetByCode.name} balance={data.budgetByCode.balance} />
                     )}
                 </div>
             </div>
