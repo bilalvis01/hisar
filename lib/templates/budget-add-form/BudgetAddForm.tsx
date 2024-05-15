@@ -7,7 +7,7 @@ import { CREATE_BUDGET, GET_BUDGETS } from "../../graphql-documents";
 import * as Yup from "yup";
 
 export default function BudgetForm() {
-    const [createBudget, { data, loading }] = useMutation(CREATE_BUDGET, {
+    const [createBudget, { data, loading, reset }] = useMutation(CREATE_BUDGET, {
         refetchQueries: [
             GET_BUDGETS,
             "GetBudgets"
@@ -46,6 +46,7 @@ export default function BudgetForm() {
                     variables: { input }
                 });
             }}
+            onCloseInfo={() => reset()}
         />
     );
 }
