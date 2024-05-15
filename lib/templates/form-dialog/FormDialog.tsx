@@ -60,6 +60,7 @@ interface FormDialogOptions<Input> {
     fabIcon?: React.ReactNode;
     onSubmit: (input: Input) => Promise<void>;
     onCloseInfo?: () => void;
+    onOpenForm?: () => Promise<{ error?: { message: string; }; data?: Input; }>;
 }
 
 interface FormDialogContext<Input> extends FormDialogOptions<Input> {
@@ -96,6 +97,7 @@ function useFormDialog<Input>({
     fabIcon,
     onSubmit,
     onCloseInfo,
+    onOpenForm,
 }: FormDialogOptions<Input>): FormDialogContext<Input> {
     const [values, setValues] = React.useState<Input>(initialValues);
     const [media, setMedia] = React.useState<"desktop" | "mobile">("desktop");
@@ -138,6 +140,7 @@ function useFormDialog<Input>({
         inputFields,
         onSubmit,
         onCloseInfo,
+        onOpenForm,
         validationSchema,
         initialValues,
         enableReinitialize,
@@ -155,6 +158,7 @@ function useFormDialog<Input>({
         inputFields, 
         onSubmit,
         onCloseInfo,
+        onOpenForm,
         validationSchema,
         initialValues,
         enableReinitialize,
@@ -177,8 +181,19 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
     `preparingMount` give the another dialog's form a time to refresh the state with the new values.
     */
     const [preparingMount, setPreparingMount] = React.useState(true);
+    
+    const [loading, setLoading] = React.useState(true); 
+    const [error, setError] = React.useState<null | { message: string; }>(null);
 
-    const { values, setValues, validationSchema, onSubmit, inputFields, enableReinitialize } = useFormDialogContext();
+    const { 
+        values, 
+        setValues, 
+        validationSchema, 
+        onSubmit, 
+        inputFields, 
+        enableReinitialize,
+        onOpenForm: handleOpenForm,
+    } = useFormDialogContext();
 
     React.useEffect(() => {
         if (open) {
@@ -190,6 +205,21 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
         }
     }, [open]); 
 
+    React.useEffect(() => {
+        if (open && handleOpenForm) {
+            setLoading(true);
+            handleOpenForm()
+                .then(({ error, data }) => {
+                    setValues(data);
+                    setError(error);
+                })
+                .finally(() => setLoading(false));
+        }
+    }, [open]);
+
+    if (loading) return <ProgressCircular />;
+    if (error) return error.message;
+
     if ((!open && !preparingUnmount) || (open && preparingMount)) return null;
 
     return (
@@ -199,7 +229,7 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
             enableReinitialize={enableReinitialize}
             onSubmit={onSubmit}
         >
-            {({ values }) => {
+            {({ values, setValues }) => {
                 React.useEffect(() => {
                     if (!open) setValues(values);
                 }, [open]); 
