@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react";
+import { createPortal } from "react-dom";
 import { 
     Formik, 
     Form as FormikForm,
@@ -34,12 +35,14 @@ import IconClose from "../../icons/Close";
 import ProgressCircular from "../../components/ProgressCircular";
 import { Option as SelectOption, OpenMenuHandler as SelectOpenMenuHandler } from "../select/Select";
 import Select from "../select/Select";
+import useMergeRefs from "../../hooks/useMergeRefs";
 
 interface InputField {
     type: string;
     name: string;
     label: string;
     disabled?: boolean;
+    autoFocus?: boolean;
     options?: SelectOption[];
     onOpenMenu?: SelectOpenMenuHandler;
 }
@@ -55,12 +58,14 @@ interface FormDialogOptions<Input> {
     enableReinitialize?: boolean;
     validationSchema: any;
     onSubmit: (input: Input) => Promise<void>;
+    onCloseInfo?: () => void;
 }
 
 interface FormDialogContext<Input> extends FormDialogOptions<Input> {
     values: Input;
     setValues: React.Dispatch<React.SetStateAction<Input>>;
-    dialog: string;
+    media: string;
+    open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
@@ -87,61 +92,64 @@ function useFormDialog<Input>({
     enableReinitialize,
     validationSchema,
     onSubmit,
+    onCloseInfo,
 }: FormDialogOptions<Input>): FormDialogContext<Input> {
-    const [dialog, setDialog] = React.useState<"none" | "desktop" | "mobile">("none");
     const [values, setValues] = React.useState<Input>(initialValues);
+    const [media, setMedia] = React.useState<"desktop" | "mobile">("desktop");
+    const [open, setOpen] = React.useState(false);
 
-    const handleOpen = React.useCallback((open) => {
-        if (open) {
-            if (window.innerWidth < 600) setDialog("mobile");
-            else setDialog("desktop");
-        } else {
-            setDialog("none");
-        }
+    const handleMedia = React.useCallback(() => {
+        if (window.innerWidth < 600) setMedia("mobile");
+        else setMedia("desktop");
     }, []);
 
-    const handleResize = React.useCallback(() => {
-        if (dialog !== "none") {
-            if (window.innerWidth < 600) setDialog("mobile");
-            else setDialog("desktop");
-        }
-    }, [dialog]);
-
     React.useEffect(() => {
-        window.addEventListener("resize", handleResize);
+        window.addEventListener("resize", handleMedia);
 
-        return () => window.removeEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleMedia);
     });
 
     React.useEffect(() => {
-        if (dialog == "none") setValues(initialValues);
-    }, [dialog]);
+        handleMedia();
+    }, []);
+
+    React.useEffect(() => {
+        if (!open) setValues(initialValues);
+    }, [open]);
+
+    React.useEffect(() => {
+        if (success) setOpen(false);
+    }, [success]);
 
     return React.useMemo(() => ({
+        media,
+        open,
+        onOpenChange: setOpen,
         headline,
         label,
         values,
         setValues,
-        dialog,
-        onOpenChange: handleOpen,
         message,
         success,
         loading,
         inputFields,
         onSubmit,
+        onCloseInfo,
         validationSchema,
         initialValues,
         enableReinitialize,
     }), [
+        media,
+        open,
         headline,
         label,
-        dialog, 
         values, 
         message, 
         success, 
         loading, 
         inputFields, 
         onSubmit,
+        onCloseInfo,
         validationSchema,
         initialValues,
         enableReinitialize,
@@ -200,6 +208,7 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
                                             name={inputField.name} 
                                             label={inputField.label} 
                                             disabled={inputField.disabled ? inputField.disabled : false}
+                                            autoFocus={inputField.autoFocus ? inputField.autoFocus : false}
                                             options={inputField.options} 
                                             size={inputSize ?? 1}
                                             onOpenMenu={inputField.onOpenMenu}
@@ -215,6 +224,7 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
                                         label={inputField.label}
                                         name={inputField.name}
                                         disabled={inputField.disabled ? inputField.disabled : false}
+                                        autoFocus={inputField.autoFocus ? inputField.autoFocus : false}
                                         size={inputSize}
                                     /> 
                                 );
@@ -229,45 +239,49 @@ function Form({ id, open, inputSize }: { id: string, open: boolean, inputSize?: 
 
 function FormDialogMobile() {
     const formId = React.useId();
-    const fabRef = React.useRef(null);
-    const { headline, dialog, onOpenChange: setOpen, success, loading } = useFormDialogContext();
-    const open = dialog === "mobile";
+    const fabDialogRef = React.useRef(null);
+    const [infoStyle, setInfoStyle] = React.useState({});
+    const { 
+        headline, 
+        media, 
+        open: open_, 
+        onOpenChange: setOpen, 
+        success, 
+        loading, 
+        message 
+    } = useFormDialogContext();
+    const open = open_ && media === "mobile";
 
     const handleOpen = React.useCallback(() => {
         setOpen(true);
     }, [setOpen]);
 
-    const handleResize = React.useCallback(() => {
-        if (fabRef.current instanceof HTMLDialogElement) {
-            if (window.innerWidth < 600 && !open) {
-                fabRef.current.show();
+    React.useEffect(() => {
+        if (fabDialogRef.current instanceof HTMLDialogElement) {
+            if (media === "mobile") {
+                fabDialogRef.current.show();
+                const rect = fabDialogRef.current.getBoundingClientRect();
+                setInfoStyle({ bottom: `calc(${window.innerHeight - rect.top}px + 1rem)` });
             } else {
-                fabRef.current.close();
+                fabDialogRef.current.close();
             }
         }
-    }, [open]);
-
-    React.useEffect(() => {
-        handleResize()
-    }, [handleResize]);
-
-    React.useEffect(() => {
-        window.addEventListener("resize", handleResize);
-
-        return () => window.removeEventListener("resize", handleResize);
-    });
-
-    React.useEffect(() => {
-        if (success) setOpen(false);
-    }, [success]);
+    }, [media]);
 
     return (
         <>
-            <dialog ref={fabRef} className={style.fab}>
-                <FabPrimary onClick={handleOpen}>
-                    <IconPlusLg />
-                </FabPrimary>
-            </dialog>
+            {createPortal(
+                <Info open={open && success} style={infoStyle}>{message}</Info>,
+                document.body
+            )}
+            {createPortal(
+                <dialog ref={fabDialogRef} className={style.fabDialog}>
+                    <FabPrimary className={style.fab} onClick={handleOpen}>
+                        <IconPlusLg />
+                    </FabPrimary>
+                </dialog>,
+                document.body
+            )}
             <DialogFullscreen open={open} onOpenChange={setOpen}>
                 <DialogFullscreenHeader>
                     <DialogFullscreenClose></DialogFullscreenClose>
@@ -293,13 +307,14 @@ function FormDialogDesktop() {
     const { 
         headline,
         label,
-        dialog, 
+        media,
+        open: open_, 
         onOpenChange: setOpen, 
         success, 
         loading, 
         message,
     } = useFormDialogContext();
-    const open = dialog === "desktop";
+    const open = open_ && media === "desktop";
             
     const handleOpen = React.useCallback(() => {
         setOpen(true);
@@ -309,15 +324,13 @@ function FormDialogDesktop() {
         setOpen(false);
     }, [setOpen]);
 
-    React.useEffect(() => {
-        if (success) setOpen(false);
-    }, [success]);
-
     return (
         <>
-            <ButtonFilled onClick={handleOpen}>
-                {label}
-            </ButtonFilled>
+            {media === "desktop" && (
+                <ButtonFilled onClick={handleOpen}>
+                    {label}
+                </ButtonFilled>
+            )}
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogHeadline>{headline}</DialogHeadline>
                 <DialogBody className={style.dialogBody}>
@@ -336,7 +349,10 @@ function FormDialogDesktop() {
                     </ButtonText>
                 </DialogFooter>
             </Dialog>
-            <Info open={success}>{message}</Info>
+            {createPortal(
+                <Info open={open && success}>{message}</Info>,
+                document.body
+            )}
         </>
     );
 }
@@ -354,29 +370,42 @@ export default function FormDialog<Input>(props: FormDialogOptions<Input>) {
     );
 }
 
-function Info({ children, open }: { children: React.ReactNode, open }) {
-    const ref = React.useRef(null);
+const Info = React.forwardRef<
+    HTMLDialogElement,
+    { children: React.ReactNode; open: boolean; } & React.HTMLProps<HTMLDialogElement>
+>(function Info({ children, open, ...props }, propRef) {
+    const dialogRef = React.useRef(null);
+    const ref = useMergeRefs([dialogRef, propRef]);
+    const { onCloseInfo } = useFormDialogContext();
+
+    const handleClose = () => {
+        onCloseInfo();
+        if (dialogRef.current instanceof HTMLDialogElement) dialogRef.current.close();
+    };
 
     React.useEffect(() => {
         let timeoutId;
-        if (open && ref.current instanceof HTMLDialogElement) {
-            ref.current.show();
+
+        if (open) {
+            if (dialogRef.current instanceof HTMLDialogElement) dialogRef.current.show();
+
             timeoutId =  setTimeout(() => {
-                ref.current.close();
-            }, 5000)
+                onCloseInfo();
+                if (dialogRef.current instanceof HTMLDialogElement) dialogRef.current.close();
+            }, 5000);
         }
 
         () => clearTimeout(timeoutId);
     }, [open]);
 
     return (
-        <dialog className={style.infoDialog} ref={ref}>
+        <dialog {...props} className={style.infoDialog} ref={ref}>
             <Snackbar className={style.info}>
                 <SnackbarText>{children}</SnackbarText>
-                <SnackbarIconAction onClick={() => ref.current.close()}>
+                <SnackbarIconAction onClick={handleClose}>
                     <IconClose />
                 </SnackbarIconAction>
             </Snackbar>
         </dialog>
     );
-}
+});

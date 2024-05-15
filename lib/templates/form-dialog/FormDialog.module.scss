@@ -2,25 +2,36 @@
     width: 100%;
 }
 
-.fab {
+.fabDialog {
     position: fixed;
     border: none;
     background: none;
     padding: 0;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
-    left: 0;
-    bottom: 0;
+    margin: 0;
+    top: auto;
+    left: auto;
+    right: 1rem;
+    bottom: 1rem;
+}
+
+.fab {
+    justify-self: end;
 }
 
 .infoDialog {
     position: fixed;
     border: none;
     background: none;
-    width: 30rem;
     padding: 0;
-    margin: 1rem auto;
-    bottom: 0;
+    margin: 0;
+    left: 1rem;
+    right: 1rem;
+
+    @media (min-width: 600px) {
+        width: 30rem;
+        margin: 0 auto;
+        bottom: 1rem;
+    }
 }
 
 .info {
