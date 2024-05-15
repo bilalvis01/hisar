@@ -1,9 +1,9 @@
 import React from "react";
 import clsx from "clsx";
 
-export function Snackbar({ children, className }: { children: React.ReactNode, className?: string }) {
+export function Snackbar({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {
     return (
-        <div className={clsx("snackbar", className)}>
+        <div {...props} className={clsx("snackbar", className)}>
             <div className="container">
                 {children}
             </div>
