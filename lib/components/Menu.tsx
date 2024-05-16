@@ -4,7 +4,7 @@ import clsx from "clsx";
 interface MenuContext {
     value: string;
     setValue: React.Dispatch<React.SetStateAction<string>>,
-    handleChange?: (value: string) => void;
+    onChange?: (value: string) => void;
 }
 
 const MenuContext = React.createContext<MenuContext>(null);
@@ -20,8 +20,8 @@ const useMenuContext = () => {
 }
 
 type MenuProps = {
-    initialValue: string;
-    value: string;
+    initialValue?: string;
+    value?: string;
     onChange?: (value: string) => void | React.Dispatch<React.SetStateAction<string>>;
 } & React.HTMLProps<HTMLDivElement>;
 
@@ -33,7 +33,7 @@ export const Menu = React.forwardRef<
     className, 
     initialValue, 
     value: controlledValue,
-    onChange: handleChange, 
+    onChange, 
     ...props
 }, ref) {
     const [uncontrolledValue, setValue] = React.useState(initialValue);
@@ -42,8 +42,8 @@ export const Menu = React.forwardRef<
     const context = React.useMemo(() => ({
         value,
         setValue,
-        handleChange,
-    }), [value, handleChange]);
+        onChange,
+    }), [value, onChange]);
 
     return (
         <MenuContext.Provider value={context}>
@@ -57,10 +57,9 @@ export const Menu = React.forwardRef<
 })
 
 interface MenuItemProps {
-    children: React.ReactNode,
     startIcon?: React.ReactNode,
     endIcon?: React.ReactNode,
-    value: string,
+    value?: string,
 }
 
 export function MenuItem({ 
@@ -68,18 +67,22 @@ export function MenuItem({
     startIcon, 
     endIcon,
     value: thisValue,
-}: MenuItemProps) {
-    const { value, setValue, handleChange } = useMenuContext();
+    onClick: handleClick_,
+    ...props
+}: MenuItemProps & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
+    const { value, setValue, onChange } = useMenuContext();
 
-    const handleClick = () => {
+    const handleClick = (event) => {
         setValue(thisValue);
-        handleChange(thisValue);
+        if (onChange) onChange(thisValue);
+        if (handleClick_) handleClick_(event); 
     }
 
     return (
         <button 
+            {...props}
             type="button" 
-            className={clsx("list-item", { select: value === thisValue })}
+            className={clsx("list-item", { select: thisValue && value === thisValue })}
             onClick={handleClick}
         >
             <div className="decorator">

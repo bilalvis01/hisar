@@ -17,6 +17,12 @@ import Link from "next/link";
 import BudgetAddForm from "../budget-add-form/BudgetAddForm";
 import style from "./BudgetCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";
+import ButtonFilled from "../../components/ButtonFIlled";
+import Fab from "../fab/Fab";
+import IconPlusLg from "../../icons/PlusLg";
+import Snackbar from "../snackbar/Snackbar";
+import { CreateBudgetMutation } from "../../graphql-tag/graphql";
+import { useTemplateContext } from "../Template";
 
 interface Budget {
     name: string;
@@ -103,6 +109,11 @@ const columns = [
 
 export default function BudgetTable() {
     const { loading, error, data } = useQuery(GET_BUDGETS);
+    const [openForm, setOpenForm] = React.useState(false);
+    const [info, setInfo] = React.useState<string | null>(null);
+    const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
+    const fabRef = React.useRef(null);
+    const { screen } = useTemplateContext();
 
     const budgets = data ? data.budgets : [];
 
@@ -112,6 +123,10 @@ export default function BudgetTable() {
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
     });
+
+    const handleOpenForm = React.useCallback(() => {
+        setOpenForm(true);
+    }, []);
 
     if (loading) return (
         <div className={clsx(style.placeholder)}>
@@ -129,11 +144,36 @@ export default function BudgetTable() {
         <div className={style.card}>
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>BUDGET</h2>
-                <BudgetAddForm />
+                <div className={style.toolbar}>
+                    <ButtonFilled onClick={handleOpenForm}>
+                        Buat Budget
+                    </ButtonFilled>
+                </div>
             </header>
             <div className={style.body}>
                 <Table table={table} />
             </div>
+            <BudgetAddForm 
+                open={openForm} 
+                onOpenChange={setOpenForm} 
+                onSuccess={(data) => setInfo(data.createBudget.message)} 
+            />
+            <Fab 
+                ref={fabRef} 
+                onClick={handleOpenForm} 
+                onShow={() => {
+                    if (fabRef.current instanceof HTMLElement) {
+                        const rect = fabRef.current.getBoundingClientRect();
+                        setSnackbarStyle({ bottom: `calc(${window.innerHeight - rect.top}px + 1rem)` });
+                    }
+                }}
+                onClose={() => setSnackbarStyle(null)}
+            >
+                <IconPlusLg />
+            </Fab>
+            <Snackbar open={!!info} onClose={() => setInfo(null)} style={snackbarStyle}>
+                {info}
+            </Snackbar>
         </div>
     );
 }

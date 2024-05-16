@@ -4,24 +4,30 @@ import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { ADD_EXPENSE, GET_EXPENSES, GET_BUDGETS } from "../../graphql-documents";
+import { AddExpenseMutation } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
-import IconPlusLg from "../../icons/PlusLg";
 
-export default function ExpenseAddForm() {
+interface ExpenseAddFormProps {
+    open: boolean,
+    onOpenChange: (open: boolean) => void;
+    onSuccess?: (data: AddExpenseMutation) => void;
+}
+
+export default function ExpenseAddForm({ open, onOpenChange, onSuccess }: ExpenseAddFormProps) {
     const [createBudget, { data, loading }] = useMutation(ADD_EXPENSE, {
         refetchQueries: [
             GET_EXPENSES,
             "GetEpenses"
-        ]
+        ],
+        onCompleted: onSuccess,
     });
     const [getBudgets] = useLazyQuery(GET_BUDGETS);
 
     return (
         <FormDialog
+            open={open}
+            onOpenChange={onOpenChange}
             headline="Tambah Expense"
-            label="Tambah"
-            fab={true}
-            fabIcon={<IconPlusLg />}
             success={data?.addExpense?.success}
             message={data?.addExpense?.message}
             loading={loading}

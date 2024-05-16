@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { createPortal } from "react-dom";
 import {
     createColumnHelper,
     getCoreRowModel,
@@ -17,6 +18,13 @@ import style from "./BudgetDetailCard.module.scss";
 import * as date from "date-fns";
 import ProgressCircular from "../../components/ProgressCircular";
 import BudgetUpdateForm from "../budget-update-form/BudgetUpdateForm";
+import BudgetDelete from "../budget-delete/BudgetDelete";
+import { useTemplateContext } from "../Template";
+import IconButtonFilled from "../../components/IconButtonFilled";
+import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
+import { Menu, MenuItem } from "../../components/Menu";
+import ButtonFilled from "../../components/ButtonFIlled";
+import Snackbar from "../snackbar/Snackbar";
 
 interface Budget {
     description: string;
@@ -103,6 +111,11 @@ export default function BudgetDetail() {
     const { loading, error, data } = useQuery(GET_BUDGET_BY_CODE, {
         variables: { code }
     });
+    const { toolbarRef } = useTemplateContext();
+    const [info, setInfo] = React.useState<string | null>(null);
+    const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
+    const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
+    const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
 
     const budgets = data ? data.budgetByCode.expenseDetail : [];
 
@@ -112,6 +125,14 @@ export default function BudgetDetail() {
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
     });
+
+    const handleOpenBudgetUpdateForm = React.useCallback(() => {
+        setOpenBudgetUpdateForm(true);
+    }, []);
+
+    const handleOpenBudgetDelete = React.useCallback(() => {
+        setOpenBudgetDelete(true);
+    }, []);
 
     if (loading) return (
         <>
@@ -130,6 +151,43 @@ export default function BudgetDetail() {
         </div>
     );
 
+    const toolbar = 
+        <div className={style.toolbar}>
+            {data && (
+                <ButtonFilled onClick={handleOpenBudgetUpdateForm}>
+                    Update
+                </ButtonFilled>  
+            )}
+            {data && (
+                <ButtonFilled onClick={handleOpenBudgetDelete}>
+                    Delete
+                </ButtonFilled>
+            )}
+        </div>;
+
+    const actionsMenu = data && toolbarRef.current instanceof HTMLDivElement && createPortal(
+        <div className={style.actionsMenuContainer}>
+            <IconButtonFilled onClick={() => setOpenActionsMenu(!openActionsMenu)}>
+                <IconThreeDotsVertial />
+            </IconButtonFilled>
+            <Menu className={style.actionsMenu} style={{ display: openActionsMenu ? "block" : "none" }}>
+                <ul>
+                    <li>
+                        <MenuItem onClick={handleOpenBudgetUpdateForm}>
+                            Edit
+                        </MenuItem>
+                    </li>
+                    <li>
+                        <MenuItem onClick={handleOpenBudgetDelete}>
+                            Hapus
+                        </MenuItem>
+                    </li>
+                </ul>
+            </Menu>
+        </div>,
+        toolbarRef.current
+    );
+
     return (
         <>
             <div className={style.card}>
@@ -137,9 +195,8 @@ export default function BudgetDetail() {
                     <h2 className={clsx("text-title-large", style.headline)}>
                         {data && data.budgetByCode.name.toUpperCase()}
                     </h2>
-                    {data && (
-                        <BudgetUpdateForm code={code} name={data.budgetByCode.name} balance={data.budgetByCode.balance} />
-                    )}
+                    {toolbar}
+                    {actionsMenu}
                 </header>
                 <div className={style.body}>
                     {data && (
@@ -186,6 +243,24 @@ export default function BudgetDetail() {
                     <Table table={table} />
                 </div>
             </div>
+            <BudgetUpdateForm 
+                open={openBudgetUpdateForm}
+                onOpenChange={setOpenBudgetUpdateForm}
+                code={code} 
+                name={data.budgetByCode.name} 
+                balance={data.budgetByCode.balance} 
+                onSuccess={(data) => setInfo(data.updateBudget.message)}
+            />
+            <BudgetDelete
+                open={openBudgetDelete}
+                onOpenChange={setOpenBudgetDelete}
+                label="Hapus" 
+                headline="Hapus Budget?" 
+                supportingText={`Apakah anda ingin menghapus ${data.budgetByCode.name}?`}
+            />
+            <Snackbar open={!!info} onClose={() => setInfo(null)}>
+                {info}
+            </Snackbar>
         </>
     );
 }

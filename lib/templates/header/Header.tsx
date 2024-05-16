@@ -8,12 +8,15 @@ import { TopAppBarSmall, Headline, Brand } from "../../components/TopAppBarSmall
 import clsx from "clsx";
 import Link from "next/link";
 import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
+import { useTemplateContext } from "../Template";
 
 export default function Header({ className }) {
+    const { toolbarRef } = useTemplateContext();
+
     return (
         <>
             <TopAppBarSmall className={clsx(style.colorPrimary, style.largeWindowAppBar, className)}>
-                <Brand className={style.largeWindowBrand}>
+                <Brand className={style.brand}>
                     <Link href="/">
                         <Logo />
                     </Link>
@@ -25,11 +28,12 @@ export default function Header({ className }) {
             </TopAppBarSmall>
             <TopAppBarSmall className={clsx(style.colorPrimary, style.mediumWindowAppBar, className)}>
                 <NavigationDrawer />
-                <Brand>
+                <Brand className={style.brand}>
                     <Link href="/">
                         <Logo />
                     </Link>
                 </Brand>
+                <div ref={toolbarRef} />
             </TopAppBarSmall>
         </>
     )

@@ -10,11 +10,15 @@ import clsx from "clsx";
 import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { gql } from "../../graphql-tag";
+import { GET_EXPENSES } from "../../graphql-documents";
 import Table from "../Table";
 import ExpenseAddForm from "../expense-add-form/ExpenseAddForm";
 import style from "./ExpenseCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";
+import ButtonFilled from "../../components/ButtonFIlled";
+import Fab from "../fab/Fab";
+import IconPlusLg from "../../icons/PlusLg";
+import Snackbar from "../snackbar/Snackbar";
 
 interface Expense {
     description: string;
@@ -82,20 +86,12 @@ const columns = [
     }),
 ];
 
-const GET_EXPENSES = gql(/* GraphQL */ `
-    query GetExpenses {
-        expenses {
-            id
-            description
-            budgetAccount
-            budgetAccountId
-            amount
-        }
-    }
-`);
-
 export default function ExpenseTable() {
     const { loading, error, data } = useQuery(GET_EXPENSES);
+    const [openForm, setOpenForm] = React.useState(false);
+    const [info, setInfo] = React.useState<string | null>(null);
+    const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
+    const fabRef = React.useRef(null);
 
     const expenses = data ? data.expenses : [];
 
@@ -105,6 +101,10 @@ export default function ExpenseTable() {
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
     });
+
+    const handleOpenForm = React.useCallback(() => {
+        setOpenForm(true)
+    }, []);
 
     if (loading) return (
         <div className={clsx(style.placeholder)}>
@@ -122,11 +122,36 @@ export default function ExpenseTable() {
         <div className={style.card}>
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>EXPENSE</h2>
-                <ExpenseAddForm />
+                <div className={style.toolbar}>
+                    <ButtonFilled onClick={handleOpenForm}>
+                        Tambah
+                    </ButtonFilled>
+                </div>
             </header>
             <div className={style.body}>
                 <Table table={table} />
             </div>
+            <ExpenseAddForm 
+                open={openForm} 
+                onOpenChange={setOpenForm} 
+                onSuccess={(data) => setInfo(data.addExpense.message)}
+            />
+            <Fab 
+                ref={fabRef}
+                onClick={handleOpenForm}
+                onShow={() => {
+                    if (fabRef.current instanceof HTMLElement) {
+                        const rect = fabRef.current.getBoundingClientRect();
+                        setSnackbarStyle({ bottom: `calc(${window.innerHeight - rect.top}px + 1rem)` });
+                    }
+                }}
+                onClose={() => setSnackbarStyle(null)}
+            >
+                <IconPlusLg />
+            </Fab>
+            <Snackbar open={!!info} onClose={() => setInfo(null)} style={snackbarStyle}>
+                {info}
+            </Snackbar>
         </div>
     );
 }

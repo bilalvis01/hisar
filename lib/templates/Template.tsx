@@ -15,11 +15,55 @@ const client = new ApolloClient({
     cache: new InMemoryCache()
 });
 
+export type Screen = "compact" | "medium" | "expanded";
+
+interface TemplateContext {
+    toolbarRef: React.RefObject<HTMLDivElement>;
+    screen: Screen;
+}
+
+const TemplateContext = React.createContext<TemplateContext>(null);
+
+export function useTemplateContext() {
+    return React.useContext(TemplateContext);
+}
+
+function useTemplate(): TemplateContext {
+    const toolbarRef = React.useRef(null);
+
+    const [screen, setScreen] = React.useState<Screen>("compact");
+
+    const handleScreen = React.useCallback(() => {
+        if (window.innerWidth < 600) setScreen("compact");
+        else if (window.innerWidth < 840) setScreen("medium");
+        else setScreen("expanded");
+    }, []);
+
+    React.useEffect(() => {
+        window.addEventListener("resize", handleScreen);
+
+        return () => window.removeEventListener("resize", handleScreen);
+    });
+
+    React.useEffect(() => {
+        handleScreen();
+    }, []);
+
+    return React.useMemo(() => ({
+        toolbarRef,
+        screen,
+    }), [
+        screen,
+    ]);
+}
+
 export default function Template({
     children,
 }: {
     children: React.ReactNode
 }) {
+    const templateContext = useTemplate();
+
     return (
         <html lang="en">
             <head>
@@ -29,15 +73,17 @@ export default function Template({
             </head>
             <body>
                 <ApolloProvider client={client}>
-                    <div className={style.app}>
-                        <main className={style.main}>
-                            {children}
-                        </main>
-                        <footer className={style.footer}>
-                            2024
-                        </footer>
-                        <Header className={style.header} />
-                    </div>
+                    <TemplateContext.Provider value={templateContext}>
+                        <div className={style.app}>
+                            <main className={style.main}>
+                                {children}
+                            </main>
+                            <footer className={style.footer}>
+                                2024
+                            </footer>
+                            <Header className={style.header} />
+                        </div>
+                    </TemplateContext.Provider>
                 </ApolloProvider>
             </body>
         </html>

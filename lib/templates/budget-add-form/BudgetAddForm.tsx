@@ -4,23 +4,29 @@ import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation } from "@apollo/client";
 import { CREATE_BUDGET, GET_BUDGETS } from "../../graphql-documents";
+import { CreateBudgetMutation } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
-import IconPlusLg from "../../icons/PlusLg";
 
-export default function BudgetForm() {
+interface BudgetAddFormProps {
+    open: boolean,
+    onOpenChange: (open: boolean) => void;
+    onSuccess?: (data: CreateBudgetMutation) => void;
+}
+
+export default function BudgetAddForm({ open, onOpenChange, onSuccess }: BudgetAddFormProps) {
     const [createBudget, { data, loading, reset }] = useMutation(CREATE_BUDGET, {
         refetchQueries: [
             GET_BUDGETS,
             "GetBudgets"
-        ]
+        ],
+        onCompleted: onSuccess,
     });
 
     return (
         <FormDialog
+            open={open}
+            onOpenChange={onOpenChange}
             headline="Buat Budget"
-            label="Buat Budget"
-            fab={true}
-            fabIcon={<IconPlusLg />}
             success={data?.createBudget?.success}
             message={data?.createBudget?.message}
             loading={loading}
@@ -49,7 +55,6 @@ export default function BudgetForm() {
                     variables: { input }
                 });
             }}
-            onCloseInfo={() => reset()}
         />
     );
 }

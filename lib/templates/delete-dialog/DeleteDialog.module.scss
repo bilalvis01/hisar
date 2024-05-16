@@ -1,0 +1,19 @@
+.infoDialog {
+    position: fixed;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    left: 1rem;
+    right: 1rem;
+
+    @media (min-width: 600px) {
+        width: 30rem;
+        margin: 0 auto;
+        bottom: 1rem;
+    }
+}
+
+.info {
+    width: 100%;
+}
