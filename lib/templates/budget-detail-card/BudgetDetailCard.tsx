@@ -24,7 +24,7 @@ import IconButtonFilled from "../../components/IconButtonFilled";
 import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
 import { Menu, MenuItem } from "../../components/Menu";
 import ButtonFilled from "../../components/ButtonFIlled";
-import Snackbar from "../snackbar/Snackbar";
+import { useRouter, notFound } from "next/navigation";
 
 interface Budget {
     description: string;
@@ -106,21 +106,26 @@ const columns = [
     })
 ];
 
-export default function BudgetDetail() {
+export default function BudgetDetailCard() {
     const { code } = useParams<{ code: string }>();
     const { loading, error, data } = useQuery(GET_BUDGET_BY_CODE, {
         variables: { code }
     });
-    const { toolbarRef, screen } = useTemplateContext();
-    const [info, setInfo] = React.useState<string | null>(null);
+    const { toolbarRef, screen, setInfo } = useTemplateContext();
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
+    const router = useRouter();
 
-    const budgets = data ? data.budgetByCode.expenseDetail : [];
+    if (data && data.budgetByCode.code === 404) {
+        notFound();
+    }
+
+    const expenseDetail = data ? data.budgetByCode.budget.expenseDetail : [];
+    const budget = data ? data.budgetByCode.budget : null; 
 
     const table = useReactTable({
-        data: budgets,
+        data: expenseDetail,
         columns,
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
@@ -157,83 +162,52 @@ export default function BudgetDetail() {
         </div>
     );
 
-    const toolbar = 
-        <div className={style.toolbar}>
-            {data && (
-                <ButtonFilled onClick={handleOpenBudgetUpdateForm}>
-                    Update
-                </ButtonFilled>  
-            )}
-            {data && (
-                <ButtonFilled onClick={handleOpenBudgetDelete}>
-                    Delete
-                </ButtonFilled>
-            )}
-        </div>;
-
-    const actionsMenu = data && toolbarRef.current instanceof HTMLDivElement && createPortal(
-        <div className={style.actionsMenuContainer}>
-            <IconButtonFilled onClick={() => setOpenActionsMenu(!openActionsMenu)}>
-                <IconThreeDotsVertial />
-            </IconButtonFilled>
-            <Menu className={style.actionsMenu} style={{ display: openActionsMenu ? "block" : "none" }}>
-                <ul>
-                    <li>
-                        <MenuItem onClick={handleOpenBudgetUpdateForm}>
-                            Edit
-                        </MenuItem>
-                    </li>
-                    <li>
-                        <MenuItem onClick={handleOpenBudgetDelete}>
-                            Hapus
-                        </MenuItem>
-                    </li>
-                </ul>
-            </Menu>
-        </div>,
-        toolbarRef.current
-    );
-
     return (
         <>
             <div className={style.card}>
                 <header className={style.header}>
                     <h2 className={clsx("text-title-large", style.headline)}>
-                        {data && data.budgetByCode.name.toUpperCase()}
+                        {budget && budget.name.toUpperCase()}
                     </h2>
-                    {toolbar}
-                    {actionsMenu}
+                    <div className={style.toolbar}>
+                        <ButtonFilled onClick={handleOpenBudgetUpdateForm}>
+                            Update
+                        </ButtonFilled>
+                        <ButtonFilled onClick={handleOpenBudgetDelete}>
+                            Delete
+                        </ButtonFilled>
+                    </div>
                 </header>
                 <div className={style.body}>
-                    {data && (
+                    {budget && (
                         <ul className={style.description}>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Kode Akun</div>
-                                <div className="text-body-small">{data.budgetByCode.code}</div>
+                                <div className="text-body-small">{budget.code}</div>
                             </li>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Nama Akun</div>
-                                <div className="text-body-small">{data.budgetByCode.name}</div>
+                                <div className="text-body-small">{budget.name}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Total Budget</div>
-                                <div className="text-body-small">{idr.format(data.budgetByCode.budget)}</div>
+                                <div className="text-body-small">{idr.format(budget.budget)}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Total Expense</div>
-                                <div className="text-body-small">{idr.format(data.budgetByCode.expense)}</div>
+                                <div className="text-body-small">{idr.format(budget.expense)}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Saldo Terakhir</div>
-                                <div className="text-body-small">{idr.format(data.budgetByCode.balance)}</div>
+                                <div className="text-body-small">{idr.format(budget.balance)}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Dibuat</div>
-                                <div className="text-body-small">{date.format(data.budgetByCode.createdAt, "d-M-y H:m:s")}</div>
+                                <div className="text-body-small">{date.format(budget.createdAt, "d-M-y H:m:s")}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Diperbarui</div>
-                                <div className="text-body-small">{date.format(data.budgetByCode.updatedAt, "d-M-y H:m:s")}</div>
+                                <div className="text-body-small">{date.format(budget.updatedAt, "d-M-y H:m:s")}</div>
                             </li>
                         </ul>
                     )}
@@ -249,24 +223,49 @@ export default function BudgetDetail() {
                     <Table table={table} />
                 </div>
             </div>
-            <BudgetUpdateForm 
-                open={openBudgetUpdateForm}
-                onOpenChange={setOpenBudgetUpdateForm}
-                code={code} 
-                name={data.budgetByCode.name} 
-                balance={data.budgetByCode.balance} 
-                onSuccess={(data) => setInfo(data.updateBudget.message)}
-            />
-            <BudgetDelete
-                open={openBudgetDelete}
-                onOpenChange={setOpenBudgetDelete}
-                label="Hapus" 
-                headline="Hapus Budget?" 
-                supportingText={`Apakah anda ingin menghapus ${data.budgetByCode.name}?`}
-            />
-            <Snackbar open={!!info} onClose={() => setInfo(null)}>
-                {info}
-            </Snackbar>
+            {budget && (
+                <BudgetUpdateForm 
+                    open={openBudgetUpdateForm}
+                    onOpenChange={setOpenBudgetUpdateForm}
+                    code={code} 
+                    name={budget.name} 
+                    balance={budget.balance} 
+                    onSuccess={(data) => setInfo(data.updateBudget.message)}
+                />
+            )}
+            {budget && (
+                <BudgetDelete
+                    budget={budget}
+                    open={openBudgetDelete}
+                    onOpenChange={setOpenBudgetDelete}
+                    onSuccess={(data) => {
+                        setInfo(data.deleteBudget.message);
+                        router.push("/budget");
+                    }}
+                />
+            )}
+            {data && toolbarRef.current instanceof HTMLDivElement && createPortal(
+                <div className={style.actionsMenuContainer}>
+                    <IconButtonFilled onClick={() => setOpenActionsMenu(!openActionsMenu)}>
+                        <IconThreeDotsVertial />
+                    </IconButtonFilled>
+                    <Menu className={style.actionsMenu} style={{ display: openActionsMenu ? "block" : "none" }}>
+                        <ul>
+                            <li>
+                                <MenuItem onClick={handleOpenBudgetUpdateForm}>
+                                    Edit
+                                </MenuItem>
+                            </li>
+                            <li>
+                                <MenuItem onClick={handleOpenBudgetDelete}>
+                                    Hapus
+                                </MenuItem>
+                            </li>
+                        </ul>
+                    </Menu>
+                </div>,
+                toolbarRef.current
+            )}
         </>
     );
 }

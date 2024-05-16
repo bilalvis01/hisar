@@ -11,23 +11,25 @@ import {
 import { ButtonText } from "../../components/ButtonText";
 import ProgressCircular from "../../components/ProgressCircular";
 
-interface DeleteDialogOptions<Input> {
+interface DeleteDialogOptions<Values> {
+    values: Values;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     headline: string;
     label: string;
     supportingText: string;
-    message?: string;
-    success?: boolean;
-    loading?: boolean;
+    onSubmit: (values: Values) => Promise<void>;
 }
 
-interface DeleteDialogContext<Input> extends DeleteDialogOptions<Input> {}
+interface DeleteDialogContext<Values> extends DeleteDialogOptions<Values> {
+    isSubmitting: boolean;
+    setIsSubmitting: (isSubmitting: boolean) => void; 
+}
 
 const DeleteDialogContext = React.createContext(null);
 
-function useDeleteDialogContext<Input>() {
-    const context = React.useContext<DeleteDialogContext<Input>>(DeleteDialogContext);
+function useDeleteDialogContext<Values>() {
+    const context = React.useContext<DeleteDialogContext<Values>>(DeleteDialogContext);
 
     if (context == null) {
         throw new Error("Delete dialog components must be wrapped in <DeleteDialog />");
@@ -36,54 +38,60 @@ function useDeleteDialogContext<Input>() {
     return context;
 }
 
-function useDeleteDialog<Input>({
+function useDeleteDialog<Values>({
+    values,
     open,
     onOpenChange: setOpen,
     headline,
     label,
     supportingText,
-    message,
-    success,
-    loading,
-}: DeleteDialogOptions<Input>): DeleteDialogContext<Input> {
-    React.useEffect(() => {
-        if (success) setOpen(false);
-    }, [success]);
+    onSubmit,
+}: DeleteDialogOptions<Values>): DeleteDialogContext<Values> {
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     return React.useMemo(() => ({
+        values,
         open,
         onOpenChange: setOpen,
         headline,
         supportingText,
         label,
-        message,
-        success,
-        loading,
+        onSubmit,
+        isSubmitting,
+        setIsSubmitting,
     }), [
+        values,
         open,
         setOpen,
         headline,
         supportingText,
         label,
-        message, 
-        success, 
-        loading, 
+        onSubmit,
+        isSubmitting,
     ]);
 };
 
 function DeleteDialogBase() {
     const formId = React.useId();
     const { 
+        values,
         headline,
         supportingText,
         open, 
-        onOpenChange: setOpen,  
-        loading,
+        onOpenChange: setOpen,
+        isSubmitting,
+        setIsSubmitting,
+        onSubmit: handleSubmit_
     } = useDeleteDialogContext();
 
     const handleClose = React.useCallback(() => {
         setOpen(false);
     }, [setOpen]);
+
+    const handleSubmit = React.useCallback(() => {
+        handleSubmit_(values).then(() => setIsSubmitting(false));
+        setIsSubmitting(true);
+    }, [values]);
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -96,8 +104,9 @@ function DeleteDialogBase() {
                 <ButtonText 
                     type="submit" 
                     form={formId} 
-                    disabled={loading} 
-                    progress={loading ? <ProgressCircular size="sm" /> : null}
+                    disabled={isSubmitting} 
+                    progress={isSubmitting ? <ProgressCircular size="sm" /> : null}
+                    onClick={handleSubmit}
                 >
                     Ya
                 </ButtonText>
@@ -106,7 +115,7 @@ function DeleteDialogBase() {
     );
 }
 
-export default function DeleteDialog<Input>(props: DeleteDialogOptions<Input>) {
+export default function DeleteDialog<Values>(props: DeleteDialogOptions<Values>) {
     const context = useDeleteDialog(props);
 
     return (

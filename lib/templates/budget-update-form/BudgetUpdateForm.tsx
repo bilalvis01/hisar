@@ -61,11 +61,11 @@ export default function BudgetUpdateForm({
                 },
             ]}
             initialValues={async () => {
-                const { data: { budgetByCode }, error } = await getBudgetByCode();
+                const { data, error } = await getBudgetByCode();
                 const values = {
-                    code: budgetByCode.code,
-                    name: budgetByCode.name,
-                    balance: budgetByCode.balance,
+                    code: data.budgetByCode.budget.code,
+                    name: data.budgetByCode.budget.name,
+                    balance: data.budgetByCode.budget.balance,
                 };
                 return {
                     error,

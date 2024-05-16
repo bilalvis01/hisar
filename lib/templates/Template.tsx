@@ -9,6 +9,7 @@ import {
     ApolloProvider, 
     gql 
 } from '@apollo/client';
+import Snackbar from "./snackbar/Snackbar";
 
 const client = new ApolloClient({
     uri: "/api/graphql",
@@ -20,6 +21,10 @@ export type Screen = "compact" | "medium" | "expanded";
 interface TemplateContext {
     toolbarRef: React.RefObject<HTMLDivElement>;
     screen: Screen;
+    info: string;
+    setInfo: React.Dispatch<React.SetStateAction<string | null>>;
+    snackbarStyle: React.CSSProperties;
+    setSnackbarStyle: React.Dispatch<React.SetStateAction<React.CSSProperties | null>>;
 }
 
 const TemplateContext = React.createContext<TemplateContext>(null);
@@ -30,8 +35,9 @@ export function useTemplateContext() {
 
 function useTemplate(): TemplateContext {
     const toolbarRef = React.useRef(null);
-
     const [screen, setScreen] = React.useState<Screen>("compact");
+    const [info, setInfo] = React.useState<string | null>(null);
+    const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
 
     const handleScreen = React.useCallback(() => {
         if (window.innerWidth < 600) setScreen("compact");
@@ -52,8 +58,14 @@ function useTemplate(): TemplateContext {
     return React.useMemo(() => ({
         toolbarRef,
         screen,
+        info,
+        setInfo,
+        snackbarStyle,
+        setSnackbarStyle,
     }), [
         screen,
+        info,
+        snackbarStyle,
     ]);
 }
 
@@ -85,6 +97,13 @@ export default function Template({
                         </div>
                     </TemplateContext.Provider>
                 </ApolloProvider>
+                <Snackbar 
+                    open={!!templateContext.info} 
+                    onClose={() => templateContext.setInfo(null)}
+                    style={templateContext.snackbarStyle}
+                >
+                    {templateContext.info}
+                </Snackbar>
             </body>
         </html>
     )

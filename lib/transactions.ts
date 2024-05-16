@@ -172,3 +172,36 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
         return budgetAccount;
     });
 }
+
+export async function deleteBudget(client: PrismaClient, id: number) {
+    return await client.$transaction(async (tx: PrismaClient) => {
+         await tx.ledger.updateMany({
+            where: {
+                entries: {
+                    some: {
+                        accountId: id,
+                    }
+                }
+            },
+            data: {
+                stateId: 3,
+            }
+         });
+
+         return await tx.account.update({
+            where: {
+                id,
+            },
+            data: {
+                stateId: 3,
+            },
+            include: {
+                accountCode: {
+                    include: {
+                        accountSupercode: true,
+                    }
+                }
+            },
+         });
+    });
+} 

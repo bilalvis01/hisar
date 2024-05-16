@@ -3,7 +3,7 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers } from "../../../lib/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient, Account, AccountCode } from "@prisma/client";
-import { createBudget, updateBudget, entry } from "../../../lib/transactions";
+import { createBudget, updateBudget, deleteBudget, entry } from "../../../lib/transactions";
 import { DateTimeISOTypeDefinition, DateTimeISOResolver } from "graphql-scalars";
 
 function splitCode(code: string) {
@@ -17,7 +17,7 @@ async function getBudgetDetail(
     const ledger = await dataSources.ledger.findMany({
         where: {
             entries: { some: { account: { id: account.id } } },
-            state: { id: 1 },
+            stateId: 1,
         },
         include: { 
             entries: { 
@@ -85,7 +85,10 @@ async function getBudgetDetail(
 
 async function fetchBugdets(dataSources: PrismaClient) {
     const data = await dataSources.account.findMany({ 
-        where: { accountCode: { accountSupercode: { code: 101 } } },
+        where: { 
+            accountCode: { accountSupercode: { code: 101 } },
+            stateId: 1,
+        },
         include: {
             accountCode: {
                 include: {
@@ -131,6 +134,7 @@ const resolvers: Resolvers = {
                         code: code[1], 
                         accountSupercode: { code: code[0] },
                     },
+                    stateId: 1,
                 },
                 include: {
                     accountCode: {
@@ -141,7 +145,22 @@ const resolvers: Resolvers = {
                 }
             });
 
-            return await getBudgetDetail(context.dataSources, account);
+            if (!account) {
+                return {
+                    code: 404,
+                    success: false,
+                    message: `account budget dengan code ${code_} tidak ada`,
+                }
+            }
+
+            const budget = await getBudgetDetail(context.dataSources, account);
+
+            return {
+                code: 200,
+                success: true,
+                message: "",
+                budget,
+            }
         },
 
         async expenses(_, __, context) {
@@ -227,6 +246,31 @@ const resolvers: Resolvers = {
                     code: 500,
                     success: false,
                     message: `${input.name} gagal diperbarui`,
+                    expense: null,
+                }
+            }
+        },
+
+        async deleteBudget(_, { input }, context) {
+            try {
+                const account = await deleteBudget(context.dataSources, input.id);
+                const budget = await getBudgetDetail(context.dataSources, account);
+                return {
+                    code: 200,
+                    success: true,
+                    message: `${account.name} berhasil dihapus`,
+                    budget,
+                };
+            } catch (error) {
+                const account = await context.dataSources.account.findUnique({
+                    where: {
+                        id: input.id,
+                    }
+                });
+                return {
+                    code: 500,
+                    success: false,
+                    message: `${account.name} gagal dihapus`,
                     expense: null,
                 }
             }

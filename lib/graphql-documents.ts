@@ -28,20 +28,25 @@ export const GET_BUDGETS = gql(/* GraphQL */ `
 export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
     query GetBudgetByCode($code: String!) {
         budgetByCode(code: $code) {
-            id
             code
-            name
-            budget
-            expense
-            balance
-            expenseDetail {
-                description
-                debit
-                credit
+            success
+            message
+            budget {
+                id
+                code
+                name
+                budget
+                expense
                 balance
+                expenseDetail {
+                    description
+                    debit
+                    credit
+                    balance
+                }
+                createdAt
+                updatedAt
             }
-            createdAt
-            updatedAt
         }
     }
 `);
@@ -68,6 +73,25 @@ export const CREATE_BUDGET = gql(/* GraphQL */`
 export const UPDATE_BUDGET = gql(/* GraphQL */`
     mutation UpdateBudget($input: UpdateBudgetInput!) {
         updateBudget(input: $input) {
+            code
+            success
+            message
+            budget {
+                id
+                name
+                budget
+                expense
+                balance
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`);
+
+export const DELETE_BUDGET = gql(/* GraphQL */`
+    mutation DeleteBudget($input: DeleteBudgetInput!) {
+        deleteBudget(input: $input) {
             code
             success
             message

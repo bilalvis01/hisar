@@ -3,13 +3,14 @@ scalar DateTimeIso
 type Query {
     excerptReport: ExcerptReport!
     budgets: [Budget!]!
-    budgetByCode(code: String!): Budget!
+    budgetByCode(code: String!): BudgetByCodePayload!
     expenses: [Expense!]!
 }
 
 type Mutation {
     createBudget(input: CreateBudgetInput!): CreateBudgetPayload!
     updateBudget(input: UpdateBudgetInput!): UpdateBudgetPayload!
+    deleteBudget(input: DeleteBudgetInput!): DeleteBudgetPayload!
     addExpense(input: AddExpenseInput!): AddExpensePayload!
 }
 
@@ -31,11 +32,23 @@ type Budget {
     updatedAt: DateTimeIso!
 }
 
+type BudgetByCodePayload {
+    code: Int!
+    success: Boolean!
+    message: String!
+    budget: Budget
+}
+
 type BudgetExpenses {
     description: String!
     debit: Int
     credit: Int
     balance: Int!
+}
+
+input CreateBudgetInput {
+    name: String!
+    budget: Int!
 }
 
 type CreateBudgetPayload {
@@ -45,11 +58,6 @@ type CreateBudgetPayload {
     budget: Budget
 }
 
-input CreateBudgetInput {
-    name: String!
-    budget: Int!
-}
-
 input UpdateBudgetInput {
     code: String!
     name: String!
@@ -57,6 +65,17 @@ input UpdateBudgetInput {
 }
 
 type UpdateBudgetPayload {
+    code: Int!
+    success: Boolean!
+    message: String!
+    budget: Budget
+}
+
+input DeleteBudgetInput {
+    id: Int!
+}
+
+type DeleteBudgetPayload {
     code: Int!
     success: Boolean!
     message: String!
