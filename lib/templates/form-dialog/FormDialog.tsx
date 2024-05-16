@@ -33,7 +33,7 @@ interface Error {
     message: string;
 }
 
-interface InputField {
+interface ValuesField {
     type: string;
     name: string;
     label: string;
@@ -43,19 +43,19 @@ interface InputField {
     onOpenMenu?: SelectOpenMenuHandler;
 }
 
-interface FormDialogOptions<Input> {
+interface FormDialogOptions<Values> {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     headline: string;
-    inputFields: InputField[];
-    initialValues: Input | (() => Promise<{ error?: Error; data?: Input; }>);
+    inputFields: ValuesField[];
+    initialValues: Values | (() => Promise<{ error?: Error; values?: Values; }>);
     validationSchema: any;
-    onSubmit: (input: Input, helpers: FormikHelpers<Input>) => Promise<void>;
+    onSubmit: (values: Values, helpers: FormikHelpers<Values>) => Promise<void>;
 }
 
-interface FormDialogContext<Input> extends FormDialogOptions<Input> {
-    values: Input;
-    setValues: React.Dispatch<React.SetStateAction<Input>>;
+interface FormDialogContext<Values> extends FormDialogOptions<Values> {
+    values: Values;
+    setValues: React.Dispatch<React.SetStateAction<Values>>;
     screen: Screen;
     isSubmitting: boolean;
     setIsSubmitting: (submitting: boolean) => void;
@@ -65,8 +65,8 @@ interface FormDialogContext<Input> extends FormDialogOptions<Input> {
 
 const FormDialogContext = React.createContext(null);
 
-function useFormDialogContext<Input>() {
-    const context = React.useContext<FormDialogContext<Input>>(FormDialogContext);
+function useFormDialogContext<Values>() {
+    const context = React.useContext<FormDialogContext<Values>>(FormDialogContext);
 
     if (context == null) {
         throw new Error("Form dialog components must be wrapped in <FormDialog />");
@@ -75,7 +75,7 @@ function useFormDialogContext<Input>() {
     return context;
 }
 
-function useFormDialog<Input>({
+function useFormDialog<Values>({
     open,
     onOpenChange: setOpen,
     headline,
@@ -83,8 +83,8 @@ function useFormDialog<Input>({
     initialValues,
     validationSchema,
     onSubmit,
-}: FormDialogOptions<Input>): FormDialogContext<Input> {
-    const [values, setValues] = React.useState<Input | null>(null);
+}: FormDialogOptions<Values>): FormDialogContext<Values> {
+    const [values, setValues] = React.useState<Values | null>(null);
     const { screen } = useTemplateContext();
     const [loading, setLoading] = React.useState(true); 
     const [error, setError] = React.useState<{ message: string; } | null>(null);
@@ -94,8 +94,8 @@ function useFormDialog<Input>({
         if (open) {
             if (initialValues instanceof Function) { 
                 initialValues()
-                    .then(({ error, data }) => {
-                        setValues(data);
+                    .then(({ error, values }) => {
+                        setValues(values);
                         setError(error);
                     })
                     .finally(() => setLoading(false));
@@ -303,7 +303,7 @@ function FormDialogMediumScreen() {
     );
 }
 
-export default function FormDialog<Input>(props: FormDialogOptions<Input>) {
+export default function FormDialog<Values>(props: FormDialogOptions<Values>) {
     const context = useFormDialog(props);
 
     return (

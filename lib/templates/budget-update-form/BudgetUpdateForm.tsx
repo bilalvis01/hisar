@@ -62,14 +62,14 @@ export default function BudgetUpdateForm({
             ]}
             initialValues={async () => {
                 const { data: { budgetByCode }, error } = await getBudgetByCode();
-                const data = {
+                const values = {
                     code: budgetByCode.code,
                     name: budgetByCode.name,
                     balance: budgetByCode.balance,
                 };
                 return {
                     error,
-                    data,
+                    values,
                 };
             }}
             validationSchema={Yup.object({
