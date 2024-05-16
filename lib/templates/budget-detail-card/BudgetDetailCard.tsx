@@ -111,7 +111,7 @@ export default function BudgetDetail() {
     const { loading, error, data } = useQuery(GET_BUDGET_BY_CODE, {
         variables: { code }
     });
-    const { toolbarRef } = useTemplateContext();
+    const { toolbarRef, screen } = useTemplateContext();
     const [info, setInfo] = React.useState<string | null>(null);
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
@@ -127,12 +127,18 @@ export default function BudgetDetail() {
     });
 
     const handleOpenBudgetUpdateForm = React.useCallback(() => {
+        setOpenActionsMenu(false);
         setOpenBudgetUpdateForm(true);
     }, []);
 
     const handleOpenBudgetDelete = React.useCallback(() => {
+        setOpenActionsMenu(false);
         setOpenBudgetDelete(true);
     }, []);
+
+    React.useEffect(() => {
+        if (screen === "expanded") setOpenActionsMenu(false);
+    }, [screen]);
 
     if (loading) return (
         <>
