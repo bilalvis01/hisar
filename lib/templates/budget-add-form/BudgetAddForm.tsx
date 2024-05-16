@@ -13,23 +13,23 @@ interface BudgetAddFormProps {
     onSuccess?: (data: CreateBudgetMutation) => void;
 }
 
-export default function BudgetAddForm({ open, onOpenChange, onSuccess }: BudgetAddFormProps) {
-    const [createBudget, { data, loading, reset }] = useMutation(CREATE_BUDGET, {
+export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }: BudgetAddFormProps) {
+    const [createBudget] = useMutation(CREATE_BUDGET, {
         refetchQueries: [
             GET_BUDGETS,
             "GetBudgets"
         ],
-        onCompleted: onSuccess,
+        onCompleted: (data) => {
+            setOpen(false);
+            onSuccess(data);
+        },
     });
 
     return (
         <FormDialog
             open={open}
-            onOpenChange={onOpenChange}
+            onOpenChange={setOpen}
             headline="Buat Budget"
-            success={data?.createBudget?.success}
-            message={data?.createBudget?.message}
-            loading={loading}
             inputFields={[
                 {
                     type: "text",

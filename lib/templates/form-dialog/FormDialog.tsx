@@ -4,6 +4,7 @@ import React from "react";
 import { 
     Formik, 
     Form as FormikForm,
+    FormikHelpers
 } from "formik";
 import TextField from "../TextField";
 import style from "./FormDialog.module.scss";
@@ -26,6 +27,11 @@ import ProgressCircular from "../../components/ProgressCircular";
 import { Option as SelectOption, OpenMenuHandler as SelectOpenMenuHandler } from "../select/Select";
 import Select from "../select/Select";
 import { useTemplateContext, Screen } from "../Template";
+import clsx from "clsx";
+
+interface Error {
+    message: string;
+}
 
 interface InputField {
     type: string;
@@ -41,21 +47,20 @@ interface FormDialogOptions<Input> {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     headline: string;
-    message: string;
-    success: boolean;
-    loading: boolean;
     inputFields: InputField[];
-    initialValues: Input;
-    enableReinitialize?: boolean;
+    initialValues: Input | (() => Promise<{ error?: Error; data?: Input; }>);
     validationSchema: any;
-    onSubmit: (input: Input) => Promise<void>;
-    onOpenForm?: () => Promise<{ error?: { message: string; }; data?: Input; }>;
+    onSubmit: (input: Input, helpers: FormikHelpers<Input>) => Promise<void>;
 }
 
 interface FormDialogContext<Input> extends FormDialogOptions<Input> {
     values: Input;
     setValues: React.Dispatch<React.SetStateAction<Input>>;
     screen: Screen;
+    isSubmitting: boolean;
+    setIsSubmitting: (submitting: boolean) => void;
+    error: Error;
+    loading: boolean;
 }
 
 const FormDialogContext = React.createContext(null);
@@ -74,26 +79,32 @@ function useFormDialog<Input>({
     open,
     onOpenChange: setOpen,
     headline,
-    message,
-    success,
-    loading,
     inputFields,
     initialValues,
-    enableReinitialize,
     validationSchema,
     onSubmit,
-    onOpenForm,
 }: FormDialogOptions<Input>): FormDialogContext<Input> {
-    const [values, setValues] = React.useState<Input>(initialValues);
+    const [values, setValues] = React.useState<Input | null>(null);
     const { screen } = useTemplateContext();
+    const [loading, setLoading] = React.useState(true); 
+    const [error, setError] = React.useState<{ message: string; } | null>(null);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     React.useEffect(() => {
-        if (!open) setValues(initialValues);
+        if (open) {
+            if (initialValues instanceof Function) { 
+                initialValues()
+                    .then(({ error, data }) => {
+                        setValues(data);
+                        setError(error);
+                    })
+                    .finally(() => setLoading(false));
+            } else if (initialValues) {
+                setValues(initialValues);
+                setLoading(false);
+            }
+        }
     }, [open]);
-
-    React.useEffect(() => {
-        if (success) setOpen(false);
-    }, [success]);
 
     return React.useMemo(() => ({
         screen,
@@ -102,30 +113,27 @@ function useFormDialog<Input>({
         headline,
         values,
         setValues,
-        message,
-        success,
-        loading,
         inputFields,
         onSubmit,
-        onOpenForm,
         validationSchema,
         initialValues,
-        enableReinitialize,
+        isSubmitting,
+        setIsSubmitting,
+        error,
+        loading,
     }), [
         screen,
         open,
         setOpen,
         headline,
         values, 
-        message, 
-        success, 
-        loading, 
         inputFields, 
         onSubmit,
-        onOpenForm,
         validationSchema,
         initialValues,
-        enableReinitialize,
+        isSubmitting,
+        error,
+        loading,
     ]);
 };
 
@@ -136,115 +144,92 @@ interface FormProps {
 }
 
 function Form({ id, open, inputSize }: FormProps) {
-    /* When a form dialog is going to close, at the same time the form will be unmounted.
-    `preparingUnmount` give the form a time to save its values to values state */
-    const [preparingUnmount, setPreparingUnmount] = React.useState(true);
-    /* when another form dialog is going to close, than the dialog's form will save its values to values state.
-    But at the same time the current dialog is opening, at this point the values state still had the old values.
-    `preparingMount` give the another dialog's form a time to refresh the state with the new values.
-    */
-    const [preparingMount, setPreparingMount] = React.useState(true);
-    
-    const [loading, setLoading] = React.useState(false); 
-    const [error, setError] = React.useState<null | { message: string; }>(null);
-
     const { 
         values, 
         setValues, 
         validationSchema, 
         onSubmit, 
-        inputFields, 
-        enableReinitialize,
-        onOpenForm: handleOpenForm,
+        inputFields,
+        error,
+        loading,
+        setIsSubmitting,
     } = useFormDialogContext();
 
-    React.useEffect(() => {
-        if (open) {
-            setPreparingUnmount(true);
-            setPreparingMount(false);
-        } else {
-            setPreparingUnmount(false);
-            setPreparingMount(true);
-        }
-    }, [open]); 
-
-    React.useEffect(() => {
-        if (open && handleOpenForm) {
-            setLoading(true);
-            handleOpenForm()
-                .then(({ error, data }) => {
-                    setValues(data);
-                    setError(error);
-                })
-                .finally(() => setLoading(false));
-        }
-    }, [open]);
-
-    if (loading) return <ProgressCircular />;
-    if (error) return error.message;
-
-    if ((!open && !preparingUnmount) || (open && preparingMount)) return null;
+    if (loading) return (
+        <div className={style.loading}>
+            <ProgressCircular />
+        </div>
+    );
+    if (error) return (
+        <div className={clsx(style.error, "text-body-medium")}>
+            {error.message}
+        </div>
+    );
 
     return (
         <Formik
             initialValues={values}
             validationSchema={validationSchema}
-            enableReinitialize={enableReinitialize}
+            enableReinitialize={true}
             onSubmit={onSubmit}
         >
-            {({ values, setValues }) => {
+            {({ values, isSubmitting }) => {
                 React.useEffect(() => {
-                    if (!open) setValues(values);
-                }, [open]); 
+                    if (!open) {
+                        setValues(values);
+                    }
+                }, [open]);
+
+                React.useEffect(() => {
+                    setIsSubmitting(isSubmitting);
+                }, [isSubmitting]);
 
                 return (
-                    <>
-                        <FormikForm id={id}>
-                            {inputFields.map((inputField) => {
-                                const {
-                                    type,
-                                    name,
-                                    label,
-                                    disabled,
-                                    autoFocus,
-                                    options,
-                                    onOpenMenu,
-                                } = { 
-                                    ...{ disabled: false, autoFocus: false },
-                                    ...inputField
-                                }
+                    <FormikForm id={id}>
+                        {inputFields.map((inputField) => {
+                            const {
+                                type,
+                                name,
+                                label,
+                                disabled,
+                                autoFocus,
+                                options,
+                                onOpenMenu,
+                            } = { 
+                                ...{ disabled: false, autoFocus: false },
+                                ...inputField
+                            }
 
-                                if (type === "select") {
-                                    return (
-                                        <Select 
-                                            key={name} 
-                                            name={name} 
-                                            label={label} 
-                                            disabled={disabled}
-                                            autoFocus={autoFocus}
-                                            options={options} 
-                                            size={inputSize ?? 1}
-                                            onOpenMenu={onOpenMenu}
-                                        />
-                                    );
-                                }
-                            
-
+                            if (type === "select") {
                                 return (
-                                    <TextField 
-                                        key={name}
-                                        className={style.field} 
-                                        type={type} 
-                                        label={label}
-                                        name={name}
+                                    <Select 
+                                        key={name} 
+                                        name={name} 
+                                        label={label} 
                                         disabled={disabled}
                                         autoFocus={autoFocus}
-                                        size={inputSize}
-                                    /> 
+                                        options={options} 
+                                        size={inputSize ?? 1}
+                                        onOpenMenu={onOpenMenu}
+                                    />
                                 );
-                            })}
-                        </FormikForm>
-                    </>
+                            }
+                        
+
+                            return (
+                                <TextField 
+                                    key={name}
+                                    className={style.field} 
+                                    type={type} 
+                                    label={label}
+                                    name={name}
+                                    disabled={disabled}
+                                    autoFocus={autoFocus}
+                                    size={inputSize}
+                                /> 
+                            );
+                        })}
+                    </FormikForm>
                 );
             }}
         </Formik>
@@ -253,34 +238,30 @@ function Form({ id, open, inputSize }: FormProps) {
 
 function FormDialogCompactScreen() {
     const formId = React.useId();
-    const fabDialogRef = React.useRef(null);
-    const [infoStyle, setInfoStyle] = React.useState({});
     const { 
         headline, 
         screen, 
-        open: open_, 
+        open, 
         onOpenChange: setOpen,
-        success, 
-        loading, 
-        message,
+        isSubmitting,
     } = useFormDialogContext();
-    const open = open_ && screen === "compact";
+    const openThisForm = open && screen === "compact";
 
     return (
-        <DialogFullscreen open={open} onOpenChange={setOpen}>
+        <DialogFullscreen open={openThisForm} onOpenChange={setOpen}>
             <DialogFullscreenHeader>
                 <DialogFullscreenClose></DialogFullscreenClose>
                 <DialogFullscreenHeadline>{headline}</DialogFullscreenHeadline>
                 <DialogFullscreenAction 
                     form={formId} 
-                    disabled={loading}
-                    progress={loading ? <ProgressCircular size="sm" /> : null}
+                    disabled={isSubmitting}
+                    progress={isSubmitting ? <ProgressCircular size="sm" /> : null}
                 >
                     Simpan
                 </DialogFullscreenAction>
             </DialogFullscreenHeader>
             <DialogFullscreenBody>
-                <Form id={formId} open={open} inputSize={1} />
+                <Form id={formId} open={openThisForm} inputSize={1} />
             </DialogFullscreenBody>
         </DialogFullscreen>
     );
@@ -291,32 +272,29 @@ function FormDialogMediumScreen() {
     const { 
         headline,
         screen,
-        open: open_, 
-        onOpenChange: setOpen, 
-        success, 
-        loading, 
-        message,
+        open, 
+        onOpenChange: setOpen,
+        isSubmitting,
     } = useFormDialogContext();
-    const open = open_ && (screen === "medium" || screen === "expanded");
+    const openThisForm = open && (screen === "medium" || screen === "expanded");
 
     const handleClose = React.useCallback(() => {
         setOpen(false);
     }, [setOpen]);
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={openThisForm} onOpenChange={setOpen}>
             <DialogHeadline>{headline}</DialogHeadline>
             <DialogBody>
-                {!success && <div>{message}</div>}
-                <Form id={formId} open={open} />
+                <Form id={formId} open={openThisForm} />
             </DialogBody>
             <DialogFooter>
                 <ButtonText onClick={handleClose}>Batal</ButtonText>
                 <ButtonText 
                     type="submit" 
                     form={formId} 
-                    disabled={loading} 
-                    progress={loading ? <ProgressCircular size="sm" /> : null}
+                    disabled={isSubmitting} 
+                    progress={isSubmitting ? <ProgressCircular size="sm" /> : null}
                 >
                     Simpan
                 </ButtonText>

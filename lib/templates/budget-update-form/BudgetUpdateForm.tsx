@@ -18,7 +18,7 @@ interface BudgetUpdateFormProps {
 
 export default function BudgetUpdateForm({ 
     open,
-    onOpenChange,
+    onOpenChange: setOpen,
     code, 
     name, 
     balance, 
@@ -26,22 +26,22 @@ export default function BudgetUpdateForm({
 }: BudgetUpdateFormProps) {
     const [getBudgetByCode] = useLazyQuery(GET_BUDGET_BY_CODE, { variables: { code } });
 
-    const [createBudget, { data, loading }] = useMutation(UPDATE_BUDGET, {
+    const [updateBudget] = useMutation(UPDATE_BUDGET, {
         refetchQueries: [
             { query: GET_BUDGET_BY_CODE, variables: { code } },
             "GetBudgetByCode"
         ],
-        onCompleted: onSuccess,
+        onCompleted: (data) => {
+            setOpen(false);
+            onSuccess(data);
+        },
     });
 
     return (
         <FormDialog
             open={open}
-            onOpenChange={onOpenChange}
+            onOpenChange={setOpen}
             headline="Edit Budget"
-            success={data?.updateBudget?.success}
-            message={data?.updateBudget?.message}
-            loading={loading}
             inputFields={[
                 {
                     type: "text",
@@ -60,22 +60,7 @@ export default function BudgetUpdateForm({
                     label: "Saldo",
                 },
             ]}
-            initialValues={{
-                code,
-                name,
-                balance,
-            }}
-            validationSchema={Yup.object({
-                code: Yup.string().required("Mohon diisi"),
-                name: Yup.string().required("Mohon diisi"),
-                balance: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
-            })}
-            onSubmit={async (input) => {
-                await createBudget({
-                    variables: { input }
-                });
-            }}
-            onOpenForm={async () => {
+            initialValues={async () => {
                 const { data: { budgetByCode }, error } = await getBudgetByCode();
                 const data = {
                     code: budgetByCode.code,
@@ -86,6 +71,16 @@ export default function BudgetUpdateForm({
                     error,
                     data,
                 };
+            }}
+            validationSchema={Yup.object({
+                code: Yup.string().required("Mohon diisi"),
+                name: Yup.string().required("Mohon diisi"),
+                balance: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
+            })}
+            onSubmit={async (input) => {
+                await updateBudget({
+                    variables: { input }
+                });
             }}
         />
     );

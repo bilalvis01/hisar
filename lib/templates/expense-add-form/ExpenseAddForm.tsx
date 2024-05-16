@@ -13,24 +13,24 @@ interface ExpenseAddFormProps {
     onSuccess?: (data: AddExpenseMutation) => void;
 }
 
-export default function ExpenseAddForm({ open, onOpenChange, onSuccess }: ExpenseAddFormProps) {
-    const [createBudget, { data, loading }] = useMutation(ADD_EXPENSE, {
+export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess }: ExpenseAddFormProps) {
+    const [createBudget] = useMutation(ADD_EXPENSE, {
         refetchQueries: [
             GET_EXPENSES,
             "GetEpenses"
         ],
-        onCompleted: onSuccess,
+        onCompleted: (data) => {
+            setOpen(false);
+            onSuccess(data);
+        },
     });
     const [getBudgets] = useLazyQuery(GET_BUDGETS);
 
     return (
         <FormDialog
             open={open}
-            onOpenChange={onOpenChange}
+            onOpenChange={setOpen}
             headline="Tambah Expense"
-            success={data?.addExpense?.success}
-            message={data?.addExpense?.message}
-            loading={loading}
             inputFields={[
                 {
                     type: "select",
