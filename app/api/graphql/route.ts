@@ -165,7 +165,10 @@ const resolvers: Resolvers = {
 
         async expenses(_, __, context) {
             const data = await context.dataSources.ledger.findMany({ 
-                where: { entries: { some: { account: { accountCode: { code: 200 } } } } },
+                where: { 
+                    entries: { some: { account: { accountCode: { code: 200 } } } },
+                    stateId: 1,
+                },
                 include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
                 orderBy: {
                     createdAt: "desc",
