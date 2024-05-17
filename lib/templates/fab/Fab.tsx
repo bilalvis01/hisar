@@ -13,12 +13,12 @@ const Fab = React.forwardRef<
     HTMLButtonElement,
     FabProps & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 >(function ({ onShow, onClose, className, ...props }, ref) {
-    const { screen } = useTemplateContext();
+    const { windowSize } = useTemplateContext();
     const dialogRef = React.useRef(null);
 
     React.useEffect(() => {
         if (dialogRef.current instanceof HTMLDialogElement) {
-            if (screen === "compact") {
+            if (windowSize === "compact") {
                 dialogRef.current.show()
                 if (onShow) onShow()
             } else {
@@ -26,7 +26,7 @@ const Fab = React.forwardRef<
                 if (onClose) onClose()
             }
         }
-    }, [screen]);
+    }, [windowSize]);
 
     return (
         <dialog ref={dialogRef} className={style.dialog}>

@@ -113,7 +113,7 @@ export default function BudgetDetailCard() {
     const { loading, error, data } = useQuery(GET_BUDGET_BY_CODE, {
         variables: { code }
     });
-    const { toolbarRef, screen, setInfo } = useTemplateContext();
+    const { toolbarRef, windowSize, setInfo } = useTemplateContext();
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
@@ -149,8 +149,8 @@ export default function BudgetDetailCard() {
     }, []);
 
     React.useEffect(() => {
-        if (screen === "expanded") setOpenActionsMenu(false);
-    }, [screen]);
+        if (windowSize === "expanded") setOpenActionsMenu(false);
+    }, [windowSize]);
 
     if (loading) return (
         <>

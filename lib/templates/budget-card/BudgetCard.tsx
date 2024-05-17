@@ -127,15 +127,15 @@ export default function BudgetTable() {
     const { 
         toolbarSecondaryRef, 
         headlineSecondaryRef,
-        setShowCompactScreenAppBarSecondary,
+        setShowCompactWindowSizeAppBarSecondary,
         setInfo,
         setSnackbarStyle,
-        isScreenCompact,
-        isScreenMedium,
-        isScreenExpanded,
+        isWindowSizeCompact,
+        isWindowSizeMedium,
+        isWindowSizeExpanded,
         addClickCloseAppBarSecondaryEventListener,
         removeClickCloseAppBarSecondaryEventListener,
-        screen,
+        windowSize,
     } = useTemplateContext();
     const router = useRouter();
 
@@ -182,23 +182,23 @@ export default function BudgetTable() {
     }, []);
 
     React.useEffect(() => {
-        if (isManySelectedRow() && isScreenCompact()) {
+        if (isManySelectedRow() && isWindowSizeCompact()) {
             addClickCloseAppBarSecondaryEventListener(() => {
                 table.resetRowSelection();
-                setShowCompactScreenAppBarSecondary(false);
+                setShowCompactWindowSizeAppBarSecondary(false);
             });
         }
 
         () => removeClickCloseAppBarSecondaryEventListener();
-    }, [selectedRows.length, screen]);
+    }, [selectedRows.length, windowSize]);
 
     React.useEffect(() => {
-        if (selectedRows.length > 0 && isScreenCompact()) {
-            setShowCompactScreenAppBarSecondary(true);
+        if (selectedRows.length > 0 && isWindowSizeCompact()) {
+            setShowCompactWindowSizeAppBarSecondary(true);
         } else {
-            setShowCompactScreenAppBarSecondary(false);
+            setShowCompactWindowSizeAppBarSecondary(false);
         }
-    }, [screen, selectedRows.length]);
+    }, [windowSize, selectedRows.length]);
 
     if (loading) return (
         <div className={clsx(style.placeholder)}>
@@ -217,12 +217,12 @@ export default function BudgetTable() {
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>BUDGET</h2>
                 <div className={style.toolbar}>
-                    {isNoneSelectedRow() && (isScreenExpanded() || isScreenMedium()) && (
+                    {isNoneSelectedRow() && (isWindowSizeExpanded() || isWindowSizeMedium()) && (
                         <ButtonFilled onClick={handleOpenBudgetAddForm}>
                             Buat Budget
                         </ButtonFilled>
                     )}
-                    {isSingleSelectedRow() && isScreenExpanded() && (
+                    {isSingleSelectedRow() && isWindowSizeExpanded() && (
                         <>
                             <Link href={`/budget/${selectedRows[0].code}`} passHref legacyBehavior>
                                 <LinkText>
@@ -237,7 +237,7 @@ export default function BudgetTable() {
                             </ButtonText>
                         </>
                     )}
-                    {isSingleSelectedRow() && isScreenMedium() && (
+                    {isSingleSelectedRow() && isWindowSizeMedium() && (
                         <>
                             <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
                                 <Eye />
@@ -289,7 +289,7 @@ export default function BudgetTable() {
             >
                 <IconPlusLg />
             </Fab>
-            {isSingleSelectedRow() && isScreenCompact() && (
+            {isSingleSelectedRow() && isWindowSizeCompact() && (
                 createPortal(
                     <>
                         <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
@@ -305,7 +305,7 @@ export default function BudgetTable() {
                     toolbarSecondaryRef.current
                 )
             )}
-            {isManySelectedRow() && isScreenCompact() && (
+            {isManySelectedRow() && isWindowSizeCompact() && (
                 createPortal(
                     selectedRows.length,
                     headlineSecondaryRef.current

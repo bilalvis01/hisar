@@ -26,7 +26,7 @@ import { ButtonText } from "../../components/ButtonText";
 import ProgressCircular from "../../components/ProgressCircular";
 import { Option as SelectOption, OpenMenuHandler as SelectOpenMenuHandler } from "../select/Select";
 import Select from "../select/Select";
-import { useTemplateContext, Screen } from "../Template";
+import { useTemplateContext, WindowSize } from "../Template";
 import clsx from "clsx";
 
 interface Error {
@@ -56,7 +56,7 @@ interface FormDialogOptions<Values> {
 interface FormDialogContext<Values> extends FormDialogOptions<Values> {
     values: Values;
     setValues: React.Dispatch<React.SetStateAction<Values>>;
-    screen: Screen;
+    windowSize: WindowSize;
     isSubmitting: boolean;
     setIsSubmitting: (submitting: boolean) => void;
     error: Error;
@@ -85,7 +85,7 @@ function useFormDialog<Values>({
     onSubmit,
 }: FormDialogOptions<Values>): FormDialogContext<Values> {
     const [values, setValues] = React.useState<Values | null>(null);
-    const { screen } = useTemplateContext();
+    const { windowSize } = useTemplateContext();
     const [loading, setLoading] = React.useState(true); 
     const [error, setError] = React.useState<{ message: string; } | null>(null);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -107,7 +107,7 @@ function useFormDialog<Values>({
     }, [open]);
 
     return React.useMemo(() => ({
-        screen,
+        windowSize,
         open,
         onOpenChange: setOpen,
         headline,
@@ -122,7 +122,7 @@ function useFormDialog<Values>({
         error,
         loading,
     }), [
-        screen,
+        windowSize,
         open,
         setOpen,
         headline,
@@ -240,12 +240,12 @@ function FormDialogCompactScreen() {
     const formId = React.useId();
     const { 
         headline, 
-        screen, 
+        windowSize, 
         open, 
         onOpenChange: setOpen,
         isSubmitting,
     } = useFormDialogContext();
-    const openThisForm = open && screen === "compact";
+    const openThisForm = open && windowSize === "compact";
 
     return (
         <DialogFullscreen open={openThisForm} onOpenChange={setOpen}>
@@ -271,12 +271,12 @@ function FormDialogMediumScreen() {
     const formId = React.useId();
     const { 
         headline,
-        screen,
+        windowSize,
         open, 
         onOpenChange: setOpen,
         isSubmitting,
     } = useFormDialogContext();
-    const openThisForm = open && (screen === "medium" || screen === "expanded");
+    const openThisForm = open && (windowSize === "medium" || windowSize === "expanded");
 
     const handleClose = React.useCallback(() => {
         setOpen(false);

@@ -17,27 +17,27 @@ const client = new ApolloClient({
     cache: new InMemoryCache()
 });
 
-export type Screen = "compact" | "medium" | "expanded";
+export type WindowSize = "compact" | "medium" | "expanded";
 
 interface TemplateContext {
     toolbarRef: React.RefObject<HTMLDivElement>;
     toolbarSecondaryRef: React.RefObject<HTMLDivElement>;
     headlineSecondaryRef: React.RefObject<HTMLDivElement>;
-    screen: Screen;
+    windowSize: WindowSize;
     info: string;
     setInfo: React.Dispatch<React.SetStateAction<string | null>>;
     snackbarStyle: React.CSSProperties;
     setSnackbarStyle: React.Dispatch<React.SetStateAction<React.CSSProperties | null>>;
-    showCompactScreenAppBarSecondary: boolean;
-    setShowCompactScreenAppBarSecondary: React.Dispatch<React.SetStateAction<boolean>>;
+    showCompactWindowSizeAppBarSecondary: boolean;
+    setShowCompactWindowSizeAppBarSecondary: React.Dispatch<React.SetStateAction<boolean>>;
     addClickCloseAppBarSecondaryEventListener: (listener?: React.MouseEventHandler<HTMLButtonElement>) => void;
     onClickCloseAppBarSecondary: React.MouseEventHandler<HTMLButtonElement> | null;
     removeClickCloseAppBarSecondaryEventListener: () => void;
-    isScreenCompact: () => boolean;
-    isScreenMedium: () => boolean;
-    isScreenSpanMedium: () => boolean;
-    isScreenExpanded: () => boolean;
-    isScreenSpanExpanded: () => boolean;
+    isWindowSizeCompact: () => boolean;
+    isWindowSizeMedium: () => boolean;
+    isWindowSizeSpanMedium: () => boolean;
+    isWindowSizeExpanded: () => boolean;
+    isWindowSizeSpanExpanded: () => boolean;
 }
 
 const TemplateContext = React.createContext<TemplateContext>(null);
@@ -50,34 +50,34 @@ function useTemplate(): TemplateContext {
     const toolbarRef = React.useRef(null);
     const toolbarSecondaryRef = React.useRef(null);
     const headlineSecondaryRef = React.useRef(null);
-    const [screen, setScreen] = React.useState<Screen>("compact");
+    const [windowSize, setWindowSize] = React.useState<WindowSize>("compact");
     const [info, setInfo] = React.useState<string | null>(null);
     const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
-    const [showCompactScreenAppBarSecondary, setShowCompactScreenAppBarSecondary] = React.useState(false);
+    const [showCompactWindowSizeAppBarSecondary, setShowCompactWindowSizeAppBarSecondary] = React.useState(false);
     const pathname = usePathname()
     const [prevPathname, setPrevPathname] = React.useState(pathname);
     const [handleClickCloseAppBarSecondary, setHandleClickCloseAppBarSecondary] = 
         React.useState<React.MouseEventHandler<HTMLButtonElement> | null>(null);
 
-    const isScreenCompact = React.useCallback(() => {
-        return screen === "compact";
-    }, [screen]);
+    const isWindowSizeCompact = React.useCallback(() => {
+        return windowSize === "compact";
+    }, [windowSize]);
 
-    const isScreenMedium = React.useCallback(() => {
-        return screen === "medium";
-    }, [screen]);
+    const isWindowSizeMedium = React.useCallback(() => {
+        return windowSize === "medium";
+    }, [windowSize]);
 
-    const isScreenSpanMedium = React.useCallback(() => {
-        return ["compact", "medium"].includes(screen);
-    }, [screen]);
+    const isWindowSizeSpanMedium = React.useCallback(() => {
+        return ["compact", "medium"].includes(windowSize);
+    }, [windowSize]);
 
-    const isScreenExpanded = React.useCallback(() => {
-        return screen === "expanded";
-    }, [screen]);
+    const isWindowSizeExpanded = React.useCallback(() => {
+        return windowSize === "expanded";
+    }, [windowSize]);
 
-    const isScreenSpanExpanded = React.useCallback(() => {
-        return ["compact", "medium", "expanded"].includes(screen);
-    }, [screen]);
+    const isWindowSizeSpanExpanded = React.useCallback(() => {
+        return ["compact", "medium", "expanded"].includes(windowSize);
+    }, [windowSize]);
 
     const addClickCloseAppBarSecondaryEventListener = React.useCallback(
         (listener: React.MouseEventHandler<HTMLButtonElement>) => {
@@ -90,25 +90,25 @@ function useTemplate(): TemplateContext {
         setHandleClickCloseAppBarSecondary(null);
     }, []);
 
-    const handleScreen = React.useCallback(() => {
-        if (window.innerWidth < 600) setScreen("compact");
-        else if (window.innerWidth < 840) setScreen("medium");
-        else setScreen("expanded");
+    const handleWindowSize = React.useCallback(() => {
+        if (window.innerWidth < 600) setWindowSize("compact");
+        else if (window.innerWidth < 840) setWindowSize("medium");
+        else setWindowSize("expanded");
     }, []);
 
     React.useEffect(() => {
-        window.addEventListener("resize", handleScreen);
+        window.addEventListener("resize", handleWindowSize);
 
-        return () => window.removeEventListener("resize", handleScreen);
+        return () => window.removeEventListener("resize", handleWindowSize);
     });
 
     React.useEffect(() => {
-        handleScreen();
+        handleWindowSize();
     }, []);
 
     React.useEffect(() => {
         if (prevPathname !== pathname) {
-            setShowCompactScreenAppBarSecondary(false);
+            setShowCompactWindowSizeAppBarSecondary(false);
             setPrevPathname(pathname);
         }
     }, [pathname]);
@@ -117,32 +117,32 @@ function useTemplate(): TemplateContext {
         toolbarRef,
         toolbarSecondaryRef,
         headlineSecondaryRef,
-        screen,
+        windowSize,
         info,
         setInfo,
         snackbarStyle,
         setSnackbarStyle,
-        showCompactScreenAppBarSecondary,
-        setShowCompactScreenAppBarSecondary,
+        showCompactWindowSizeAppBarSecondary,
+        setShowCompactWindowSizeAppBarSecondary,
         addClickCloseAppBarSecondaryEventListener,
         removeClickCloseAppBarSecondaryEventListener,
         onClickCloseAppBarSecondary: handleClickCloseAppBarSecondary,
-        isScreenCompact,
-        isScreenMedium,
-        isScreenSpanMedium,
-        isScreenExpanded,
-        isScreenSpanExpanded,
+        isWindowSizeCompact,
+        isWindowSizeMedium,
+        isWindowSizeSpanMedium,
+        isWindowSizeExpanded,
+        isWindowSizeSpanExpanded,
     }), [
-        screen,
+        windowSize,
         info,
         snackbarStyle,
-        showCompactScreenAppBarSecondary,
+        showCompactWindowSizeAppBarSecondary,
         handleClickCloseAppBarSecondary,
-        isScreenCompact,
-        isScreenMedium,
-        isScreenSpanMedium,
-        isScreenExpanded,
-        isScreenSpanExpanded,
+        isWindowSizeCompact,
+        isWindowSizeMedium,
+        isWindowSizeSpanMedium,
+        isWindowSizeExpanded,
+        isWindowSizeSpanExpanded,
     ]);
 }
 

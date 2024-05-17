@@ -17,18 +17,18 @@ export default function Header({ className }) {
         toolbarRef, 
         toolbarSecondaryRef, 
         headlineSecondaryRef,
-        showCompactScreenAppBarSecondary,
-        screen,
+        showCompactWindowSizeAppBarSecondary,
+        windowSize,
         onClickCloseAppBarSecondary: handleClickCloseAppBarSecondary,
-        isScreenCompact,
-        isScreenSpanMedium,
+        isWindowSizeCompact,
+        isWindowSizeSpanMedium,
     } = useTemplateContext();
 
     return (
         <>
             <TopAppBarSmall 
                 className={clsx(style.colorPrimary, className)}
-                style={{ display: screen === "expanded" ? "block" : "none" }}
+                style={{ display: windowSize === "expanded" ? "block" : "none" }}
             >
                 <Brand className={style.brand}>
                     <Link href="/">
@@ -43,7 +43,7 @@ export default function Header({ className }) {
             <TopAppBarSmall 
                 className={clsx(style.colorPrimary, className)}
                 style={{ 
-                    display: !showCompactScreenAppBarSecondary && isScreenSpanMedium()
+                    display: !showCompactWindowSizeAppBarSecondary && isWindowSizeSpanMedium()
                         ? "block"
                         : "none" 
                 }}
@@ -58,7 +58,7 @@ export default function Header({ className }) {
             </TopAppBarSmall>
             <TopAppBarSmall
                 style={{ 
-                    display: showCompactScreenAppBarSecondary && isScreenCompact() 
+                    display: showCompactWindowSizeAppBarSecondary && isWindowSizeCompact() 
                         ? "block"
                         : "none" 
                 }}
