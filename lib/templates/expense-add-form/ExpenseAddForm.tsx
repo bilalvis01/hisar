@@ -6,6 +6,7 @@ import { useMutation, useLazyQuery } from "@apollo/client";
 import { ADD_EXPENSE, GET_BUDGETS, NEW_EXPENSE } from "../../graphql-documents";
 import { AddExpenseMutation } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
+import { useTemplateContext } from "../Template";
 
 interface ExpenseAddFormProps {
     open: boolean,
@@ -14,6 +15,8 @@ interface ExpenseAddFormProps {
 }
 
 export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess }: ExpenseAddFormProps) {
+    const { setInfo } = useTemplateContext();
+
     const [addExpense] = useMutation(ADD_EXPENSE, {
         update(cache, { data: { addExpense } }) {
             cache.modify({
@@ -36,6 +39,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
             })
         },
         onCompleted(data) {
+            setInfo(data.addExpense.message);
             setOpen(false);
             onSuccess(data);
         },

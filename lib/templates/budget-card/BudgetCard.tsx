@@ -128,7 +128,6 @@ export default function BudgetTable() {
         toolbarSecondaryRef, 
         headlineSecondaryRef,
         setShowCompactWindowSizeAppBarSecondary,
-        setInfo,
         setSnackbarStyle,
         isWindowSizeCompact,
         isWindowSizeMedium,
@@ -258,20 +257,14 @@ export default function BudgetTable() {
             <BudgetAddForm 
                 open={openBudgetAddForm} 
                 onOpenChange={setOpenBudgetAddForm} 
-                onSuccess={(data) => {
-                    table.resetRowSelection();
-                    setInfo(data.createBudget.message);
-                }} 
+                onSuccess={(data) => table.resetRowSelection()} 
             />
             {selectedRows.length === 1 && (
                 <BudgetUpdateForm
                     budget={selectedRows[0] as Budget}
                     open={openBudgetUpdateForm}
                     onOpenChange={setOpenBudgetUpdateForm}
-                    onSuccess={(data) => {
-                        table.resetRowSelection();
-                        setInfo(data.updateBudget.message)
-                    }}
+                    onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
             {selectedRows.length === 1 && (
@@ -279,10 +272,6 @@ export default function BudgetTable() {
                     budget={selectedRows[0] as Budget}
                     open={openBudgetDelete}
                     onOpenChange={setOpenBudgetDelete}
-                    onSuccess={(data) => {
-                        table.resetRowSelection();
-                        setInfo(data.deleteBudget.message)
-                    }}
                 />
             )}
             <Fab 

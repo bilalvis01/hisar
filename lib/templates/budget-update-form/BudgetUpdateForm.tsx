@@ -6,6 +6,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { UPDATE_BUDGET, GET_BUDGET_BY_CODE, NEW_BUDGET } from "../../graphql-documents";
 import { UpdateBudgetMutation, Budget } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
+import { useTemplateContext } from "../Template";
 
 interface BudgetUpdateFormProps {
     budget: string | Budget
@@ -20,6 +21,8 @@ export default function BudgetUpdateForm({
     onOpenChange: setOpen,
     onSuccess,
 }: BudgetUpdateFormProps) {
+    const { setInfo } = useTemplateContext();
+
     const [getBudgetByCode] = useLazyQuery(GET_BUDGET_BY_CODE);
 
     const [updateBudget] = useMutation(UPDATE_BUDGET, {
@@ -41,6 +44,7 @@ export default function BudgetUpdateForm({
             });
         },
         onCompleted(data) {
+            setInfo(data.updateBudget.message);
             setOpen(false);
             onSuccess(data);
         },

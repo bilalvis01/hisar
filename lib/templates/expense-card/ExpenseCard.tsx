@@ -18,7 +18,7 @@ import ProgressCircular from "../../components/ProgressCircular";
 import ButtonFilled from "../../components/ButtonFIlled";
 import Fab from "../fab/Fab";
 import IconPlusLg from "../../icons/PlusLg";
-import Snackbar from "../snackbar/Snackbar";
+import { useTemplateContext } from "../Template";
 
 interface Expense {
     description: string;
@@ -89,9 +89,8 @@ const columns = [
 export default function ExpenseTable() {
     const { loading, error, data } = useQuery(GET_EXPENSES);
     const [openForm, setOpenForm] = React.useState(false);
-    const [info, setInfo] = React.useState<string | null>(null);
-    const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
     const fabRef = React.useRef(null);
+    const { setSnackbarStyle } = useTemplateContext();
 
     const expenses = data ? data.expenses : [];
 
@@ -134,7 +133,6 @@ export default function ExpenseTable() {
             <ExpenseAddForm 
                 open={openForm} 
                 onOpenChange={setOpenForm} 
-                onSuccess={(data) => setInfo(data.addExpense.message)}
             />
             <Fab 
                 ref={fabRef}
@@ -149,9 +147,6 @@ export default function ExpenseTable() {
             >
                 <IconPlusLg />
             </Fab>
-            <Snackbar open={!!info} onClose={() => setInfo(null)} style={snackbarStyle}>
-                {info}
-            </Snackbar>
         </div>
     );
 }

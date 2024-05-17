@@ -113,7 +113,7 @@ export default function BudgetDetailCard() {
     const { loading, error, data } = useQuery(GET_BUDGET_BY_CODE, {
         variables: { code }
     });
-    const { toolbarRef, windowSize, setInfo } = useTemplateContext();
+    const { toolbarRef, windowSize } = useTemplateContext();
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
@@ -240,7 +240,6 @@ export default function BudgetDetailCard() {
                     budget={budget}
                     open={openBudgetUpdateForm}
                     onOpenChange={setOpenBudgetUpdateForm}
-                    onSuccess={(data) => setInfo(data.updateBudget.message)}
                 />
             )}
             {budget && (
@@ -248,10 +247,6 @@ export default function BudgetDetailCard() {
                     budget={budget.code}
                     open={openBudgetDelete}
                     onOpenChange={setOpenBudgetDelete}
-                    onSuccess={(data) => {
-                        setInfo(data.deleteBudget.message);
-                        router.push("/budget");
-                    }}
                 />
             )}
             {toolbarRef.current instanceof HTMLDivElement && createPortal(

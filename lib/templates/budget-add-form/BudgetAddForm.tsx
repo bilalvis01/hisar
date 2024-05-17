@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_BUDGET, GET_BUDGETS, NEW_BUDGET } from "../../graphql-documents";
 import { CreateBudgetMutation } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
+import { useTemplateContext } from "../Template";
 
 interface BudgetAddFormProps {
     open: boolean,
@@ -14,6 +15,8 @@ interface BudgetAddFormProps {
 }
 
 export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }: BudgetAddFormProps) {
+    const { setInfo } = useTemplateContext();
+
     const [createBudget] = useMutation(CREATE_BUDGET, {
         update(cache, { data: { createBudget } }) {
             cache.modify({
@@ -36,6 +39,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
             });
         },
         onCompleted: (data) => {
+            setInfo(data.createBudget.message);
             setOpen(false);
             onSuccess(data);
         },

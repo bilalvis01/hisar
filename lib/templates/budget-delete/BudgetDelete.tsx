@@ -5,6 +5,7 @@ import DeleteDialog from "../delete-dialog/DeleteDialog";
 import { DELETE_BUDGET, GET_BUDGET_BY_CODE } from "../../graphql-documents";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { DeleteBudgetMutation, Budget } from "../../graphql-tag/graphql";
+import { useTemplateContext } from "../Template";
 
 interface BudgetDeleteProps {
     budget: string | Budget;
@@ -19,6 +20,8 @@ export default function BudgetDelete({
     onOpenChange: setOpen,
     onSuccess,
 }: BudgetDeleteProps) {
+    const { setInfo } = useTemplateContext();
+
     const [getBudgetByCode, { data: getBudgetByCodeData }] = useLazyQuery(GET_BUDGET_BY_CODE);
 
     const [deleteBudget] = useMutation(DELETE_BUDGET, {
@@ -38,6 +41,7 @@ export default function BudgetDelete({
             });
         },
         onCompleted(data) {
+            setInfo(data.deleteBudget.message);
             setOpen(false);
             onSuccess(data);
         },
