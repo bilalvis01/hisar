@@ -128,8 +128,7 @@ export default function BudgetTable() {
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const { 
         toolbarSecondaryRef, 
-        setShowCompactScreenAppBarSecondary, 
-        showCompactScreenAppBarSecondary,
+        setShowCompactScreenAppBarSecondary,
         screen 
     } = useTemplateContext();
     const router = useRouter();
@@ -254,12 +253,7 @@ export default function BudgetTable() {
             {selectedRows.length === 1 && (
                 createPortal(
                     <>
-                        <IconButtonFilled 
-                            onClick={() => {
-                                setShowCompactScreenAppBarSecondary(false);
-                                router.push(`/budget/${selectedRows[0].code}`);
-                            }}
-                        >
+                        <IconButtonFilled onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
                             <Eye />
                         </IconButtonFilled>
                         <IconButtonFilled onClick={handleOpenBudgetUpdateForm}>

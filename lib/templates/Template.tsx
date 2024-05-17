@@ -10,6 +10,7 @@ import {
     gql 
 } from '@apollo/client';
 import Snackbar from "./snackbar/Snackbar";
+import { usePathname } from "next/navigation";
 
 const client = new ApolloClient({
     uri: "/api/graphql",
@@ -45,6 +46,8 @@ function useTemplate(): TemplateContext {
     const [info, setInfo] = React.useState<string | null>(null);
     const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
     const [showCompactScreenAppBarSecondary, setShowCompactScreenAppBarSecondary] = React.useState(false);
+    const pathname = usePathname()
+    const [prevPathname, setPrevPathname] = React.useState(pathname);
 
     const handleScreen = React.useCallback(() => {
         if (window.innerWidth < 600) setScreen("compact");
@@ -61,6 +64,13 @@ function useTemplate(): TemplateContext {
     React.useEffect(() => {
         handleScreen();
     }, []);
+
+    React.useEffect(() => {
+        if (prevPathname !== pathname) {
+            setShowCompactScreenAppBarSecondary(false);
+            setPrevPathname(pathname);
+        }
+    }, [pathname]);
 
     return React.useMemo(() => ({
         toolbarRef,
