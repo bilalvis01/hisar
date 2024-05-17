@@ -10,7 +10,7 @@ import {
 } from "../../components/NavigationDrawer";
 import IconButtonFilled from "../../components/IconButtonFilled";
 import IconButtonStandard from "../../components/IconButtonStandard";
-import IconClose from "../../icons/Close";
+import IconX from "../../icons/X";
 import IconList from "../../icons/List";
 import { usePathname } from "next/navigation";
 import NextLink from "next/link";
@@ -61,7 +61,7 @@ export default function NavigationDrawer({ className, iconButtonStandard = false
                 <NavigationHeader>
                     <NavigationHeadline>HISAR</NavigationHeadline>
                     <IconButtonStandard onClick={() => setOpen(false)}>
-                        <IconClose />
+                        <IconX />
                     </IconButtonStandard>
                 </NavigationHeader>
                 <NavigationBody>

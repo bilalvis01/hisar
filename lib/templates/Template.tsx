@@ -30,6 +30,14 @@ interface TemplateContext {
     setSnackbarStyle: React.Dispatch<React.SetStateAction<React.CSSProperties | null>>;
     showCompactScreenAppBarSecondary: boolean;
     setShowCompactScreenAppBarSecondary: React.Dispatch<React.SetStateAction<boolean>>;
+    addClickCloseAppBarSecondaryEventListener: (listener?: React.MouseEventHandler<HTMLButtonElement>) => void;
+    onClickCloseAppBarSecondary: React.MouseEventHandler<HTMLButtonElement> | null;
+    removeClickCloseAppBarSecondaryEventListener: () => void;
+    isScreenCompact: () => boolean;
+    isScreenMedium: () => boolean;
+    isScreenSpanMedium: () => boolean;
+    isScreenExpanded: () => boolean;
+    isScreenSpanExpanded: () => boolean;
 }
 
 const TemplateContext = React.createContext<TemplateContext>(null);
@@ -48,6 +56,39 @@ function useTemplate(): TemplateContext {
     const [showCompactScreenAppBarSecondary, setShowCompactScreenAppBarSecondary] = React.useState(false);
     const pathname = usePathname()
     const [prevPathname, setPrevPathname] = React.useState(pathname);
+    const [handleClickCloseAppBarSecondary, setHandleClickCloseAppBarSecondary] = 
+        React.useState<React.MouseEventHandler<HTMLButtonElement> | null>(null);
+
+    const isScreenCompact = React.useCallback(() => {
+        return screen === "compact";
+    }, [screen]);
+
+    const isScreenMedium = React.useCallback(() => {
+        return screen === "medium";
+    }, [screen]);
+
+    const isScreenSpanMedium = React.useCallback(() => {
+        return ["compact", "medium"].includes(screen);
+    }, [screen]);
+
+    const isScreenExpanded = React.useCallback(() => {
+        return screen === "expanded";
+    }, [screen]);
+
+    const isScreenSpanExpanded = React.useCallback(() => {
+        return ["compact", "medium", "expanded"].includes(screen);
+    }, [screen]);
+
+    const addClickCloseAppBarSecondaryEventListener = React.useCallback(
+        (listener: React.MouseEventHandler<HTMLButtonElement>) => {
+            setHandleClickCloseAppBarSecondary(() => listener);
+        }, 
+        []
+    );
+
+    const removeClickCloseAppBarSecondaryEventListener = React.useCallback(() => {
+        setHandleClickCloseAppBarSecondary(null);
+    }, []);
 
     const handleScreen = React.useCallback(() => {
         if (window.innerWidth < 600) setScreen("compact");
@@ -83,11 +124,25 @@ function useTemplate(): TemplateContext {
         setSnackbarStyle,
         showCompactScreenAppBarSecondary,
         setShowCompactScreenAppBarSecondary,
+        addClickCloseAppBarSecondaryEventListener,
+        removeClickCloseAppBarSecondaryEventListener,
+        onClickCloseAppBarSecondary: handleClickCloseAppBarSecondary,
+        isScreenCompact,
+        isScreenMedium,
+        isScreenSpanMedium,
+        isScreenExpanded,
+        isScreenSpanExpanded,
     }), [
         screen,
         info,
         snackbarStyle,
         showCompactScreenAppBarSecondary,
+        handleClickCloseAppBarSecondary,
+        isScreenCompact,
+        isScreenMedium,
+        isScreenSpanMedium,
+        isScreenExpanded,
+        isScreenSpanExpanded,
     ]);
 }
 

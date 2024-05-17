@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import IconClose from "../icons/Close";
+import IconX from "../icons/X";
 import useMergeRefs from "../hooks/useMergeRefs";
 
 interface DialogOptions {
@@ -194,7 +194,7 @@ export const DialogClose = React.forwardRef<
                     <div className="state-layer" />
                 </div>
             </div>
-            <IconClose />
+            <IconX />
         </button>
     );
 });

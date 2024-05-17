@@ -9,6 +9,8 @@ import clsx from "clsx";
 import Link from "next/link";
 import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 import { useTemplateContext } from "../Template";
+import IconButtonStandard from "../../components/IconButtonStandard";
+import IconX from "../../icons/X";
 
 export default function Header({ className }) {
     const { 
@@ -17,6 +19,9 @@ export default function Header({ className }) {
         headlineSecondaryRef,
         showCompactScreenAppBarSecondary,
         screen,
+        onClickCloseAppBarSecondary: handleClickCloseAppBarSecondary,
+        isScreenCompact,
+        isScreenSpanMedium,
     } = useTemplateContext();
 
     return (
@@ -38,7 +43,7 @@ export default function Header({ className }) {
             <TopAppBarSmall 
                 className={clsx(style.colorPrimary, className)}
                 style={{ 
-                    display: !showCompactScreenAppBarSecondary && ["compact", "medium"].includes(screen) 
+                    display: !showCompactScreenAppBarSecondary && isScreenSpanMedium()
                         ? "block"
                         : "none" 
                 }}
@@ -51,15 +56,16 @@ export default function Header({ className }) {
                 </Brand>
                 <div ref={toolbarRef} />
             </TopAppBarSmall>
-            <TopAppBarSmall 
-                className={style.colorPrimary}
+            <TopAppBarSmall
                 style={{ 
-                    display: showCompactScreenAppBarSecondary && ["compact", "medium"].includes(screen) 
+                    display: showCompactScreenAppBarSecondary && isScreenCompact() 
                         ? "block"
                         : "none" 
                 }}
             >
-                <NavigationDrawer />
+                <IconButtonStandard onClick={handleClickCloseAppBarSecondary}>
+                    <IconX />
+                </IconButtonStandard>
                 <Headline ref={headlineSecondaryRef} className={style.brand} />
                 <div ref={toolbarSecondaryRef} />
             </TopAppBarSmall>

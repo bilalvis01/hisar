@@ -5,7 +5,7 @@ import {
     IconAction as SnackbarIconAction,
 } from "../../components/Snackbar";
 import useMergeRefs from "../../hooks/useMergeRefs";
-import IconClose from "../../icons/Close";
+import IconX from "../../icons/X";
 import style from "./Snackbar.module.scss";
 
 const Snackbar = React.forwardRef<
@@ -40,7 +40,7 @@ const Snackbar = React.forwardRef<
             <SnackbarBase className={style.snackbar}>
                 <SnackbarText>{children}</SnackbarText>
                 <SnackbarIconAction onClick={handleClose}>
-                    <IconClose />
+                    <IconX />
                 </SnackbarIconAction>
             </SnackbarBase>
         </dialog>

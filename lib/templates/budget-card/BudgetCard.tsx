@@ -22,7 +22,6 @@ import ProgressCircular from "../../components/ProgressCircular";
 import ButtonFilled from "../../components/ButtonFIlled";
 import Fab from "../fab/Fab";
 import IconPlusLg from "../../icons/PlusLg";
-import Snackbar from "../snackbar/Snackbar";
 import BudgetDelete from "../budget-delete/BudgetDelete";
 import BudgetUpdateForm from "../budget-update-form/BudgetUpdateForm";
 import { Budget } from "../../graphql-tag/graphql";
@@ -33,6 +32,7 @@ import IconButtonFilled from "../../components/IconButtonFilled";
 import Pencil from "../../icons/Pencil";
 import Eye from "../../icons/Eye";
 import { useRouter } from "next/navigation";
+import IconButtonStandard from "../../components/IconButtonStandard";
 
 interface Row {
     name: string;
@@ -122,14 +122,20 @@ export default function BudgetTable() {
     const [openBudgetAddForm, setOpenBudgetAddForm] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
-    const [info, setInfo] = React.useState<string | null>(null);
-    const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
     const fabRef = React.useRef(null);
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const { 
         toolbarSecondaryRef, 
+        headlineSecondaryRef,
         setShowCompactScreenAppBarSecondary,
-        screen 
+        setInfo,
+        setSnackbarStyle,
+        isScreenCompact,
+        isScreenMedium,
+        isScreenExpanded,
+        addClickCloseAppBarSecondaryEventListener,
+        removeClickCloseAppBarSecondaryEventListener,
+        screen,
     } = useTemplateContext();
     const router = useRouter();
 
@@ -151,7 +157,19 @@ export default function BudgetTable() {
         .rows
         .map((row) => row.original);
 
-    const handleOpenForm = React.useCallback(() => {
+    const isNoneSelectedRow = React.useCallback(() => {
+        return selectedRows.length === 0;
+    }, [selectedRows.length]);
+
+    const isSingleSelectedRow = React.useCallback(() => {
+        return selectedRows.length === 1;
+    }, [selectedRows.length]);
+
+    const isManySelectedRow = React.useCallback(() => {
+        return selectedRows.length > 0;
+    }, [selectedRows.length]);
+
+    const handleOpenBudgetAddForm = React.useCallback(() => {
         setOpenBudgetAddForm(true);
     }, []);
 
@@ -164,12 +182,23 @@ export default function BudgetTable() {
     }, []);
 
     React.useEffect(() => {
-        if (selectedRows.length > 0 && (screen === "compact" || screen === "medium")) {
+        if (isManySelectedRow() && isScreenCompact()) {
+            addClickCloseAppBarSecondaryEventListener(() => {
+                table.resetRowSelection();
+                setShowCompactScreenAppBarSecondary(false);
+            });
+        }
+
+        () => removeClickCloseAppBarSecondaryEventListener();
+    }, [selectedRows.length, screen]);
+
+    React.useEffect(() => {
+        if (selectedRows.length > 0 && isScreenCompact()) {
             setShowCompactScreenAppBarSecondary(true);
         } else {
             setShowCompactScreenAppBarSecondary(false);
         }
-    }, [screen, selectedRows.length])
+    }, [screen, selectedRows.length]);
 
     if (loading) return (
         <div className={clsx(style.placeholder)}>
@@ -188,25 +217,38 @@ export default function BudgetTable() {
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>BUDGET</h2>
                 <div className={style.toolbar}>
-                    <ButtonFilled onClick={handleOpenForm}>
-                        Buat Budget
-                    </ButtonFilled>
-                    {selectedRows.length === 1 && screen === "expanded" && (
-                        <Link href={`/budget/${selectedRows[0].code}`} passHref legacyBehavior>
-                            <LinkText>
-                                Lihat
-                            </LinkText>
-                        </Link>
+                    {isNoneSelectedRow() && (isScreenExpanded() || isScreenMedium()) && (
+                        <ButtonFilled onClick={handleOpenBudgetAddForm}>
+                            Buat Budget
+                        </ButtonFilled>
                     )}
-                    {selectedRows.length === 1 && screen === "expanded" && (
-                        <ButtonText onClick={handleOpenBudgetUpdateForm}>
-                            Edit
-                        </ButtonText>
+                    {isSingleSelectedRow() && isScreenExpanded() && (
+                        <>
+                            <Link href={`/budget/${selectedRows[0].code}`} passHref legacyBehavior>
+                                <LinkText>
+                                    Lihat
+                                </LinkText>
+                            </Link>
+                            <ButtonText onClick={handleOpenBudgetUpdateForm}>
+                                Edit
+                            </ButtonText>
+                            <ButtonText onClick={handleOpenBudgetDelete}>
+                                Hapus
+                            </ButtonText>
+                        </>
                     )}
-                    {selectedRows.length === 1 && screen === "expanded" && (
-                        <ButtonText onClick={handleOpenBudgetDelete}>
-                            Hapus
-                        </ButtonText>
+                    {isSingleSelectedRow() && isScreenMedium() && (
+                        <>
+                            <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
+                                <Eye />
+                            </IconButtonStandard>
+                            <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
+                                <Pencil />
+                            </IconButtonStandard>
+                            <IconButtonStandard onClick={handleOpenBudgetDelete}>
+                                <IconTrash />
+                            </IconButtonStandard>
+                        </>
                     )}
                 </div>
             </header>
@@ -236,7 +278,7 @@ export default function BudgetTable() {
             )}
             <Fab 
                 ref={fabRef} 
-                onClick={handleOpenForm} 
+                onClick={handleOpenBudgetAddForm} 
                 onShow={() => {
                     if (fabRef.current instanceof HTMLElement) {
                         const rect = fabRef.current.getBoundingClientRect();
@@ -247,23 +289,26 @@ export default function BudgetTable() {
             >
                 <IconPlusLg />
             </Fab>
-            <Snackbar open={!!info} onClose={() => setInfo(null)} style={snackbarStyle}>
-                {info}
-            </Snackbar>
-            {selectedRows.length === 1 && (
+            {isSingleSelectedRow() && isScreenCompact() && (
                 createPortal(
                     <>
-                        <IconButtonFilled onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
+                        <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
                             <Eye />
-                        </IconButtonFilled>
-                        <IconButtonFilled onClick={handleOpenBudgetUpdateForm}>
+                        </IconButtonStandard>
+                        <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
                             <Pencil />
-                        </IconButtonFilled>
-                        <IconButtonFilled onClick={handleOpenBudgetDelete}>
+                        </IconButtonStandard>
+                        <IconButtonStandard onClick={handleOpenBudgetDelete}>
                             <IconTrash />
-                        </IconButtonFilled>
+                        </IconButtonStandard>
                     </>,
                     toolbarSecondaryRef.current
+                )
+            )}
+            {isManySelectedRow() && isScreenCompact() && (
+                createPortal(
+                    selectedRows.length,
+                    headlineSecondaryRef.current
                 )
             )}
         </div>
