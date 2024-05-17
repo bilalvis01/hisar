@@ -19,6 +19,15 @@ export const GET_BUDGETS = gql(/* GraphQL */ `
             budget
             expense
             balance
+            ledgerEntries {
+                id
+                description
+                debit
+                credit
+                balance
+                createdAt
+                updatedAt
+            }
             createdAt
             updatedAt
         }
@@ -38,11 +47,14 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
                 budget
                 expense
                 balance
-                expenseDetail {
+                ledgerEntries {
+                    id
                     description
                     debit
                     credit
                     balance
+                    createdAt
+                    updatedAt
                 }
                 createdAt
                 updatedAt
@@ -82,6 +94,15 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
                 budget
                 expense
                 balance
+                ledgerEntries {
+                    id
+                    description
+                    debit
+                    credit
+                    balance
+                    createdAt
+                    updatedAt
+                }
                 createdAt
                 updatedAt
             }

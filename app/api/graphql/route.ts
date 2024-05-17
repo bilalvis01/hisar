@@ -47,28 +47,39 @@ async function getBudgetDetail(
         return acc;
     }, BigInt(0));
     
-    const expenseDetail = ledger.map((record) => record.entries.reduce((acc, entry) => {
-        if (entry.account.id === account.id) {
-            if (entry.direction === 1) {
-                return {
-                    description: record.description,
-                    debit: Number(entry.amount / BigInt(10000)),
-                    balance: Number(entry.balance / BigInt(10000)),
-                }
-            } else {
-                return {
-                    description: record.description,
-                    credit: Number(entry.amount / BigInt(10000)),
-                    balance: Number(entry.balance / BigInt(10000)),
+    const ledgerEntries = ledger.map((record) => 
+        record.entries.reduce((acc, entry) => {
+            if (entry.account.id === account.id) {
+                if (entry.direction === 1) {
+                    return {
+                        id: record.id,
+                        description: record.description,
+                        debit: Number(entry.amount / BigInt(10000)),
+                        balance: Number(entry.balance / BigInt(10000)),
+                        createdAt: record.createdAt,
+                        updatedAt: record.updatedAt,
+                    }
+                } else {
+                    return {
+                        id: record.id,
+                        description: record.description,
+                        credit: Number(entry.amount / BigInt(10000)),
+                        balance: Number(entry.balance / BigInt(10000)),
+                        createdAt: record.createdAt,
+                        updatedAt: record.updatedAt,
+                    }
                 }
             }
-        }
 
-        return acc;
-    }, {
-        description: "",
-        balance: 0,
-    }));
+            return acc;
+        }, {
+            id: 1,
+            description: "",
+            balance: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        })
+    );
 
     return {
         id: account.id,
@@ -77,7 +88,7 @@ async function getBudgetDetail(
         budget: Number(budget / BigInt(10000)),
         expense: Number(expense / BigInt(10000)),
         balance: Number(account.balance / BigInt(10000)),
-        expenseDetail,
+        ledgerEntries,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
     }
@@ -213,7 +224,7 @@ const resolvers: Resolvers = {
                         name: account.name,
                         budget: Number(account.balance),
                         expense: 0,
-                        expenseDetail: [],
+                        ledgerEntries: [],
                         balance: Number(account.balance),
                         createdAt: account.createdAt,
                         updatedAt: account.updatedAt,

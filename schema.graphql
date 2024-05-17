@@ -27,7 +27,7 @@ type Budget {
     budget: Int!
     expense: Int!
     balance: Int!
-    expenseDetail: [BudgetExpenses!]!
+    ledgerEntries: [BudgetLedgerEntry!]!
     createdAt: DateTimeIso!
     updatedAt: DateTimeIso!
 }
@@ -39,11 +39,14 @@ type BudgetByCodePayload {
     budget: Budget
 }
 
-type BudgetExpenses {
+type BudgetLedgerEntry {
+    id: Int!
     description: String!
     debit: Int
     credit: Int
     balance: Int!
+    createdAt: DateTimeIso!
+    updatedAt: DateTimeIso!
 }
 
 input CreateBudgetInput {

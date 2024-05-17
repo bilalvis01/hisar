@@ -28,7 +28,7 @@ export default function BudgetUpdateForm({
         ? getBudgetByCodeData.budgetByCode.budget.code
         : "";
 
-    const [updateBudget] = useMutation(UPDATE_BUDGET, {
+    const [updateBudget, { data: updateBudgetData }] = useMutation(UPDATE_BUDGET, {
         refetchQueries: [
             { query: GET_BUDGET_BY_CODE, variables: { code } },
             "GetBudgetByCode",
