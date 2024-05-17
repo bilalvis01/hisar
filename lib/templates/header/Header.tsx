@@ -11,11 +11,20 @@ import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 import { useTemplateContext } from "../Template";
 
 export default function Header({ className }) {
-    const { toolbarRef } = useTemplateContext();
+    const { 
+        toolbarRef, 
+        toolbarSecondaryRef, 
+        headlineSecondaryRef,
+        showCompactScreenAppBarSecondary,
+        screen,
+    } = useTemplateContext();
 
     return (
         <>
-            <TopAppBarSmall className={clsx(style.colorPrimary, style.largeWindowAppBar, className)}>
+            <TopAppBarSmall 
+                className={clsx(style.colorPrimary, className)}
+                style={{ display: screen === "expanded" ? "block" : "none" }}
+            >
                 <Brand className={style.brand}>
                     <Link href="/">
                         <Logo />
@@ -26,7 +35,14 @@ export default function Header({ className }) {
                 </Brand>
                 <Navigation className={style.navigation} />
             </TopAppBarSmall>
-            <TopAppBarSmall className={clsx(style.colorPrimary, style.mediumWindowAppBar, className)}>
+            <TopAppBarSmall 
+                className={clsx(style.colorPrimary, className)}
+                style={{ 
+                    display: !showCompactScreenAppBarSecondary && ["compact", "medium"].includes(screen) 
+                        ? "block"
+                        : "none" 
+                }}
+            >
                 <NavigationDrawer />
                 <Brand className={style.brand}>
                     <Link href="/">
@@ -34,6 +50,18 @@ export default function Header({ className }) {
                     </Link>
                 </Brand>
                 <div ref={toolbarRef} />
+            </TopAppBarSmall>
+            <TopAppBarSmall 
+                className={style.colorPrimary}
+                style={{ 
+                    display: showCompactScreenAppBarSecondary && ["compact", "medium"].includes(screen) 
+                        ? "block"
+                        : "none" 
+                }}
+            >
+                <NavigationDrawer />
+                <Headline ref={headlineSecondaryRef} className={style.brand} />
+                <div ref={toolbarSecondaryRef} />
             </TopAppBarSmall>
         </>
     )

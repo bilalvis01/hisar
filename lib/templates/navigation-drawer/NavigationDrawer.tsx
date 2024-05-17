@@ -17,9 +17,10 @@ import NextLink from "next/link";
 
 interface NavigationDrawerProps {
     className?: string,
+    iconButtonStandard?: boolean,
 }
 
-export default function NavigationDrawer({ className }: NavigationDrawerProps) {
+export default function NavigationDrawer({ className, iconButtonStandard = false }: NavigationDrawerProps) {
     const [open, setOpen] = React.useState(false);
     const pathname = usePathname();
 
@@ -41,9 +42,16 @@ export default function NavigationDrawer({ className }: NavigationDrawerProps) {
 
     return (
         <nav className={className}>
-            <IconButtonFilled onClick={() => setOpen(true)}>
-                <IconList />
-            </IconButtonFilled>
+            {!iconButtonStandard && (
+                <IconButtonFilled onClick={() => setOpen(true)}>
+                    <IconList />
+                </IconButtonFilled>
+            )}
+            {iconButtonStandard && (
+                <IconButtonStandard onClick={() => setOpen(true)}>
+                    <IconList />
+                </IconButtonStandard>
+            )}
             <NavigationDrawerBase 
                 variant="modal"
                 open={open}

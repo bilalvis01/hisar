@@ -1,0 +1,12 @@
+.loading {
+    display: grid;
+    place-items: center;
+    height: 6rem;
+}
+
+.error {
+    display: grid;
+    place-items: center;
+    height: 6rem;
+    color: var(--system-color-error);
+}

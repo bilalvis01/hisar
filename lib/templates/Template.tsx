@@ -20,11 +20,15 @@ export type Screen = "compact" | "medium" | "expanded";
 
 interface TemplateContext {
     toolbarRef: React.RefObject<HTMLDivElement>;
+    toolbarSecondaryRef: React.RefObject<HTMLDivElement>;
+    headlineSecondaryRef: React.RefObject<HTMLDivElement>;
     screen: Screen;
     info: string;
     setInfo: React.Dispatch<React.SetStateAction<string | null>>;
     snackbarStyle: React.CSSProperties;
     setSnackbarStyle: React.Dispatch<React.SetStateAction<React.CSSProperties | null>>;
+    showCompactScreenAppBarSecondary: boolean;
+    setShowCompactScreenAppBarSecondary: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TemplateContext = React.createContext<TemplateContext>(null);
@@ -35,9 +39,12 @@ export function useTemplateContext() {
 
 function useTemplate(): TemplateContext {
     const toolbarRef = React.useRef(null);
+    const toolbarSecondaryRef = React.useRef(null);
+    const headlineSecondaryRef = React.useRef(null);
     const [screen, setScreen] = React.useState<Screen>("compact");
     const [info, setInfo] = React.useState<string | null>(null);
     const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
+    const [showCompactScreenAppBarSecondary, setShowCompactScreenAppBarSecondary] = React.useState(false);
 
     const handleScreen = React.useCallback(() => {
         if (window.innerWidth < 600) setScreen("compact");
@@ -57,15 +64,20 @@ function useTemplate(): TemplateContext {
 
     return React.useMemo(() => ({
         toolbarRef,
+        toolbarSecondaryRef,
+        headlineSecondaryRef,
         screen,
         info,
         setInfo,
         snackbarStyle,
         setSnackbarStyle,
+        showCompactScreenAppBarSecondary,
+        setShowCompactScreenAppBarSecondary,
     }), [
         screen,
         info,
         snackbarStyle,
+        showCompactScreenAppBarSecondary,
     ]);
 }
 

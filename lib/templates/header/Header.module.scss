@@ -11,17 +11,3 @@
 .brand {
     flex-grow: 1;
 }
-
-.largeWindowAppBar {
-    display: none;
-}
-
-@media (min-width: 840px) {
-    .largeWindowAppBar {
-        display: block;
-    }
-
-    .mediumWindowAppBar {
-        display: none;
-    }
-}

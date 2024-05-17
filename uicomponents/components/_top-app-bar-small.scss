@@ -57,6 +57,17 @@
                 color: var(--headline-color);
             }
         }
+
+        & > .headline {
+            padding-right: 1rem;
+            margin: 0;
+            font-family: var(--headline-font);
+            line-height: var(--headline-line-height);
+            font-size: var(--headline-size);
+            letter-spacing: var(--headline-tracking);
+            font-weight: var(--headline-weight);
+            color: var(--headline-color);
+        }
     
         & > nav + .brand {
             padding-left: 0;

@@ -1,10 +1,12 @@
 "use client";
 
 import React from "react";
+import { createPortal } from "react-dom";
 import {
     createColumnHelper,
     getCoreRowModel,
     useReactTable,
+    RowSelectionState,
 } from "@tanstack/react-table";
 import clsx from "clsx";
 import idr from "../../utils/idr";
@@ -21,10 +23,18 @@ import ButtonFilled from "../../components/ButtonFIlled";
 import Fab from "../fab/Fab";
 import IconPlusLg from "../../icons/PlusLg";
 import Snackbar from "../snackbar/Snackbar";
-import { CreateBudgetMutation } from "../../graphql-tag/graphql";
+import BudgetDelete from "../budget-delete/BudgetDelete";
+import BudgetUpdateForm from "../budget-update-form/BudgetUpdateForm";
+import { Budget } from "../../graphql-tag/graphql";
+import { ButtonText } from "../../components/ButtonText";
 import { useTemplateContext } from "../Template";
+import IconTrash from "../../icons/Trash";
+import IconButtonFilled from "../../components/IconButtonFilled";
+import Pencil from "../../icons/Pencil";
+import Eye from "../../icons/Eye";
+import { useRouter } from "next/navigation";
 
-interface Budget {
+interface Row {
     name: string;
     code: string;
     budget: number;
@@ -32,7 +42,7 @@ interface Budget {
     balance: number;
 }
 
-const columnHelper = createColumnHelper<Budget>();
+const columnHelper = createColumnHelper<Row>();
 
 const columns = [
     columnHelper.display({
@@ -61,7 +71,7 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
-                <Link href={`budget/${info.row.original.code}`} passHref legacyBehavior>
+                <Link href={`/budget/${info.row.original.code}`} passHref legacyBehavior>
                     <LinkText>
                         {info.getValue()}
                     </LinkText>
@@ -109,24 +119,58 @@ const columns = [
 
 export default function BudgetTable() {
     const { loading, error, data } = useQuery(GET_BUDGETS);
-    const [openForm, setOpenForm] = React.useState(false);
+    const [openBudgetAddForm, setOpenBudgetAddForm] = React.useState(false);
+    const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
+    const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
     const [info, setInfo] = React.useState<string | null>(null);
     const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
     const fabRef = React.useRef(null);
-    const { screen } = useTemplateContext();
+    const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+    const { 
+        toolbarSecondaryRef, 
+        setShowCompactScreenAppBarSecondary, 
+        showCompactScreenAppBarSecondary,
+        screen 
+    } = useTemplateContext();
+    const router = useRouter();
 
     const budgets = data ? data.budgets : [];
 
     const table = useReactTable({
         data: budgets,
         columns,
+        getRowId: (budget) => budget.code,
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
+        onRowSelectionChange: setRowSelection,
+        state: {
+            rowSelection,
+        }
     });
 
+    const selectedRows = table.getSelectedRowModel()
+        .rows
+        .map((row) => row.original);
+
     const handleOpenForm = React.useCallback(() => {
-        setOpenForm(true);
+        setOpenBudgetAddForm(true);
     }, []);
+
+    const handleOpenBudgetUpdateForm = React.useCallback(() => {
+        setOpenBudgetUpdateForm(true);
+    }, []);
+
+    const handleOpenBudgetDelete = React.useCallback(() => {
+        setOpenBudgetDelete(true);
+    }, []);
+
+    React.useEffect(() => {
+        if (selectedRows.length > 0 && (screen === "compact" || screen === "medium")) {
+            setShowCompactScreenAppBarSecondary(true);
+        } else {
+            setShowCompactScreenAppBarSecondary(false);
+        }
+    }, [screen, selectedRows.length])
 
     if (loading) return (
         <div className={clsx(style.placeholder)}>
@@ -148,16 +192,49 @@ export default function BudgetTable() {
                     <ButtonFilled onClick={handleOpenForm}>
                         Buat Budget
                     </ButtonFilled>
+                    {selectedRows.length === 1 && screen === "expanded" && (
+                        <Link href={`/budget/${selectedRows[0].code}`} passHref legacyBehavior>
+                            <LinkText>
+                                Lihat
+                            </LinkText>
+                        </Link>
+                    )}
+                    {selectedRows.length === 1 && screen === "expanded" && (
+                        <ButtonText onClick={handleOpenBudgetUpdateForm}>
+                            Edit
+                        </ButtonText>
+                    )}
+                    {selectedRows.length === 1 && screen === "expanded" && (
+                        <ButtonText onClick={handleOpenBudgetDelete}>
+                            Hapus
+                        </ButtonText>
+                    )}
                 </div>
             </header>
             <div className={style.body}>
                 <Table table={table} />
             </div>
             <BudgetAddForm 
-                open={openForm} 
-                onOpenChange={setOpenForm} 
+                open={openBudgetAddForm} 
+                onOpenChange={setOpenBudgetAddForm} 
                 onSuccess={(data) => setInfo(data.createBudget.message)} 
             />
+            {selectedRows.length === 1 && (
+                <BudgetUpdateForm
+                    budget={selectedRows[0] as Budget}
+                    open={openBudgetUpdateForm}
+                    onOpenChange={setOpenBudgetUpdateForm}
+                    onSuccess={(data) => setInfo(data.updateBudget.message)}
+                />
+            )}
+            {selectedRows.length === 1 && (
+                <BudgetDelete
+                    budget={selectedRows[0] as Budget}
+                    open={openBudgetDelete}
+                    onOpenChange={setOpenBudgetDelete}
+                    onSuccess={(data) => setInfo(data.deleteBudget.message)}
+                />
+            )}
             <Fab 
                 ref={fabRef} 
                 onClick={handleOpenForm} 
@@ -174,6 +251,27 @@ export default function BudgetTable() {
             <Snackbar open={!!info} onClose={() => setInfo(null)} style={snackbarStyle}>
                 {info}
             </Snackbar>
+            {selectedRows.length === 1 && (
+                createPortal(
+                    <>
+                        <IconButtonFilled 
+                            onClick={() => {
+                                setShowCompactScreenAppBarSecondary(false);
+                                router.push(`/budget/${selectedRows[0].code}`);
+                            }}
+                        >
+                            <Eye />
+                        </IconButtonFilled>
+                        <IconButtonFilled onClick={handleOpenBudgetUpdateForm}>
+                            <Pencil />
+                        </IconButtonFilled>
+                        <IconButtonFilled onClick={handleOpenBudgetDelete}>
+                            <IconTrash />
+                        </IconButtonFilled>
+                    </>,
+                    toolbarSecondaryRef.current
+                )
+            )}
         </div>
     );
 }

@@ -23,8 +23,10 @@ import { useTemplateContext } from "../Template";
 import IconButtonFilled from "../../components/IconButtonFilled";
 import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
 import { Menu, MenuItem } from "../../components/Menu";
-import ButtonFilled from "../../components/ButtonFIlled";
 import { useRouter, notFound } from "next/navigation";
+import { ButtonText } from "../../components/ButtonText";
+import Link from "next/link";
+import { LinkText } from "../../components/ButtonText";
 
 interface Budget {
     description: string;
@@ -116,6 +118,7 @@ export default function BudgetDetailCard() {
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
     const router = useRouter();
+    const [rowSelection, setRowSelection] = React.useState({});
 
     if (data && data.budgetByCode.code === 404) {
         notFound();
@@ -129,6 +132,10 @@ export default function BudgetDetailCard() {
         columns,
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
+        onRowSelectionChange: setRowSelection,
+        state: {
+            rowSelection
+        },
     });
 
     const handleOpenBudgetUpdateForm = React.useCallback(() => {
@@ -170,12 +177,17 @@ export default function BudgetDetailCard() {
                         {budget && budget.name.toUpperCase()}
                     </h2>
                     <div className={style.toolbar}>
-                        <ButtonFilled onClick={handleOpenBudgetUpdateForm}>
-                            Update
-                        </ButtonFilled>
-                        <ButtonFilled onClick={handleOpenBudgetDelete}>
-                            Delete
-                        </ButtonFilled>
+                        <Link href={`/budget`} passHref legacyBehavior>
+                            <LinkText>
+                                Kembali
+                            </LinkText>
+                        </Link>
+                        <ButtonText onClick={handleOpenBudgetUpdateForm}>
+                            Edit
+                        </ButtonText>
+                        <ButtonText onClick={handleOpenBudgetDelete}>
+                            Hapus
+                        </ButtonText>
                     </div>
                 </header>
                 <div className={style.body}>
@@ -225,17 +237,15 @@ export default function BudgetDetailCard() {
             </div>
             {budget && (
                 <BudgetUpdateForm 
+                    budget={budget}
                     open={openBudgetUpdateForm}
                     onOpenChange={setOpenBudgetUpdateForm}
-                    code={code} 
-                    name={budget.name} 
-                    balance={budget.balance} 
                     onSuccess={(data) => setInfo(data.updateBudget.message)}
                 />
             )}
             {budget && (
                 <BudgetDelete
-                    budget={budget}
+                    budget={budget.code}
                     open={openBudgetDelete}
                     onOpenChange={setOpenBudgetDelete}
                     onSuccess={(data) => {
@@ -244,7 +254,7 @@ export default function BudgetDetailCard() {
                     }}
                 />
             )}
-            {data && toolbarRef.current instanceof HTMLDivElement && createPortal(
+            {toolbarRef.current instanceof HTMLDivElement && createPortal(
                 <div className={style.actionsMenuContainer}>
                     <IconButtonFilled onClick={() => setOpenActionsMenu(!openActionsMenu)}>
                         <IconThreeDotsVertial />
@@ -259,6 +269,11 @@ export default function BudgetDetailCard() {
                             <li>
                                 <MenuItem onClick={handleOpenBudgetDelete}>
                                     Hapus
+                                </MenuItem>
+                            </li>
+                            <li>
+                                <MenuItem onClick={() => router.push("/budget")}>
+                                    Kembali
                                 </MenuItem>
                             </li>
                         </ul>
