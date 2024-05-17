@@ -1,10 +1,8 @@
 @use "../../../style/mixins";
 
 .card {
-    @include mixins.card-outlined;
     width: 100%;
     height: var(--system-spacer10);
-    flex-grow: 1;
     padding: {
         top: var(--system-padding4);
         bottom: var(--system-padding4);

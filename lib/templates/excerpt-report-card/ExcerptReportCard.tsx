@@ -7,12 +7,13 @@ import idr from "../../utils/idr";
 import { GET_EXCERPT_REPORT } from "../../../lib/graphql-documents";
 import { useQuery } from "@apollo/client";
 import ProgressCircular from "../../../lib/components/ProgressCircular";
+import CardOutlined from "../../components/CardOutlined";
 
 export default function ExcerptReportCard({ report = "budget" }: { report: "budget" | "expense" | "balance" }) {
     const { data, loading, error } = useQuery(GET_EXCERPT_REPORT);
 
     return (
-        <div className={style.card}>
+        <CardOutlined className={style.card}>
             <header className={style.cardHeader}>
                 <h2 className="text-title-medium">{report.toUpperCase()}</h2>
             </header>
@@ -31,6 +32,6 @@ export default function ExcerptReportCard({ report = "budget" }: { report: "budg
                     {idr.format(data.excerptReport[report])}
                 </div>
             )}
-        </div>
+        </CardOutlined>
     )
 }
