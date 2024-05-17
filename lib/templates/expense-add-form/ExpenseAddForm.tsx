@@ -3,7 +3,7 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { ADD_EXPENSE, GET_EXPENSES, GET_BUDGETS } from "../../graphql-documents";
+import { ADD_EXPENSE, GET_BUDGETS, NEW_EXPENSE } from "../../graphql-documents";
 import { AddExpenseMutation } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
 
@@ -14,16 +14,33 @@ interface ExpenseAddFormProps {
 }
 
 export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess }: ExpenseAddFormProps) {
-    const [createBudget] = useMutation(ADD_EXPENSE, {
-        refetchQueries: [
-            GET_EXPENSES,
-            "GetEpenses"
-        ],
-        onCompleted: (data) => {
+    const [addExpense] = useMutation(ADD_EXPENSE, {
+        update(cache, { data: { addExpense } }) {
+            cache.modify({
+                fields: {
+                    expenses(existingExpenseRefs = [], { readField }) {
+                        const newExpense = cache.writeFragment({
+                            data: addExpense.expense,
+                            fragment: NEW_EXPENSE,
+                        });
+
+                        if (existingExpenseRefs.some(
+                            ref => readField("id", ref) === addExpense.expense.id
+                        )) {
+                            return existingExpenseRefs;
+                        }
+
+                        return [...existingExpenseRefs, newExpense];
+                    }
+                }
+            })
+        },
+        onCompleted(data) {
             setOpen(false);
             onSuccess(data);
         },
     });
+
     const [getBudgets] = useLazyQuery(GET_BUDGETS);
 
     return (
@@ -72,7 +89,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
             })}
             onSubmit={async (values) => {
                 const input = { ...values, ...{ budgetAccountId: Number(values.budgetAccountId) } };
-                await createBudget({
+                await addExpense({
                     variables: { input }
                 });
             }}

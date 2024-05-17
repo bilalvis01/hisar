@@ -3,7 +3,7 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { UPDATE_BUDGET, GET_BUDGET_BY_CODE, GET_BUDGETS } from "../../graphql-documents";
+import { UPDATE_BUDGET, GET_BUDGET_BY_CODE, NEW_BUDGET } from "../../graphql-documents";
 import { UpdateBudgetMutation, Budget } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
 
@@ -20,22 +20,27 @@ export default function BudgetUpdateForm({
     onOpenChange: setOpen,
     onSuccess,
 }: BudgetUpdateFormProps) {
-    const [getBudgetByCode, { data: getBudgetByCodeData }] = useLazyQuery(GET_BUDGET_BY_CODE);
+    const [getBudgetByCode] = useLazyQuery(GET_BUDGET_BY_CODE);
 
-    const code = budget && typeof budget === "object" 
-        ? budget
-        : getBudgetByCode 
-        ? getBudgetByCodeData.budgetByCode.budget.code
-        : "";
+    const [updateBudget] = useMutation(UPDATE_BUDGET, {
+        update(cache, { data: { updateBudget } }) {
+            const newBudget = cache.writeFragment({
+                data: updateBudget.budget,
+                fragment: NEW_BUDGET,
+            });
 
-    const [updateBudget, { data: updateBudgetData }] = useMutation(UPDATE_BUDGET, {
-        refetchQueries: [
-            { query: GET_BUDGET_BY_CODE, variables: { code } },
-            "GetBudgetByCode",
-            GET_BUDGETS,
-            "GetBudgets",
-        ],
-        onCompleted: (data) => {
+            cache.modify({
+                fields: {
+                    budgets(existingBudgetRefs = []) {
+                        return [...existingBudgetRefs, newBudget];
+                    },
+                    budgetByCode() {
+                        return newBudget;
+                    },
+                }
+            });
+        },
+        onCompleted(data) {
             setOpen(false);
             onSuccess(data);
         },

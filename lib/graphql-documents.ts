@@ -63,6 +63,28 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
     }
 `);
 
+export const NEW_BUDGET = gql(/* GraphQL */ `
+    fragment NewBudget on Budget {
+        id
+        code
+        name
+        budget
+        expense
+        balance
+        ledgerEntries {
+            id
+            description
+            debit
+            credit
+            balance
+            createdAt
+            updatedAt
+        }
+        createdAt
+        updatedAt
+    }
+`);
+
 export const CREATE_BUDGET = gql(/* GraphQL */`
     mutation CreateBudget($input: CreateBudgetInput!) {
         createBudget(input: $input) {
@@ -144,6 +166,17 @@ export const ADD_EXPENSE = gql(/* GraphQL */`
                 updatedAt
             }
         }
+    }
+`);
+
+export const NEW_EXPENSE = gql(/* GraphQL */`
+    fragment NewExpense on Expense {
+        id
+        budgetAccount
+        amount
+        description
+        createdAt
+        updatedAt
     }
 `);
 

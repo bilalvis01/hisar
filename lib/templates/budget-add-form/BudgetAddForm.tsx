@@ -3,7 +3,7 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation } from "@apollo/client";
-import { CREATE_BUDGET, GET_BUDGETS } from "../../graphql-documents";
+import { CREATE_BUDGET, GET_BUDGETS, NEW_BUDGET } from "../../graphql-documents";
 import { CreateBudgetMutation } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
 
@@ -15,10 +15,26 @@ interface BudgetAddFormProps {
 
 export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }: BudgetAddFormProps) {
     const [createBudget] = useMutation(CREATE_BUDGET, {
-        refetchQueries: [
-            GET_BUDGETS,
-            "GetBudgets"
-        ],
+        update(cache, { data: { createBudget } }) {
+            cache.modify({
+                fields: {
+                    budgets(existingBudgetRefs = [], { readField }) {
+                        const newBudget = cache.writeFragment({
+                            data: createBudget.budget,
+                            fragment: NEW_BUDGET,
+                        });
+
+                        if (existingBudgetRefs.some(
+                            ref => readField("id", ref) === createBudget.budget.id
+                        )) {
+                            return existingBudgetRefs;
+                        }
+
+                        return [...existingBudgetRefs, newBudget];
+                    },
+                }
+            });
+        },
         onCompleted: (data) => {
             setOpen(false);
             onSuccess(data);
