@@ -93,6 +93,7 @@ export const CREATE_BUDGET = gql(/* GraphQL */`
             message
             budget {
                 id
+                code
                 name
                 budget
                 expense
@@ -112,6 +113,7 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
             message
             budget {
                 id
+                code
                 name
                 budget
                 expense
@@ -140,6 +142,7 @@ export const DELETE_BUDGET = gql(/* GraphQL */`
             message
             budget {
                 id
+                code
                 name
                 budget
                 expense
@@ -188,6 +191,8 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
             budgetAccount
             budgetAccountId
             amount
+            createdAt
+            updatedAt
         }
     }
 `);

@@ -127,13 +127,6 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
                     accountSupercode: { code: code[0] },
                 },
             },
-            include: {
-                accountCode: {
-                    include: {
-                        accountSupercode: true
-                    }
-                }
-            },
         });
 
         const cashAccountCode = await client.accountCode.findFirst({
@@ -169,7 +162,18 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
             await entryProcedure(tx, budgetAccount.id, cashAccount.id, refund, "refund saldo");
         }
 
-        return budgetAccount;
+        return await client.account.findFirst({
+            where: {
+                id: budgetAccount.id,
+            },
+            include: {
+                accountCode: {
+                    include: {
+                        accountSupercode: true
+                    }
+                }
+            },
+        });
     });
 }
 

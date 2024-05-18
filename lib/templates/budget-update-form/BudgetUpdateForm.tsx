@@ -26,23 +26,6 @@ export default function BudgetUpdateForm({
     const [getBudgetByCode] = useLazyQuery(GET_BUDGET_BY_CODE);
 
     const [updateBudget] = useMutation(UPDATE_BUDGET, {
-        update(cache, { data: { updateBudget } }) {
-            const newBudget = cache.writeFragment({
-                data: updateBudget.budget,
-                fragment: NEW_BUDGET,
-            });
-
-            cache.modify({
-                fields: {
-                    budgets(existingBudgetRefs = []) {
-                        return [...existingBudgetRefs, newBudget];
-                    },
-                    budgetByCode() {
-                        return newBudget;
-                    },
-                }
-            });
-        },
         onCompleted(data) {
             setInfo(data.updateBudget.message);
             setOpen(false);
