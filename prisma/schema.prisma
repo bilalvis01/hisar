@@ -41,6 +41,7 @@ model AccountCode {
 
 model Ledger {
   id                  Int           @id @default(autoincrement())
+  code                Int?
   description         String        @db.VarChar(255)
   entries             Entry[]
   correctedLedgerId   Int?          @unique
