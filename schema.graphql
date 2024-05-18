@@ -44,6 +44,7 @@ type BudgetByCodePayload {
 
 type BudgetLedgerEntry {
     id: Int!
+    code: Int!
     description: String!
     debit: Int
     credit: Int
@@ -114,6 +115,7 @@ input CreateExpenseInput {
 
 type Expense {
     id: Int!
+    code: Int!
     budgetAccount: String!
     amount: Int!
     description: String!

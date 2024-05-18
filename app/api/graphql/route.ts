@@ -54,6 +54,7 @@ async function getBudgetDetail(
         if (entry.direction === 1) {
             return {
                 id: record.id,
+                code: record.code,
                 description: record.description,
                 debit: Number(entry.amount / BigInt(10000)),
                 balance: Number(entry.balance / BigInt(10000)),
@@ -64,6 +65,7 @@ async function getBudgetDetail(
 
         return {
             id: record.id,
+            code: record.code,
             description: record.description,
             credit: Number(entry.amount / BigInt(10000)),
             balance: Number(entry.balance / BigInt(10000)),
@@ -186,6 +188,7 @@ const resolvers: Resolvers = {
                 const expenseEntry = record.entries.filter(entry => entry.account.accountCode.code == 200)[0];
                 return {
                     id: record.id,
+                    code: record.code,
                     description: record.description,
                     budgetAccount: budgetAccount.name,
                     budgetAccountId: budgetAccount.id,
@@ -225,6 +228,7 @@ const resolvers: Resolvers = {
 
             const expense = {
                 id: ledgerEntry.id,
+                code: ledgerEntry.code,
                 description: ledgerEntry.description,
                 budgetAccount: budgetAccount.name,
                 budgetAccountId: budgetAccount.id,
@@ -381,6 +385,7 @@ const resolvers: Resolvers = {
                     message: `${input.description} berhasil ditambahkan`,
                     expense: {
                         id: ledger.id,
+                        code: ledger.code,
                         budgetAccount: budgetAccount.name,
                         amount: input.amount,
                         description: ledger.description,

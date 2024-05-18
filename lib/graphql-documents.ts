@@ -21,6 +21,7 @@ export const GET_BUDGETS = gql(/* GraphQL */ `
             balance
             ledgerEntries {
                 id
+                code
                 description
                 debit
                 credit
@@ -49,6 +50,7 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
                 balance
                 ledgerEntries {
                     id
+                    code
                     description
                     debit
                     credit
@@ -73,6 +75,7 @@ export const NEW_BUDGET = gql(/* GraphQL */ `
         balance
         ledgerEntries {
             id
+            code
             description
             debit
             credit
@@ -120,6 +123,7 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
                 balance
                 ledgerEntries {
                     id
+                    code
                     description
                     debit
                     credit
@@ -182,6 +186,7 @@ export const CREATE_EXPENSE = gql(/* GraphQL */`
             message
             expense {
                 id
+                code
                 budgetAccount
                 amount
                 description
@@ -200,6 +205,7 @@ export const UPDATE_EXPENSE = gql(/* GraphQL */`
             message
             expense {
                 id
+                code
                 budgetAccount
                 amount
                 description
@@ -213,6 +219,7 @@ export const UPDATE_EXPENSE = gql(/* GraphQL */`
 export const NEW_EXPENSE = gql(/* GraphQL */`
     fragment NewExpense on Expense {
         id
+        code
         budgetAccount
         amount
         description
@@ -225,6 +232,7 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
     query GetExpenses {
         expenses {
             id
+            code
             description
             budgetAccount
             amount
@@ -242,6 +250,7 @@ export const GET_EXPENSE_BY_ID = gql(/* GraphQL */ `
             message
             expense {
                 id
+                code
                 description
                 budgetAccount
                 amount
