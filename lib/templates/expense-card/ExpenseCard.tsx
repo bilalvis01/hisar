@@ -21,13 +21,17 @@ import IconPlusLg from "../../icons/PlusLg";
 import { useTemplateContext } from "../Template";
 import Link from "next/link";
 import { LinkText } from "../../components/ButtonText";
+import date from "../../utils/date";
+import id from "../../utils/expenseCode";
 
 interface Expense {
     id: number;
+    code: string;
     description: string;
     budgetAccount: string;
-    budgetAccountId: number;
     amount: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const columnHelper = createColumnHelper<Expense>();
@@ -53,13 +57,23 @@ const columns = [
             </div>
         )
     }),
+    columnHelper.accessor("code", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>KODE</span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {info.getValue()}
+            </span>
+        ),
+    }),
     columnHelper.accessor("description", {
         header: () => (
             <span className={clsx("description", "text-title-small")}>DESKRIPSI</span>
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
-                <Link href={`/expense/${info.row.original.id}`} passHref legacyBehavior>
+                <Link href={`/expense/${info.row.original.code}`} passHref legacyBehavior>
                     <LinkText>
                         {info.getValue()}
                     </LinkText>
@@ -88,6 +102,30 @@ const columns = [
         cell: info => (
             <span className={clsx("currency", "text-body-small")}>
                 {idr.format(info.getValue())}
+            </span>
+        ),
+    }),
+    columnHelper.accessor("createdAt", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>
+                DIBUAT
+            </span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {date.format(info.getValue())}
+            </span>
+        ),
+    }),
+    columnHelper.accessor("updatedAt", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>
+                DIPERBARUI
+            </span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {date.format(info.getValue())}
             </span>
         ),
     }),
