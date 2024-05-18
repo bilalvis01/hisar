@@ -22,11 +22,13 @@ import BudgetDelete from "../budget-delete/BudgetDelete";
 import { useTemplateContext } from "../Template";
 import { useRouter, notFound } from "next/navigation";
 import { ButtonText } from "../../components/ButtonText";
-import { IconButtonStandard, IconLinkStandard } from "../../components/IconButtonStandard";
+import { IconLinkFilled } from "../../components/IconButtonFilled";
 import { IconButtonFilled } from "../../components/IconButtonFilled";
 import IconArrowLeft from "../../icons/ArrowLeft";
 import IconPencil from "../../icons/Pencil";
 import IconTrash from "../../icons/Trash";
+import Link from "next/link";
+import { LinkText } from "../../components/ButtonText";
 
 interface Budget {
     description: string;
@@ -182,14 +184,19 @@ export default function BudgetDetailCard() {
                         {budget && budget.name.toUpperCase()}
                     </h2>
                     {isWindowSizeExpanded() && (
-                        <div className={style.toolbar}>
+                        <>
+                            <Link href={`/budget`} passHref legacyBehavior>
+                                <LinkText>
+                                    Kembali
+                                </LinkText>
+                            </Link>
                             <ButtonText onClick={handleOpenBudgetUpdateForm}>
                                 Edit
                             </ButtonText>
                             <ButtonText onClick={handleOpenBudgetDelete}>
                                 Hapus
                             </ButtonText>
-                        </div>
+                        </>
                     )}
                 </header>
                 <div className={style.body}>
@@ -253,6 +260,11 @@ export default function BudgetDetailCard() {
             )}
             {isWindowSizeSpanMedium() && createPortal(
                 <>
+                    <Link href={`/budget`} passHref legacyBehavior>
+                        <IconLinkFilled>
+                            <IconArrowLeft />
+                        </IconLinkFilled>
+                    </Link>
                     <IconButtonFilled onClick={handleOpenBudgetUpdateForm}>
                         <IconPencil />
                     </IconButtonFilled>

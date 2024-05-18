@@ -54,7 +54,7 @@ export default function Header({ className }) {
                         <Logo />
                     </Link>
                 </Brand>
-                <div ref={toolbarRef} />
+                <div className={style.toolbar} ref={toolbarRef} />
             </TopAppBarSmall>
             <TopAppBarSmall
                 className={className}
@@ -68,7 +68,7 @@ export default function Header({ className }) {
                     <IconArrowLeft />
                 </IconButtonStandard>
                 <Headline ref={headlineSecondaryRef} className={style.brand} />
-                <div ref={toolbarSecondaryRef} />
+                <div className={style.toolbar} ref={toolbarSecondaryRef} />
             </TopAppBarSmall>
         </>
     )
