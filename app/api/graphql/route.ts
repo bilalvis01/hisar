@@ -48,39 +48,29 @@ async function getBudgetDetail(
         return acc;
     }, BigInt(0));
     
-    const ledgerEntries = ledger.map((record) => 
-        record.entries.reduce((acc, entry) => {
-            if (entry.account.id === account.id) {
-                if (entry.direction === 1) {
-                    return {
-                        id: record.id,
-                        description: record.description,
-                        debit: Number(entry.amount / BigInt(10000)),
-                        balance: Number(entry.balance / BigInt(10000)),
-                        createdAt: record.createdAt,
-                        updatedAt: record.updatedAt,
-                    }
-                } else {
-                    return {
-                        id: record.id,
-                        description: record.description,
-                        credit: Number(entry.amount / BigInt(10000)),
-                        balance: Number(entry.balance / BigInt(10000)),
-                        createdAt: record.createdAt,
-                        updatedAt: record.updatedAt,
-                    }
-                }
+    const ledgerEntries = ledger.map((record) => {
+        let entry = record.entries.filter((entry) => entry.account.id === account.id)[0];
+        
+        if (entry.direction === 1) {
+            return {
+                id: record.id,
+                description: record.description,
+                debit: Number(entry.amount / BigInt(10000)),
+                balance: Number(entry.balance / BigInt(10000)),
+                createdAt: record.createdAt,
+                updatedAt: record.updatedAt,
             }
+        }
 
-            return acc;
-        }, {
-            id: 1,
-            description: "",
-            balance: 0,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        })
-    );
+        return {
+            id: record.id,
+            description: record.description,
+            credit: Number(entry.amount / BigInt(10000)),
+            balance: Number(entry.balance / BigInt(10000)),
+            createdAt: record.createdAt,
+            updatedAt: record.updatedAt,
+        }
+    });
 
     return {
         id: account.id,
