@@ -28,11 +28,11 @@ import { Budget } from "../../graphql-tag/graphql";
 import { ButtonText } from "../../components/ButtonText";
 import { useTemplateContext } from "../Template";
 import IconTrash from "../../icons/Trash";
-import { IconButtonFilled } from "../../components/IconButtonFilled";
-import Pencil from "../../icons/Pencil";
-import Eye from "../../icons/Eye";
+import IconPencil from "../../icons/Pencil";
+import IconEye from "../../icons/Eye";
 import { useRouter } from "next/navigation";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
+import BudgetDeleteMany from "../budget-delete-many/BudgetDeleteMany";
 
 interface Row {
     name: string;
@@ -123,6 +123,7 @@ export default function BudgetTable() {
     const [openBudgetAddForm, setOpenBudgetAddForm] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
+    const [openBudgetDeleteMany, setOpenBudgetDeleteMany] = React.useState(false);
     const fabRef = React.useRef(null);
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const { 
@@ -168,7 +169,7 @@ export default function BudgetTable() {
     }, [selectedRows.length]);
 
     const isManySelectedRow = React.useCallback(() => {
-        return selectedRows.length > 1;
+        return selectedRows.length >= 2;
     }, [selectedRows.length]);
 
     const handleOpenBudgetAddForm = React.useCallback(() => {
@@ -181,6 +182,10 @@ export default function BudgetTable() {
 
     const handleOpenBudgetDelete = React.useCallback(() => {
         setOpenBudgetDelete(true);
+    }, []);
+
+    const handleOpenBudgetDeleteMany = React.useCallback(() => {
+        setOpenBudgetDeleteMany(true);
     }, []);
 
     React.useEffect(() => {
@@ -233,6 +238,11 @@ export default function BudgetTable() {
                         </ButtonText>
                     </>
                 )}
+                {isManySelectedRow() && isWindowSizeExpanded() && (
+                    <ButtonText onClick={handleOpenBudgetDeleteMany}>
+                        Hapus
+                    </ButtonText>
+                )}
             </header>
             <div className={style.body}>
                 <Table table={table} />
@@ -242,7 +252,7 @@ export default function BudgetTable() {
                 onOpenChange={setOpenBudgetAddForm} 
                 onSuccess={(data) => table.resetRowSelection()} 
             />
-            {selectedRows.length === 1 && (
+            {isSingleSelectedRow() && (
                 <BudgetUpdateForm
                     budget={selectedRows[0] as Budget}
                     open={openBudgetUpdateForm}
@@ -250,11 +260,20 @@ export default function BudgetTable() {
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
-            {selectedRows.length === 1 && (
+            {isSingleSelectedRow() && (
                 <BudgetDelete
                     budget={selectedRows[0] as Budget}
                     open={openBudgetDelete}
                     onOpenChange={setOpenBudgetDelete}
+                    onSuccess={(data) => table.resetRowSelection()}
+                />
+            )}
+            {isManySelectedRow() && (
+                <BudgetDeleteMany
+                    budgets={selectedRows as Budget[]}
+                    open={openBudgetDeleteMany}
+                    onOpenChange={setOpenBudgetDeleteMany}
+                    onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
             <Fab 
@@ -276,10 +295,10 @@ export default function BudgetTable() {
                 createPortal(
                     <>
                         <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
-                            <Eye />
+                            <IconEye />
                         </IconButtonStandard>
                         <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
-                            <Pencil />
+                            <IconPencil />
                         </IconButtonStandard>
                         <IconButtonStandard onClick={handleOpenBudgetDelete}>
                             <IconTrash />
@@ -287,6 +306,12 @@ export default function BudgetTable() {
                     </>,
                     toolbarSecondaryRef.current
                 )
+            )}
+            {isManySelectedRow() && isWindowSizeExpanded() && createPortal(
+                <IconButtonStandard onClick={handleOpenBudgetDeleteMany}>
+                    <IconTrash />
+                </IconButtonStandard>,
+                toolbarSecondaryRef.current
             )}
             {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
                 createPortal(

@@ -3,8 +3,9 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers } from "../../../lib/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient, Account, AccountCode } from "@prisma/client";
-import { createBudget, updateBudget, deleteBudget, entry } from "../../../lib/transactions";
+import { createBudget, updateBudget, deleteBudget, deleteBudgetMany, entry } from "../../../lib/transactions";
 import { DateTimeISOTypeDefinition, DateTimeISOResolver } from "graphql-scalars";
+import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
 
 function splitCode(code: string) {
     return code.split("-").map(Number);
@@ -286,6 +287,42 @@ const resolvers: Resolvers = {
                     success: false,
                     message: `${account.name} gagal dihapus`,
                     expense: null,
+                }
+            }
+        },
+
+        async deleteBudgetMany(_, { input: { ids } }, context) {
+            async function getBudgetDetailList(budgets) {
+                return await Promise.all(budgets.map((budget) => getBudgetDetail(context.dataSources, budget)))
+            }
+
+            try {                
+                const accounts = await deleteBudgetMany(context.dataSources, ids);
+
+                const budgets = await getBudgetDetailList(accounts);
+
+                return {
+                    code: 200,
+                    success: true,
+                    message: createMessageBudgetDelete(budgets, "", " berhasil dihapus"),
+                    budgets: budgets,
+                };
+            } catch (error) {
+                const accounts = context.dataSources.account.findMany({
+                    where: {
+                        id: {
+                            in: ids
+                        }
+                    }
+                });
+
+                const budgets = await getBudgetDetailList(accounts);
+
+                return {
+                    code: 500,
+                    success: false,
+                    message: createMessageBudgetDelete(budgets, "", " gagal dihapus"),
+                    budgets: budgets,
                 }
             }
         },

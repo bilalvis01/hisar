@@ -81,6 +81,18 @@ export type DeleteBudgetInput = {
   id: Scalars['Int']['input'];
 };
 
+export type DeleteBudgetManyInput = {
+  ids: Array<Scalars['Int']['input']>;
+};
+
+export type DeleteBudgetManyPayload = {
+  __typename?: 'DeleteBudgetManyPayload';
+  budgets: Array<Budget>;
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type DeleteBudgetPayload = {
   __typename?: 'DeleteBudgetPayload';
   budget?: Maybe<Budget>;
@@ -112,6 +124,7 @@ export type Mutation = {
   addExpense: AddExpensePayload;
   createBudget: CreateBudgetPayload;
   deleteBudget: DeleteBudgetPayload;
+  deleteBudgetMany: DeleteBudgetManyPayload;
   updateBudget: UpdateBudgetPayload;
 };
 
@@ -128,6 +141,11 @@ export type MutationCreateBudgetArgs = {
 
 export type MutationDeleteBudgetArgs = {
   input: DeleteBudgetInput;
+};
+
+
+export type MutationDeleteBudgetManyArgs = {
+  input: DeleteBudgetManyInput;
 };
 
 
@@ -243,6 +261,8 @@ export type ResolversTypes = {
   CreateBudgetPayload: ResolverTypeWrapper<CreateBudgetPayload>;
   DateTimeIso: ResolverTypeWrapper<Scalars['DateTimeIso']['output']>;
   DeleteBudgetInput: DeleteBudgetInput;
+  DeleteBudgetManyInput: DeleteBudgetManyInput;
+  DeleteBudgetManyPayload: ResolverTypeWrapper<DeleteBudgetManyPayload>;
   DeleteBudgetPayload: ResolverTypeWrapper<DeleteBudgetPayload>;
   ExcerptReport: ResolverTypeWrapper<ExcerptReport>;
   Expense: ResolverTypeWrapper<Expense>;
@@ -266,6 +286,8 @@ export type ResolversParentTypes = {
   CreateBudgetPayload: CreateBudgetPayload;
   DateTimeIso: Scalars['DateTimeIso']['output'];
   DeleteBudgetInput: DeleteBudgetInput;
+  DeleteBudgetManyInput: DeleteBudgetManyInput;
+  DeleteBudgetManyPayload: DeleteBudgetManyPayload;
   DeleteBudgetPayload: DeleteBudgetPayload;
   ExcerptReport: ExcerptReport;
   Expense: Expense;
@@ -329,6 +351,14 @@ export interface DateTimeIsoScalarConfig extends GraphQLScalarTypeConfig<Resolve
   name: 'DateTimeIso';
 }
 
+export type DeleteBudgetManyPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteBudgetManyPayload'] = ResolversParentTypes['DeleteBudgetManyPayload']> = {
+  budgets?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type DeleteBudgetPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteBudgetPayload'] = ResolversParentTypes['DeleteBudgetPayload']> = {
   budget?: Resolver<Maybe<ResolversTypes['Budget']>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -359,6 +389,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   addExpense?: Resolver<ResolversTypes['AddExpensePayload'], ParentType, ContextType, RequireFields<MutationAddExpenseArgs, 'input'>>;
   createBudget?: Resolver<ResolversTypes['CreateBudgetPayload'], ParentType, ContextType, RequireFields<MutationCreateBudgetArgs, 'input'>>;
   deleteBudget?: Resolver<ResolversTypes['DeleteBudgetPayload'], ParentType, ContextType, RequireFields<MutationDeleteBudgetArgs, 'input'>>;
+  deleteBudgetMany?: Resolver<ResolversTypes['DeleteBudgetManyPayload'], ParentType, ContextType, RequireFields<MutationDeleteBudgetManyArgs, 'input'>>;
   updateBudget?: Resolver<ResolversTypes['UpdateBudgetPayload'], ParentType, ContextType, RequireFields<MutationUpdateBudgetArgs, 'input'>>;
 };
 
@@ -384,6 +415,7 @@ export type Resolvers<ContextType = Context> = {
   BudgetLedgerEntry?: BudgetLedgerEntryResolvers<ContextType>;
   CreateBudgetPayload?: CreateBudgetPayloadResolvers<ContextType>;
   DateTimeIso?: GraphQLScalarType;
+  DeleteBudgetManyPayload?: DeleteBudgetManyPayloadResolvers<ContextType>;
   DeleteBudgetPayload?: DeleteBudgetPayloadResolvers<ContextType>;
   ExcerptReport?: ExcerptReportResolvers<ContextType>;
   Expense?: ExpenseResolvers<ContextType>;

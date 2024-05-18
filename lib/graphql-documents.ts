@@ -154,6 +154,26 @@ export const DELETE_BUDGET = gql(/* GraphQL */`
     }
 `);
 
+export const DELETE_BUDGET_MANY = gql(/* GraphQL */`
+    mutation DeleteBudgetMany($input: DeleteBudgetManyInput!) {
+        deleteBudgetMany(input: $input) {
+            code
+            success
+            message
+            budgets {
+                id
+                code
+                name
+                budget
+                expense
+                balance
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`);
+
 export const ADD_EXPENSE = gql(/* GraphQL */`
     mutation AddExpense($input: AddExpenseInput!) {
         addExpense(input: $input) {

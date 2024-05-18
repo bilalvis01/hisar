@@ -63,6 +63,37 @@ async function entryProcedure(client: PrismaClient, senderId: number, recipientI
     });
 }
 
+async function deleteBudgetProcedure(client: PrismaClient, id: number) {
+    await client.ledger.updateMany({
+        where: {
+            entries: {
+                some: {
+                    accountId: id,
+                }
+            }
+        },
+        data: {
+            stateId: 3,
+        }
+    });
+
+    return await client.account.update({
+        where: {
+            id,
+        },
+        data: {
+            stateId: 3,
+        },
+        include: {
+            accountCode: {
+                include: {
+                    accountSupercode: true,
+                }
+            }
+        },
+    });
+}
+
 export async function entry(client: PrismaClient, senderId: number, recipientId: number, amount: bigint, description: string) {
     return await client.$transaction(async (tx: PrismaClient) => {
         return await entryProcedure(tx, senderId, recipientId, amount, description);
@@ -179,33 +210,12 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
 
 export async function deleteBudget(client: PrismaClient, id: number) {
     return await client.$transaction(async (tx: PrismaClient) => {
-         await tx.ledger.updateMany({
-            where: {
-                entries: {
-                    some: {
-                        accountId: id,
-                    }
-                }
-            },
-            data: {
-                stateId: 3,
-            }
-         });
+        return await deleteBudgetProcedure(tx, id);
+    });
+} 
 
-         return await tx.account.update({
-            where: {
-                id,
-            },
-            data: {
-                stateId: 3,
-            },
-            include: {
-                accountCode: {
-                    include: {
-                        accountSupercode: true,
-                    }
-                }
-            },
-         });
+export async function deleteBudgetMany(client: PrismaClient, ids: number[]) {
+    return await client.$transaction(async (tx: PrismaClient) => {
+        return await Promise.all(ids.map(id => deleteBudgetProcedure(tx, id)));
     });
 } 
