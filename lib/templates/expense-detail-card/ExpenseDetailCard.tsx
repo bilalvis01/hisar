@@ -56,6 +56,10 @@ export default function ExpenseDetailCard() {
                     {expense && (
                         <ul className={style.description}>
                             <li className={style.descriptionItem}>
+                                <div className="text-title-small">ID</div>
+                                <div className="text-body-small">{expense.id}</div>
+                            </li>
+                            <li className={style.descriptionItem}>
                                 <div className="text-title-small">Deskripsi</div>
                                 <div className="text-body-small">{expense.description}</div>
                             </li>
