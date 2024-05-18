@@ -119,6 +119,7 @@ const columns = [
 
 export default function BudgetTable() {
     const { loading, error, data } = useQuery(GET_BUDGETS);
+    const [openFab, setOpenFab] = React.useState(false);
     const [openBudgetAddForm, setOpenBudgetAddForm] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
@@ -165,7 +166,7 @@ export default function BudgetTable() {
     }, [selectedRows.length]);
 
     const isManySelectedRow = React.useCallback(() => {
-        return selectedRows.length > 0;
+        return selectedRows.length > 1;
     }, [selectedRows.length]);
 
     const handleOpenBudgetAddForm = React.useCallback(() => {
@@ -276,6 +277,8 @@ export default function BudgetTable() {
             )}
             <Fab 
                 ref={fabRef} 
+                open={openFab && isNoneSelectedRow()}
+                onOpenChange={setOpenFab}
                 onClick={handleOpenBudgetAddForm} 
                 onShow={() => {
                     if (fabRef.current instanceof HTMLElement) {
@@ -303,7 +306,7 @@ export default function BudgetTable() {
                     toolbarSecondaryRef.current
                 )
             )}
-            {isManySelectedRow() && isWindowSizeCompact() && (
+            {!isNoneSelectedRow() && isWindowSizeCompact() && (
                 createPortal(
                     selectedRows.length,
                     headlineSecondaryRef.current
