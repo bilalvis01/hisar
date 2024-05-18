@@ -242,9 +242,9 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
     }
 `);
 
-export const GET_EXPENSE_BY_ID = gql(/* GraphQL */ `
-    query GetExpenseById($id: Int!) {
-        expenseById(id: $id) {
+export const GET_EXPENSE_BY_CODE = gql(/* GraphQL */ `
+    query GetExpenseByCode($code: Int!) {
+        expenseByCode(code: $code) {
             code
             success
             message

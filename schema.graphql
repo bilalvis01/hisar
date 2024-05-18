@@ -5,7 +5,7 @@ type Query {
     budgets: [Budget!]!
     budgetByCode(code: String!): BudgetByCodePayload!
     expenses: [Expense!]!
-    expenseById(id: Int!): ExpenseByIdPayload!
+    expenseByCode(code: Int!): ExpenseByIdPayload!
 }
 
 type Mutation {

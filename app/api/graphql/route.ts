@@ -199,22 +199,20 @@ const resolvers: Resolvers = {
             });
         },
 
-        async expenseById(_, { id }, context) {
+        async expenseByCode(_, { code }, context) {
             const ledgerEntry = await context.dataSources.ledger.findFirst({ 
                 where: { 
-                    id
+                    code,
+                    stateId: 1,
                 },
                 include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
-                orderBy: {
-                    createdAt: "desc",
-                }
             });
 
             if (!ledgerEntry) {
                 return {
                     code: 404,
                     success: false,
-                    message: `expense dengan id ${id} tidak ada`,
+                    message: `expense dengan code ${code} tidak ada`,
                 }
             }
 

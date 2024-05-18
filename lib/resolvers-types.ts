@@ -173,7 +173,7 @@ export type Query = {
   budgetByCode: BudgetByCodePayload;
   budgets: Array<Budget>;
   excerptReport: ExcerptReport;
-  expenseById: ExpenseByIdPayload;
+  expenseByCode: ExpenseByIdPayload;
   expenses: Array<Expense>;
 };
 
@@ -183,8 +183,8 @@ export type QueryBudgetByCodeArgs = {
 };
 
 
-export type QueryExpenseByIdArgs = {
-  id: Scalars['Int']['input'];
+export type QueryExpenseByCodeArgs = {
+  code: Scalars['Int']['input'];
 };
 
 export type UpdateBudgetInput = {
@@ -449,7 +449,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   budgetByCode?: Resolver<ResolversTypes['BudgetByCodePayload'], ParentType, ContextType, RequireFields<QueryBudgetByCodeArgs, 'code'>>;
   budgets?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType>;
   excerptReport?: Resolver<ResolversTypes['ExcerptReport'], ParentType, ContextType>;
-  expenseById?: Resolver<ResolversTypes['ExpenseByIdPayload'], ParentType, ContextType, RequireFields<QueryExpenseByIdArgs, 'id'>>;
+  expenseByCode?: Resolver<ResolversTypes['ExpenseByIdPayload'], ParentType, ContextType, RequireFields<QueryExpenseByCodeArgs, 'code'>>;
   expenses?: Resolver<Array<ResolversTypes['Expense']>, ParentType, ContextType>;
 };
 
