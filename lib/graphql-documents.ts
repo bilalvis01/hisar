@@ -174,9 +174,9 @@ export const DELETE_BUDGET_MANY = gql(/* GraphQL */`
     }
 `);
 
-export const ADD_EXPENSE = gql(/* GraphQL */`
-    mutation AddExpense($input: AddExpenseInput!) {
-        addExpense(input: $input) {
+export const CREATE_EXPENSE = gql(/* GraphQL */`
+    mutation CreateExpense($input: CreateExpenseInput!) {
+        createExpense(input: $input) {
             code
             success
             message

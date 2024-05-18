@@ -139,7 +139,7 @@ export default function ExpenseTable() {
             </div>
             <ExpenseAddForm 
                 open={openForm} 
-                onOpenChange={setOpenForm} 
+                onOpenChange={setOpenForm}
             />
             <Fab 
                 ref={fabRef}

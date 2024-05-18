@@ -3,32 +3,32 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { ADD_EXPENSE, GET_BUDGETS, NEW_EXPENSE } from "../../graphql-documents";
-import { AddExpenseMutation } from "../../graphql-tag/graphql";
+import { CREATE_EXPENSE, GET_BUDGETS, NEW_EXPENSE } from "../../graphql-documents";
+import { CreateExpenseMutation } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
 
 interface ExpenseAddFormProps {
     open: boolean,
     onOpenChange: (open: boolean) => void;
-    onSuccess?: (data: AddExpenseMutation) => void;
+    onSuccess?: (data: CreateExpenseMutation) => void;
 }
 
 export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess }: ExpenseAddFormProps) {
     const { setInfo } = useTemplateContext();
 
-    const [addExpense] = useMutation(ADD_EXPENSE, {
-        update(cache, { data: { addExpense } }) {
+    const [createExpense] = useMutation(CREATE_EXPENSE, {
+        update(cache, { data: { createExpense } }) {
             cache.modify({
                 fields: {
                     expenses(existingExpenseRefs = [], { readField }) {
                         const newExpense = cache.writeFragment({
-                            data: addExpense.expense,
+                            data: createExpense.expense,
                             fragment: NEW_EXPENSE,
                         });
 
                         if (existingExpenseRefs.some(
-                            ref => readField("id", ref) === addExpense.expense.id
+                            ref => readField("id", ref) === createExpense.expense.id
                         )) {
                             return existingExpenseRefs;
                         }
@@ -39,7 +39,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
             })
         },
         onCompleted(data) {
-            setInfo(data.addExpense.message);
+            setInfo(data.createExpense.message);
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },
@@ -93,7 +93,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
             })}
             onSubmit={async (values) => {
                 const input = { ...values, ...{ budgetAccountId: Number(values.budgetAccountId) } };
-                await addExpense({
+                await createExpense({
                     variables: { input }
                 });
             }}

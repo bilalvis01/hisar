@@ -362,7 +362,7 @@ const resolvers: Resolvers = {
             }
         },
 
-        async addExpense(_, { input }, context) {
+        async createExpense(_, { input }, context) {
             try {
                 const expenseAccount = await context.dataSources.account.findFirst({
                     where: { accountCode: { code: 200 } }
