@@ -7,6 +7,7 @@ import { createBudget, updateBudget, deleteBudget, deleteBudgetMany, entry } fro
 import { DateTimeISOTypeDefinition, DateTimeISOResolver } from "graphql-scalars";
 import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
 import expenseCode from "../../../lib/utils/expenseCode";
+import accountCode from "../../../lib/utils/accountCode";
 
 function splitCode(code: string) {
     return code.split("-").map(Number);
@@ -77,7 +78,7 @@ async function getBudgetDetail(
 
     return {
         id: account.id,
-        code: `${account.accountCode.accountSupercode.code}-${account.accountCode.code}`,
+        code: `${accountCode.format(account.accountCode.accountSupercode.code)}-${accountCode.format(account.accountCode.code)}`,
         name: account.name,
         budget: Number(budget / BigInt(10000)),
         expense: Number(expense / BigInt(10000)),
@@ -258,7 +259,7 @@ const resolvers: Resolvers = {
                     message: `akun ${input.name} berhasil dibuat`,
                     budget: {
                         id: account.id,
-                        code: `${account.accountCode.code}-${account.accountCode.accountSupercode.code}`,
+                        code: `${accountCode.format(account.accountCode.code)}-${accountCode.format(account.accountCode.accountSupercode.code)}`,
                         name: account.name,
                         budget: Number(account.balance),
                         expense: 0,
