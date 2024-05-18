@@ -192,6 +192,24 @@ export const CREATE_EXPENSE = gql(/* GraphQL */`
     }
 `);
 
+export const UPDATE_EXPENSE = gql(/* GraphQL */`
+    mutation UpdateExpense($input: UpdateExpenseInput!) {
+        updateExpense(input: $input) {
+            code
+            success
+            message
+            expense {
+                id
+                budgetAccount
+                amount
+                description
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`);
+
 export const NEW_EXPENSE = gql(/* GraphQL */`
     fragment NewExpense on Expense {
         id
@@ -209,7 +227,6 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
             id
             description
             budgetAccount
-            budgetAccountId
             amount
             createdAt
             updatedAt
@@ -227,7 +244,6 @@ export const GET_EXPENSE_BY_ID = gql(/* GraphQL */ `
                 id
                 description
                 budgetAccount
-                budgetAccountId
                 amount
                 createdAt
                 updatedAt
