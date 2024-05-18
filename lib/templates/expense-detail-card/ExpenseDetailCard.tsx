@@ -4,7 +4,7 @@ import React from "react";
 import clsx from "clsx";
 import idr from "../../utils/idr";
 import { useQuery } from "@apollo/client";
-import { GET_EXPENSE_BY_ID } from "../../graphql-documents";
+import { GET_EXPENSE_BY_CODE } from "../../graphql-documents";
 import { useParams } from "next/navigation";
 import style from "./ExpenseDetailCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";
@@ -13,9 +13,9 @@ import { notFound } from "next/navigation";
 import date from "../../utils/date";
 
 export default function ExpenseDetailCard() {
-    const { id } = useParams<{ id: string }>();
-    const { loading, error, data } = useQuery(GET_EXPENSE_BY_ID, {
-        variables: { id: Number(id) }
+    const { code } = useParams<{ code: string }>();
+    const { loading, error, data } = useQuery(GET_EXPENSE_BY_CODE, {
+        variables: { code }
     });
     const { 
         toolbarRef, 
@@ -24,11 +24,11 @@ export default function ExpenseDetailCard() {
         isWindowSizeSpanMedium,
     } = useTemplateContext();
 
-    if (data && data.expenseById.code === 404) {
+    if (data && data.expenseByCode.code === 404) {
         notFound();
     }
 
-    const expense = data ? data.expenseById.expense : null;
+    const expense = data ? data.expenseByCode.expense : null;
 
     if (loading) return (
         <>
@@ -56,8 +56,8 @@ export default function ExpenseDetailCard() {
                     {expense && (
                         <ul className={style.description}>
                             <li className={style.descriptionItem}>
-                                <div className="text-title-small">ID</div>
-                                <div className="text-body-small">{expense.id}</div>
+                                <div className="text-title-small">Kode</div>
+                                <div className="text-body-small">{expense.code}</div>
                             </li>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Deskripsi</div>
