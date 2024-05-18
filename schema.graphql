@@ -5,7 +5,7 @@ type Query {
     budgets: [Budget!]!
     budgetByCode(code: String!): BudgetByCodePayload!
     expenses: [Expense!]!
-    expenseByCode(code: Int!): ExpenseByIdPayload!
+    expenseByCode(code: String!): ExpenseByIdPayload!
 }
 
 type Mutation {
@@ -44,7 +44,7 @@ type BudgetByCodePayload {
 
 type BudgetLedgerEntry {
     id: Int!
-    code: Int!
+    code: String!
     description: String!
     debit: Int
     credit: Int
@@ -115,7 +115,7 @@ input CreateExpenseInput {
 
 type Expense {
     id: Int!
-    code: Int!
+    code: String!
     budgetAccount: String!
     amount: Int!
     description: String!

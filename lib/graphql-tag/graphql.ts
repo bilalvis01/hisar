@@ -41,7 +41,7 @@ export type BudgetByCodePayload = {
 export type BudgetLedgerEntry = {
   __typename?: 'BudgetLedgerEntry';
   balance: Scalars['Int']['output'];
-  code: Scalars['Int']['output'];
+  code: Scalars['String']['output'];
   createdAt: Scalars['DateTimeIso']['output'];
   credit?: Maybe<Scalars['Int']['output']>;
   debit?: Maybe<Scalars['Int']['output']>;
@@ -112,7 +112,7 @@ export type Expense = {
   __typename?: 'Expense';
   amount: Scalars['Int']['output'];
   budgetAccount: Scalars['String']['output'];
-  code: Scalars['Int']['output'];
+  code: Scalars['String']['output'];
   createdAt: Scalars['DateTimeIso']['output'];
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
@@ -183,7 +183,7 @@ export type QueryBudgetByCodeArgs = {
 
 
 export type QueryExpenseByCodeArgs = {
-  code: Scalars['Int']['input'];
+  code: Scalars['String']['input'];
 };
 
 export type UpdateBudgetInput = {
@@ -223,16 +223,16 @@ export type GetExcerptReportQuery = { __typename?: 'Query', excerptReport: { __t
 export type GetBudgetQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBudgetQuery = { __typename?: 'Query', budgets: Array<{ __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date, ledgerEntries: Array<{ __typename?: 'BudgetLedgerEntry', id: number, code: number, description: string, debit?: number | null, credit?: number | null, balance: number, createdAt: Date, updatedAt: Date }> }> };
+export type GetBudgetQuery = { __typename?: 'Query', budgets: Array<{ __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date, ledgerEntries: Array<{ __typename?: 'BudgetLedgerEntry', id: number, code: string, description: string, debit?: number | null, credit?: number | null, balance: number, createdAt: Date, updatedAt: Date }> }> };
 
 export type GetBudgetByCodeQueryVariables = Exact<{
   code: Scalars['String']['input'];
 }>;
 
 
-export type GetBudgetByCodeQuery = { __typename?: 'Query', budgetByCode: { __typename?: 'BudgetByCodePayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date, ledgerEntries: Array<{ __typename?: 'BudgetLedgerEntry', id: number, code: number, description: string, debit?: number | null, credit?: number | null, balance: number, createdAt: Date, updatedAt: Date }> } | null } };
+export type GetBudgetByCodeQuery = { __typename?: 'Query', budgetByCode: { __typename?: 'BudgetByCodePayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date, ledgerEntries: Array<{ __typename?: 'BudgetLedgerEntry', id: number, code: string, description: string, debit?: number | null, credit?: number | null, balance: number, createdAt: Date, updatedAt: Date }> } | null } };
 
-export type NewBudgetFragment = { __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date, ledgerEntries: Array<{ __typename?: 'BudgetLedgerEntry', id: number, code: number, description: string, debit?: number | null, credit?: number | null, balance: number, createdAt: Date, updatedAt: Date }> } & { ' $fragmentName'?: 'NewBudgetFragment' };
+export type NewBudgetFragment = { __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date, ledgerEntries: Array<{ __typename?: 'BudgetLedgerEntry', id: number, code: string, description: string, debit?: number | null, credit?: number | null, balance: number, createdAt: Date, updatedAt: Date }> } & { ' $fragmentName'?: 'NewBudgetFragment' };
 
 export type CreateBudgetMutationVariables = Exact<{
   input: CreateBudgetInput;
@@ -246,7 +246,7 @@ export type UpdateBudgetMutationVariables = Exact<{
 }>;
 
 
-export type UpdateBudgetMutation = { __typename?: 'Mutation', updateBudget: { __typename?: 'UpdateBudgetPayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date, ledgerEntries: Array<{ __typename?: 'BudgetLedgerEntry', id: number, code: number, description: string, debit?: number | null, credit?: number | null, balance: number, createdAt: Date, updatedAt: Date }> } | null } };
+export type UpdateBudgetMutation = { __typename?: 'Mutation', updateBudget: { __typename?: 'UpdateBudgetPayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date, ledgerEntries: Array<{ __typename?: 'BudgetLedgerEntry', id: number, code: string, description: string, debit?: number | null, credit?: number | null, balance: number, createdAt: Date, updatedAt: Date }> } | null } };
 
 export type DeleteBudgetMutationVariables = Exact<{
   input: DeleteBudgetInput;
@@ -267,28 +267,28 @@ export type CreateExpenseMutationVariables = Exact<{
 }>;
 
 
-export type CreateExpenseMutation = { __typename?: 'Mutation', createExpense: { __typename?: 'CreateExpensePayload', code: number, success: boolean, message: string, expense?: { __typename?: 'Expense', id: number, code: number, budgetAccount: string, amount: number, description: string, createdAt: Date, updatedAt: Date } | null } };
+export type CreateExpenseMutation = { __typename?: 'Mutation', createExpense: { __typename?: 'CreateExpensePayload', code: number, success: boolean, message: string, expense?: { __typename?: 'Expense', id: number, code: string, budgetAccount: string, amount: number, description: string, createdAt: Date, updatedAt: Date } | null } };
 
 export type UpdateExpenseMutationVariables = Exact<{
   input: UpdateExpenseInput;
 }>;
 
 
-export type UpdateExpenseMutation = { __typename?: 'Mutation', updateExpense: { __typename?: 'UpdateExpensePayload', code: number, success: boolean, message: string, expense?: { __typename?: 'Expense', id: number, code: number, budgetAccount: string, amount: number, description: string, createdAt: Date, updatedAt: Date } | null } };
+export type UpdateExpenseMutation = { __typename?: 'Mutation', updateExpense: { __typename?: 'UpdateExpensePayload', code: number, success: boolean, message: string, expense?: { __typename?: 'Expense', id: number, code: string, budgetAccount: string, amount: number, description: string, createdAt: Date, updatedAt: Date } | null } };
 
-export type NewExpenseFragment = { __typename?: 'Expense', id: number, code: number, budgetAccount: string, amount: number, description: string, createdAt: Date, updatedAt: Date } & { ' $fragmentName'?: 'NewExpenseFragment' };
+export type NewExpenseFragment = { __typename?: 'Expense', id: number, code: string, budgetAccount: string, amount: number, description: string, createdAt: Date, updatedAt: Date } & { ' $fragmentName'?: 'NewExpenseFragment' };
 
 export type GetExpensesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetExpensesQuery = { __typename?: 'Query', expenses: Array<{ __typename?: 'Expense', id: number, code: number, description: string, budgetAccount: string, amount: number, createdAt: Date, updatedAt: Date }> };
+export type GetExpensesQuery = { __typename?: 'Query', expenses: Array<{ __typename?: 'Expense', id: number, code: string, description: string, budgetAccount: string, amount: number, createdAt: Date, updatedAt: Date }> };
 
 export type GetExpenseByCodeQueryVariables = Exact<{
-  code: Scalars['Int']['input'];
+  code: Scalars['String']['input'];
 }>;
 
 
-export type GetExpenseByCodeQuery = { __typename?: 'Query', expenseByCode: { __typename?: 'ExpenseByIdPayload', code: number, success: boolean, message: string, expense?: { __typename?: 'Expense', id: number, code: number, description: string, budgetAccount: string, amount: number, createdAt: Date, updatedAt: Date } | null } };
+export type GetExpenseByCodeQuery = { __typename?: 'Query', expenseByCode: { __typename?: 'ExpenseByIdPayload', code: number, success: boolean, message: string, expense?: { __typename?: 'Expense', id: number, code: string, description: string, budgetAccount: string, amount: number, createdAt: Date, updatedAt: Date } | null } };
 
 export const NewBudgetFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NewBudget"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Budget"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"budget"}},{"kind":"Field","name":{"kind":"Name","value":"expense"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}},{"kind":"Field","name":{"kind":"Name","value":"ledgerEntries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"debit"}},{"kind":"Field","name":{"kind":"Name","value":"credit"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<NewBudgetFragment, unknown>;
 export const NewExpenseFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NewExpense"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Expense"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"budgetAccount"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<NewExpenseFragment, unknown>;
@@ -302,4 +302,4 @@ export const DeleteBudgetManyDocument = {"kind":"Document","definitions":[{"kind
 export const CreateExpenseDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateExpense"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateExpenseInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createExpense"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"expense"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"budgetAccount"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<CreateExpenseMutation, CreateExpenseMutationVariables>;
 export const UpdateExpenseDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateExpense"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateExpenseInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateExpense"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"expense"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"budgetAccount"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<UpdateExpenseMutation, UpdateExpenseMutationVariables>;
 export const GetExpensesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetExpenses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expenses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"budgetAccount"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetExpensesQuery, GetExpensesQueryVariables>;
-export const GetExpenseByCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetExpenseByCode"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"code"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expenseByCode"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"code"},"value":{"kind":"Variable","name":{"kind":"Name","value":"code"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"expense"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"budgetAccount"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetExpenseByCodeQuery, GetExpenseByCodeQueryVariables>;
+export const GetExpenseByCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetExpenseByCode"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"code"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"expenseByCode"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"code"},"value":{"kind":"Variable","name":{"kind":"Name","value":"code"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"success"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"expense"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"budgetAccount"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetExpenseByCodeQuery, GetExpenseByCodeQueryVariables>;
