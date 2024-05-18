@@ -19,8 +19,11 @@ import ButtonFilled from "../../components/ButtonFIlled";
 import Fab from "../fab/Fab";
 import IconPlusLg from "../../icons/PlusLg";
 import { useTemplateContext } from "../Template";
+import Link from "next/link";
+import { LinkText } from "../../components/ButtonText";
 
 interface Expense {
+    id: number;
     description: string;
     budgetAccount: string;
     budgetAccountId: number;
@@ -56,7 +59,11 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
-                {info.getValue()}
+                <Link href={`/expense/${info.row.original.id}`} passHref legacyBehavior>
+                    <LinkText>
+                        {info.getValue()}
+                    </LinkText>
+                </Link>
             </span>
         ),
     }),

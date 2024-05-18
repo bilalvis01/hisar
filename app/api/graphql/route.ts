@@ -204,6 +204,51 @@ const resolvers: Resolvers = {
                     updatedAt: record.updatedAt,
                 };
             });
+        },
+
+        async expenseById(_, { id }, context) {
+            const ledgerEntry = await context.dataSources.ledger.findFirst({ 
+                where: { 
+                    id
+                },
+                include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
+                orderBy: {
+                    createdAt: "desc",
+                }
+            });
+
+            if (!ledgerEntry) {
+                return {
+                    code: 404,
+                    success: false,
+                    message: `expense dengan id ${id} tidak ada`,
+                }
+            }
+
+            const budgetAccount = ledgerEntry.entries.filter(entry => {
+                const accountSupercode = entry.account.accountCode.accountSupercode;
+                if (accountSupercode) return accountSupercode.code == 101;
+                return false;
+            })[0].account;
+
+            const expenseEntry = ledgerEntry.entries.filter(entry => entry.account.accountCode.code == 200)[0];
+
+            const expense = {
+                id: ledgerEntry.id,
+                description: ledgerEntry.description,
+                budgetAccount: budgetAccount.name,
+                budgetAccountId: budgetAccount.id,
+                amount: Number(expenseEntry.amount / BigInt(10000)),
+                createdAt: ledgerEntry.createdAt,
+                updatedAt: ledgerEntry.updatedAt,
+            };
+
+            return {
+                code: 200,
+                success: true,
+                message: "",
+                expense,
+            }
         }
     },
 

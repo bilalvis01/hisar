@@ -5,6 +5,7 @@ type Query {
     budgets: [Budget!]!
     budgetByCode(code: String!): BudgetByCodePayload!
     expenses: [Expense!]!
+    expenseById(id: Int!): ExpenseByIdPayload!
 }
 
 type Mutation {
@@ -118,4 +119,11 @@ type Expense {
     description: String!
     createdAt: DateTimeIso!
     updatedAt: DateTimeIso!
+}
+
+type ExpenseByIdPayload {
+    code: Int!
+    success: Boolean!
+    message: String!
+    expense: Expense
 }

@@ -24,6 +24,7 @@ const documents = {
     "\n    mutation AddExpense($input: AddExpenseInput!) {\n        addExpense(input: $input) {\n            code\n            success\n            message\n            expense {\n                id\n                budgetAccount\n                amount\n                description\n                createdAt\n                updatedAt\n            }\n        }\n    }\n": types.AddExpenseDocument,
     "\n    fragment NewExpense on Expense {\n        id\n        budgetAccount\n        amount\n        description\n        createdAt\n        updatedAt\n    }\n": types.NewExpenseFragmentDoc,
     "\n    query GetExpenses {\n        expenses {\n            id\n            description\n            budgetAccount\n            budgetAccountId\n            amount\n            createdAt\n            updatedAt\n        }\n    }\n": types.GetExpensesDocument,
+    "\n    query GetExpenseById($id: Int!) {\n        expenseById(id: $id) {\n            code\n            success\n            message\n            expense {\n                id\n                description\n                budgetAccount\n                budgetAccountId\n                amount\n                createdAt\n                updatedAt\n            }\n        }\n    }\n": types.GetExpenseByIdDocument,
 };
 
 /**
@@ -84,6 +85,10 @@ export function gql(source: "\n    fragment NewExpense on Expense {\n        id\
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n    query GetExpenses {\n        expenses {\n            id\n            description\n            budgetAccount\n            budgetAccountId\n            amount\n            createdAt\n            updatedAt\n        }\n    }\n"): (typeof documents)["\n    query GetExpenses {\n        expenses {\n            id\n            description\n            budgetAccount\n            budgetAccountId\n            amount\n            createdAt\n            updatedAt\n        }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query GetExpenseById($id: Int!) {\n        expenseById(id: $id) {\n            code\n            success\n            message\n            expense {\n                id\n                description\n                budgetAccount\n                budgetAccountId\n                amount\n                createdAt\n                updatedAt\n            }\n        }\n    }\n"): (typeof documents)["\n    query GetExpenseById($id: Int!) {\n        expenseById(id: $id) {\n            code\n            success\n            message\n            expense {\n                id\n                description\n                budgetAccount\n                budgetAccountId\n                amount\n                createdAt\n                updatedAt\n            }\n        }\n    }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

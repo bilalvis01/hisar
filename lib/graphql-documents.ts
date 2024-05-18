@@ -216,3 +216,22 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
         }
     }
 `);
+
+export const GET_EXPENSE_BY_ID = gql(/* GraphQL */ `
+    query GetExpenseById($id: Int!) {
+        expenseById(id: $id) {
+            code
+            success
+            message
+            expense {
+                id
+                description
+                budgetAccount
+                budgetAccountId
+                amount
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`);
