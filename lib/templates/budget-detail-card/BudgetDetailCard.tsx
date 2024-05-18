@@ -121,7 +121,6 @@ export default function BudgetDetailCard() {
         isWindowSizeExpanded,
         isWindowSizeSpanMedium,
     } = useTemplateContext();
-    const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
     const router = useRouter();
@@ -146,18 +145,12 @@ export default function BudgetDetailCard() {
     });
 
     const handleOpenBudgetUpdateForm = React.useCallback(() => {
-        setOpenActionsMenu(false);
         setOpenBudgetUpdateForm(true);
     }, []);
 
     const handleOpenBudgetDelete = React.useCallback(() => {
-        setOpenActionsMenu(false);
         setOpenBudgetDelete(true);
     }, []);
-
-    React.useEffect(() => {
-        if (windowSize === "expanded") setOpenActionsMenu(false);
-    }, [windowSize]);
 
     if (loading) return (
         <>
@@ -256,6 +249,7 @@ export default function BudgetDetailCard() {
                     budget={budget.code}
                     open={openBudgetDelete}
                     onOpenChange={setOpenBudgetDelete}
+                    onSuccess={() => router.push("/budget")}
                 />
             )}
             {isWindowSizeSpanMedium() && createPortal(
