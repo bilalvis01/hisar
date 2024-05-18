@@ -250,7 +250,6 @@ export default function BudgetTable() {
             <BudgetAddForm 
                 open={openBudgetAddForm} 
                 onOpenChange={setOpenBudgetAddForm} 
-                onSuccess={(data) => table.resetRowSelection()} 
             />
             {isSingleSelectedRow() && (
                 <BudgetUpdateForm
