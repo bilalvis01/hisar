@@ -20,13 +20,13 @@ import ProgressCircular from "../../components/ProgressCircular";
 import BudgetUpdateForm from "../budget-update-form/BudgetUpdateForm";
 import BudgetDelete from "../budget-delete/BudgetDelete";
 import { useTemplateContext } from "../Template";
-import IconButtonFilled from "../../components/IconButtonFilled";
-import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
-import { Menu, MenuItem } from "../../components/Menu";
 import { useRouter, notFound } from "next/navigation";
 import { ButtonText } from "../../components/ButtonText";
-import Link from "next/link";
-import { LinkText } from "../../components/ButtonText";
+import { IconButtonStandard, IconLinkStandard } from "../../components/IconButtonStandard";
+import { IconButtonFilled } from "../../components/IconButtonFilled";
+import IconArrowLeft from "../../icons/ArrowLeft";
+import IconPencil from "../../icons/Pencil";
+import IconTrash from "../../icons/Trash";
 
 interface Budget {
     description: string;
@@ -113,7 +113,12 @@ export default function BudgetDetailCard() {
     const { loading, error, data } = useQuery(GET_BUDGET_BY_CODE, {
         variables: { code }
     });
-    const { toolbarRef, windowSize } = useTemplateContext();
+    const { 
+        toolbarRef, 
+        windowSize,
+        isWindowSizeExpanded,
+        isWindowSizeSpanMedium,
+    } = useTemplateContext();
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
@@ -176,19 +181,16 @@ export default function BudgetDetailCard() {
                     <h2 className={clsx("text-title-large", style.headline)}>
                         {budget && budget.name.toUpperCase()}
                     </h2>
-                    <div className={style.toolbar}>
-                        <Link href={`/budget`} passHref legacyBehavior>
-                            <LinkText>
-                                Kembali
-                            </LinkText>
-                        </Link>
-                        <ButtonText onClick={handleOpenBudgetUpdateForm}>
-                            Edit
-                        </ButtonText>
-                        <ButtonText onClick={handleOpenBudgetDelete}>
-                            Hapus
-                        </ButtonText>
-                    </div>
+                    {isWindowSizeExpanded() && (
+                        <div className={style.toolbar}>
+                            <ButtonText onClick={handleOpenBudgetUpdateForm}>
+                                Edit
+                            </ButtonText>
+                            <ButtonText onClick={handleOpenBudgetDelete}>
+                                Hapus
+                            </ButtonText>
+                        </div>
+                    )}
                 </header>
                 <div className={style.body}>
                     {budget && (
@@ -249,31 +251,15 @@ export default function BudgetDetailCard() {
                     onOpenChange={setOpenBudgetDelete}
                 />
             )}
-            {toolbarRef.current instanceof HTMLDivElement && createPortal(
-                <div className={style.actionsMenuContainer}>
-                    <IconButtonFilled onClick={() => setOpenActionsMenu(!openActionsMenu)}>
-                        <IconThreeDotsVertial />
+            {isWindowSizeSpanMedium() && createPortal(
+                <>
+                    <IconButtonFilled onClick={handleOpenBudgetUpdateForm}>
+                        <IconPencil />
                     </IconButtonFilled>
-                    <Menu className={style.actionsMenu} style={{ display: openActionsMenu ? "block" : "none" }}>
-                        <ul>
-                            <li>
-                                <MenuItem onClick={handleOpenBudgetUpdateForm}>
-                                    Edit
-                                </MenuItem>
-                            </li>
-                            <li>
-                                <MenuItem onClick={handleOpenBudgetDelete}>
-                                    Hapus
-                                </MenuItem>
-                            </li>
-                            <li>
-                                <MenuItem onClick={() => router.push("/budget")}>
-                                    Kembali
-                                </MenuItem>
-                            </li>
-                        </ul>
-                    </Menu>
-                </div>,
+                    <IconButtonFilled onClick={handleOpenBudgetDelete}>
+                        <IconTrash />
+                    </IconButtonFilled>
+                </>,
                 toolbarRef.current
             )}
         </>
