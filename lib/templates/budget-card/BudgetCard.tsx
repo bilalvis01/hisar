@@ -126,6 +126,7 @@ export default function BudgetTable() {
     const fabRef = React.useRef(null);
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const { 
+        toolbarRef,
         toolbarSecondaryRef, 
         headlineSecondaryRef,
         setShowCompactWindowSizeAppBarSecondary,
@@ -133,6 +134,7 @@ export default function BudgetTable() {
         isWindowSizeCompact,
         isWindowSizeMedium,
         isWindowSizeExpanded,
+        isWindowSizeSpanMedium,
         addClickCloseAppBarSecondaryEventListener,
         removeClickCloseAppBarSecondaryEventListener,
         windowSize,
@@ -182,22 +184,17 @@ export default function BudgetTable() {
     }, []);
 
     React.useEffect(() => {
-        if (!isNoneSelectedRow() && isWindowSizeCompact()) {
+        if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
+            setShowCompactWindowSizeAppBarSecondary(true);
             addClickCloseAppBarSecondaryEventListener(() => {
                 table.resetRowSelection();
                 setShowCompactWindowSizeAppBarSecondary(false);
             });
-        }
-
-        () => removeClickCloseAppBarSecondaryEventListener();
-    }, [selectedRows.length, windowSize]);
-
-    React.useEffect(() => {
-        if (selectedRows.length > 0 && isWindowSizeCompact()) {
-            setShowCompactWindowSizeAppBarSecondary(true);
         } else {
             setShowCompactWindowSizeAppBarSecondary(false);
         }
+
+        () => removeClickCloseAppBarSecondaryEventListener();
     }, [windowSize, selectedRows.length]);
 
     if (loading) return (
@@ -234,19 +231,6 @@ export default function BudgetTable() {
                         <ButtonText onClick={handleOpenBudgetDelete}>
                             Hapus
                         </ButtonText>
-                    </>
-                )}
-                {isSingleSelectedRow() && isWindowSizeMedium() && (
-                    <>
-                        <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
-                            <Eye />
-                        </IconButtonStandard>
-                        <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
-                            <Pencil />
-                        </IconButtonStandard>
-                        <IconButtonStandard onClick={handleOpenBudgetDelete}>
-                            <IconTrash />
-                        </IconButtonStandard>
                     </>
                 )}
             </header>
@@ -288,7 +272,7 @@ export default function BudgetTable() {
             >
                 <IconPlusLg />
             </Fab>
-            {isSingleSelectedRow() && isWindowSizeCompact() && (
+            {isSingleSelectedRow() && isWindowSizeSpanMedium() && (
                 createPortal(
                     <>
                         <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
@@ -304,7 +288,7 @@ export default function BudgetTable() {
                     toolbarSecondaryRef.current
                 )
             )}
-            {!isNoneSelectedRow() && isWindowSizeCompact() && (
+            {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
                 createPortal(
                     selectedRows.length,
                     headlineSecondaryRef.current
