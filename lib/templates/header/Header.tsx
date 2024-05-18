@@ -10,7 +10,7 @@ import Link from "next/link";
 import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 import { useTemplateContext } from "../Template";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
-import IconX from "../../icons/X";
+import IconArrowLeft from "../../icons/ArrowLeft";
 
 export default function Header({ className }) {
     const { 
@@ -57,14 +57,15 @@ export default function Header({ className }) {
                 <div ref={toolbarRef} />
             </TopAppBarSmall>
             <TopAppBarSmall
+                className={className}
                 style={{ 
-                    display: showCompactWindowSizeAppBarSecondary && isWindowSizeCompact() 
+                    display: showCompactWindowSizeAppBarSecondary && isWindowSizeSpanMedium() 
                         ? "block"
                         : "none" 
                 }}
             >
                 <IconButtonStandard onClick={handleClickCloseAppBarSecondary}>
-                    <IconX />
+                    <IconArrowLeft />
                 </IconButtonStandard>
                 <Headline ref={headlineSecondaryRef} className={style.brand} />
                 <div ref={toolbarSecondaryRef} />
