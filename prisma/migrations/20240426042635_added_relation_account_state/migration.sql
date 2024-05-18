@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE `Account` ADD COLUMN `stateId` INTEGER NOT NULL DEFAULT 1;
-
--- AddForeignKey
-ALTER TABLE `Account` ADD CONSTRAINT `Account_stateId_fkey` FOREIGN KEY (`stateId`) REFERENCES `State`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `State` MODIFY `id` INTEGER NOT NULL;
