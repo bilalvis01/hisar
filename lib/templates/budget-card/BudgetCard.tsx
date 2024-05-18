@@ -33,6 +33,7 @@ import IconEye from "../../icons/Eye";
 import { useRouter } from "next/navigation";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
 import BudgetDeleteMany from "../budget-delete-many/BudgetDeleteMany";
+import date from "../../utils/date";
 
 interface Row {
     name: string;
@@ -40,6 +41,8 @@ interface Row {
     budget: number;
     expense: number;
     balance: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const columnHelper = createColumnHelper<Row>();
@@ -64,6 +67,16 @@ const columns = [
                 />
             </div>
         )
+    }),
+    columnHelper.accessor("code", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>NAMA</span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {info.getValue()}
+            </span>
+        ),
     }),
     columnHelper.accessor("name", {
         header: () => (
@@ -114,7 +127,27 @@ const columns = [
                 {idr.format(info.getValue())}
             </span>
         ),
-    })
+    }),
+    columnHelper.accessor("createdAt", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>Dibuat</span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {date.format(info.getValue())}
+            </span>
+        ),
+    }),
+    columnHelper.accessor("updatedAt", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>Dibuat</span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {date.format(info.getValue())}
+            </span>
+        ),
+    }),
 ];
 
 export default function BudgetTable() {
