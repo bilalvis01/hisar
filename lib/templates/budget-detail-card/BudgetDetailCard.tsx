@@ -246,7 +246,7 @@ export default function BudgetDetailCard() {
             )}
             {budget && (
                 <BudgetDelete
-                    budget={budget.code}
+                    budget={budget}
                     open={openBudgetDelete}
                     onOpenChange={setOpenBudgetDelete}
                     onSuccess={() => router.push("/budget")}

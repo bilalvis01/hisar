@@ -8,7 +8,7 @@ import { DeleteBudgetMutation, Budget } from "../../graphql-tag/graphql";
 import { useTemplateContext } from "../Template";
 
 interface BudgetDeleteProps {
-    budget: string | Budget;
+    budget: Budget;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onSuccess?: (data: DeleteBudgetMutation) => void;
@@ -29,9 +29,8 @@ export default function BudgetDelete({
             cache.modify({
                 fields: {
                     budgets(existingBudgetRefs, { readField }) {
-                        return existingBudgetRefs.filter(budgetRef => 
-                            (budget && typeof budget === "object" && budget.id !== readField("id", budgetRef))
-                            || (getBudgetByCodeData && getBudgetByCodeData.budgetByCode.budget.id !== readField("id", budgetRef))
+                        return existingBudgetRefs.filter(
+                            budgetRef => budget.id !== readField("id", budgetRef)
                         );
                     },
                     budgetByCode(_, { DELETE }) {
@@ -47,23 +46,11 @@ export default function BudgetDelete({
         },
     });
 
-    const data = typeof budget === "string" 
-        ? async () => {
-            const { data, error } = await getBudgetByCode({ variables: { code: budget } });
-            return {
-                values: { id: data.budgetByCode.budget.id },
-                error,
-                headline: "Hapus Budget?",
-                supportingText: `Apakah anda ingin menghapus ${data.budgetByCode.budget.name}?`,
-            };
-        }
-        : budget && typeof budget === "object" 
-        ? {
-            values: { id: budget.id },
-            headline: "Hapus Budget?",
-            supportingText: `Apakah anda ingin menghapus "${budget.name}"?`,
-        }
-        : null;
+    const data = {
+        values: { id: budget.id },
+        headline: "Hapus Budget?",
+        supportingText: `Apakah anda ingin menghapus "${budget.name}"?`,
+    };
 
     return (
         <DeleteDialog 
