@@ -307,7 +307,7 @@ export default function BudgetTable() {
                     toolbarSecondaryRef.current
                 )
             )}
-            {isManySelectedRow() && isWindowSizeExpanded() && createPortal(
+            {isManySelectedRow() && isWindowSizeSpanMedium() && createPortal(
                 <IconButtonStandard onClick={handleOpenBudgetDeleteMany}>
                     <IconTrash />
                 </IconButtonStandard>,
