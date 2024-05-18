@@ -43,7 +43,7 @@ export default function BudgetDelete({
         onCompleted(data) {
             setInfo(data.deleteBudget.message);
             setOpen(false);
-            onSuccess(data);
+            if (onSuccess) onSuccess(data);
         },
     });
 

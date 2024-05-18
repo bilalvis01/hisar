@@ -41,7 +41,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
         onCompleted(data) {
             setInfo(data.addExpense.message);
             setOpen(false);
-            onSuccess(data);
+            if (onSuccess) onSuccess(data);
         },
     });
 

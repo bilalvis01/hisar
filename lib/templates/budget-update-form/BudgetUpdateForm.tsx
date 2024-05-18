@@ -29,7 +29,7 @@ export default function BudgetUpdateForm({
         onCompleted(data) {
             setInfo(data.updateBudget.message);
             setOpen(false);
-            onSuccess(data);
+            if (onSuccess) onSuccess(data);
         },
     });
 

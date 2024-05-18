@@ -41,7 +41,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
         onCompleted: (data) => {
             setInfo(data.createBudget.message);
             setOpen(false);
-            onSuccess(data);
+            if (onSuccess) onSuccess(data);
         },
     });
 
