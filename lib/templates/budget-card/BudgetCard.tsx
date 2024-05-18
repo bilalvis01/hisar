@@ -28,11 +28,11 @@ import { Budget } from "../../graphql-tag/graphql";
 import { ButtonText } from "../../components/ButtonText";
 import { useTemplateContext } from "../Template";
 import IconTrash from "../../icons/Trash";
-import IconButtonFilled from "../../components/IconButtonFilled";
+import { IconButtonFilled } from "../../components/IconButtonFilled";
 import Pencil from "../../icons/Pencil";
 import Eye from "../../icons/Eye";
 import { useRouter } from "next/navigation";
-import IconButtonStandard from "../../components/IconButtonStandard";
+import { IconButtonStandard } from "../../components/IconButtonStandard";
 
 interface Row {
     name: string;

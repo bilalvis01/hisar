@@ -8,8 +8,8 @@ import {
     NavigationHeader, 
     NavigationHeadline,
 } from "../../components/NavigationDrawer";
-import IconButtonFilled from "../../components/IconButtonFilled";
-import IconButtonStandard from "../../components/IconButtonStandard";
+import { IconButtonFilled } from "../../components/IconButtonFilled";
+import { IconButtonStandard } from "../../components/IconButtonStandard";
 import IconX from "../../icons/X";
 import IconList from "../../icons/List";
 import { usePathname } from "next/navigation";

@@ -9,7 +9,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import NavigationDrawer from "../navigation-drawer/NavigationDrawer";
 import { useTemplateContext } from "../Template";
-import IconButtonStandard from "../../components/IconButtonStandard";
+import { IconButtonStandard } from "../../components/IconButtonStandard";
 import IconX from "../../icons/X";
 
 export default function Header({ className }) {
