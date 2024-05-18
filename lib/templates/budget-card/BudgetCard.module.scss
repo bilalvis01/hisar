@@ -47,12 +47,3 @@
     display: grid;
     place-items: center;
 }
-
-.toolbar {
-    display: none;
-
-    @media (min-width: 600px) {
-        display: flex;
-        gap: 0.5rem;
-    }
-}

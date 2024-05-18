@@ -216,41 +216,39 @@ export default function BudgetTable() {
         <div className={style.card}>
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>BUDGET</h2>
-                <div className={style.toolbar}>
-                    {isNoneSelectedRow() && (isWindowSizeExpanded() || isWindowSizeMedium()) && (
-                        <ButtonFilled onClick={handleOpenBudgetAddForm}>
-                            Buat Budget
-                        </ButtonFilled>
-                    )}
-                    {isSingleSelectedRow() && isWindowSizeExpanded() && (
-                        <>
-                            <Link href={`/budget/${selectedRows[0].code}`} passHref legacyBehavior>
-                                <LinkText>
-                                    Lihat
-                                </LinkText>
-                            </Link>
-                            <ButtonText onClick={handleOpenBudgetUpdateForm}>
-                                Edit
-                            </ButtonText>
-                            <ButtonText onClick={handleOpenBudgetDelete}>
-                                Hapus
-                            </ButtonText>
-                        </>
-                    )}
-                    {isSingleSelectedRow() && isWindowSizeMedium() && (
-                        <>
-                            <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
-                                <Eye />
-                            </IconButtonStandard>
-                            <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
-                                <Pencil />
-                            </IconButtonStandard>
-                            <IconButtonStandard onClick={handleOpenBudgetDelete}>
-                                <IconTrash />
-                            </IconButtonStandard>
-                        </>
-                    )}
-                </div>
+                {isNoneSelectedRow() && (isWindowSizeExpanded() || isWindowSizeMedium()) && (
+                    <ButtonFilled onClick={handleOpenBudgetAddForm}>
+                        Buat Budget
+                    </ButtonFilled>
+                )}
+                {isSingleSelectedRow() && isWindowSizeExpanded() && (
+                    <>
+                        <Link href={`/budget/${selectedRows[0].code}`} passHref legacyBehavior>
+                            <LinkText>
+                                Lihat
+                            </LinkText>
+                        </Link>
+                        <ButtonText onClick={handleOpenBudgetUpdateForm}>
+                            Edit
+                        </ButtonText>
+                        <ButtonText onClick={handleOpenBudgetDelete}>
+                            Hapus
+                        </ButtonText>
+                    </>
+                )}
+                {isSingleSelectedRow() && isWindowSizeMedium() && (
+                    <>
+                        <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
+                            <Eye />
+                        </IconButtonStandard>
+                        <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
+                            <Pencil />
+                        </IconButtonStandard>
+                        <IconButtonStandard onClick={handleOpenBudgetDelete}>
+                            <IconTrash />
+                        </IconButtonStandard>
+                    </>
+                )}
             </header>
             <div className={style.body}>
                 <Table table={table} />
