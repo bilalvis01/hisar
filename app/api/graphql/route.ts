@@ -383,7 +383,6 @@ const resolvers: Resolvers = {
                     message: `${input.description} berhasil ditambahkan`,
                     expense: {
                         id: ledger.id,
-                        budgetAccountId: budgetAccount.id,
                         budgetAccount: budgetAccount.name,
                         amount: input.amount,
                         description: ledger.description,
@@ -399,7 +398,7 @@ const resolvers: Resolvers = {
                     expense: null,
                 }
             }
-        }
+        },
     }
 }
 
