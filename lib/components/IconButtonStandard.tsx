@@ -1,6 +1,17 @@
 import React from "react";
-import IconButtonBase from "./IconButtonBase";
+import { IconButtonBase, IconLinkBase } from "./IconButtonBase";
+import type { IconButtonBaseProps } from "./IconButtonBase";
 
-export default function IconButtonStandard(props) {
-    return <IconButtonBase variant="standard" {...props} />;
-}
+export const IconButtonStandard = React.forwardRef<
+    HTMLButtonElement,
+    IconButtonBaseProps & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+>(function IconButtonStandard(props, ref) {
+    return <IconButtonBase {...props} ref={ref} variant="standard" />;
+});
+
+export const IconLinkStandard = React.forwardRef<
+    HTMLAnchorElement,
+    IconButtonBaseProps & React.HTMLProps<HTMLAnchorElement>
+>(function IconLinkStandard(props, ref) {
+    return <IconLinkBase {...props} ref={ref} variant="standard" />;
+});
