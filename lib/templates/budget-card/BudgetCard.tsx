@@ -182,7 +182,7 @@ export default function BudgetTable() {
     }, []);
 
     React.useEffect(() => {
-        if (isManySelectedRow() && isWindowSizeCompact()) {
+        if (!isNoneSelectedRow() && isWindowSizeCompact()) {
             addClickCloseAppBarSecondaryEventListener(() => {
                 table.resetRowSelection();
                 setShowCompactWindowSizeAppBarSecondary(false);
