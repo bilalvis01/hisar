@@ -245,11 +245,10 @@ const resolvers: Resolvers = {
     Mutation: {
         async createBudget(_, { input }, context) {
             try {
-                const account = await createBudget(
-                    context.dataSources, 
-                    input.name,
-                    BigInt(input.budget) * BigInt(10000),
-                );
+                const account = await createBudget(context.dataSources, { 
+                    name: input.name,
+                    budget: BigInt(input.budget) * BigInt(10000),
+                });
                 return {
                     code: 200,
                     success: true,
@@ -303,7 +302,7 @@ const resolvers: Resolvers = {
 
         async deleteBudget(_, { input }, context) {
             try {
-                const account = await deleteBudget(context.dataSources, input.id);
+                const account = await deleteBudget(context.dataSources, { id: input.id });
                 const budget = await getBudgetDetail(context.dataSources, account);
                 return {
                     code: 200,
@@ -332,7 +331,7 @@ const resolvers: Resolvers = {
             }
 
             try {                
-                const accounts = await deleteBudgetMany(context.dataSources, ids);
+                const accounts = await deleteBudgetMany(context.dataSources, { ids });
 
                 const budgets = await getBudgetDetailList(accounts);
 
@@ -370,13 +369,12 @@ const resolvers: Resolvers = {
                 const budgetAccount = await context.dataSources.account.findUnique({
                     where: { id: input.budgetAccountId }
                 });
-                const ledger = await entry(
-                    context.dataSources, 
-                    budgetAccount.id, 
-                    expenseAccount.id, 
-                    BigInt(input.amount) * BigInt(10000), 
-                    input.description
-                ); 
+                const ledger = await entry(context.dataSources, { 
+                    creditId: budgetAccount.id, 
+                    debitId: expenseAccount.id, 
+                    amount: BigInt(input.amount) * BigInt(10000), 
+                    description: input.description
+                }); 
                 return {
                     code: 200,
                     success: true,

@@ -1,16 +1,15 @@
-import type { PrismaClient, Account, Ledger, Entry, AccountCode } from "@prisma/client";
+import type { PrismaClient } from "@prisma/client";
 
-type LedgerEntry = Ledger & { entries: (Entry & { account: Account & { accountCode: AccountCode } })[] };
-
-async function refundProcedure({
-    client,
-    code,
-    skipUpdateBalance = false,
-}: {
-    client: PrismaClient;
-    code: number;
-    skipUpdateBalance?: boolean;
-}) {
+async function refundProcedure(
+    client: PrismaClient,
+    {
+        code,
+        skipUpdateBalance = false,
+    }: {
+        code: number;
+        skipUpdateBalance?: boolean;
+    }
+) {
     const ledgerEntry = await client.ledger.findFirst({
         where: {
             code,
@@ -25,13 +24,21 @@ async function refundProcedure({
         },
     });
     
-    const senderEntry = ledgerEntry.entries.filter((entry) => entry.direction === -1)[0];
-    const recipientEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
+    const creditEntry = ledgerEntry.entries.filter((entry) => entry.direction === -1)[0];
+    const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
-    const senderAccount = senderEntry.account;
-    const recipientAccount = recipientEntry.account;
+    const creditAccount = creditEntry.account;
+    const debitAccount = debitEntry.account;
 
-    const correctionLedgerEntry = await entryProcedure(client, recipientAccount.id, senderAccount.id, senderEntry.amount, "refund");
+    const correctionLedgerEntry = await entryProcedure(
+        client, 
+        {
+            debitId: debitAccount.id, 
+            creditId: creditAccount.id, 
+            amount: creditEntry.amount, 
+            description: "refund"
+        }
+    );
 
     await client.ledger.update({
         where: {
@@ -55,64 +62,42 @@ async function refundProcedure({
     });
 
     if (!skipUpdateBalance) {
-        await updateBalanceProcedure({ client, code });
+        await updateBalanceProcedure(client, { code });
     }
 
     return ledgerEntry;
 }
 
-async function updateLedgerEntryBudgetAccountProcedure({
-    client,
-    code,
-    budgetAccountId,
-    amount,
-}: {
-    client: PrismaClient;
-    code: number;
-    budgetAccountId: number;
-    amount: bigint;
-}) {
-    const ledgerEntry = await refundProcedure({ client, code, skipUpdateBalance: true });
+async function updateLedgerEntryBudgetAccountProcedure(
+    client: PrismaClient,
+    {
+        code,
+        budgetAccountId,
+        amount,
+    }: {
+        code: number;
+        budgetAccountId: number;
+        amount: bigint;
+    }
+) {
+    const ledgerEntry = await refundProcedure(
+        client, 
+        { code, skipUpdateBalance: true }
+    );
 
-    const recipientEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
+    const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
-    const recipientAccount = recipientEntry.account;
+    const debitAccount = debitEntry.account;
 
-    const newLedgerEntry = await entryProcedure(client, budgetAccountId, recipientAccount.id, amount, ledgerEntry.description);
-
-    await client.ledger.update({
-        where: {
-            id: newLedgerEntry.id,
-        },
-        data: {
-            code: ledgerEntry.code,
-            createdAt: ledgerEntry.createdAt,
-        },
-    });
-
-    await updateBalanceProcedure({ client, code });
-
-    return newLedgerEntry;
-}
-
-async function updateLedgerEntryAmountProcedure({
-    client,
-    code,
-    amount,
-}: {
-    client: PrismaClient;
-    code: number;
-    amount: bigint;
-}) {
-    const ledgerEntry = await refundProcedure({ client, code, skipUpdateBalance: true });
-
-    const senderEntry = ledgerEntry.entries.filter((entry) => entry.direction === -1)[0];
-    const recipientEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
-
-    const senderAccount = senderEntry.account;
-    const recipientAccount = recipientEntry.account;
-
-    const newLedgerEntry = await entryProcedure(client, senderAccount.id, recipientAccount.id, amount, ledgerEntry.description);
+    const newLedgerEntry = await entryProcedure(
+        client, 
+        {
+            creditId: budgetAccountId, 
+            debitId: debitAccount.id, 
+            amount: amount, 
+            description: ledgerEntry.description,
+        }  
+    );
 
     await client.ledger.update({
         where: {
@@ -124,19 +109,52 @@ async function updateLedgerEntryAmountProcedure({
         },
     });
 
-    await updateBalanceProcedure({ client, code });
+    await updateBalanceProcedure(client, { code });
 
     return newLedgerEntry;
 }
 
-async function updateBalanceProcedure({
-    client,
-    code,
-}: {
-    client: PrismaClient;
-    code: number;
-}) {
-    const ledgerEntryRightBeforeCurrentLedgetEntry = await client.ledger.findFirst({
+async function updateLedgerEntryAmountProcedure(
+    client: PrismaClient,
+    { code, amount }: { code: number; amount: bigint }
+) {
+    const ledgerEntry = await refundProcedure(
+        client, { code, skipUpdateBalance: true }
+    );
+
+    const creditEntry = ledgerEntry.entries.filter((entry) => entry.direction === -1)[0];
+    const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
+
+    const creditAccount = creditEntry.account;
+    const debitAccount = debitEntry.account;
+
+    const newLedgerEntry = await entryProcedure(client, {
+        creditId: creditAccount.id, 
+        debitId: debitAccount.id, 
+        amount, 
+        description: ledgerEntry.description
+    });
+
+    await client.ledger.update({
+        where: {
+            id: newLedgerEntry.id,
+        },
+        data: {
+            code: ledgerEntry.code,
+            createdAt: ledgerEntry.createdAt,
+        },
+    });
+
+    await updateBalanceProcedure(client, { code });
+
+    return newLedgerEntry;
+}
+
+async function updateBalanceProcedure(
+    client: PrismaClient,
+    { code }: { code: number }
+) {
+    const ledgerEntryRightBeforeCurrentLedgerEntry = await client.ledger.findFirst({
         where: {
             code: {
                 lt: code,
@@ -155,16 +173,16 @@ async function updateBalanceProcedure({
         },
     });
 
-    const senderEntry = ledgerEntryRightBeforeCurrentLedgetEntry.entries.filter((entry) => entry.direction === -1)[0];
-    const recipientEntry = ledgerEntryRightBeforeCurrentLedgetEntry.entries.filter((entry) => entry.direction === 1)[0];
+    const creditEntry = ledgerEntryRightBeforeCurrentLedgerEntry.entries.filter((entry) => entry.direction === -1)[0];
+    const debitEntry = ledgerEntryRightBeforeCurrentLedgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
-    const senderAccount = senderEntry.account;
-    const recipientAccount = recipientEntry.account;
+    const creditAccount = creditEntry.account;
+    const debitAccount = debitEntry.account;
 
-    let senderBalance = 
-        senderEntry.balance - senderEntry.amount * BigInt(senderEntry.direction) * BigInt(senderAccount.direction);
-    let recipientBalance = 
-        recipientEntry.balance - recipientEntry.amount * BigInt(recipientEntry.direction) * BigInt(recipientAccount.direction);
+    let creditBalance = 
+        creditEntry.balance - creditEntry.amount * BigInt(creditEntry.direction) * BigInt(creditAccount.direction);
+    let debitBalance = 
+        debitEntry.balance - debitEntry.amount * BigInt(debitEntry.direction) * BigInt(debitAccount.direction);
 
     const ledgerEntries = await client.ledger.findMany({
         where: {
@@ -185,58 +203,71 @@ async function updateBalanceProcedure({
         },
     });
 
-    const senderEntries = ledgerEntries.map((ledgerEntry) => {
-        return ledgerEntry.entries.filter((entry) => entry.account.id === senderAccount.id)[0];
+    const creditEntries = ledgerEntries.map((ledgerEntry) => {
+        return ledgerEntry.entries.filter((entry) => entry.account.id === creditAccount.id)[0];
     });
 
-    const recipientEntries = ledgerEntries.map((ledgerEntry) => {
-        return ledgerEntry.entries.filter((entry) => entry.account.id === recipientAccount.id)[0];
+    const debitEntries = ledgerEntries.map((ledgerEntry) => {
+        return ledgerEntry.entries.filter((entry) => entry.account.id === debitAccount.id)[0];
     });
 
-    await Promise.all(senderEntries.map(async (entry) => {
-        senderBalance += entry.amount * BigInt(entry.direction) * BigInt(senderAccount.direction);
+    await Promise.all(creditEntries.map(async (entry) => {
+        creditBalance += entry.amount * BigInt(entry.direction) * BigInt(creditAccount.direction);
         await client.entry.update({
             where: {
                 id: entry.id
             },
             data: {
-                balance: senderBalance,
+                balance: creditBalance,
             },
         });
     }));
 
-    await Promise.all(recipientEntries.map(async (entry) => {
-        recipientBalance += entry.amount * BigInt(entry.direction) * BigInt(recipientAccount.direction);
+    await Promise.all(debitEntries.map(async (entry) => {
+        debitBalance += entry.amount * BigInt(entry.direction) * BigInt(debitAccount.direction);
         await client.entry.update({
             where: {
                 id: entry.id
             },
             data: {
-                balance: recipientBalance,
+                balance: debitBalance,
             },
         });
     }));
 
     await client.account.update({
         where: {
-            id: senderAccount.id,
+            id: creditAccount.id,
         },
         data: {
-            balance: senderBalance,
+            balance: creditBalance,
         },
     });
 
     await client.account.update({
         where: {
-            id: recipientAccount.id,
+            id: debitAccount.id,
         },
         data: {
-            balance: recipientBalance,
+            balance: debitBalance,
         },
     });
 };
 
-async function entryProcedure(client: PrismaClient, senderId: number, recipientId: number, amount: bigint, description: string) {
+async function entryProcedure(
+    client: PrismaClient,
+    {
+        creditId,
+        debitId,
+        amount,
+        description,  
+    }: { 
+        creditId: number, 
+        debitId: number, 
+        amount: bigint, 
+        description: string
+    }
+) {
     const ledger = await client.ledger.create({
         data: {
             description,
@@ -250,52 +281,52 @@ async function entryProcedure(client: PrismaClient, senderId: number, recipientI
             code: ledger.id,
         },
     });
-    const senderDirection = -1;
-    const recipientDirection = 1;
-    const sender = await client.account.findUnique({
+    const creditDirection = -1;
+    const debitDirection = 1;
+    const credit = await client.account.findUnique({
         where: {
-            id: senderId,
+            id: creditId,
         },
     });
-    const recipient = await client.account.findUnique({
+    const debit = await client.account.findUnique({
         where: {
-            id: recipientId,
+            id: debitId,
         },
     });
-    const senderBalance = sender.balance + amount * BigInt(sender.direction) * BigInt(senderDirection);
-    const recipientBalance = recipient.balance + amount * BigInt(recipient.direction) * BigInt(recipientDirection);
+    const creditBalance = credit.balance + amount * BigInt(credit.direction) * BigInt(creditDirection);
+    const debitBalance = debit.balance + amount * BigInt(debit.direction) * BigInt(debitDirection);
     await client.account.update({
         where: {
-            id: senderId
+            id: creditId
         },
         data: {
-            balance: senderBalance,
+            balance: creditBalance,
         }
     });
     await client.account.update({
         where: {
-            id: recipientId
+            id: debitId
         },
         data: {
-            balance: recipientBalance,
+            balance: debitBalance,
         }
     });
     await client.entry.create({
         data: {
             ledgerId: ledger.id,
-            accountId: senderId,
+            accountId: creditId,
             amount: amount,
-            balance: senderBalance,
-            direction: senderDirection,
+            balance: creditBalance,
+            direction: creditDirection,
         },
     });
     await client.entry.create({
         data: {
             ledgerId: ledger.id,
-            accountId: recipientId,
+            accountId: debitId,
             amount: amount,
-            balance: recipientBalance,
-            direction: recipientDirection,
+            balance: debitBalance,
+            direction: debitDirection,
         },
     });
     
@@ -307,7 +338,7 @@ async function entryProcedure(client: PrismaClient, senderId: number, recipientI
     });
 }
 
-async function deleteBudgetProcedure(client: PrismaClient, id: number) {
+async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: number }) {
     await client.ledger.updateMany({
         where: {
             entries: {
@@ -338,13 +369,34 @@ async function deleteBudgetProcedure(client: PrismaClient, id: number) {
     });
 }
 
-export async function entry(client: PrismaClient, senderId: number, recipientId: number, amount: bigint, description: string) {
+export async function entry(
+    client: PrismaClient,
+    {
+        creditId,
+        debitId,
+        amount,
+        description,
+    }: {
+        creditId: number, 
+        debitId: number, 
+        amount: bigint, 
+        description: string
+    }
+) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        return await entryProcedure(tx, senderId, recipientId, amount, description);
+        return await entryProcedure(tx, { 
+            creditId: creditId, 
+            debitId: debitId, 
+            amount, 
+            description,
+        });
     });
 }
 
-export async function createBudget(client: PrismaClient, name: string, budget: bigint) {
+export async function createBudget(
+    client: PrismaClient, 
+    { name, budget }: { name: string; budget: bigint }
+) {
     return await client.$transaction(async (tx: PrismaClient) => {
         const budgetAccountCode = await client.accountCode.findFirst({
             where: { code: 101 }
@@ -357,6 +409,7 @@ export async function createBudget(client: PrismaClient, name: string, budget: b
             data: {
                 accountSupercodeId: budgetAccountCode.id,
                 code: latestSubBudgetCode._max.code + 1,
+                category: "budget",
             }
         });
         const budgetAccount = await client.account.create({
@@ -377,7 +430,12 @@ export async function createBudget(client: PrismaClient, name: string, budget: b
                 accountCodeId: cashAccountCode.id,
             }
         });
-        const ledger = await entryProcedure(tx, cashAccount.id, budgetAccount.id, budget, "saldo awal");
+        const ledger = await entryProcedure(tx, {
+            creditId: cashAccount.id, 
+            debitId: budgetAccount.id, 
+            amount: budget, 
+            description: "saldo awal",
+        });
         return await client.account.findUnique({
             where: { id: budgetAccount.id },
             include: {
@@ -429,12 +487,22 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
 
         if (balance > budgetAccount.balance) {
             const topup = balance - budgetAccount.balance;
-            await entryProcedure(tx, cashAccount.id, budgetAccount.id, topup, "topup saldo");
+            await entryProcedure(tx, {
+                creditId: cashAccount.id, 
+                debitId: budgetAccount.id, 
+                amount: topup, 
+                description: "topup saldo",
+            });
         }
 
         if (balance < budgetAccount.balance) {
             const refund = budgetAccount.balance - balance;
-            await entryProcedure(tx, budgetAccount.id, cashAccount.id, refund, "refund saldo");
+            await entryProcedure(tx, {
+                creditId: budgetAccount.id, 
+                debitId: cashAccount.id, 
+                amount: refund, 
+                description: "refund saldo",
+            });
         }
 
         return await client.account.findFirst({
@@ -452,21 +520,31 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
     });
 }
 
-export async function deleteBudget(client: PrismaClient, id: number) {
+export async function deleteBudget(client: PrismaClient, { id }: { id: number }) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        return await deleteBudgetProcedure(tx, id);
+        return await deleteBudgetProcedure(tx, { id });
     });
 } 
 
-export async function deleteBudgetMany(client: PrismaClient, ids: number[]) {
+export async function deleteBudgetMany(client: PrismaClient, { ids }: { ids: number[] }) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        return await Promise.all(ids.map(id => deleteBudgetProcedure(tx, id)));
+        return await Promise.all(ids.map(id => deleteBudgetProcedure(tx, { id })));
     });
 } 
 
 export async function updateExpense(
     client: PrismaClient, 
-    { code, budgetAccountId, description, amount }: { code: number; budgetAccountId: number; description: string; amount: bigint }
+    { 
+        code, 
+        budgetAccountId, 
+        description, 
+        amount 
+    }: { 
+        code: number; 
+        budgetAccountId: number; 
+        description: string; 
+        amount: bigint 
+    }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
         const ledgerEntry = await client.ledger.findFirst({
@@ -499,13 +577,15 @@ export async function updateExpense(
         const expenseEntry = ledgerEntry.entries.filter((entry) => entry.account.accountCode.code === 200)[0];
 
         if (budgetEntry.accountId !== budgetAccountId) {
-            const newLedgerEntry = await updateLedgerEntryBudgetAccountProcedure({ client, code, budgetAccountId, amount });
+            const newLedgerEntry = await updateLedgerEntryBudgetAccountProcedure(client, {
+                code, budgetAccountId, amount 
+            });
             ledgerEntryId = newLedgerEntry.id;
             skipUpdateLedgerEntryAmount = true;
         }
 
         if (expenseEntry.amount !== amount && !skipUpdateLedgerEntryAmount) {
-            const newLedgerEntry = await updateLedgerEntryAmountProcedure({ client, code, amount });
+            const newLedgerEntry = await updateLedgerEntryAmountProcedure(client, { code, amount });
             ledgerEntryId = newLedgerEntry.id;
         }
 

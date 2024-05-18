@@ -75,17 +75,66 @@ async function main() {
             accountCodeId: expenseAccountCode.id,
         }
     });
-    const budgetPeralatan = await createBudget(prisma, "budget peralatan", BigInt(2_000_000_0000));
-    const budgetMakan = await createBudget(prisma, "budget makan", BigInt(2_000_000_0000));
-    const budgetTransportasi = await createBudget(prisma, "budget tranportasi", BigInt(1_500_000_0000));
-    await entry(prisma, budgetPeralatan.id, expenseAccount.id, BigInt(300_000_0000), "beli sapu");
-    await entry(prisma, budgetPeralatan.id, expenseAccount.id, BigInt(200_000_0000), "beli pengki");
-    await entry(prisma, budgetMakan.id, expenseAccount.id, BigInt(300_000_0000), "beli minum");
-    await entry(prisma, budgetMakan.id, expenseAccount.id, BigInt(300_000_0000), "beli makan pagi");
-    await entry(prisma, budgetMakan.id, expenseAccount.id, BigInt(300_000_0000), "beli makan malam");
-    await entry(prisma, budgetMakan.id, expenseAccount.id, BigInt(300_000_0000), "beli makan sore");
-    await entry(prisma, budgetTransportasi.id, expenseAccount.id, BigInt(60_000_0000), "naik gojek berangkat");
-    await entry(prisma, budgetTransportasi.id, expenseAccount.id, BigInt(60_000_0000), "naik gojek pulang");
+    const budgetPeralatan = await createBudget(prisma, { 
+        name: "budget peralatan", 
+        budget: BigInt(2_000_000_0000),
+    });
+    const budgetMakan = await createBudget(prisma, {
+        name: "budget makan", 
+        budget: BigInt(2_000_000_0000),
+    });
+    const budgetTransportasi = await createBudget(prisma, {
+        name: "budget tranportasi", 
+        budget: BigInt(1_500_000_0000),
+    });
+    await entry(prisma, { 
+        creditId: budgetPeralatan.id, 
+        debitId: expenseAccount.id, 
+        amount: BigInt(300_000_0000), 
+        description: "beli sapu",
+    });
+    await entry(prisma, {
+        creditId: budgetPeralatan.id, 
+        debitId: expenseAccount.id, 
+        amount: BigInt(200_000_0000), 
+        description: "beli pengki", 
+    });
+    await entry(prisma, {
+        creditId: budgetMakan.id, 
+        debitId: expenseAccount.id, 
+        amount: BigInt(300_000_0000), 
+        description: "beli minum",
+    });
+    await entry(prisma, {
+        creditId: budgetMakan.id, 
+        debitId: expenseAccount.id, 
+        amount: BigInt(300_000_0000), 
+        description: "beli makan pagi",
+    });
+    await entry(prisma, {
+        creditId: budgetMakan.id, 
+        debitId: expenseAccount.id, 
+        amount: BigInt(300_000_0000), 
+        description: "beli makan malam",
+    });
+    await entry(prisma, {
+        creditId: budgetMakan.id, 
+        debitId: expenseAccount.id, 
+        amount: BigInt(300_000_0000), 
+        description: "beli makan sore",
+    });
+    await entry(prisma, {
+        creditId: budgetTransportasi.id, 
+        debitId: expenseAccount.id, 
+        amount: BigInt(60_000_0000), 
+        description: "naik gojek berangkat",
+    });
+    await entry(prisma, {
+        creditId: budgetTransportasi.id, 
+        debitId: expenseAccount.id, 
+        amount: BigInt(60_000_0000), 
+        description: "naik gojek pulang",
+    });
 }
 
 main()
