@@ -21,7 +21,11 @@ async function main() {
             {
                 id: 3,
                 desciption: "soft_deleted",
-            }
+            },
+            {
+                id: 4,
+                desciption: "corrected",
+            },
         ],
     });
     await prisma.accountCode.createMany({
