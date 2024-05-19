@@ -2,8 +2,8 @@
 
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { UPDATE_BUDGET, GET_BUDGET_BY_CODE, NEW_BUDGET } from "../../graphql-documents";
+import { useMutation } from "@apollo/client";
+import { UPDATE_BUDGET } from "../../graphql-documents";
 import { UpdateBudgetMutation, Budget } from "../../graphql-tag/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
@@ -22,8 +22,6 @@ export default function BudgetUpdateForm({
     onSuccess,
 }: BudgetUpdateFormProps) {
     const { setInfo } = useTemplateContext();
-
-    const [getBudgetByCode] = useLazyQuery(GET_BUDGET_BY_CODE);
 
     const [updateBudget] = useMutation(UPDATE_BUDGET, {
         onCompleted(data) {
