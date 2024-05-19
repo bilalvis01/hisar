@@ -197,6 +197,7 @@ export const CREATE_EXPENSE = gql(/* GraphQL */`
             expense {
                 id
                 code
+                budgetAccountId
                 budgetAccount
                 amount
                 description
@@ -216,6 +217,7 @@ export const UPDATE_EXPENSE = gql(/* GraphQL */`
             expense {
                 id
                 code
+                budgetAccountId
                 budgetAccount
                 amount
                 description
@@ -231,6 +233,7 @@ export const NEW_EXPENSE = gql(/* GraphQL */`
         id
         code
         description
+        budgetAccountId
         budgetAccount
         amount
         createdAt
@@ -244,6 +247,7 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
             id
             code
             description
+            budgetAccountId
             budgetAccount
             amount
             createdAt
@@ -262,6 +266,7 @@ export const GET_EXPENSE_BY_CODE = gql(/* GraphQL */ `
                 id
                 code
                 description
+                budgetAccountId
                 budgetAccount
                 amount
                 createdAt
