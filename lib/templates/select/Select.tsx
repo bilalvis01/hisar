@@ -93,6 +93,12 @@ export default function Select({
         setFiltering(true);
     }
 
+    const handleSetInputValue = (options: Option[]) => {
+        const selectedOption = options.filter((option) => Number(option.value) === Number(value))[0];
+        if (selectedOption) setInputValue(selectedOption.label);
+    };
+
+    /*
     React.useEffect(() => {
         if (open) {
             if (handleOpenMenu) {
@@ -115,11 +121,32 @@ export default function Select({
             setError(false);
         }
     }, [open]);
+    */
+
+    React.useEffect(() => {
+        if (handleOpenMenu) {
+            setLoading(true);
+            handleOpenMenu().then(({ error, data: options }) => {
+                if (error) {
+                    setError(true);
+                } else {
+                    setOptions(options);
+                    setFilteredOptions([]);
+                    handleSetInputValue(options);
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+        } else {
+            setOptions(options_);
+            handleSetInputValue(options_)
+        }
+    }, []);
 
     React.useEffect(() => {
         if (!open) {
-            const selectedOption = options.filter((option) => option.value === value);
-            if (selectedOption.length != 0) setInputValue(selectedOption[0].label);
+            handleSetInputValue(options);
         }
     }, [open]);
 
@@ -167,8 +194,8 @@ export default function Select({
         ? (
             <Menu 
                 ref={menuRef}
-                initialValue={value}
-                value={value}
+                initialValue={value.toString()}
+                value={value.toString()}
                 onChange={handleMenuChange} 
                 onMouseDown={handleMouseDown}
                 className={style.menu}
@@ -184,7 +211,7 @@ export default function Select({
 
                         return (
                             <li key={option.value}>
-                                <MenuItem value={option.value}>
+                                <MenuItem value={option.value.toString()}>
                                     {first}
                                     <span className={style.highlight}>{highlight}</span>
                                     {last}
@@ -198,8 +225,8 @@ export default function Select({
         : (
             <Menu 
                 ref={menuRef}
-                initialValue={value}
-                value={value}
+                initialValue={value.toString()}
+                value={value.toString()}
                 onChange={handleMenuChange} 
                 onMouseDown={handleMouseDown}
                 className={style.menu}
@@ -208,7 +235,7 @@ export default function Select({
                 <ul>
                     {options.map((option) => (
                         <li key={option.value}>
-                            <MenuItem value={option.value}>
+                            <MenuItem value={option.value.toString()}>
                                 {option.label}
                             </MenuItem>
                         </li>
