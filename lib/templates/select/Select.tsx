@@ -194,8 +194,8 @@ export default function Select({
         ? (
             <Menu 
                 ref={menuRef}
-                initialValue={value.toString()}
-                value={value.toString()}
+                initialValue={value && value.toString()}
+                value={value && value.toString()}
                 onChange={handleMenuChange} 
                 onMouseDown={handleMouseDown}
                 className={style.menu}
@@ -225,8 +225,8 @@ export default function Select({
         : (
             <Menu 
                 ref={menuRef}
-                initialValue={value.toString()}
-                value={value.toString()}
+                initialValue={value && value.toString()}
+                value={value && value.toString()}
                 onChange={handleMenuChange} 
                 onMouseDown={handleMouseDown}
                 className={style.menu}
