@@ -32,6 +32,7 @@
             display: inline-block;
             vertical-align: middle;
             text-align: left;
+            white-space: nowrap;
         }
 
         & > .currency {
@@ -43,6 +44,7 @@
             display: inline-block;
             vertical-align: middle;
             text-align: end;
+            white-space: nowrap;
         }
     }
 }
@@ -73,6 +75,7 @@
             display: inline-block;
             vertical-align: middle;
             text-align: left;
+            white-space: nowrap;
 
             & > a, button {
                 display: inline-block;
@@ -88,6 +91,7 @@
             display: inline-block;
             vertical-align: middle;
             text-align: end;
+            white-space: nowrap;
         }
     }
 }
