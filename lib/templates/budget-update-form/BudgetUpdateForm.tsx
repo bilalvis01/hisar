@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
 
 interface BudgetUpdateFormProps {
-    budget: string | Budget
+    budget: Budget
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onSuccess?: (data: UpdateBudgetMutation ) => void;
@@ -33,26 +33,11 @@ export default function BudgetUpdateForm({
         },
     });
 
-    const initialValues = typeof budget === "string" 
-        ? async () => {
-            const { data, error } = await getBudgetByCode({ variables: { code: budget } });
-            const values = {
-                code: data.budgetByCode.budget.code,
-                name: data.budgetByCode.budget.name,
-                balance: data.budgetByCode.budget.balance,
-            };
-            return {
-                error,
-                values,
-            };
-        }
-        : budget && typeof budget === "object" 
-        ? {
+    const initialValues = {
             code: budget.code,
             name: budget.name,
             balance: budget.balance,
-        }
-        : null;
+    };
 
     return (
         <FormDialog
