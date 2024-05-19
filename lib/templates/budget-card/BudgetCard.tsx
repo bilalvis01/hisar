@@ -70,7 +70,7 @@ const columns = [
     }),
     columnHelper.accessor("code", {
         header: () => (
-            <span className={clsx("description", "text-title-small")}>Kode</span>
+            <span className={clsx("description", "text-title-small")}>KODE</span>
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
@@ -130,7 +130,7 @@ const columns = [
     }),
     columnHelper.accessor("createdAt", {
         header: () => (
-            <span className={clsx("description", "text-title-small")}>Dibuat</span>
+            <span className={clsx("description", "text-title-small")}>DIBUAT</span>
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
@@ -140,7 +140,7 @@ const columns = [
     }),
     columnHelper.accessor("updatedAt", {
         header: () => (
-            <span className={clsx("description", "text-title-small")}>Diperbarui</span>
+            <span className={clsx("description", "text-title-small")}>DIPERBARUI</span>
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
