@@ -33,10 +33,12 @@ async function refundProcedure(
     const correctionLedgerEntry = await entryProcedure(
         client, 
         {
-            debitId: debitAccount.id, 
-            creditId: creditAccount.id, 
-            amount: creditEntry.amount, 
-            description: "refund"
+            debitId: creditAccount.id, 
+            creditId: debitAccount.id, 
+            amount: debitEntry.amount, 
+            description: ledgerEntry.description,
+            useBalanceFromLedgerEntry: code,
+            skipUpdateAccountBalance: true,
         }
     );
 
@@ -48,6 +50,7 @@ async function refundProcedure(
             stateId: 4,
             code: ledgerEntry.code,
             correctedLedgerId: ledgerEntry.id,
+            correctionOrder: ledgerEntry.correctionOrder + 1,
             createdAt: ledgerEntry.createdAt,
         },
     });
@@ -62,13 +65,16 @@ async function refundProcedure(
     });
 
     if (!skipUpdateBalance) {
-        await updateBalanceProcedure(client, { code });
+        await updateBalanceLedgerEntryProcedure(client, { code });
     }
 
-    return ledgerEntry;
+    return {
+        ledgerEntry,
+        correctionLedgerEntry,
+    };
 }
 
-async function updateLedgerEntryBudgetAccountProcedure(
+async function changeBudgetAccountLedgerEntryProcedure(
     client: PrismaClient,
     {
         code,
@@ -80,45 +86,52 @@ async function updateLedgerEntryBudgetAccountProcedure(
         amount: bigint;
     }
 ) {
-    const ledgerEntry = await refundProcedure(
-        client, 
-        { code, skipUpdateBalance: true }
-    );
+    const { ledgerEntry,correctionLedgerEntry } = await refundProcedure(client, { code });
 
     const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
     const debitAccount = debitEntry.account;
 
-    const newLedgerEntry = await entryProcedure(
+    let newLedgerEntry = await entryProcedure(
         client, 
         {
             creditId: budgetAccountId, 
-            debitId: debitAccount.id, 
+            debitId: debitAccount.id,
             amount: amount, 
             description: ledgerEntry.description,
+            useBalanceFromLedgerEntry: code,
+            skipUpdateAccountBalance: true,
         }  
     );
 
-    await client.ledger.update({
+    newLedgerEntry = await client.ledger.update({
         where: {
             id: newLedgerEntry.id,
         },
         data: {
-            code: ledgerEntry.code,
-            createdAt: ledgerEntry.createdAt,
+            code: correctionLedgerEntry.code,
+            correctionOrder: correctionLedgerEntry.correctionOrder + 1,
+            createdAt: correctionLedgerEntry.createdAt,
+        },
+        include: {
+            entries: {
+                include: {
+                    account: true,
+                },
+            },
         },
     });
 
-    await updateBalanceProcedure(client, { code });
+    await updateBalanceLedgerEntryProcedure(client, { code });
 
     return newLedgerEntry;
 }
 
-async function updateLedgerEntryAmountProcedure(
+async function changeAmountLedgerEntryProcedure(
     client: PrismaClient,
     { code, amount }: { code: number; amount: bigint }
 ) {
-    const ledgerEntry = await refundProcedure(
+    const { ledgerEntry, correctionLedgerEntry } = await refundProcedure(
         client, { code, skipUpdateBalance: true }
     );
 
@@ -132,7 +145,9 @@ async function updateLedgerEntryAmountProcedure(
         creditId: creditAccount.id, 
         debitId: debitAccount.id, 
         amount, 
-        description: ledgerEntry.description
+        description: ledgerEntry.description,
+        useBalanceFromLedgerEntry: code,
+        skipUpdateAccountBalance: true,
     });
 
     await client.ledger.update({
@@ -141,25 +156,23 @@ async function updateLedgerEntryAmountProcedure(
         },
         data: {
             code: ledgerEntry.code,
+            correctionOrder: correctionLedgerEntry.correctionOrder + 1,
             createdAt: ledgerEntry.createdAt,
         },
     });
 
-    await updateBalanceProcedure(client, { code });
+    await updateBalanceLedgerEntryProcedure(client, { code });
 
     return newLedgerEntry;
 }
 
-async function updateBalanceProcedure(
+async function updateBalanceLedgerEntryProcedure(
     client: PrismaClient,
     { code }: { code: number }
 ) {
-    const ledgerEntryRightBeforeCurrentLedgerEntry = await client.ledger.findFirst({
+    const ledgerEntryLastCorrectionOrder = await client.ledger.findFirst({
         where: {
-            code: {
-                lt: code,
-            },
-            stateId: 1,
+            code: code
         },
         include: {
             entries: {
@@ -170,26 +183,24 @@ async function updateBalanceProcedure(
         },
         orderBy: {
             code: "desc",
+            correctionOrder: "desc",
         },
     });
 
-    const creditEntry = ledgerEntryRightBeforeCurrentLedgerEntry.entries.filter((entry) => entry.direction === -1)[0];
-    const debitEntry = ledgerEntryRightBeforeCurrentLedgerEntry.entries.filter((entry) => entry.direction === 1)[0];
+    const creditEntry = ledgerEntryLastCorrectionOrder.entries.filter((entry) => entry.direction === -1)[0];
+    const debitEntry = ledgerEntryLastCorrectionOrder.entries.filter((entry) => entry.direction === 1)[0];
 
     const creditAccount = creditEntry.account;
     const debitAccount = debitEntry.account;
 
-    let creditBalance = 
-        creditEntry.balance - creditEntry.amount * BigInt(creditEntry.direction) * BigInt(creditAccount.direction);
-    let debitBalance = 
-        debitEntry.balance - debitEntry.amount * BigInt(debitEntry.direction) * BigInt(debitAccount.direction);
+    let creditBalance = creditEntry.balance;
+    let debitBalance = debitEntry.balance;
 
     const ledgerEntries = await client.ledger.findMany({
         where: {
             code: {
-                gte: code,
+                gt: code,
             },
-            stateId: 1
         },
         include: {
             entries: {
@@ -199,7 +210,8 @@ async function updateBalanceProcedure(
             },
         },
         orderBy: {
-            code: "asc"
+            code: "asc",
+            correctionOrder: "asc",
         },
     });
 
@@ -261,81 +273,148 @@ async function entryProcedure(
         debitId,
         amount,
         description,  
+        useBalanceFromLedgerEntry,
+        skipUpdateAccountBalance = false,
     }: { 
         creditId: number, 
         debitId: number, 
         amount: bigint, 
-        description: string
+        description: string,
+        useBalanceFromLedgerEntry?: number,
+        skipUpdateAccountBalance?: boolean,
     }
 ) {
-    const ledger = await client.ledger.create({
-        data: {
-            description,
-        },
-    });
-    await client.ledger.update({
-        where: {
-            id: ledger.id,
-        },
-        data: {
-            code: ledger.id,
-        },
-    });
-    const creditDirection = -1;
-    const debitDirection = 1;
-    const credit = await client.account.findUnique({
+    const creditAccount = await client.account.findUnique({
         where: {
             id: creditId,
         },
     });
-    const debit = await client.account.findUnique({
+
+    const debitAccount = await client.account.findUnique({
         where: {
             id: debitId,
         },
     });
-    const creditBalance = credit.balance + amount * BigInt(credit.direction) * BigInt(creditDirection);
-    const debitBalance = debit.balance + amount * BigInt(debit.direction) * BigInt(debitDirection);
-    await client.account.update({
-        where: {
-            id: creditId
-        },
+
+    let lastCreditBalance;
+    let lastDebitBalance;
+
+    if (useBalanceFromLedgerEntry) {
+        const lastCreditLedgerEntry = await client.ledger.findFirst({
+            where: {
+                code: {
+                    lte: useBalanceFromLedgerEntry,
+                },
+                entries: {
+                    some: {
+                        accountId: creditId,
+                    },
+                },
+            },
+            include: {
+                entries: {
+                    include: {
+                        account: true,
+                    },
+                },
+            },
+            orderBy: {
+                code: "desc",
+                correctionOrder: "desc",
+            },
+        });
+
+        const lastDebitLedgerEntry = await client.ledger.findFirst({
+            where: {
+                code: {
+                    lte: useBalanceFromLedgerEntry,
+                },
+                entries: {
+                    some: {
+                        accountId: debitId,
+                    }
+                }
+            },
+            include: {
+                entries: {
+                    include: {
+                        account: true,
+                    },
+                },
+            },
+            orderBy: {
+                code: "desc",
+                correctionOrder: "desc",
+            },
+        });
+
+        lastCreditBalance = lastCreditLedgerEntry.entries.filter((entry) => entry.accountId === creditId)[0].balance;
+        lastDebitBalance = lastDebitLedgerEntry.entries.filter((entry) => entry.accountId === debitId)[0].balance;
+    } else {
+        lastCreditBalance = creditAccount.balance;
+        lastDebitBalance = debitAccount.balance;
+    }
+
+    const creditLedgerEntryDirection = -1;
+    const debitLedgerEntryDirection = 1;
+
+    const creditBalance = lastCreditBalance + amount * BigInt(creditAccount.direction) * BigInt(creditLedgerEntryDirection);
+    const debitBalance = lastDebitBalance + amount * BigInt(debitAccount.direction) * BigInt(debitLedgerEntryDirection);
+
+    let ledger = await client.ledger.create({
         data: {
-            balance: creditBalance,
-        }
-    });
-    await client.account.update({
-        where: {
-            id: debitId
+            description,
         },
-        data: {
-            balance: debitBalance,
-        }
+        include: {
+            entries: {
+                include: {
+                    account: true,
+                },
+            },
+        },
     });
+
     await client.entry.create({
         data: {
             ledgerId: ledger.id,
             accountId: creditId,
             amount: amount,
             balance: creditBalance,
-            direction: creditDirection,
+            direction: creditLedgerEntryDirection,
         },
     });
+
     await client.entry.create({
         data: {
             ledgerId: ledger.id,
             accountId: debitId,
             amount: amount,
             balance: debitBalance,
-            direction: debitDirection,
+            direction: debitLedgerEntryDirection,
         },
     });
+
+    if (!skipUpdateAccountBalance) {
+        await client.account.update({
+            where: {
+                id: creditId
+            },
+            data: {
+                balance: creditBalance,
+            }
+        });
     
-    return await client.ledger.findUnique({
-        where: {
-            id: ledger.id,
-        },
-        include: { entries: { include: { account: true } } },
-    });
+        await client.account.update({
+            where: {
+                id: debitId
+            },
+            data: {
+                balance: debitBalance,
+            }
+        });
+    }
+    
+    return ledger;
 }
 
 async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: number }) {
@@ -345,7 +424,8 @@ async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: number 
                 some: {
                     accountId: id,
                 }
-            }
+            },
+            stateId: 1,
         },
         data: {
             stateId: 3,
@@ -401,14 +481,16 @@ export async function createBudget(
         const budgetAccountCode = await client.accountCode.findFirst({
             where: { code: 101 }
         });
-        const latestSubBudgetCode = await client.accountCode.aggregate({
+        const latestSubBudgetCode = await client.accountCode.findFirst({
             where: { accountSupercodeId: budgetAccountCode.id },
-            _max: { code: true },
+            orderBy: {
+                code: "desc",
+            },
         });
         const subBudgetCode = await client.accountCode.create({
             data: {
                 accountSupercodeId: budgetAccountCode.id,
-                code: latestSubBudgetCode._max.code + 1,
+                code: latestSubBudgetCode.code + 1,
                 category: "budget",
             }
         });
@@ -560,13 +642,13 @@ export async function updateExpense(
                                 accountCode: {
                                     include: {
                                         accountSupercode: true
-                                    }
-                                }
-                            }
-                        }
-                    }
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
-            }
+            },
         });
 
         let skipUpdateLedgerEntryAmount = false;
@@ -577,7 +659,7 @@ export async function updateExpense(
         const expenseEntry = ledgerEntry.entries.filter((entry) => entry.account.accountCode.code === 200)[0];
 
         if (budgetEntry.accountId !== budgetAccountId) {
-            const newLedgerEntry = await updateLedgerEntryBudgetAccountProcedure(client, {
+            const newLedgerEntry = await changeBudgetAccountLedgerEntryProcedure(client, {
                 code, budgetAccountId, amount 
             });
             ledgerEntryId = newLedgerEntry.id;
@@ -585,14 +667,14 @@ export async function updateExpense(
         }
 
         if (expenseEntry.amount !== amount && !skipUpdateLedgerEntryAmount) {
-            const newLedgerEntry = await updateLedgerEntryAmountProcedure(client, { code, amount });
+            const newLedgerEntry = await changeAmountLedgerEntryProcedure(client, { code, amount });
             ledgerEntryId = newLedgerEntry.id;
         }
 
         if (ledgerEntry.description !== description) {
-            await tx.ledger.update({
+            await tx.ledger.updateMany({
                 where: {
-                    id: ledgerEntryId,
+                    code,
                 },
                 data: {
                     description,
