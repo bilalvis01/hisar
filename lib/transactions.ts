@@ -494,23 +494,23 @@ export async function createBudget(
     { name, budget }: { name: string; budget: bigint }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        const budgetAccountCode = await client.accountCode.findFirst({
+        const budgetAccountCode = await tx.accountCode.findFirst({
             where: { code: 101 }
         });
-        const latestSubBudgetCode = await client.accountCode.findFirst({
+        const latestSubBudgetCode = await tx.accountCode.findFirst({
             where: { accountSupercodeId: budgetAccountCode.id },
             orderBy: {
                 code: "desc",
             },
         });
-        const subBudgetCode = await client.accountCode.create({
+        const subBudgetCode = await tx.accountCode.create({
             data: {
                 accountSupercodeId: budgetAccountCode.id,
                 code: latestSubBudgetCode.code + 1,
                 category: "budget",
             }
         });
-        const budgetAccount = await client.account.create({
+        const budgetAccount = await tx.account.create({
             data: {
                 name: name,
                 accountCodeId: subBudgetCode.id,
@@ -518,23 +518,23 @@ export async function createBudget(
                 direction: 1,
             }
         });
-        const cashAccountCode = await client.accountCode.findFirst({
+        const cashAccountCode = await tx.accountCode.findFirst({
             where: {
                 code: 100,
             }
         });
-        const cashAccount = await client.account.findFirst({
+        const cashAccount = await tx.account.findFirst({
             where: {
                 accountCodeId: cashAccountCode.id,
             }
         });
-        const ledger = await entryProcedure(tx, {
+        await entryProcedure(tx, {
             creditId: cashAccount.id, 
             debitId: budgetAccount.id, 
             amount: budget, 
             description: "saldo awal",
         });
-        return await client.account.findUnique({
+        return await tx.account.findUnique({
             where: { id: budgetAccount.id },
             include: {
                 accountCode: {
@@ -551,7 +551,7 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
     return await client.$transaction(async (tx: PrismaClient) => {
         const { code, name, balance } = data;
 
-        const budgetAccount = await client.account.findFirst({
+        const budgetAccount = await tx.account.findFirst({
             where: {
                 accountCode: { 
                     code: code[1], 
@@ -560,20 +560,20 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
             },
         });
 
-        const cashAccountCode = await client.accountCode.findFirst({
+        const cashAccountCode = await tx.accountCode.findFirst({
             where: {
                 code: 100,
             }
         });
 
-        const cashAccount = await client.account.findFirst({
+        const cashAccount = await tx.account.findFirst({
             where: {
                 accountCodeId: cashAccountCode.id,
             }
         });
 
         if (budgetAccount.name !== name) {
-            await client.account.update({
+            await tx.account.update({
                 where: {
                     id: budgetAccount.id,
                 },
@@ -603,7 +603,7 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
             });
         }
 
-        return await client.account.findFirst({
+        return await tx.account.findUnique({
             where: {
                 id: budgetAccount.id,
             },
@@ -645,7 +645,7 @@ export async function updateExpense(
     }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        const ledgerEntry = await client.ledger.findFirst({
+        const ledgerEntry = await tx.ledger.findFirst({
             where: {
                 code,
                 stateId: 1,
@@ -675,7 +675,7 @@ export async function updateExpense(
         const expenseEntry = ledgerEntry.entries.filter((entry) => entry.account.accountCode.code === 200)[0];
 
         if (budgetEntry.accountId !== budgetAccountId) {
-            const newLedgerEntry = await changeBudgetAccountLedgerEntryProcedure(client, {
+            const newLedgerEntry = await changeBudgetAccountLedgerEntryProcedure(tx, {
                 code, budgetAccountId, amount 
             });
             ledgerEntryId = newLedgerEntry.id;
@@ -683,7 +683,7 @@ export async function updateExpense(
         }
 
         if (expenseEntry.amount !== amount && !skipUpdateLedgerEntryAmount) {
-            const newLedgerEntry = await changeAmountLedgerEntryProcedure(client, { code, amount });
+            const newLedgerEntry = await changeAmountLedgerEntryProcedure(tx, { code, amount });
             ledgerEntryId = newLedgerEntry.id;
         }
 
