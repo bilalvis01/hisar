@@ -374,6 +374,15 @@ async function entryProcedure(
         },
     });
 
+    await client.ledger.update({
+        where: {
+            id: ledger.id,
+        },
+        data: {
+            code: ledger.id,
+        },
+    });
+
     await client.entry.create({
         data: {
             ledgerId: ledger.id,
