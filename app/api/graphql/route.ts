@@ -274,7 +274,6 @@ const resolvers: Resolvers = {
                     code: 500,
                     success: false,
                     message: `akun ${input.name} gagal dibuat`,
-                    budget: null,
                 }
             }
         },
@@ -288,6 +287,7 @@ const resolvers: Resolvers = {
                 };
                 const account = await updateBudget(context.dataSources, data);
                 const budget = await getBudgetDetail(context.dataSources, account);
+                
                 return {
                     code: 200,
                     success: true,
@@ -299,7 +299,6 @@ const resolvers: Resolvers = {
                     code: 500,
                     success: false,
                     message: `${input.name} gagal diperbarui`,
-                    expense: null,
                 }
             }
         },
@@ -324,7 +323,6 @@ const resolvers: Resolvers = {
                     code: 500,
                     success: false,
                     message: `${account.name} gagal dihapus`,
-                    expense: null,
                 }
             }
         },
@@ -359,8 +357,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: createMessageBudgetDelete(budgets, "", " gagal dihapus"),
-                    budgets: budgets,
+                    message: createMessageBudgetDelete(budgets, "", " gagal dihapus")
                 }
             }
         },

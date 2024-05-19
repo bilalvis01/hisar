@@ -97,7 +97,7 @@ type DeleteBudgetManyPayload {
     code: Int!
     success: Boolean!
     message: String!
-    budgets: [Budget!]!
+    budgets: [Budget!]
 }
 
 type CreateExpensePayload {

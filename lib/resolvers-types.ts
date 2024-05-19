@@ -88,7 +88,7 @@ export type DeleteBudgetManyInput = {
 
 export type DeleteBudgetManyPayload = {
   __typename?: 'DeleteBudgetManyPayload';
-  budgets: Array<Budget>;
+  budgets?: Maybe<Array<Budget>>;
   code: Scalars['Int']['output'];
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
@@ -395,7 +395,7 @@ export interface DateTimeIsoScalarConfig extends GraphQLScalarTypeConfig<Resolve
 }
 
 export type DeleteBudgetManyPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteBudgetManyPayload'] = ResolversParentTypes['DeleteBudgetManyPayload']> = {
-  budgets?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType>;
+  budgets?: Resolver<Maybe<Array<ResolversTypes['Budget']>>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

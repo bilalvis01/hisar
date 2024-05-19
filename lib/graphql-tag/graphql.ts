@@ -87,7 +87,7 @@ export type DeleteBudgetManyInput = {
 
 export type DeleteBudgetManyPayload = {
   __typename?: 'DeleteBudgetManyPayload';
-  budgets: Array<Budget>;
+  budgets?: Maybe<Array<Budget>>;
   code: Scalars['Int']['output'];
   message: Scalars['String']['output'];
   success: Scalars['Boolean']['output'];
@@ -260,7 +260,7 @@ export type DeleteBudgetManyMutationVariables = Exact<{
 }>;
 
 
-export type DeleteBudgetManyMutation = { __typename?: 'Mutation', deleteBudgetMany: { __typename?: 'DeleteBudgetManyPayload', code: number, success: boolean, message: string, budgets: Array<{ __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date }> } };
+export type DeleteBudgetManyMutation = { __typename?: 'Mutation', deleteBudgetMany: { __typename?: 'DeleteBudgetManyPayload', code: number, success: boolean, message: string, budgets?: Array<{ __typename?: 'Budget', id: number, code: string, name: string, budget: number, expense: number, balance: number, createdAt: Date, updatedAt: Date }> | null } };
 
 export type CreateExpenseMutationVariables = Exact<{
   input: CreateExpenseInput;
