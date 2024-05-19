@@ -39,6 +39,7 @@ async function refundProcedure(
             description: ledgerEntry.description,
             useBalanceFromLedgerEntry: code,
             skipUpdateAccountBalance: true,
+            correctionOrder: ledgerEntry.correctionOrder + 1,
         }
     );
 
@@ -86,7 +87,7 @@ async function changeBudgetAccountLedgerEntryProcedure(
         amount: bigint;
     }
 ) {
-    const { ledgerEntry,correctionLedgerEntry } = await refundProcedure(client, { code });
+    const { ledgerEntry, correctionLedgerEntry } = await refundProcedure(client, { code });
 
     const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
@@ -101,6 +102,7 @@ async function changeBudgetAccountLedgerEntryProcedure(
             description: ledgerEntry.description,
             useBalanceFromLedgerEntry: code,
             skipUpdateAccountBalance: true,
+            correctionOrder: correctionLedgerEntry.correctionOrder + 1,
         }  
     );
 
@@ -148,6 +150,7 @@ async function changeAmountLedgerEntryProcedure(
         description: ledgerEntry.description,
         useBalanceFromLedgerEntry: code,
         skipUpdateAccountBalance: true,
+        correctionOrder: correctionLedgerEntry.correctionOrder + 1,
     });
 
     await client.ledger.update({
@@ -181,10 +184,10 @@ async function updateBalanceLedgerEntryProcedure(
                 },
             },
         },
-        orderBy: {
-            code: "desc",
-            correctionOrder: "desc",
-        },
+        orderBy: [
+            { code: "desc" },
+            { correctionOrder: "desc" },
+        ],
     });
 
     const creditEntry = ledgerEntryLastCorrectionOrder.entries.filter((entry) => entry.direction === -1)[0];
@@ -209,10 +212,10 @@ async function updateBalanceLedgerEntryProcedure(
                 }
             },
         },
-        orderBy: {
-            code: "asc",
-            correctionOrder: "asc",
-        },
+        orderBy: [
+            { code: "asc" },
+            { correctionOrder: "asc" },
+        ],
     });
 
     const creditEntries = ledgerEntries.map((ledgerEntry) => {
@@ -275,6 +278,7 @@ async function entryProcedure(
         description,  
         useBalanceFromLedgerEntry,
         skipUpdateAccountBalance = false,
+        correctionOrder,
     }: { 
         creditId: number, 
         debitId: number, 
@@ -282,6 +286,7 @@ async function entryProcedure(
         description: string,
         useBalanceFromLedgerEntry?: number,
         skipUpdateAccountBalance?: boolean,
+        correctionOrder?: number,
     }
 ) {
     const creditAccount = await client.account.findUnique({
@@ -318,10 +323,10 @@ async function entryProcedure(
                     },
                 },
             },
-            orderBy: {
-                code: "desc",
-                correctionOrder: "desc",
-            },
+            orderBy: [
+                { code: "desc" },
+                { correctionOrder: "desc" },
+            ],
         });
 
         const lastDebitLedgerEntry = await client.ledger.findFirst({
@@ -342,10 +347,10 @@ async function entryProcedure(
                     },
                 },
             },
-            orderBy: {
-                code: "desc",
-                correctionOrder: "desc",
-            },
+            orderBy: [
+                { code: "desc" },
+                { correctionOrder: "desc" },
+            ],
         });
 
         lastCreditBalance = lastCreditLedgerEntry.entries.filter((entry) => entry.accountId === creditId)[0].balance;
@@ -364,6 +369,7 @@ async function entryProcedure(
     let ledger = await client.ledger.create({
         data: {
             description,
+            correctionOrder,
         },
         include: {
             entries: {
@@ -645,33 +651,37 @@ export async function updateExpense(
     }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        const ledgerEntry = await tx.ledger.findFirst({
-            where: {
-                code,
-                stateId: 1,
-            },
-            include: {
-                entries: {
-                    include: {
-                        account: {
-                            include: {
-                                accountCode: {
-                                    include: {
-                                        accountSupercode: true
+        async function fetchLedgerEntry() {
+            return await tx.ledger.findFirst({
+                where: {
+                    code,
+                    stateId: 1,
+                },
+                include: {
+                    entries: {
+                        include: {
+                            account: {
+                                include: {
+                                    accountCode: {
+                                        include: {
+                                            accountSupercode: true
+                                        },
                                     },
                                 },
                             },
                         },
                     },
                 },
-            },
-        });
+            });
+        }
+
+        const ledgerEntry = await fetchLedgerEntry();
 
         let skipUpdateLedgerEntryAmount = false;
 
         let ledgerEntryId = ledgerEntry.id;
 
-        const budgetEntry = ledgerEntry.entries.filter((entry) => entry.account.accountCode.accountSupercode.code === 101)[0];
+        const budgetEntry = ledgerEntry.entries.filter((entry) => entry.account.accountCode.accountSupercode?.code === 101)[0];
         const expenseEntry = ledgerEntry.entries.filter((entry) => entry.account.accountCode.code === 200)[0];
 
         if (budgetEntry.accountId !== budgetAccountId) {
@@ -697,5 +707,7 @@ export async function updateExpense(
                 },
             })
         }
+
+        return await fetchLedgerEntry();
     });
 }
