@@ -383,6 +383,7 @@ const resolvers: Resolvers = {
                     expense: {
                         id: ledger.id,
                         code: expenseCode.format(ledger.code),
+                        budgetAccountId: budgetAccount.id,
                         budgetAccount: budgetAccount.name,
                         amount: input.amount,
                         description: ledger.description,

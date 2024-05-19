@@ -112,6 +112,7 @@ export type Expense = {
   __typename?: 'Expense';
   amount: Scalars['Int']['output'];
   budgetAccount: Scalars['String']['output'];
+  budgetAccountId: Scalars['Int']['output'];
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTimeIso']['output'];
   description: Scalars['String']['output'];

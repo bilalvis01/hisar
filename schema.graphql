@@ -116,6 +116,7 @@ input CreateExpenseInput {
 type Expense {
     id: Int!
     code: String!
+    budgetAccountId: Int!
     budgetAccount: String!
     amount: Int!
     description: String!

@@ -113,6 +113,7 @@ export type Expense = {
   __typename?: 'Expense';
   amount: Scalars['Int']['output'];
   budgetAccount: Scalars['String']['output'];
+  budgetAccountId: Scalars['Int']['output'];
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTimeIso']['output'];
   description: Scalars['String']['output'];
@@ -420,6 +421,7 @@ export type ExcerptReportResolvers<ContextType = Context, ParentType extends Res
 export type ExpenseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Expense'] = ResolversParentTypes['Expense']> = {
   amount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   budgetAccount?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  budgetAccountId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTimeIso'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
