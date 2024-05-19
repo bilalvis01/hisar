@@ -397,7 +397,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `${input.description} gagal ditambahkan`,
+                    message: `${input.description} gagal ditambahkan: ${error.message}`,
                     expense: null,
                 }
             }

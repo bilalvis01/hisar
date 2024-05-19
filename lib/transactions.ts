@@ -374,12 +374,19 @@ async function entryProcedure(
         },
     });
 
-    await client.ledger.update({
+    ledger = await client.ledger.update({
         where: {
             id: ledger.id,
         },
         data: {
             code: ledger.id,
+        },
+        include: {
+            entries: {
+                include: {
+                    account: true,
+                },
+            },
         },
     });
 

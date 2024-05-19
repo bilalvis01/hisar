@@ -33,7 +33,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
                             return existingExpenseRefs;
                         }
 
-                        return [...existingExpenseRefs, newExpense];
+                        return [newExpense, ...existingExpenseRefs];
                     }
                 }
             })
