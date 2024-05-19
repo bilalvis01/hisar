@@ -120,8 +120,8 @@ export type Expense = {
   updatedAt: Scalars['DateTimeIso']['output'];
 };
 
-export type ExpenseByIdPayload = {
-  __typename?: 'ExpenseByIdPayload';
+export type ExpenseByCodePayload = {
+  __typename?: 'ExpenseByCodePayload';
   code: Scalars['Int']['output'];
   expense?: Maybe<Expense>;
   message: Scalars['String']['output'];
@@ -173,7 +173,7 @@ export type Query = {
   budgetByCode: BudgetByCodePayload;
   budgets: Array<Budget>;
   excerptReport: ExcerptReport;
-  expenseByCode: ExpenseByIdPayload;
+  expenseByCode: ExpenseByCodePayload;
   expenses: Array<Expense>;
 };
 
@@ -204,8 +204,8 @@ export type UpdateBudgetPayload = {
 export type UpdateExpenseInput = {
   amount: Scalars['Int']['input'];
   budgetAccountId: Scalars['Int']['input'];
+  code: Scalars['String']['input'];
   description: Scalars['String']['input'];
-  id: Scalars['Int']['input'];
 };
 
 export type UpdateExpensePayload = {
@@ -289,7 +289,7 @@ export type GetExpenseByCodeQueryVariables = Exact<{
 }>;
 
 
-export type GetExpenseByCodeQuery = { __typename?: 'Query', expenseByCode: { __typename?: 'ExpenseByIdPayload', code: number, success: boolean, message: string, expense?: { __typename?: 'Expense', id: number, code: string, description: string, budgetAccountId: number, budgetAccount: string, amount: number, createdAt: Date, updatedAt: Date } | null } };
+export type GetExpenseByCodeQuery = { __typename?: 'Query', expenseByCode: { __typename?: 'ExpenseByCodePayload', code: number, success: boolean, message: string, expense?: { __typename?: 'Expense', id: number, code: string, description: string, budgetAccountId: number, budgetAccount: string, amount: number, createdAt: Date, updatedAt: Date } | null } };
 
 export const NewBudgetFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NewBudget"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Budget"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"budget"}},{"kind":"Field","name":{"kind":"Name","value":"expense"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}},{"kind":"Field","name":{"kind":"Name","value":"ledgerEntries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"debit"}},{"kind":"Field","name":{"kind":"Name","value":"credit"}},{"kind":"Field","name":{"kind":"Name","value":"balance"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<NewBudgetFragment, unknown>;
 export const NewExpenseFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NewExpense"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Expense"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"budgetAccountId"}},{"kind":"Field","name":{"kind":"Name","value":"budgetAccount"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]} as unknown as DocumentNode<NewExpenseFragment, unknown>;

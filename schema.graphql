@@ -5,7 +5,7 @@ type Query {
     budgets: [Budget!]!
     budgetByCode(code: String!): BudgetByCodePayload!
     expenses: [Expense!]!
-    expenseByCode(code: String!): ExpenseByIdPayload!
+    expenseByCode(code: String!): ExpenseByCodePayload!
 }
 
 type Mutation {
@@ -124,7 +124,7 @@ type Expense {
     updatedAt: DateTimeIso!
 }
 
-type ExpenseByIdPayload {
+type ExpenseByCodePayload {
     code: Int!
     success: Boolean!
     message: String!
@@ -132,7 +132,7 @@ type ExpenseByIdPayload {
 }
 
 input UpdateExpenseInput {
-    id: Int!
+    code: String!
     budgetAccountId: Int!
     description: String!
     amount: Int!
