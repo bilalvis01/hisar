@@ -3,7 +3,14 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers } from "../../../lib/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient, Account, AccountCode } from "@prisma/client";
-import { createBudget, updateBudget, deleteBudget, deleteBudgetMany, entry } from "../../../lib/transactions";
+import { 
+    createBudget, 
+    updateBudget, 
+    deleteBudget, 
+    deleteBudgetMany, 
+    entry, 
+    updateExpense,
+} from "../../../lib/transactions";
 import { DateTimeISOTypeDefinition, DateTimeISOResolver } from "graphql-scalars";
 import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
 import expenseCode from "../../../lib/utils/expenseCode";
@@ -20,7 +27,6 @@ async function getBudgetDetail(
     const ledger = await dataSources.ledger.findMany({
         where: {
             entries: { some: { account: { id: account.id } } },
-            stateId: 1,
         },
         include: { 
             entries: { 
@@ -29,9 +35,10 @@ async function getBudgetDetail(
                 } 
             } 
         },
-        orderBy: {
-            createdAt: "desc",
-        },
+        orderBy: [
+            { code: "desc" },
+            { correctionOrder: "desc" },
+        ],
     });
 
     const budget = ledger.reduce((acc, val) => {
@@ -396,10 +403,42 @@ const resolvers: Resolvers = {
                     code: 500,
                     success: false,
                     message: `${input.description} gagal ditambahkan: ${error.message}`,
-                    expense: null,
                 }
             }
         },
+
+        async updateExpense(_, { input: input_ }, context) {
+            try {
+                const input = { ...input_, amount: BigInt(input_.amount) * BigInt(10000), code: Number(input_.code) };
+                const ledgerEntry = await updateExpense(context.dataSources, input);
+                const budgetAccount = ledgerEntry
+                    .entries
+                    .filter((entry) => entry.accountId === input.budgetAccountId)[0]
+                    .account;
+
+                return {
+                    code: 200,
+                    success: true,
+                    message: `${input.description} berhasil diperbarui`,
+                    expense: {
+                        id: ledgerEntry.id,
+                        code: expenseCode.format(ledgerEntry.code),
+                        budgetAccountId: budgetAccount.id,
+                        budgetAccount: budgetAccount.name,
+                        amount: Number(input.amount / BigInt(10000)),
+                        description: ledgerEntry.description,
+                        createdAt: ledgerEntry.createdAt,
+                        updatedAt: ledgerEntry.updatedAt,
+                    },
+                };
+            } catch (error) {
+                return {
+                    code: 500,
+                    success: false,
+                    message: `${input_.description} gagal diperbarui: ${error.message}`,
+                }
+            }
+        }
     }
 }
 
