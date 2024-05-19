@@ -5,6 +5,7 @@ import {
     createColumnHelper,
     getCoreRowModel,
     useReactTable,
+    RowSelectionState,
 } from "@tanstack/react-table";
 import clsx from "clsx";
 import idr from "../../utils/idr";
@@ -22,17 +23,9 @@ import { useTemplateContext } from "../Template";
 import Link from "next/link";
 import { LinkText } from "../../components/ButtonText";
 import date from "../../utils/date";
-import id from "../../utils/expenseCode";
-
-interface Expense {
-    id: number;
-    code: string;
-    description: string;
-    budgetAccount: string;
-    amount: number;
-    createdAt: Date;
-    updatedAt: Date;
-}
+import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
+import { Expense } from "../../graphql-tag/graphql";
+import { ButtonText } from "../../components/ButtonText";
 
 const columnHelper = createColumnHelper<Expense>();
 
@@ -133,9 +126,17 @@ const columns = [
 
 export default function ExpenseTable() {
     const { loading, error, data } = useQuery(GET_EXPENSES);
-    const [openForm, setOpenForm] = React.useState(false);
+    const [openExpenseAddForm, setOpenExpenseAddForm] = React.useState(false);
+    const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
     const fabRef = React.useRef(null);
-    const { setSnackbarStyle } = useTemplateContext();
+    const { 
+        setSnackbarStyle, 
+        isWindowSizeCompact,
+        isWindowSizeMedium,
+        isWindowSizeExpanded,
+        isWindowSizeSpanMedium,
+    } = useTemplateContext();
+    const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
     const expenses = data ? data.expenses : [];
 
@@ -144,10 +145,34 @@ export default function ExpenseTable() {
         columns,
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
+        onRowSelectionChange: setRowSelection,
+        state: {
+            rowSelection,
+        }
     });
 
-    const handleOpenForm = React.useCallback(() => {
-        setOpenForm(true)
+    const selectedRows = table.getSelectedRowModel()
+        .rows
+        .map((row) => row.original);
+
+    const isNoneSelectedRow = React.useCallback(() => {
+        return selectedRows.length === 0;
+    }, [selectedRows.length]);
+
+    const isSingleSelectedRow = React.useCallback(() => {
+        return selectedRows.length === 1;
+    }, [selectedRows.length]);
+
+    const isManySelectedRow = React.useCallback(() => {
+        return selectedRows.length >= 2;
+    }, [selectedRows.length]);
+
+    const handleOpenExpenseAddForm = React.useCallback(() => {
+        setOpenExpenseAddForm(true)
+    }, []);
+
+    const handleOpenExpenseUpdateForm = React.useCallback(() => {
+        setOpenExpenseUpdateForm(true);
     }, []);
 
     if (loading) return (
@@ -166,22 +191,42 @@ export default function ExpenseTable() {
         <div className={style.card}>
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>EXPENSE</h2>
-                <div className={style.toolbar}>
-                    <ButtonFilled onClick={handleOpenForm}>
+                {isNoneSelectedRow() && (isWindowSizeExpanded() || isWindowSizeMedium()) && (
+                    <ButtonFilled onClick={handleOpenExpenseAddForm}>
                         Tambah
                     </ButtonFilled>
-                </div>
+                )}
+                {isSingleSelectedRow() && isWindowSizeExpanded() && (
+                    <>
+                        <Link href={`/expense/${selectedRows[0].code}`} passHref legacyBehavior>
+                            <LinkText>
+                                Lihat
+                            </LinkText>
+                        </Link>
+                        <ButtonText onClick={handleOpenExpenseUpdateForm}>
+                            Edit
+                        </ButtonText>
+                    </>
+                )}
             </header>
             <div className={style.body}>
                 <Table table={table} />
             </div>
             <ExpenseAddForm 
-                open={openForm} 
-                onOpenChange={setOpenForm}
+                open={openExpenseAddForm} 
+                onOpenChange={setOpenExpenseAddForm}
             />
+            {isSingleSelectedRow() && (
+                <ExpenseUpdateForm
+                    expense={selectedRows[0] as Expense}
+                    open={openExpenseUpdateForm}
+                    onOpenChange={setOpenExpenseUpdateForm}
+                    onSuccess={(data) => table.resetRowSelection()}
+                />
+            )}
             <Fab 
                 ref={fabRef}
-                onClick={handleOpenForm}
+                onClick={handleOpenExpenseAddForm}
                 onShow={() => {
                     if (fabRef.current instanceof HTMLElement) {
                         const rect = fabRef.current.getBoundingClientRect();
