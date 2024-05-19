@@ -101,6 +101,16 @@ export const CREATE_BUDGET = gql(/* GraphQL */`
                 budget
                 expense
                 balance
+                ledgerEntries {
+                    id
+                    code
+                    description
+                    debit
+                    credit
+                    balance
+                    createdAt
+                    updatedAt
+                }
                 createdAt
                 updatedAt
             }
@@ -220,9 +230,9 @@ export const NEW_EXPENSE = gql(/* GraphQL */`
     fragment NewExpense on Expense {
         id
         code
+        description
         budgetAccount
         amount
-        description
         createdAt
         updatedAt
     }
