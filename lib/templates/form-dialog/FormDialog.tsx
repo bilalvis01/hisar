@@ -33,7 +33,7 @@ interface Error {
     message: string;
 }
 
-interface ValuesField {
+interface InputField {
     type: string;
     name: string;
     label: string;
@@ -47,7 +47,7 @@ interface FormDialogOptions<Values> {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     headline: string;
-    inputFields: ValuesField[];
+    inputFields: InputField[];
     initialValues: Values | (() => Promise<{ error?: Error; values?: Values; }>);
     validationSchema: any;
     onSubmit: (values: Values, helpers: FormikHelpers<Values>) => Promise<void>;
