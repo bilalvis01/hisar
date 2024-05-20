@@ -2,7 +2,7 @@ scalar DateTimeIso
 
 type Query {
     excerptReport: ExcerptReport!
-    budgets: [Budget!]!
+    budgets(input: GetBudgetInput): [Budget!]!
     budgetByCode(code: String!): BudgetByCodePayload!
     expenses: [Expense!]!
     expenseByCode(code: String!): ExpenseByCodePayload!
@@ -21,6 +21,10 @@ type ExcerptReport {
     budget: Int!
     expense: Int!
     balance: Int!
+}
+
+input GetBudgetInput {
+    createdBefore: DateTimeIso
 }
 
 type Budget {
