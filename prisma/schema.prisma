@@ -29,7 +29,7 @@ model Account {
 
 model AccountCode {
   id                  Int           @id @default(autoincrement())
-  code                Int
+  code                Int           @default(1)
   accountSupercodeId  Int?          
   accountSupercode    AccountCode?  @relation("AccountSubcode", fields: [accountSupercodeId], references: [id])  
   accountSubcode      AccountCode[] @relation("AccountSubcode")
@@ -47,13 +47,10 @@ model Ledger {
   correctedLedgerId   Int?          @unique
   correctedLedger     Ledger?       @relation("CorrectionLedger", fields: [correctedLedgerId], references: [id])
   corrector           Ledger?       @relation("CorrectionLedger")
-  correctionOrder     Int           @default(1)
   stateId             Int           @default(1)
   state               State         @relation(fields: [stateId], references: [id])
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
-
-  @@unique([code, correctionOrder])
 }
 
 model Entry {

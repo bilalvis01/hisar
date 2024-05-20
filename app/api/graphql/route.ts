@@ -38,7 +38,7 @@ async function getBudgetDetail(
         },
         orderBy: [
             { code: "desc" },
-            { correctionOrder: "desc" },
+            { id: "desc" },
         ],
     });
 
@@ -306,7 +306,7 @@ const resolvers: Resolvers = {
                 const data = {
                     code: splitCode(input.code),
                     name: input.name,
-                    balance: BigInt(input.balance) * BigInt(10000),
+                    balance: input.balance,
                 };
                 const account = await updateBudget(context.dataSources, data);
                 const budget = await getBudgetDetail(context.dataSources, account);
@@ -396,7 +396,7 @@ const resolvers: Resolvers = {
                 const ledger = await entry(context.dataSources, { 
                     creditId: budgetAccount.id, 
                     debitId: expenseAccount.id, 
-                    amount: BigInt(input.amount) * BigInt(10000), 
+                    amount: input.amount, 
                     description: input.description
                 }); 
                 return {
@@ -425,7 +425,7 @@ const resolvers: Resolvers = {
 
         async updateExpense(_, { input: input_ }, context) {
             try {
-                const input = { ...input_, ...{ amount: BigInt(input_.amount) * BigInt(10000), code: Number(input_.code) } };
+                const input = { ...input_, ...{ code: Number(input_.code) } };
                 const ledgerEntry = await updateExpense(context.dataSources, input);
                 const budgetAccount = ledgerEntry
                     .entries

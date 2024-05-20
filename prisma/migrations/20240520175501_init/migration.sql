@@ -16,7 +16,7 @@ CREATE TABLE `Account` (
 -- CreateTable
 CREATE TABLE `AccountCode` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `code` INTEGER NOT NULL,
+    `code` INTEGER NOT NULL DEFAULT 1,
     `accountSupercodeId` INTEGER NULL,
     `category` VARCHAR(20) NULL,
 
@@ -30,13 +30,11 @@ CREATE TABLE `Ledger` (
     `code` INTEGER NULL,
     `description` VARCHAR(255) NOT NULL,
     `correctedLedgerId` INTEGER NULL,
-    `correctionOrder` INTEGER NOT NULL DEFAULT 1,
     `stateId` INTEGER NOT NULL DEFAULT 1,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Ledger_correctedLedgerId_key`(`correctedLedgerId`),
-    UNIQUE INDEX `Ledger_code_correctionOrder_key`(`code`, `correctionOrder`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

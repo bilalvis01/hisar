@@ -39,7 +39,6 @@ async function refundProcedure(
             description: ledgerEntry.description,
             useBalanceFromLedgerEntry: code,
             skipUpdateAccountBalance: true,
-            correctionOrder: ledgerEntry.correctionOrder + 1,
         }
     );
 
@@ -67,7 +66,6 @@ async function refundProcedure(
             stateId: 4,
             code: ledgerEntry.code,
             correctedLedgerId: ledgerEntry.id,
-            correctionOrder: ledgerEntry.correctionOrder + 1,
             createdAt: ledgerEntry.createdAt,
         },
         include: {
@@ -116,7 +114,6 @@ async function changeBudgetAccountLedgerEntryProcedure(
             description: ledgerEntry.description,
             useBalanceFromLedgerEntry: code,
             skipUpdateAccountBalance: true,
-            correctionOrder: correctionLedgerEntry.correctionOrder + 1,
         }  
     );
 
@@ -126,7 +123,6 @@ async function changeBudgetAccountLedgerEntryProcedure(
         },
         data: {
             code: correctionLedgerEntry.code,
-            correctionOrder: correctionLedgerEntry.correctionOrder + 1,
             createdAt: correctionLedgerEntry.createdAt,
         },
         include: {
@@ -164,7 +160,6 @@ async function changeAmountLedgerEntryProcedure(
         description: ledgerEntry.description,
         useBalanceFromLedgerEntry: code,
         skipUpdateAccountBalance: true,
-        correctionOrder: correctionLedgerEntry.correctionOrder + 1,
     });
 
     newLedgerEntry = await client.ledger.update({
@@ -173,7 +168,6 @@ async function changeAmountLedgerEntryProcedure(
         },
         data: {
             code: ledgerEntry.code,
-            correctionOrder: correctionLedgerEntry.correctionOrder + 1,
             createdAt: ledgerEntry.createdAt,
         },
         include: {
@@ -207,7 +201,7 @@ async function updateBalanceLedgerEntryProcedure(
         },
         orderBy: [
             { code: "desc" },
-            { correctionOrder: "desc" },
+            { id: "desc" },
         ],
     });
 
@@ -240,7 +234,7 @@ async function updateBalanceLedgerEntryProcedure(
         },
         orderBy: [
             { code: "asc" },
-            { correctionOrder: "asc" },
+            { id: "asc" },
         ],
     })).map((ledgerEntry) => {
         return ledgerEntry.entries.filter((entry) => entry.account.id === creditAccount.id)[0];
@@ -266,7 +260,7 @@ async function updateBalanceLedgerEntryProcedure(
         },
         orderBy: [
             { code: "asc" },
-            { correctionOrder: "asc" },
+            { id: "asc" },
         ],
     })).map((ledgerEntry) => {
         return ledgerEntry.entries.filter((entry) => entry.account.id === debitAccount.id)[0];
@@ -324,7 +318,6 @@ async function entryProcedure(
         description,  
         useBalanceFromLedgerEntry,
         skipUpdateAccountBalance = false,
-        correctionOrder,
     }: { 
         creditId: number, 
         debitId: number, 
@@ -332,7 +325,6 @@ async function entryProcedure(
         description: string,
         useBalanceFromLedgerEntry?: number,
         skipUpdateAccountBalance?: boolean,
-        correctionOrder?: number,
     }
 ) {
     const creditAccount = await client.account.findUnique({
@@ -371,7 +363,7 @@ async function entryProcedure(
             },
             orderBy: [
                 { code: "desc" },
-                { correctionOrder: "desc" },
+                { id: "desc" },
             ],
         });
 
@@ -395,7 +387,7 @@ async function entryProcedure(
             },
             orderBy: [
                 { code: "desc" },
-                { correctionOrder: "desc" },
+                { id: "desc" },
             ],
         });
 
@@ -415,7 +407,6 @@ async function entryProcedure(
     let ledger = await client.ledger.create({
         data: {
             description,
-            correctionOrder,
         },
         include: {
             entries: {
@@ -549,19 +540,22 @@ export async function createBudget(
         const budgetAccountCode = await tx.accountCode.findFirst({
             where: { code: 101 }
         });
+        
         const latestSubBudgetCode = await tx.accountCode.findFirst({
             where: { accountSupercodeId: budgetAccountCode.id },
             orderBy: {
                 code: "desc",
             },
         });
+
         const subBudgetCode = await tx.accountCode.create({
             data: {
                 accountSupercodeId: budgetAccountCode.id,
-                code: latestSubBudgetCode.code + 1,
+                code: latestSubBudgetCode ? latestSubBudgetCode.code + 1 : 1,
                 category: "budget",
             }
         });
+
         const budgetAccount = await tx.account.create({
             data: {
                 name: name,
