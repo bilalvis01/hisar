@@ -12,7 +12,7 @@ const config: CodegenConfig = {
       config: {
         contextType: "./graphql-context#Context",
         scalars: {
-          DateTimeIso: "Date",
+          DateTime: "Date",
         }
       },
       plugins: ['typescript', 'typescript-resolvers']
@@ -20,7 +20,7 @@ const config: CodegenConfig = {
     './lib/graphql-tag/': {
       config: {
         scalars: {
-          DateTimeIso: "Date",
+          DateTime: "string",
         }
       },
       preset: 'client',

@@ -1,6 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { Resolvers } from "../../../lib/resolvers-types";
+import { Resolvers, GetBudgetInput } from "../../../lib/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient, Account, AccountCode } from "@prisma/client";
 import { 
@@ -11,11 +11,10 @@ import {
     entry, 
     updateExpense,
 } from "../../../lib/transactions";
-import { DateTimeISOTypeDefinition, DateTimeISOResolver } from "graphql-scalars";
+import { DateTimeTypeDefinition, DateTimeResolver } from "graphql-scalars";
 import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
 import expenseCode from "../../../lib/utils/expenseCode";
 import accountCode from "../../../lib/utils/accountCode";
-import { GetBudgetInput } from "../../../lib/graphql-tag/graphql";
 
 function splitCode(code: string) {
     return code.split("-").map(Number);
@@ -461,11 +460,11 @@ const typeDefs = readFileSync(process.cwd() + '/schema.graphql', 'utf8');
 
 const server = new ApolloServer({ 
     resolvers: {
-        DateTimeISO: DateTimeISOResolver,
+        DateTime: DateTimeResolver,
         ...resolvers
     }, 
     typeDefs: [
-        DateTimeISOTypeDefinition,
+        DateTimeTypeDefinition,
         typeDefs,
     ],
 });

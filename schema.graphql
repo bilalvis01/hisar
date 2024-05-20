@@ -1,4 +1,4 @@
-scalar DateTimeIso
+scalar DateTime
 
 type Query {
     excerptReport: ExcerptReport!
@@ -24,7 +24,7 @@ type ExcerptReport {
 }
 
 input GetBudgetInput {
-    createdBefore: DateTimeIso
+    createdBefore: DateTime
 }
 
 type Budget {
@@ -35,8 +35,8 @@ type Budget {
     expense: Int!
     balance: Int!
     ledgerEntries: [BudgetLedgerEntry!]!
-    createdAt: DateTimeIso!
-    updatedAt: DateTimeIso!
+    createdAt: DateTime!
+    updatedAt: DateTime!
 }
 
 type BudgetByCodePayload {
@@ -53,8 +53,8 @@ type BudgetLedgerEntry {
     debit: Int
     credit: Int
     balance: Int!
-    createdAt: DateTimeIso!
-    updatedAt: DateTimeIso!
+    createdAt: DateTime!
+    updatedAt: DateTime!
 }
 
 input CreateBudgetInput {
@@ -124,8 +124,8 @@ type Expense {
     budgetAccount: String!
     amount: Int!
     description: String!
-    createdAt: DateTimeIso!
-    updatedAt: DateTimeIso!
+    createdAt: DateTime!
+    updatedAt: DateTime!
 }
 
 type ExpenseByCodePayload {
