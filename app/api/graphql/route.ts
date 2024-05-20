@@ -24,7 +24,7 @@ async function getBudgetDetail(
     dataSources: PrismaClient, 
     account: Account & { accountCode: AccountCode & { accountSupercode: AccountCode } }
 ) {
-    const ledger = await dataSources.ledger.findMany({
+    const ledgerEntries = await dataSources.ledger.findMany({
         where: {
             entries: { some: { account: { id: account.id } } },
         },
@@ -41,23 +41,34 @@ async function getBudgetDetail(
         ],
     });
 
-    const budget = ledger.reduce((acc, val) => {
+    const budget = ledgerEntries.reduce((acc, val) => {
+
+        if (val.stateId !== 1) {
+            return acc;
+        }
+
         const entry = val.entries.filter((entry) => entry.direction === 1 && entry.account.id === account.id)[0];
         if (entry) {
             return acc + entry.amount;
         }
+
         return acc;
     }, BigInt(0));
     
-    const expense = ledger.reduce((acc, val) => {
+    const expense = ledgerEntries.reduce((acc, val) => {
+        if (val.stateId !== 1) {
+            return acc;
+        }
+
         const entry = val.entries.filter((entry) => entry.direction === -1 && entry.account.id === account.id)[0];
         if (entry) {
             return acc + entry.amount;
         }
+
         return acc;
     }, BigInt(0));
     
-    const ledgerEntries = ledger.map((record) => {
+    const ledgerEntries_ = ledgerEntries.map((record) => {
         let entry = record.entries.filter((entry) => entry.account.id === account.id)[0];
         
         if (entry.direction === 1) {
@@ -90,7 +101,7 @@ async function getBudgetDetail(
         budget: Number(budget / BigInt(10000)),
         expense: Number(expense / BigInt(10000)),
         balance: Number(account.balance / BigInt(10000)),
-        ledgerEntries,
+        ledgerEntries: ledgerEntries_,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
     }
