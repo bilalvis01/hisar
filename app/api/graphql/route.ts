@@ -274,6 +274,7 @@ const resolvers: Resolvers = {
                     name: input.name,
                     budget: BigInt(input.budget) * BigInt(10000),
                 });
+                
                 return {
                     code: 200,
                     success: true,
@@ -282,10 +283,10 @@ const resolvers: Resolvers = {
                         id: account.id,
                         code: `${accountCode.format(account.accountCode.code)}-${accountCode.format(account.accountCode.accountSupercode.code)}`,
                         name: account.name,
-                        budget: Number(account.balance),
+                        budget: Number(account.balance / BigInt(10000)),
                         expense: 0,
                         ledgerEntries: [],
-                        balance: Number(account.balance),
+                        balance: Number(account.balance / BigInt(10000)),
                         createdAt: account.createdAt,
                         updatedAt: account.updatedAt,
                     },
