@@ -11,8 +11,8 @@ export const GET_EXCERPT_REPORT = gql(/* GraphQL */ `
 `);
 
 export const GET_BUDGETS = gql(/* GraphQL */ `
-    query GetBudget {
-        budgets {
+    query GetBudget($input: GetBudgetInput) {
+        budgets(input: $input) {
             id
             code
             name
