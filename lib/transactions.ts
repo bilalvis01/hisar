@@ -10,7 +10,7 @@ async function refundProcedure(
         skipUpdateBalance?: boolean;
     }
 ) {
-    const ledgerEntry = await client.ledger.findFirst({
+    let ledgerEntry = await client.ledger.findFirst({
         where: {
             code,
             stateId: 1,
@@ -30,7 +30,7 @@ async function refundProcedure(
     const creditAccount = creditEntry.account;
     const debitAccount = debitEntry.account;
 
-    const correctionLedgerEntry = await entryProcedure(
+    let correctionLedgerEntry = await entryProcedure(
         client, 
         {
             debitId: creditAccount.id, 
@@ -43,7 +43,23 @@ async function refundProcedure(
         }
     );
 
-    await client.ledger.update({
+    ledgerEntry = await client.ledger.update({
+        where: {
+            id: ledgerEntry.id,
+        },
+        data: {
+            stateId: 4,
+        },
+        include: {
+            entries: {
+                include: {
+                    account: true,
+                },
+            },
+        },
+    });
+
+    correctionLedgerEntry = await client.ledger.update({
         where: {
             id: correctionLedgerEntry.id,
         },
@@ -54,14 +70,12 @@ async function refundProcedure(
             correctionOrder: ledgerEntry.correctionOrder + 1,
             createdAt: ledgerEntry.createdAt,
         },
-    });
-
-    await client.ledger.update({
-        where: {
-            id: ledgerEntry.id,
-        },
-        data: {
-            stateId: 4,
+        include: {
+            entries: {
+                include: {
+                    account: true,
+                },
+            },
         },
     });
 
@@ -143,7 +157,7 @@ async function changeAmountLedgerEntryProcedure(
     const creditAccount = creditEntry.account;
     const debitAccount = debitEntry.account;
 
-    const newLedgerEntry = await entryProcedure(client, {
+    let newLedgerEntry = await entryProcedure(client, {
         creditId: creditAccount.id, 
         debitId: debitAccount.id, 
         amount, 
@@ -153,7 +167,7 @@ async function changeAmountLedgerEntryProcedure(
         correctionOrder: correctionLedgerEntry.correctionOrder + 1,
     });
 
-    await client.ledger.update({
+    newLedgerEntry = await client.ledger.update({
         where: {
             id: newLedgerEntry.id,
         },
@@ -161,6 +175,13 @@ async function changeAmountLedgerEntryProcedure(
             code: ledgerEntry.code,
             correctionOrder: correctionLedgerEntry.correctionOrder + 1,
             createdAt: ledgerEntry.createdAt,
+        },
+        include: {
+            entries: {
+                include: {
+                    account: true,
+                },
+            },
         },
     });
 
@@ -199,10 +220,15 @@ async function updateBalanceLedgerEntryProcedure(
     let creditBalance = creditEntry.balance;
     let debitBalance = debitEntry.balance;
 
-    const ledgerEntries = await client.ledger.findMany({
+    const creditEntries = (await client.ledger.findMany({
         where: {
             code: {
                 gt: code,
+            },
+            entries: {
+                some: {
+                    accountId: creditAccount.id,
+                },
             },
         },
         include: {
@@ -216,16 +242,36 @@ async function updateBalanceLedgerEntryProcedure(
             { code: "asc" },
             { correctionOrder: "asc" },
         ],
-    });
-
-    const creditEntries = ledgerEntries.map((ledgerEntry) => {
+    })).map((ledgerEntry) => {
         return ledgerEntry.entries.filter((entry) => entry.account.id === creditAccount.id)[0];
     });
 
-    const debitEntries = ledgerEntries.map((ledgerEntry) => {
+    let debitEntries = (await client.ledger.findMany({
+        where: {
+            code: {
+                gt: code,
+            },
+            entries: {
+                some: {
+                    accountId: debitAccount.id,
+                },
+            },
+        },
+        include: {
+            entries: {
+                include: {
+                    account: true,
+                }
+            },
+        },
+        orderBy: [
+            { code: "asc" },
+            { correctionOrder: "asc" },
+        ],
+    })).map((ledgerEntry) => {
         return ledgerEntry.entries.filter((entry) => entry.account.id === debitAccount.id)[0];
     });
-
+    
     await Promise.all(creditEntries.map(async (entry) => {
         creditBalance += entry.amount * BigInt(entry.direction) * BigInt(creditAccount.direction);
         await client.entry.update({
@@ -305,7 +351,7 @@ async function entryProcedure(
     let lastDebitBalance;
 
     if (useBalanceFromLedgerEntry) {
-        const lastCreditLedgerEntry = await client.ledger.findFirst({
+        const creditLedgerEntry = await client.ledger.findFirst({
             where: {
                 code: {
                     lte: useBalanceFromLedgerEntry,
@@ -329,7 +375,7 @@ async function entryProcedure(
             ],
         });
 
-        const lastDebitLedgerEntry = await client.ledger.findFirst({
+        const debitLedgerEntry = await client.ledger.findFirst({
             where: {
                 code: {
                     lte: useBalanceFromLedgerEntry,
@@ -353,8 +399,8 @@ async function entryProcedure(
             ],
         });
 
-        lastCreditBalance = lastCreditLedgerEntry.entries.filter((entry) => entry.accountId === creditId)[0].balance;
-        lastDebitBalance = lastDebitLedgerEntry.entries.filter((entry) => entry.accountId === debitId)[0].balance;
+        lastCreditBalance = creditLedgerEntry.entries.filter((entry) => entry.accountId === creditId)[0].balance;
+        lastDebitBalance = debitLedgerEntry.entries.filter((entry) => entry.accountId === debitId)[0].balance;
     } else {
         lastCreditBalance = creditAccount.balance;
         lastDebitBalance = debitAccount.balance;
@@ -435,7 +481,7 @@ async function entryProcedure(
             }
         });
     }
-    
+
     return ledger;
 }
 

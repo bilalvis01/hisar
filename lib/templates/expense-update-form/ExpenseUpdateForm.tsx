@@ -25,7 +25,6 @@ export default function ExpenseAddForm({
 
     const [updateExpense] = useMutation(UPDATE_EXPENSE, {
         onCompleted(data) {
-            console.log(data.updateExpense.message);
             setInfo(data.updateExpense.message);
             setOpen(false);
             if (onSuccess) onSuccess(data);
@@ -51,7 +50,9 @@ export default function ExpenseAddForm({
                     name: "budgetAccountId",
                     label: "Akun Budget",
                     onOpenMenu: async () => {
-                        const { data: { budgets }, loading, error } = await getBudgets();
+                        const { data: { budgets }, loading, error } = await getBudgets({
+                            variables: { input: { createdBefore: expense.createdAt } }
+                        });
                         const data = budgets.map((budget) => ({
                             value: budget.id.toString(),
                             label: budget.name,
@@ -76,7 +77,7 @@ export default function ExpenseAddForm({
             ]}
             initialValues={{
                 code: expense.code,
-                budgetAccountId: expense.budgetAccountId,
+                budgetAccountId: expense.budgetAccountId.toString(),
                 description: expense.description,
                 amount: expense.amount,
             }}
@@ -86,7 +87,8 @@ export default function ExpenseAddForm({
                 description: Yup.string().required("Mohon diisi"),
                 amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
             })}
-            onSubmit={async (input) => {
+            onSubmit={async (input_) => {
+                const input = { ...input_, ...{ budgetAccountId: Number(input_.budgetAccountId) } };
                 await updateExpense({
                     variables: { input }
                 });
