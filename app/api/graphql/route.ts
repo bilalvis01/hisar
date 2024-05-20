@@ -15,6 +15,7 @@ import { DateTimeISOTypeDefinition, DateTimeISOResolver } from "graphql-scalars"
 import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
 import expenseCode from "../../../lib/utils/expenseCode";
 import accountCode from "../../../lib/utils/accountCode";
+import { GetBudgetInput } from "../../../lib/graphql-tag/graphql";
 
 function splitCode(code: string) {
     return code.split("-").map(Number);
@@ -107,11 +108,14 @@ async function getBudgetDetail(
     }
 }
 
-async function fetchBugdets(dataSources: PrismaClient) {
+async function fetchBugdets(dataSources: PrismaClient, input?: GetBudgetInput ) {    
     const data = await dataSources.account.findMany({ 
         where: { 
             accountCode: { accountSupercode: { code: 101 } },
             stateId: 1,
+            createdAt: {
+                lt: input?.createdBefore,
+            },
         },
         include: {
             accountCode: {
@@ -146,8 +150,8 @@ const resolvers: Resolvers = {
             })
         },
 
-        async budgets(_, __, context) {
-            return await fetchBugdets(context.dataSources);
+        async budgets(_, { input }, context) {
+            return await fetchBugdets(context.dataSources, input);
         },
 
         async budgetByCode(_, { code: code_ }, context) {
@@ -420,7 +424,7 @@ const resolvers: Resolvers = {
 
         async updateExpense(_, { input: input_ }, context) {
             try {
-                const input = { ...input_, amount: BigInt(input_.amount) * BigInt(10000), code: Number(input_.code) };
+                const input = { ...input_, ...{ amount: BigInt(input_.amount) * BigInt(10000), code: Number(input_.code) } };
                 const ledgerEntry = await updateExpense(context.dataSources, input);
                 const budgetAccount = ledgerEntry
                     .entries
