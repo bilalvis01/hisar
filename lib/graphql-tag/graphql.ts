@@ -15,15 +15,16 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: string; output: string; }
+  Money: { input: number; output: number; }
 };
 
 export type Budget = {
   __typename?: 'Budget';
-  balance: Scalars['Int']['output'];
-  budget: Scalars['Int']['output'];
+  balance: Scalars['Money']['output'];
+  budget: Scalars['Money']['output'];
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  expense: Scalars['Int']['output'];
+  expense: Scalars['Money']['output'];
   id: Scalars['Int']['output'];
   ledgerEntries: Array<BudgetLedgerEntry>;
   name: Scalars['String']['output'];
@@ -40,18 +41,18 @@ export type BudgetByCodePayload = {
 
 export type BudgetLedgerEntry = {
   __typename?: 'BudgetLedgerEntry';
-  balance: Scalars['Int']['output'];
+  balance: Scalars['Money']['output'];
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  credit?: Maybe<Scalars['Int']['output']>;
-  debit?: Maybe<Scalars['Int']['output']>;
+  credit?: Maybe<Scalars['Money']['output']>;
+  debit?: Maybe<Scalars['Money']['output']>;
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
 export type CreateBudgetInput = {
-  budget: Scalars['Int']['input'];
+  budget: Scalars['Money']['input'];
   name: Scalars['String']['input'];
 };
 
@@ -64,7 +65,7 @@ export type CreateBudgetPayload = {
 };
 
 export type CreateExpenseInput = {
-  amount: Scalars['Int']['input'];
+  amount: Scalars['Money']['input'];
   budgetAccountId: Scalars['Int']['input'];
   description: Scalars['String']['input'];
 };
@@ -103,14 +104,14 @@ export type DeleteBudgetPayload = {
 
 export type ExcerptReport = {
   __typename?: 'ExcerptReport';
-  balance: Scalars['Int']['output'];
-  budget: Scalars['Int']['output'];
-  expense: Scalars['Int']['output'];
+  balance: Scalars['Money']['output'];
+  budget: Scalars['Money']['output'];
+  expense: Scalars['Money']['output'];
 };
 
 export type Expense = {
   __typename?: 'Expense';
-  amount: Scalars['Int']['output'];
+  amount: Scalars['Money']['output'];
   budgetAccount: Scalars['String']['output'];
   budgetAccountId: Scalars['Int']['output'];
   code: Scalars['String']['output'];
@@ -197,7 +198,7 @@ export type QueryExpenseByCodeArgs = {
 };
 
 export type UpdateBudgetInput = {
-  balance: Scalars['Int']['input'];
+  balance: Scalars['Money']['input'];
   code: Scalars['String']['input'];
   name: Scalars['String']['input'];
 };
@@ -211,7 +212,7 @@ export type UpdateBudgetPayload = {
 };
 
 export type UpdateExpenseInput = {
-  amount: Scalars['Int']['input'];
+  amount: Scalars['Money']['input'];
   budgetAccountId: Scalars['Int']['input'];
   code: Scalars['String']['input'];
   description: Scalars['String']['input'];

@@ -13,6 +13,7 @@ const config: CodegenConfig = {
         contextType: "./graphql-context#Context",
         scalars: {
           DateTime: "Date",
+          Money: "bigint"
         }
       },
       plugins: ['typescript', 'typescript-resolvers']
@@ -21,6 +22,7 @@ const config: CodegenConfig = {
       config: {
         scalars: {
           DateTime: "string",
+          Money: "number"
         }
       },
       preset: 'client',

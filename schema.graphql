@@ -1,4 +1,5 @@
 scalar DateTime
+scalar Money
 
 type Query {
     excerptReport: ExcerptReport!
@@ -18,9 +19,9 @@ type Mutation {
 }
 
 type ExcerptReport {
-    budget: Int!
-    expense: Int!
-    balance: Int!
+    budget: Money!
+    expense: Money!
+    balance: Money!
 }
 
 input GetBudgetInput {
@@ -31,9 +32,9 @@ type Budget {
     id: Int!
     code: String!
     name: String!
-    budget: Int!
-    expense: Int!
-    balance: Int!
+    budget: Money!
+    expense: Money!
+    balance: Money!
     ledgerEntries: [BudgetLedgerEntry!]!
     createdAt: DateTime!
     updatedAt: DateTime!
@@ -50,16 +51,16 @@ type BudgetLedgerEntry {
     id: Int!
     code: String!
     description: String!
-    debit: Int
-    credit: Int
-    balance: Int!
+    debit: Money
+    credit: Money
+    balance: Money!
     createdAt: DateTime!
     updatedAt: DateTime!
 }
 
 input CreateBudgetInput {
     name: String!
-    budget: Int!
+    budget: Money!
 }
 
 type CreateBudgetPayload {
@@ -72,7 +73,7 @@ type CreateBudgetPayload {
 input UpdateBudgetInput {
     code: String!
     name: String!
-    balance: Int!
+    balance: Money!
 }
 
 type UpdateBudgetPayload {
@@ -114,7 +115,7 @@ type CreateExpensePayload {
 input CreateExpenseInput {
     budgetAccountId: Int!
     description: String!
-    amount: Int!
+    amount: Money!
 }
 
 type Expense {
@@ -122,7 +123,7 @@ type Expense {
     code: String!
     budgetAccountId: Int!
     budgetAccount: String!
-    amount: Int!
+    amount: Money!
     description: String!
     createdAt: DateTime!
     updatedAt: DateTime!
@@ -139,7 +140,7 @@ input UpdateExpenseInput {
     code: String!
     budgetAccountId: Int!
     description: String!
-    amount: Int!
+    amount: Money!
 }
 
 type UpdateExpensePayload {

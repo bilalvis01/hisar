@@ -1,4 +1,5 @@
 import { ApolloServer } from "@apollo/server";
+import { GraphQLScalarType, Kind } from "graphql";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers, GetBudgetInput } from "../../../lib/resolvers-types";
 import { readFileSync } from 'fs';
@@ -76,8 +77,8 @@ async function getBudgetDetail(
                 id: record.id,
                 code: expenseCode.format(record.code),
                 description: record.description,
-                debit: Number(entry.amount / BigInt(10000)),
-                balance: Number(entry.balance / BigInt(10000)),
+                debit: entry.amount,
+                balance: entry.balance,
                 createdAt: record.createdAt,
                 updatedAt: record.updatedAt,
             }
@@ -87,8 +88,8 @@ async function getBudgetDetail(
             id: record.id,
             code: expenseCode.format(record.code),
             description: record.description,
-            credit: Number(entry.amount / BigInt(10000)),
-            balance: Number(entry.balance / BigInt(10000)),
+            credit: entry.amount,
+            balance: entry.balance,
             createdAt: record.createdAt,
             updatedAt: record.updatedAt,
         }
@@ -98,9 +99,9 @@ async function getBudgetDetail(
         id: account.id,
         code: `${accountCode.format(account.accountCode.accountSupercode.code)}-${accountCode.format(account.accountCode.code)}`,
         name: account.name,
-        budget: Number(budget / BigInt(10000)),
-        expense: Number(expense / BigInt(10000)),
-        balance: Number(account.balance / BigInt(10000)),
+        budget: budget,
+        expense: expense,
+        balance: account.balance,
         ledgerEntries: ledgerEntries_,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
@@ -143,9 +144,9 @@ const resolvers: Resolvers = {
                     balance: acc.balance + budget.balance,
                 }
             }, {
-                budget: 0,
-                expense: 0,
-                balance: 0
+                budget: BigInt(0),
+                expense: BigInt(0),
+                balance: BigInt(0)
             })
         },
 
@@ -215,7 +216,7 @@ const resolvers: Resolvers = {
                     description: record.description,
                     budgetAccount: budgetAccount.name,
                     budgetAccountId: budgetAccount.id,
-                    amount: Number(expenseEntry.amount / BigInt(10000)),
+                    amount: expenseEntry.amount,
                     createdAt: record.createdAt,
                     updatedAt: record.updatedAt,
                 };
@@ -253,7 +254,7 @@ const resolvers: Resolvers = {
                 description: ledgerEntry.description,
                 budgetAccount: budgetAccount.name,
                 budgetAccountId: budgetAccount.id,
-                amount: Number(expenseEntry.amount / BigInt(10000)),
+                amount: expenseEntry.amount,
                 createdAt: ledgerEntry.createdAt,
                 updatedAt: ledgerEntry.updatedAt,
             };
@@ -272,7 +273,7 @@ const resolvers: Resolvers = {
             try {
                 const account = await createBudget(context.dataSources, { 
                     name: input.name,
-                    budget: BigInt(input.budget) * BigInt(10000),
+                    budget: input.budget,
                 });
                 
                 return {
@@ -283,10 +284,10 @@ const resolvers: Resolvers = {
                         id: account.id,
                         code: `${accountCode.format(account.accountCode.code)}-${accountCode.format(account.accountCode.accountSupercode.code)}`,
                         name: account.name,
-                        budget: Number(account.balance / BigInt(10000)),
-                        expense: 0,
+                        budget: account.balance,
+                        expense: BigInt(0),
                         ledgerEntries: [],
-                        balance: Number(account.balance / BigInt(10000)),
+                        balance: account.balance,
                         createdAt: account.createdAt,
                         updatedAt: account.updatedAt,
                     },
@@ -440,7 +441,7 @@ const resolvers: Resolvers = {
                         code: expenseCode.format(ledgerEntry.code),
                         budgetAccountId: budgetAccount.id,
                         budgetAccount: budgetAccount.name,
-                        amount: Number(input.amount / BigInt(10000)),
+                        amount: input.amount,
                         description: ledgerEntry.description,
                         createdAt: ledgerEntry.createdAt,
                         updatedAt: ledgerEntry.updatedAt,
@@ -457,11 +458,38 @@ const resolvers: Resolvers = {
     }
 }
 
+const MoneyResolver = new GraphQLScalarType({
+    name: 'Money',
+    description: 'Money custom scalar type',
+    serialize(value) {
+        if (typeof value === "bigint") {
+            return Number(value / BigInt(10000));
+        }
+    
+        throw Error('GraphQL Money Scalar serializer expected a `bigint`');
+    },
+    parseValue(value) {
+        if (typeof value === 'number') {
+            return BigInt(value) * BigInt(10000);
+        }
+    
+        throw new Error('GraphQL Money Scalar parser expected a `number`');
+    },
+    parseLiteral(ast) {
+        if (ast.kind === Kind.INT) {
+            return BigInt(parseInt(ast.value)) * BigInt(10000);
+        }
+
+        return null;
+    },
+  });
+
 const typeDefs = readFileSync(process.cwd() + '/schema.graphql', 'utf8');
 
 const server = new ApolloServer({ 
     resolvers: {
         DateTime: DateTimeResolver,
+        Money: MoneyResolver,
         ...resolvers
     }, 
     typeDefs: [
