@@ -53,8 +53,9 @@ CREATE TABLE `Entry` (
 -- CreateTable
 CREATE TABLE `State` (
     `id` INTEGER NOT NULL,
-    `desciption` VARCHAR(20) NOT NULL,
+    `name` VARCHAR(20) NOT NULL,
 
+    UNIQUE INDEX `State_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

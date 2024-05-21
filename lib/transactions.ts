@@ -1,6 +1,6 @@
 import type { PrismaClient } from "@prisma/client";
 
-async function refundProcedure(
+async function refundBudgetProcedure(
     client: PrismaClient,
     {
         code,
@@ -13,7 +13,7 @@ async function refundProcedure(
     let ledgerEntry = await client.ledger.findFirst({
         where: {
             code,
-            stateId: 1,
+            state: { name: "active" },
         },
         include: {
             entries: {
@@ -47,7 +47,7 @@ async function refundProcedure(
             id: ledgerEntry.id,
         },
         data: {
-            stateId: 4,
+            state: { connect: { name: "ledger_corrected" } },
         },
         include: {
             entries: {
@@ -63,9 +63,9 @@ async function refundProcedure(
             id: correctionLedgerEntry.id,
         },
         data: {
-            stateId: 4,
+            state: { connect: { name: "ledger_corrected" } },
+            correctedLedger: { connect: { id: ledgerEntry.id } },
             code: ledgerEntry.code,
-            correctedLedgerId: ledgerEntry.id,
             createdAt: ledgerEntry.createdAt,
         },
         include: {
@@ -99,7 +99,7 @@ async function changeBudgetAccountLedgerEntryProcedure(
         amount: bigint;
     }
 ) {
-    const { ledgerEntry, correctionLedgerEntry } = await refundProcedure(client, { code });
+    const { ledgerEntry, correctionLedgerEntry } = await refundBudgetProcedure(client, { code });
 
     const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
@@ -143,7 +143,7 @@ async function changeAmountLedgerEntryProcedure(
     client: PrismaClient,
     { code, amount }: { code: number; amount: bigint }
 ) {
-    const { ledgerEntry, correctionLedgerEntry } = await refundProcedure(
+    const { ledgerEntry, correctionLedgerEntry } = await refundBudgetProcedure(
         client, { code, skipUpdateBalance: true }
     );
 
@@ -484,10 +484,10 @@ async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: number 
                     accountId: id,
                 }
             },
-            stateId: 1,
+            state: { name: "active" },
         },
         data: {
-            stateId: 3,
+            stateId: 11,
         }
     });
 
@@ -695,7 +695,7 @@ export async function updateExpense(
             return await tx.ledger.findFirst({
                 where: {
                     code,
-                    stateId: 1,
+                    state: { name: "active" },
                 },
                 include: {
                     entries: {

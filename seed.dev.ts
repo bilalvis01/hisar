@@ -12,19 +12,27 @@ async function main() {
         data: [
             {
                 id: 1,
-                desciption: "active",
+                name: "active",
             },
             {
-                id: 2,
-                desciption: "archived",
+                id: 10,
+                name: "account_soft_deleted",
+            },
+            { 
+                id: 20,
+                name: "ledger_soft_deleted",
             },
             {
-                id: 3,
-                desciption: "soft_deleted",
+                id: 21,
+                name: "ledger_corrected",
             },
             {
-                id: 4,
-                desciption: "corrected",
+                id: 30,
+                name: "entry_primary",
+            },
+            {
+                id: 32,
+                name: "entry_shadow",
             },
         ],
     });

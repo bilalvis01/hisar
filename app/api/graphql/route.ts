@@ -112,7 +112,7 @@ async function fetchBugdets(dataSources: PrismaClient, input?: GetBudgetInput ) 
     const data = await dataSources.account.findMany({ 
         where: { 
             accountCode: { accountSupercode: { code: 101 } },
-            stateId: 1,
+            state: { name: "active" },
             createdAt: {
                 lt: input?.createdBefore,
             },
@@ -162,7 +162,7 @@ const resolvers: Resolvers = {
                         code: code[1], 
                         accountSupercode: { code: code[0] },
                     },
-                    stateId: 1,
+                    state: { name: "active" },
                 },
                 include: {
                     accountCode: {
@@ -195,7 +195,7 @@ const resolvers: Resolvers = {
             const data = await context.dataSources.ledger.findMany({ 
                 where: { 
                     entries: { some: { account: { accountCode: { code: 200 } } } },
-                    stateId: 1,
+                    state: { name: "active" },
                 },
                 include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
                 orderBy: {
@@ -227,7 +227,7 @@ const resolvers: Resolvers = {
             const ledgerEntry = await context.dataSources.ledger.findFirst({ 
                 where: { 
                     code: Number(code),
-                    stateId: 1,
+                    state: { name: "active" },
                 },
                 include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
             });
