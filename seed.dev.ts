@@ -31,7 +31,7 @@ async function main() {
                 name: "entry_primary",
             },
             {
-                id: 32,
+                id: 31,
                 name: "entry_shadow",
             },
         ],
