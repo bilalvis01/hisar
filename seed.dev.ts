@@ -1,38 +1,37 @@
 import { PrismaClient } from '@prisma/client';
-import { entry, createBudget } from "./lib/transactions";
+import { createBudget, createExpense } from "./lib/transactions";
+import { 
+    CASH_ACCOUNT_CODE, 
+    EXPENSE_ACCOUNT_CODE, 
+    BUDGET_ACCOUNT_CODE 
+} from './lib/database/account-code';
+import { 
+    ACTIVE,
+    ACCOUNT_SOFT_DELETED,
+    LEDGER_SOFT_DELETED,
+    LEDGER_CORRECTED,
+} from './lib/database/state';
 
 const prisma = new PrismaClient();
-
-const CASH_ACCOUNT_CODE = 100;
-const EXPENSE_ACCOUNT_CODE = 200;
-const BUDGET_ACCOUNT_CODE = 101;
 
 async function main() {
     await prisma.state.createMany({
         data: [
             {
-                id: 1,
+                id: ACTIVE,
                 name: "active",
             },
             {
-                id: 10,
+                id: ACCOUNT_SOFT_DELETED,
                 name: "account_soft_deleted",
             },
             { 
-                id: 20,
+                id: LEDGER_SOFT_DELETED,
                 name: "ledger_soft_deleted",
             },
             {
-                id: 21,
+                id: LEDGER_CORRECTED,
                 name: "ledger_corrected",
-            },
-            {
-                id: 30,
-                name: "entry_primary",
-            },
-            {
-                id: 31,
-                name: "entry_shadow",
             },
         ],
     });
@@ -40,15 +39,15 @@ async function main() {
         data: [
             {
                 code: CASH_ACCOUNT_CODE,
-                category: "asset",
+                accountType: "assets",
             },
             {
                 code: EXPENSE_ACCOUNT_CODE,
-                category: "expense",
+                accountType: "expenses",
             },
             {
                 code: BUDGET_ACCOUNT_CODE,
-                category: "budget",
+                accountType: "assets",
             }
         ]
     });
@@ -85,61 +84,53 @@ async function main() {
     });
     const budgetPeralatan = await createBudget(prisma, { 
         name: "budget peralatan", 
-        budget: BigInt(2_000_000_0000),
+        amount: BigInt(2_000_000_0000),
     });
     const budgetMakan = await createBudget(prisma, {
         name: "budget makan", 
-        budget: BigInt(2_000_000_0000),
+        amount: BigInt(2_000_000_0000),
     });
     const budgetTransportasi = await createBudget(prisma, {
         name: "budget tranportasi", 
-        budget: BigInt(1_500_000_0000),
+        amount: BigInt(1_500_000_0000),
     });
-    await entry(prisma, { 
-        creditId: budgetPeralatan.id, 
-        debitId: expenseAccount.id, 
+    await createExpense(prisma, { 
+        budgetAccountId: budgetPeralatan.id, 
         amount: BigInt(300_000_0000), 
         description: "beli sapu",
     });
-    await entry(prisma, {
-        creditId: budgetPeralatan.id, 
-        debitId: expenseAccount.id, 
+    await createExpense(prisma, {
+        budgetAccountId: budgetPeralatan.id, 
         amount: BigInt(200_000_0000), 
         description: "beli pengki", 
     });
-    await entry(prisma, {
-        creditId: budgetMakan.id, 
-        debitId: expenseAccount.id, 
+    await createExpense(prisma, {
+        budgetAccountId: budgetMakan.id, 
         amount: BigInt(300_000_0000), 
         description: "beli minum",
     });
-    await entry(prisma, {
-        creditId: budgetMakan.id, 
-        debitId: expenseAccount.id, 
+    await createExpense(prisma, {
+        budgetAccountId: budgetMakan.id,
         amount: BigInt(300_000_0000), 
         description: "beli makan pagi",
     });
-    await entry(prisma, {
-        creditId: budgetMakan.id, 
-        debitId: expenseAccount.id, 
+    await createExpense(prisma, {
+        budgetAccountId: budgetMakan.id, 
         amount: BigInt(300_000_0000), 
         description: "beli makan malam",
     });
-    await entry(prisma, {
-        creditId: budgetMakan.id, 
-        debitId: expenseAccount.id, 
+    await createExpense(prisma, {
+        budgetAccountId: budgetMakan.id, 
         amount: BigInt(300_000_0000), 
         description: "beli makan sore",
     });
-    await entry(prisma, {
-        creditId: budgetTransportasi.id, 
-        debitId: expenseAccount.id, 
+    await createExpense(prisma, {
+        budgetAccountId: budgetTransportasi.id,
         amount: BigInt(60_000_0000), 
         description: "naik gojek berangkat",
     });
-    await entry(prisma, {
-        creditId: budgetTransportasi.id, 
-        debitId: expenseAccount.id, 
+    await createExpense(prisma, {
+        budgetAccountId: budgetTransportasi.id,
         amount: BigInt(60_000_0000), 
         description: "naik gojek pulang",
     });
@@ -150,7 +141,7 @@ main()
         await prisma.$disconnect()
     })
     .catch(async (e) => {
-        console.error(e)
+        console.log(e);
         await prisma.$disconnect()
         process.exit(1)
     })

@@ -16,9 +16,9 @@ CREATE TABLE `Account` (
 -- CreateTable
 CREATE TABLE `AccountCode` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `accountType` VARCHAR(40) NULL,
     `code` INTEGER NOT NULL DEFAULT 1,
     `accountSupercodeId` INTEGER NULL,
-    `category` VARCHAR(20) NULL,
 
     UNIQUE INDEX `AccountCode_code_accountSupercodeId_key`(`code`, `accountSupercodeId`),
     PRIMARY KEY (`id`)
@@ -29,7 +29,6 @@ CREATE TABLE `Ledger` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `code` INTEGER NULL,
     `description` VARCHAR(255) NOT NULL,
-    `amount` BIGINT NOT NULL,
     `correctedLedgerId` INTEGER NULL,
     `stateId` INTEGER NOT NULL DEFAULT 1,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -44,9 +43,9 @@ CREATE TABLE `Entry` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `ledgerId` INTEGER NOT NULL,
     `accountId` INTEGER NOT NULL,
+    `amount` BIGINT NOT NULL,
     `balance` BIGINT NOT NULL,
     `direction` TINYINT NOT NULL,
-    `stateId` INTEGER NOT NULL DEFAULT 30,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -54,7 +53,7 @@ CREATE TABLE `Entry` (
 -- CreateTable
 CREATE TABLE `State` (
     `id` INTEGER NOT NULL,
-    `name` VARCHAR(20) NOT NULL,
+    `name` VARCHAR(40) NOT NULL,
 
     UNIQUE INDEX `State_name_key`(`name`),
     PRIMARY KEY (`id`)
@@ -80,6 +79,3 @@ ALTER TABLE `Entry` ADD CONSTRAINT `Entry_ledgerId_fkey` FOREIGN KEY (`ledgerId`
 
 -- AddForeignKey
 ALTER TABLE `Entry` ADD CONSTRAINT `Entry_accountId_fkey` FOREIGN KEY (`accountId`) REFERENCES `Account`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Entry` ADD CONSTRAINT `Entry_stateId_fkey` FOREIGN KEY (`stateId`) REFERENCES `State`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

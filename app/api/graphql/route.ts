@@ -16,6 +16,13 @@ import { DateTimeTypeDefinition, DateTimeResolver } from "graphql-scalars";
 import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
 import expenseCode from "../../../lib/utils/expenseCode";
 import accountCode from "../../../lib/utils/accountCode";
+import { 
+    ACTIVE, 
+    ACCOUNT_SOFT_DELETED,
+    LEDGER_SOFT_DELETED,
+    LEDGER_CORRECTED,
+} from "../../../lib/database/state";
+import { BUDGET_ACCOUNT_CODE, CASH_ACCOUNT_CODE, EXPENSE_ACCOUNT_CODE } from "../../../lib/database/account-code";
 
 function splitCode(code: string) {
     return code.split("-").map(Number);
@@ -25,74 +32,74 @@ async function getBudgetDetail(
     dataSources: PrismaClient, 
     account: Account & { accountCode: AccountCode & { accountSupercode: AccountCode } }
 ) {
-    const ledgerEntries = await dataSources.ledger.findMany({
+    const ledgerEntries = (await dataSources.ledger.findMany({
         where: {
-            entries: { some: { account: { id: account.id } } },
+            entries: { 
+                some: { 
+                    account: { id: account.id },
+                }, 
+            },
+            state: {
+                id: ACTIVE,
+            },
         },
         include: { 
             entries: { 
                 include: { 
                     account: true 
-                } 
-            } 
+                },
+                where: {
+                    account: { id: account.id },
+                },
+            },
         },
-        orderBy: [
-            { code: "desc" },
-            { id: "desc" },
-        ],
+        orderBy: {
+            code: "desc" 
+        },
+    }))
+    .map(({ entries, ...ledgerEntry }) => {
+        return {
+            ...ledgerEntry,
+            entry: entries[0],
+        };
     });
 
-    const budget = ledgerEntries.reduce((acc, ledgerEntry) => {
-        if (ledgerEntry.stateId !== 1) {
-            return acc;
-        }
-
-        if (
-            ledgerEntry.entries.some((entry) => entry.direction === 1 && entry.account.id === account.id)
-        ) {
-            return acc + ledgerEntry.amount;
+    const budget = ledgerEntries.reduce((acc, ledgerShadowEntry) => {
+        if (ledgerShadowEntry.entry.direction === 1) {
+            return ledgerShadowEntry.entry.amount;
         }
 
         return acc;
     }, BigInt(0));
     
-    const expense = ledgerEntries.reduce((acc, ledgerEntry) => {
-        if (ledgerEntry.stateId !== 1) {
-            return acc;
-        }
-
-        if (
-            ledgerEntry.entries.some((entry) => entry.direction === -1 && entry.account.id === account.id)
-        ) {
-            return acc + ledgerEntry.amount;
+    const expense = ledgerEntries.reduce((acc, ledgerShadowEntry) => {
+        if (ledgerShadowEntry.entry.direction === -1) {
+            return acc + ledgerShadowEntry.entry.amount;
         }
 
         return acc;
     }, BigInt(0));
     
-    const ledgerEntries_ = ledgerEntries.map((ledgerEntry) => {
-        let entry = ledgerEntry.entries.filter((entry) => entry.account.id === account.id)[0];
-        
-        if (entry.direction === 1) {
+    const entries = ledgerEntries.map((ledgerEntry) => {
+        const entry = {
+            id: ledgerEntry.id,
+            code: expenseCode.format(ledgerEntry.code),
+            description: ledgerEntry.description,
+            balance: ledgerEntry.entry.balance,
+            createdAt: ledgerEntry.createdAt,
+            updatedAt: ledgerEntry.updatedAt,
+        };
+
+        if (ledgerEntry.entry.direction === 1) {
             return {
-                id: ledgerEntry.id,
-                code: expenseCode.format(ledgerEntry.code),
-                description: ledgerEntry.description,
-                debit: ledgerEntry.amount,
-                balance: entry.balance,
-                createdAt: ledgerEntry.createdAt,
-                updatedAt: ledgerEntry.updatedAt,
+                ...entry,
+                ...{ debit: ledgerEntry.entry.amount },
             }
         }
 
         return {
-            id: ledgerEntry.id,
-            code: expenseCode.format(ledgerEntry.code),
-            description: ledgerEntry.description,
-            credit: ledgerEntry.amount,
-            balance: entry.balance,
-            createdAt: ledgerEntry.createdAt,
-            updatedAt: ledgerEntry.updatedAt,
+            ...entry,
+            ...{ credit: ledgerEntry.entry.amount },
         }
     });
 
@@ -103,7 +110,7 @@ async function getBudgetDetail(
         budget: budget,
         expense: expense,
         balance: account.balance,
-        ledgerEntries: ledgerEntries_,
+        ledgerEntries: entries,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
     }
@@ -113,7 +120,7 @@ async function fetchBugdets(dataSources: PrismaClient, input?: GetBudgetInput ) 
     const data = await dataSources.account.findMany({ 
         where: { 
             accountCode: { accountSupercode: { code: 101 } },
-            state: { name: "active" },
+            state: { id: ACTIVE },
             createdAt: {
                 lt: input?.createdBefore,
             },
@@ -163,7 +170,7 @@ const resolvers: Resolvers = {
                         code: code[1], 
                         accountSupercode: { code: code[0] },
                     },
-                    state: { name: "active" },
+                    state: { id: ACTIVE },
                 },
                 include: {
                     accountCode: {
@@ -196,7 +203,7 @@ const resolvers: Resolvers = {
             const ledgerEntries = await context.dataSources.ledger.findMany({ 
                 where: { 
                     entries: { some: { account: { accountCode: { code: 200 } } } },
-                    state: { name: "active" },
+                    state: { id: ACTIVE },
                 },
                 include: { 
                     entries: { 
@@ -221,9 +228,14 @@ const resolvers: Resolvers = {
             return ledgerEntries.map((ledgerEntry) => {
                 const budgetAccount = ledgerEntry.entries.filter(entry => {
                     const accountSupercode = entry.account.accountCode.accountSupercode;
-                    if (accountSupercode) return accountSupercode.code == 101;
+                    if (accountSupercode) return accountSupercode.code === BUDGET_ACCOUNT_CODE;
                     return false;
                 })[0].account;
+
+                const exepenseEntry = ledgerEntry.entries.filter((entry) => {
+                    console.log(entry);
+                    return entry.account.accountCode.code === EXPENSE_ACCOUNT_CODE;
+                })[0];
 
                 return {
                     id: ledgerEntry.id,
@@ -231,7 +243,7 @@ const resolvers: Resolvers = {
                     description: ledgerEntry.description,
                     budgetAccount: budgetAccount.name,
                     budgetAccountId: budgetAccount.id,
-                    amount: ledgerEntry.amount,
+                    amount: exepenseEntry.amount,
                     createdAt: ledgerEntry.createdAt,
                     updatedAt: ledgerEntry.updatedAt,
                 };
@@ -242,7 +254,7 @@ const resolvers: Resolvers = {
             const ledgerEntry = await context.dataSources.ledger.findFirst({ 
                 where: { 
                     code: Number(code),
-                    state: { name: "active" },
+                    state: { id: ACTIVE },
                 },
                 include: { 
                     entries: { 
@@ -271,9 +283,13 @@ const resolvers: Resolvers = {
 
             const budgetAccount = ledgerEntry.entries.filter(entry => {
                 const accountSupercode = entry.account.accountCode.accountSupercode;
-                if (accountSupercode) return accountSupercode.code == 101;
+                if (accountSupercode) return accountSupercode.code === BUDGET_ACCOUNT_CODE;
                 return false;
             })[0].account;
+
+            const exepenseEntry = ledgerEntry.entries.filter((entry) => {
+                return entry.account.accountCode.code === EXPENSE_ACCOUNT_CODE;
+            })[0];
 
             const expense = {
                 id: ledgerEntry.id,
@@ -281,7 +297,7 @@ const resolvers: Resolvers = {
                 description: ledgerEntry.description,
                 budgetAccount: budgetAccount.name,
                 budgetAccountId: budgetAccount.id,
-                amount: ledgerEntry.amount,
+                amount: exepenseEntry.amount,
                 createdAt: ledgerEntry.createdAt,
                 updatedAt: ledgerEntry.updatedAt,
             };
@@ -300,7 +316,7 @@ const resolvers: Resolvers = {
             try {
                 const account = await createBudget(context.dataSources, { 
                     name: input.name,
-                    budget: input.budget,
+                    amount: input.budget,
                 });
                 
                 return {
@@ -309,7 +325,7 @@ const resolvers: Resolvers = {
                     message: `akun ${input.name} berhasil dibuat`,
                     budget: {
                         id: account.id,
-                        code: `${accountCode.format(account.accountCode.code)}-${accountCode.format(account.accountCode.accountSupercode.code)}`,
+                        code: `${accountCode.format(account.accountCode.accountSupercode.code)}-${accountCode.format(account.accountCode.code)}`,
                         name: account.name,
                         budget: account.balance,
                         expense: BigInt(0),
@@ -333,7 +349,7 @@ const resolvers: Resolvers = {
                 const data = {
                     code: splitCode(input.code),
                     name: input.name,
-                    balance: input.balance,
+                    amount: input.amount,
                 };
                 const account = await updateBudget(context.dataSources, data);
                 const budget = await getBudgetDetail(context.dataSources, account);
@@ -348,7 +364,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `${input.name} gagal diperbarui`,
+                    message: `${input.name} gagal diperbarui: ${error.message}`,
                 }
             }
         },

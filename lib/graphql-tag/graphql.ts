@@ -198,7 +198,7 @@ export type QueryExpenseByCodeArgs = {
 };
 
 export type UpdateBudgetInput = {
-  balance: Scalars['Money']['input'];
+  amount: Scalars['Money']['input'];
   code: Scalars['String']['input'];
   name: Scalars['String']['input'];
 };

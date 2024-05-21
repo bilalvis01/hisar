@@ -1,6 +1,16 @@
-import type { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+import { 
+    CASH_ACCOUNT_CODE, 
+    EXPENSE_ACCOUNT_CODE, 
+    BUDGET_ACCOUNT_CODE,
+} from "./database/account-code";
+import { 
+    ACCOUNT_SOFT_DELETED,
+    ACTIVE,
+    LEDGER_CORRECTED, 
+} from "./database/state";
 
-async function refundBudgetProcedure(
+async function refundProcedure(
     client: PrismaClient,
     {
         code,
@@ -13,7 +23,7 @@ async function refundBudgetProcedure(
     let ledgerEntry = await client.ledger.findFirst({
         where: {
             code,
-            state: { name: "active" },
+            state: { id: ACTIVE },
         },
         include: {
             entries: {
@@ -35,7 +45,7 @@ async function refundBudgetProcedure(
         {
             debitId: creditAccount.id, 
             creditId: debitAccount.id, 
-            amount: ledgerEntry.amount, 
+            amount: debitEntry.amount, 
             description: ledgerEntry.description,
             useBalanceFromLedgerEntry: code,
             skipUpdateAccountBalance: true,
@@ -47,7 +57,7 @@ async function refundBudgetProcedure(
             id: ledgerEntry.id,
         },
         data: {
-            state: { connect: { name: "ledger_corrected" } },
+            state: { connect: { id: LEDGER_CORRECTED } },
         },
         include: {
             entries: {
@@ -63,7 +73,7 @@ async function refundBudgetProcedure(
             id: correctionLedgerEntry.id,
         },
         data: {
-            state: { connect: { name: "ledger_corrected" } },
+            state: { connect: { id: LEDGER_CORRECTED } },
             correctedLedger: { connect: { id: ledgerEntry.id } },
             code: ledgerEntry.code,
             createdAt: ledgerEntry.createdAt,
@@ -99,7 +109,7 @@ async function changeBudgetAccountLedgerEntryProcedure(
         amount: bigint;
     }
 ) {
-    const { ledgerEntry, correctionLedgerEntry } = await refundBudgetProcedure(client, { code });
+    const { ledgerEntry, correctionLedgerEntry } = await refundProcedure(client, { code });
 
     const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
@@ -143,7 +153,7 @@ async function changeAmountLedgerEntryProcedure(
     client: PrismaClient,
     { code, amount }: { code: number; amount: bigint }
 ) {
-    const { ledgerEntry, correctionLedgerEntry } = await refundBudgetProcedure(
+    const { ledgerEntry, correctionLedgerEntry } = await refundProcedure(
         client, { code, skipUpdateBalance: true }
     );
 
@@ -270,7 +280,7 @@ async function updateBalanceLedgerEntryProcedure(
     
     await Promise.all(creditLedgerEntries.map(async (ledgerEntry) => {
         const entry = ledgerEntry.entries[0];
-        creditBalance += ledgerEntry.amount * BigInt(entry.direction) * BigInt(creditAccount.direction);
+        creditBalance += entry.amount * BigInt(entry.direction) * BigInt(creditAccount.direction);
         await client.entry.update({
             where: {
                 id: entry.id
@@ -283,7 +293,7 @@ async function updateBalanceLedgerEntryProcedure(
 
     await Promise.all(debitLedgerEntries.map(async (ledgerEntry) => {
         const entry = ledgerEntry.entries[0]
-        debitBalance += ledgerEntry.amount * BigInt(entry.direction) * BigInt(debitAccount.direction);
+        debitBalance += entry.amount * BigInt(entry.direction) * BigInt(debitAccount.direction);
         await client.entry.update({
             where: {
                 id: entry.id
@@ -312,6 +322,95 @@ async function updateBalanceLedgerEntryProcedure(
         },
     });
 };
+
+/*
+async function updateBudgetBalanceLedgerShadowEntryProcedure(
+    client: PrismaClient,
+    { id }: { id: number }
+) {
+    const ledgerEntries = await client.ledger.findMany({
+        where: {
+            entries: {
+                some: {
+                    account: {
+                        id,
+                    },
+                },
+            },
+            state: { id: ACTIVE }
+        },
+        include: {
+            entries: {
+                include: {
+                    account: true,
+                    state: true,
+                },
+                where: {
+                    account: {
+                        id,
+                    },
+                },
+            },
+        },
+        orderBy: { 
+            code: "asc" 
+        },
+    });
+
+    const primaryLedgerEntries = ledgerEntries.filter((ledgerEntry) => {
+        return ledgerEntry.entries.some(
+            (entry) => entry.state.id === ENTRY_PRIMARY
+        );
+    })
+    .map(({ entries, ...ledgerEntry }) => {
+        const entry = entries.filter(
+            (entry) => entry.state.id === ENTRY_PRIMARY
+        )[0];
+
+        return {
+            ...ledgerEntry,
+            entry,
+        };
+    });
+
+    const shadowLedgerEntries = ledgerEntries.filter((ledgerEntry) => {
+        return ledgerEntry.entries.some(
+            (entry) => entry.state.id === ENTRY_SHADOW
+        );
+    })
+    .map(({ entries, ...ledgerEntry }) => {
+        const entry = entries.filter(
+            (entry) => entry.state.id === ENTRY_SHADOW
+        )[0];
+
+        return {
+            ...ledgerEntry,
+            entry,
+        };
+    });
+
+    let balance = primaryLedgerEntries.reduce((acc, ledgerEntry) => {
+        if (ledgerEntry.entry.direction === -1) return acc;
+
+        return acc + ledgerEntry.amount;
+    }, BigInt(0));
+
+    console.log(balance);
+
+    await Promise.all(shadowLedgerEntries.map(async (shadowLedgerEntry) => {
+        await client.entry.update({
+            where: {
+                id: shadowLedgerEntry.entry.id,
+            },
+            data: {
+                balance,
+            },
+        });
+
+        balance -= shadowLedgerEntry.amount;
+    }));
+};
+*/
 
 async function entryProcedure(
     client: PrismaClient,
@@ -411,7 +510,6 @@ async function entryProcedure(
     let ledger = await client.ledger.create({
         data: {
             description,
-            amount,
         },
         include: {
             entries: {
@@ -442,6 +540,7 @@ async function entryProcedure(
         data: {
             ledgerId: ledger.id,
             accountId: creditId,
+            amount,
             balance: creditBalance,
             direction: creditLedgerEntryDirection,
         },
@@ -451,6 +550,7 @@ async function entryProcedure(
         data: {
             ledgerId: ledger.id,
             accountId: debitId,
+            amount,
             balance: debitBalance,
             direction: debitLedgerEntryDirection,
         },
@@ -487,10 +587,10 @@ async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: number 
                     accountId: id,
                 }
             },
-            state: { name: "active" },
+            state: { id: ACTIVE },
         },
         data: {
-            stateId: 11,
+            stateId: ACCOUNT_SOFT_DELETED,
         }
     });
 
@@ -499,7 +599,7 @@ async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: number 
             id,
         },
         data: {
-            stateId: 3,
+            stateId: ACCOUNT_SOFT_DELETED,
         },
         include: {
             accountCode: {
@@ -537,7 +637,7 @@ export async function entry(
 
 export async function createBudget(
     client: PrismaClient, 
-    { name, budget }: { name: string; budget: bigint }
+    { name, amount }: { name: string; amount: bigint }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
         const budgetAccountCode = await tx.accountCode.findFirst({
@@ -555,7 +655,6 @@ export async function createBudget(
             data: {
                 accountSupercodeId: budgetAccountCode.id,
                 code: latestSubBudgetCode ? latestSubBudgetCode.code + 1 : 1,
-                category: "budget",
             }
         });
 
@@ -567,22 +666,20 @@ export async function createBudget(
                 direction: 1,
             }
         });
-        const cashAccountCode = await tx.accountCode.findFirst({
-            where: {
-                code: 100,
-            }
-        });
+
         const cashAccount = await tx.account.findFirst({
             where: {
-                accountCodeId: cashAccountCode.id,
+                accountCode: { code: 100 },
             }
         });
-        await entryProcedure(tx, {
+
+        const ledgerEntry = await entryProcedure(tx, {
             creditId: cashAccount.id, 
             debitId: budgetAccount.id, 
-            amount: budget, 
+            amount, 
             description: "saldo awal",
         });
+
         return await tx.account.findUnique({
             where: { id: budgetAccount.id },
             include: {
@@ -592,14 +689,14 @@ export async function createBudget(
                     }
                 }
             }
-        })
+        });
     })
 }
 
-export async function updateBudget(client: PrismaClient, data: { code: number[]; name: string; balance: bigint; }) {
+export async function updateBudget(client: PrismaClient, {
+    code, name, amount
+}: { code: number[]; name: string; amount: bigint; }) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        const { code, name, balance } = data;
-
         const budgetAccount = await tx.account.findFirst({
             where: {
                 accountCode: { 
@@ -609,17 +706,42 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
             },
         });
 
-        const cashAccountCode = await tx.accountCode.findFirst({
-            where: {
-                code: 100,
-            }
-        });
-
         const cashAccount = await tx.account.findFirst({
             where: {
-                accountCodeId: cashAccountCode.id,
-            }
+                accountCode: {
+                    code: CASH_ACCOUNT_CODE,
+                },
+            },
         });
+
+        const firstLedgerEntry = await tx.ledger.findFirst({
+            where: {
+                entries: {
+                    some: {
+                        account: {
+                            id: budgetAccount.id,
+                        },
+                    },
+                },
+                state: {
+                    id: ACTIVE,
+                },
+            },
+            include: {
+                entries: {
+                    where: {
+                        account: {
+                            id: budgetAccount.id,
+                        },
+                    },
+                },
+            },
+            orderBy: {
+                code: "desc",
+            },
+        });
+        
+        const currentBudget = firstLedgerEntry.entries[0].amount;
 
         if (budgetAccount.name !== name) {
             await tx.account.update({
@@ -632,24 +754,26 @@ export async function updateBudget(client: PrismaClient, data: { code: number[];
             });
         }
 
-        if (balance > budgetAccount.balance) {
-            const topup = balance - budgetAccount.balance;
-            await entryProcedure(tx, {
-                creditId: cashAccount.id, 
-                debitId: budgetAccount.id, 
-                amount: topup, 
-                description: "topup saldo",
+        if (currentBudget !== amount) {
+            await refundProcedure(tx, {
+                code: firstLedgerEntry.code,
             });
-        }
 
-        if (balance < budgetAccount.balance) {
-            const refund = budgetAccount.balance - balance;
-            await entryProcedure(tx, {
-                creditId: budgetAccount.id, 
-                debitId: cashAccount.id, 
-                amount: refund, 
-                description: "refund saldo",
+            const newLedgerEntry = await entryProcedure(tx, {
+                debitId: budgetAccount.id,
+                creditId: cashAccount.id,
+                amount,
+                description: firstLedgerEntry.description,
             });
+
+            await tx.ledger.update({
+                where: {
+                    id: newLedgerEntry.id,
+                },
+                data: {
+                    code: firstLedgerEntry.code,
+                },
+            })
         }
 
         return await tx.account.findUnique({
@@ -679,6 +803,47 @@ export async function deleteBudgetMany(client: PrismaClient, { ids }: { ids: num
     });
 } 
 
+export async function createExpense(
+    client: PrismaClient,
+    {
+        budgetAccountId,
+        description,
+        amount,
+    }: {
+        budgetAccountId: number,
+        description: string,
+        amount: bigint,
+    }
+) {
+    await client.$transaction(async (tx: PrismaClient) => {
+        const expenseAccount = await tx.account.findFirst({
+            where: { accountCode: { code: EXPENSE_ACCOUNT_CODE } }
+        });
+
+        const budgetAccount = await tx.account.findUnique({
+            where: { id: budgetAccountId },
+            include: { 
+                accountCode: {
+                    include: {
+                        accountSupercode: true,
+                    },
+                },
+            },
+        });
+
+        if (budgetAccount.accountCode.accountSupercode.code !== BUDGET_ACCOUNT_CODE) {
+            throw Error("credit account must be a budget account");
+        }
+
+        return await entryProcedure(tx, { 
+            creditId: budgetAccount.id, 
+            debitId: expenseAccount.id, 
+            amount, 
+            description: description
+        });
+    });
+}
+
 export async function updateExpense(
     client: PrismaClient, 
     { 
@@ -698,7 +863,7 @@ export async function updateExpense(
             return await tx.ledger.findFirst({
                 where: {
                     code,
-                    state: { name: "active" },
+                    state: { id: ACTIVE },
                 },
                 include: {
                     entries: {
@@ -735,8 +900,10 @@ export async function updateExpense(
             skipUpdateLedgerEntryAmount = true;
         }
 
-        if (ledgerEntry.amount !== amount && !skipUpdateLedgerEntryAmount) {
-            const newLedgerEntry = await changeAmountLedgerEntryProcedure(tx, { code, amount });
+        if (expenseEntry.amount !== amount && !skipUpdateLedgerEntryAmount) {
+            const newLedgerEntry = await changeAmountLedgerEntryProcedure(tx, { 
+                code, amount 
+            });
             ledgerEntryId = newLedgerEntry.id;
         }
 

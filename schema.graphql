@@ -73,7 +73,7 @@ type CreateBudgetPayload {
 input UpdateBudgetInput {
     code: String!
     name: String!
-    balance: Money!
+    amount: Money!
 }
 
 type UpdateBudgetPayload {

@@ -25,6 +25,7 @@ export default function BudgetUpdateForm({
 
     const [updateBudget] = useMutation(UPDATE_BUDGET, {
         onCompleted(data) {
+            console.log(data.updateBudget.message);
             setInfo(data.updateBudget.message);
             setOpen(false);
             if (onSuccess) onSuccess(data);
@@ -34,7 +35,7 @@ export default function BudgetUpdateForm({
     const initialValues = {
             code: budget.code,
             name: budget.name,
-            balance: budget.balance,
+            amount: budget.budget,
     };
 
     return (
@@ -56,15 +57,15 @@ export default function BudgetUpdateForm({
                 },
                 {
                     type: "number",
-                    name: "balance",
-                    label: "Saldo",
+                    name: "amount",
+                    label: "Budget",
                 },
             ]}
             initialValues={initialValues}
             validationSchema={Yup.object({
                 code: Yup.string().required("Mohon diisi"),
                 name: Yup.string().required("Mohon diisi"),
-                balance: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
+                amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
             })}
             onSubmit={async (input) => {
                 await updateBudget({
