@@ -35,7 +35,7 @@ async function refundBudgetProcedure(
         {
             debitId: creditAccount.id, 
             creditId: debitAccount.id, 
-            amount: debitEntry.amount, 
+            amount: ledgerEntry.amount, 
             description: ledgerEntry.description,
             useBalanceFromLedgerEntry: code,
             skipUpdateAccountBalance: true,
@@ -214,7 +214,7 @@ async function updateBalanceLedgerEntryProcedure(
     let creditBalance = creditEntry.balance;
     let debitBalance = debitEntry.balance;
 
-    const creditEntries = (await client.ledger.findMany({
+    const creditLedgerEntries = (await client.ledger.findMany({
         where: {
             code: {
                 gt: code,
@@ -229,18 +229,19 @@ async function updateBalanceLedgerEntryProcedure(
             entries: {
                 include: {
                     account: true,
-                }
+                },
+                where: {
+                    accountId: creditAccount.id,
+                },
             },
         },
         orderBy: [
             { code: "asc" },
             { id: "asc" },
         ],
-    })).map((ledgerEntry) => {
-        return ledgerEntry.entries.filter((entry) => entry.account.id === creditAccount.id)[0];
-    });
+    }));
 
-    let debitEntries = (await client.ledger.findMany({
+    let debitLedgerEntries = (await client.ledger.findMany({
         where: {
             code: {
                 gt: code,
@@ -255,19 +256,21 @@ async function updateBalanceLedgerEntryProcedure(
             entries: {
                 include: {
                     account: true,
-                }
+                },
+                where: {
+                    accountId: debitAccount.id,
+                },
             },
         },
         orderBy: [
             { code: "asc" },
             { id: "asc" },
         ],
-    })).map((ledgerEntry) => {
-        return ledgerEntry.entries.filter((entry) => entry.account.id === debitAccount.id)[0];
-    });
+    }));
     
-    await Promise.all(creditEntries.map(async (entry) => {
-        creditBalance += entry.amount * BigInt(entry.direction) * BigInt(creditAccount.direction);
+    await Promise.all(creditLedgerEntries.map(async (ledgerEntry) => {
+        const entry = ledgerEntry.entries[0];
+        creditBalance += ledgerEntry.amount * BigInt(entry.direction) * BigInt(creditAccount.direction);
         await client.entry.update({
             where: {
                 id: entry.id
@@ -278,8 +281,9 @@ async function updateBalanceLedgerEntryProcedure(
         });
     }));
 
-    await Promise.all(debitEntries.map(async (entry) => {
-        debitBalance += entry.amount * BigInt(entry.direction) * BigInt(debitAccount.direction);
+    await Promise.all(debitLedgerEntries.map(async (ledgerEntry) => {
+        const entry = ledgerEntry.entries[0]
+        debitBalance += ledgerEntry.amount * BigInt(entry.direction) * BigInt(debitAccount.direction);
         await client.entry.update({
             where: {
                 id: entry.id
@@ -407,6 +411,7 @@ async function entryProcedure(
     let ledger = await client.ledger.create({
         data: {
             description,
+            amount,
         },
         include: {
             entries: {
@@ -437,7 +442,6 @@ async function entryProcedure(
         data: {
             ledgerId: ledger.id,
             accountId: creditId,
-            amount: amount,
             balance: creditBalance,
             direction: creditLedgerEntryDirection,
         },
@@ -447,7 +451,6 @@ async function entryProcedure(
         data: {
             ledgerId: ledger.id,
             accountId: debitId,
-            amount: amount,
             balance: debitBalance,
             direction: debitLedgerEntryDirection,
         },
@@ -732,7 +735,7 @@ export async function updateExpense(
             skipUpdateLedgerEntryAmount = true;
         }
 
-        if (expenseEntry.amount !== amount && !skipUpdateLedgerEntryAmount) {
+        if (ledgerEntry.amount !== amount && !skipUpdateLedgerEntryAmount) {
             const newLedgerEntry = await changeAmountLedgerEntryProcedure(tx, { code, amount });
             ledgerEntryId = newLedgerEntry.id;
         }

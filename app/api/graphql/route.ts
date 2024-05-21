@@ -42,56 +42,57 @@ async function getBudgetDetail(
         ],
     });
 
-    const budget = ledgerEntries.reduce((acc, val) => {
-
-        if (val.stateId !== 1) {
+    const budget = ledgerEntries.reduce((acc, ledgerEntry) => {
+        if (ledgerEntry.stateId !== 1) {
             return acc;
         }
 
-        const entry = val.entries.filter((entry) => entry.direction === 1 && entry.account.id === account.id)[0];
-        if (entry) {
-            return acc + entry.amount;
+        if (
+            ledgerEntry.entries.some((entry) => entry.direction === 1 && entry.account.id === account.id)
+        ) {
+            return acc + ledgerEntry.amount;
         }
 
         return acc;
     }, BigInt(0));
     
-    const expense = ledgerEntries.reduce((acc, val) => {
-        if (val.stateId !== 1) {
+    const expense = ledgerEntries.reduce((acc, ledgerEntry) => {
+        if (ledgerEntry.stateId !== 1) {
             return acc;
         }
 
-        const entry = val.entries.filter((entry) => entry.direction === -1 && entry.account.id === account.id)[0];
-        if (entry) {
-            return acc + entry.amount;
+        if (
+            ledgerEntry.entries.some((entry) => entry.direction === -1 && entry.account.id === account.id)
+        ) {
+            return acc + ledgerEntry.amount;
         }
 
         return acc;
     }, BigInt(0));
     
-    const ledgerEntries_ = ledgerEntries.map((record) => {
-        let entry = record.entries.filter((entry) => entry.account.id === account.id)[0];
+    const ledgerEntries_ = ledgerEntries.map((ledgerEntry) => {
+        let entry = ledgerEntry.entries.filter((entry) => entry.account.id === account.id)[0];
         
         if (entry.direction === 1) {
             return {
-                id: record.id,
-                code: expenseCode.format(record.code),
-                description: record.description,
-                debit: entry.amount,
+                id: ledgerEntry.id,
+                code: expenseCode.format(ledgerEntry.code),
+                description: ledgerEntry.description,
+                debit: ledgerEntry.amount,
                 balance: entry.balance,
-                createdAt: record.createdAt,
-                updatedAt: record.updatedAt,
+                createdAt: ledgerEntry.createdAt,
+                updatedAt: ledgerEntry.updatedAt,
             }
         }
 
         return {
-            id: record.id,
-            code: expenseCode.format(record.code),
-            description: record.description,
-            credit: entry.amount,
+            id: ledgerEntry.id,
+            code: expenseCode.format(ledgerEntry.code),
+            description: ledgerEntry.description,
+            credit: ledgerEntry.amount,
             balance: entry.balance,
-            createdAt: record.createdAt,
-            updatedAt: record.updatedAt,
+            createdAt: ledgerEntry.createdAt,
+            updatedAt: ledgerEntry.updatedAt,
         }
     });
 
@@ -192,33 +193,47 @@ const resolvers: Resolvers = {
         },
 
         async expenses(_, __, context) {
-            const data = await context.dataSources.ledger.findMany({ 
+            const ledgerEntries = await context.dataSources.ledger.findMany({ 
                 where: { 
                     entries: { some: { account: { accountCode: { code: 200 } } } },
                     state: { name: "active" },
                 },
-                include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
+                include: { 
+                    entries: { 
+                        include: { 
+                            account: { 
+                                include: { 
+                                    accountCode: { 
+                                        include: { 
+                                            accountSupercode: true 
+                                        } 
+                                    } 
+                                } 
+                            } 
+                        } 
+                    } 
+                },
                 orderBy: {
                     createdAt: "desc",
                 }
             });
         
-            return data.map((record) => {
-                const budgetAccount = record.entries.filter(entry => {
+            return ledgerEntries.map((ledgerEntry) => {
+                const budgetAccount = ledgerEntry.entries.filter(entry => {
                     const accountSupercode = entry.account.accountCode.accountSupercode;
                     if (accountSupercode) return accountSupercode.code == 101;
                     return false;
                 })[0].account;
-                const expenseEntry = record.entries.filter(entry => entry.account.accountCode.code == 200)[0];
+
                 return {
-                    id: record.id,
-                    code: expenseCode.format(record.code),
-                    description: record.description,
+                    id: ledgerEntry.id,
+                    code: expenseCode.format(ledgerEntry.code),
+                    description: ledgerEntry.description,
                     budgetAccount: budgetAccount.name,
                     budgetAccountId: budgetAccount.id,
-                    amount: expenseEntry.amount,
-                    createdAt: record.createdAt,
-                    updatedAt: record.updatedAt,
+                    amount: ledgerEntry.amount,
+                    createdAt: ledgerEntry.createdAt,
+                    updatedAt: ledgerEntry.updatedAt,
                 };
             });
         },
@@ -229,7 +244,21 @@ const resolvers: Resolvers = {
                     code: Number(code),
                     state: { name: "active" },
                 },
-                include: { entries: { include: { account: { include: { accountCode: { include: { accountSupercode: true } } } } } } },
+                include: { 
+                    entries: { 
+                        include: { 
+                            account: { 
+                                include: { 
+                                    accountCode: { 
+                                        include: { 
+                                            accountSupercode: true 
+                                        } 
+                                    } 
+                                } 
+                            } 
+                        } 
+                    } 
+                },
             });
 
             if (!ledgerEntry) {
@@ -246,15 +275,13 @@ const resolvers: Resolvers = {
                 return false;
             })[0].account;
 
-            const expenseEntry = ledgerEntry.entries.filter(entry => entry.account.accountCode.code == 200)[0];
-
             const expense = {
                 id: ledgerEntry.id,
                 code: expenseCode.format(ledgerEntry.code),
                 description: ledgerEntry.description,
                 budgetAccount: budgetAccount.name,
                 budgetAccountId: budgetAccount.id,
-                amount: expenseEntry.amount,
+                amount: ledgerEntry.amount,
                 createdAt: ledgerEntry.createdAt,
                 updatedAt: ledgerEntry.updatedAt,
             };
