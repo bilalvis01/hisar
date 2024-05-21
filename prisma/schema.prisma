@@ -57,11 +57,13 @@ model Entry {
   id                  Int           @id @default(autoincrement())
   ledgerId            Int
   ledger              Ledger        @relation(fields: [ledgerId], references: [id])
-  account             Account       @relation(fields: [accountId], references: [id])
   accountId           Int
+  account             Account       @relation(fields: [accountId], references: [id])
   amount              BigInt
   balance             BigInt
   direction           Int           @db.TinyInt
+  stateId             Int           @default(30)
+  state               State         @relation(fields: [stateId], references: [id])
 } 
 
 model State {
@@ -69,4 +71,5 @@ model State {
   name                String        @db.VarChar(20) @unique
   account             Account[]
   ledger              Ledger[]
+  entry               Entry[]
 }
