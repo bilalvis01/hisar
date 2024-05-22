@@ -18,7 +18,7 @@ const config: CodegenConfig = {
       },
       plugins: ['typescript', 'typescript-resolvers']
     },
-    './lib/graphql/': {
+    './lib/graphql/generated/': {
       config: {
         scalars: {
           DateTime: "string",

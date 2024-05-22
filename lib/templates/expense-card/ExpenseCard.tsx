@@ -24,7 +24,7 @@ import Link from "next/link";
 import { LinkText } from "../../components/ButtonText";
 import date from "../../utils/date";
 import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
-import { Expense } from "../../graphql/graphql";
+import { Expense } from "../../graphql/generated/graphql";
 import { ButtonText } from "../../components/ButtonText";
 
 const columnHelper = createColumnHelper<Expense>();

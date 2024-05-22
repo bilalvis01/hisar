@@ -24,7 +24,7 @@ import Fab from "../fab/Fab";
 import IconPlusLg from "../../icons/PlusLg";
 import BudgetDelete from "../budget-delete/BudgetDelete";
 import BudgetUpdateForm from "../budget-update-form/BudgetUpdateForm";
-import { Budget } from "../../graphql/graphql";
+import { Budget } from "../../graphql/generated/graphql";
 import { ButtonText } from "../../components/ButtonText";
 import { useTemplateContext } from "../Template";
 import IconTrash from "../../icons/Trash";

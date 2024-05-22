@@ -21,8 +21,8 @@ export type Scalars = {
 
 export type Budget = {
   __typename?: 'Budget';
+  amount: Scalars['Money']['output'];
   balance: Scalars['Money']['output'];
-  budget: Scalars['Money']['output'];
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   expense: Scalars['Money']['output'];
@@ -357,8 +357,8 @@ export type ResolversParentTypes = {
 };
 
 export type BudgetResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Budget'] = ResolversParentTypes['Budget']> = {
+  amount?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
   balance?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
-  budget?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   expense?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
