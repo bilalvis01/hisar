@@ -4,7 +4,7 @@ import React from "react";
 import DeleteDialog from "../delete-dialog/DeleteDialog";
 import { DELETE_BUDGET, GET_BUDGET_BY_CODE } from "../../graphql-documents";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { DeleteBudgetMutation, Budget } from "../../graphql-tag/graphql";
+import { DeleteBudgetMutation, Budget } from "../../graphql/graphql";
 import { useTemplateContext } from "../Template";
 
 interface BudgetDeleteProps {

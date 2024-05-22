@@ -1,4 +1,4 @@
-import { Budget } from "../graphql-tag/graphql";
+import { Budget } from "../graphql/graphql";
 
 export default function createMessageBudgetDelete(budgets: Budget[], prefix?: string, suffix?: string) {
     const message = budgets.reduce((acc, budget, index, array) => {
