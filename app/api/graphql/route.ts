@@ -228,7 +228,6 @@ const resolvers: Resolvers = {
                 })[0].account;
 
                 const exepenseEntry = ledgerEntry.entries.filter((entry) => {
-                    console.log(entry);
                     return entry.account.accountCode.code === EXPENSE_ACCOUNT_CODE;
                 })[0];
 
