@@ -35,17 +35,7 @@ import { IconButtonStandard } from "../../components/IconButtonStandard";
 import BudgetDeleteMany from "../budget-delete-many/BudgetDeleteMany";
 import date from "../../utils/date";
 
-interface Row {
-    name: string;
-    code: string;
-    budget: number;
-    expense: number;
-    balance: number;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const columnHelper = createColumnHelper<Row>();
+const columnHelper = createColumnHelper<Budget>();
 
 const columns = [
     columnHelper.display({
@@ -92,7 +82,7 @@ const columns = [
             </span>
         ),
     }),
-    columnHelper.accessor("budget", {
+    columnHelper.accessor("amount", {
         header: () => (
             <span className={clsx("currency", "text-title-small")}>
                 BUDGET

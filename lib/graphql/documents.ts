@@ -1,4 +1,4 @@
-import { gql } from ".";
+import { gql } from "./generated";
 
 export const GET_EXCERPT_REPORT = gql(/* GraphQL */ `
     query GetExcerptReport {
@@ -16,7 +16,7 @@ export const GET_BUDGETS = gql(/* GraphQL */ `
             id
             code
             name
-            budget
+            amount
             expense
             balance
             ledgerEntries {
@@ -45,7 +45,7 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
                 id
                 code
                 name
-                budget
+                amount
                 expense
                 balance
                 ledgerEntries {
@@ -70,7 +70,7 @@ export const NEW_BUDGET = gql(/* GraphQL */ `
         id
         code
         name
-        budget
+        amount
         expense
         balance
         ledgerEntries {
@@ -98,7 +98,7 @@ export const CREATE_BUDGET = gql(/* GraphQL */`
                 id
                 code
                 name
-                budget
+                amount
                 expense
                 balance
                 ledgerEntries {
@@ -128,7 +128,7 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
                 id
                 code
                 name
-                budget
+                amount
                 expense
                 balance
                 ledgerEntries {
@@ -158,7 +158,7 @@ export const DELETE_BUDGET = gql(/* GraphQL */`
                 id
                 code
                 name
-                budget
+                amount
                 expense
                 balance
                 createdAt
@@ -178,7 +178,7 @@ export const DELETE_BUDGET_MANY = gql(/* GraphQL */`
                 id
                 code
                 name
-                budget
+                amount
                 expense
                 balance
                 createdAt

@@ -35,7 +35,7 @@ export default function BudgetUpdateForm({
     const initialValues = {
             code: budget.code,
             name: budget.name,
-            amount: budget.budget,
+            amount: budget.amount,
     };
 
     return (

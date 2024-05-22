@@ -205,7 +205,7 @@ export default function BudgetDetailCard() {
                             </li>
                             <li>
                                 <div className="text-title-small">Total Budget</div>
-                                <div className="text-body-small">{idr.format(budget.budget)}</div>
+                                <div className="text-body-small">{idr.format(budget.amount)}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Total Expense</div>

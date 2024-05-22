@@ -32,7 +32,7 @@ type Budget {
     id: Int!
     code: String!
     name: String!
-    budget: Money!
+    amount: Money!
     expense: Money!
     balance: Money!
     ledgerEntries: [BudgetLedgerEntry!]!
@@ -60,7 +60,7 @@ type BudgetLedgerEntry {
 
 input CreateBudgetInput {
     name: String!
-    budget: Money!
+    amount: Money!
 }
 
 type CreateBudgetPayload {

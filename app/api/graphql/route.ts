@@ -107,7 +107,7 @@ async function getBudgetDetail(
         id: account.id,
         code: `${accountCode.format(account.accountCode.accountSupercode.code)}-${accountCode.format(account.accountCode.code)}`,
         name: account.name,
-        budget: budget,
+        amount: budget,
         expense: expense,
         balance: account.balance,
         ledgerEntries: entries,
@@ -147,7 +147,7 @@ const resolvers: Resolvers = {
 
             return budgets.reduce((acc, budget) => {
                 return {
-                    budget: acc.budget + budget.budget,
+                    budget: acc.budget + budget.amount,
                     expense: acc.expense + budget.expense,
                     balance: acc.balance + budget.balance,
                 }
@@ -327,7 +327,7 @@ const resolvers: Resolvers = {
                         id: account.id,
                         code: `${accountCode.format(account.accountCode.accountSupercode.code)}-${accountCode.format(account.accountCode.code)}`,
                         name: account.name,
-                        budget: account.balance,
+                        amount: account.balance,
                         expense: BigInt(0),
                         ledgerEntries: [],
                         balance: account.balance,

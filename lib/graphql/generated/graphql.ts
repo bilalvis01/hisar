@@ -52,7 +52,7 @@ export type BudgetLedgerEntry = {
 };
 
 export type CreateBudgetInput = {
-  budget: Scalars['Money']['input'];
+  amount: Scalars['Money']['input'];
   name: Scalars['String']['input'];
 };
 
