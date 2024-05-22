@@ -7,7 +7,7 @@ import {
 import { 
     ACCOUNT_SOFT_DELETED,
     ACTIVE,
-    LEDGER_CORRECTED, 
+    HIDE, 
 } from "./state";
 
 async function refundProcedure(
@@ -20,7 +20,7 @@ async function refundProcedure(
         skipUpdateBalance?: boolean;
     }
 ) {
-    let ledgerEntry = await client.ledger.findFirst({
+    let incorrectLedgerEntry = await client.ledger.findFirst({
         where: {
             code,
             state: { id: ACTIVE },
@@ -34,8 +34,8 @@ async function refundProcedure(
         },
     });
     
-    const creditEntry = ledgerEntry.entries.filter((entry) => entry.direction === -1)[0];
-    const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
+    const creditEntry = incorrectLedgerEntry.entries.filter((entry) => entry.direction === -1)[0];
+    const debitEntry = incorrectLedgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
     const creditAccount = creditEntry.account;
     const debitAccount = debitEntry.account;
@@ -46,18 +46,18 @@ async function refundProcedure(
             debitId: creditAccount.id, 
             creditId: debitAccount.id, 
             amount: debitEntry.amount, 
-            description: ledgerEntry.description,
+            description: incorrectLedgerEntry.description,
             useBalanceFromLedgerEntry: code,
             skipUpdateAccountBalance: true,
         }
     );
 
-    ledgerEntry = await client.ledger.update({
+    incorrectLedgerEntry = await client.ledger.update({
         where: {
-            id: ledgerEntry.id,
+            id: incorrectLedgerEntry.id,
         },
         data: {
-            state: { connect: { id: LEDGER_CORRECTED } },
+            state: { connect: { id: HIDE } },
         },
         include: {
             entries: {
@@ -73,10 +73,10 @@ async function refundProcedure(
             id: correctionLedgerEntry.id,
         },
         data: {
-            state: { connect: { id: LEDGER_CORRECTED } },
-            correctedLedger: { connect: { id: ledgerEntry.id } },
-            code: ledgerEntry.code,
-            createdAt: ledgerEntry.createdAt,
+            state: { connect: { id: HIDE } },
+            incorrectLedger: { connect: { id: incorrectLedgerEntry.id } },
+            code: incorrectLedgerEntry.code,
+            createdAt: incorrectLedgerEntry.createdAt,
         },
         include: {
             entries: {
@@ -92,7 +92,7 @@ async function refundProcedure(
     }
 
     return {
-        ledgerEntry,
+        incorrectLedgerEntry,
         correctionLedgerEntry,
     };
 }
@@ -109,9 +109,9 @@ async function changeBudgetAccountLedgerEntryProcedure(
         amount: bigint;
     }
 ) {
-    const { ledgerEntry, correctionLedgerEntry } = await refundProcedure(client, { code });
+    const { incorrectLedgerEntry, correctionLedgerEntry } = await refundProcedure(client, { code });
 
-    const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
+    const debitEntry = incorrectLedgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
     const debitAccount = debitEntry.account;
 
@@ -121,7 +121,7 @@ async function changeBudgetAccountLedgerEntryProcedure(
             creditId: budgetAccountId, 
             debitId: debitAccount.id,
             amount: amount, 
-            description: ledgerEntry.description,
+            description: incorrectLedgerEntry.description,
             useBalanceFromLedgerEntry: code,
             skipUpdateAccountBalance: true,
         }  
@@ -153,12 +153,12 @@ async function changeAmountLedgerEntryProcedure(
     client: PrismaClient,
     { code, amount }: { code: number; amount: bigint }
 ) {
-    const { ledgerEntry, correctionLedgerEntry } = await refundProcedure(
+    const { incorrectLedgerEntry, correctionLedgerEntry } = await refundProcedure(
         client, { code, skipUpdateBalance: true }
     );
 
-    const creditEntry = ledgerEntry.entries.filter((entry) => entry.direction === -1)[0];
-    const debitEntry = ledgerEntry.entries.filter((entry) => entry.direction === 1)[0];
+    const creditEntry = incorrectLedgerEntry.entries.filter((entry) => entry.direction === -1)[0];
+    const debitEntry = incorrectLedgerEntry.entries.filter((entry) => entry.direction === 1)[0];
 
     const creditAccount = creditEntry.account;
     const debitAccount = debitEntry.account;
@@ -167,7 +167,7 @@ async function changeAmountLedgerEntryProcedure(
         creditId: creditAccount.id, 
         debitId: debitAccount.id, 
         amount, 
-        description: ledgerEntry.description,
+        description: incorrectLedgerEntry.description,
         useBalanceFromLedgerEntry: code,
         skipUpdateAccountBalance: true,
     });
@@ -177,8 +177,8 @@ async function changeAmountLedgerEntryProcedure(
             id: newLedgerEntry.id,
         },
         data: {
-            code: ledgerEntry.code,
-            createdAt: ledgerEntry.createdAt,
+            code: incorrectLedgerEntry.code,
+            createdAt: incorrectLedgerEntry.createdAt,
         },
         include: {
             entries: {

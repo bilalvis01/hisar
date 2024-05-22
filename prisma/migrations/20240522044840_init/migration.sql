@@ -29,12 +29,12 @@ CREATE TABLE `Ledger` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `code` INTEGER NULL,
     `description` VARCHAR(255) NOT NULL,
-    `correctedLedgerId` INTEGER NULL,
+    `incorrectLedgerId` INTEGER NULL,
     `stateId` INTEGER NOT NULL DEFAULT 1,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Ledger_correctedLedgerId_key`(`correctedLedgerId`),
+    UNIQUE INDEX `Ledger_incorrectLedgerId_key`(`incorrectLedgerId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -69,7 +69,7 @@ ALTER TABLE `Account` ADD CONSTRAINT `Account_stateId_fkey` FOREIGN KEY (`stateI
 ALTER TABLE `AccountCode` ADD CONSTRAINT `AccountCode_accountSupercodeId_fkey` FOREIGN KEY (`accountSupercodeId`) REFERENCES `AccountCode`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Ledger` ADD CONSTRAINT `Ledger_correctedLedgerId_fkey` FOREIGN KEY (`correctedLedgerId`) REFERENCES `Ledger`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Ledger` ADD CONSTRAINT `Ledger_incorrectLedgerId_fkey` FOREIGN KEY (`incorrectLedgerId`) REFERENCES `Ledger`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Ledger` ADD CONSTRAINT `Ledger_stateId_fkey` FOREIGN KEY (`stateId`) REFERENCES `State`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

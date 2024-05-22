@@ -17,10 +17,7 @@ import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDel
 import expenseCode from "../../../lib/utils/expenseCode";
 import accountCode from "../../../lib/utils/accountCode";
 import { 
-    ACTIVE, 
-    ACCOUNT_SOFT_DELETED,
-    LEDGER_SOFT_DELETED,
-    LEDGER_CORRECTED,
+    ACTIVE,
 } from "../../../lib/database/state";
 import { BUDGET_ACCOUNT_CODE, CASH_ACCOUNT_CODE, EXPENSE_ACCOUNT_CODE } from "../../../lib/database/account-code";
 
@@ -316,7 +313,7 @@ const resolvers: Resolvers = {
             try {
                 const account = await createBudget(context.dataSources, { 
                     name: input.name,
-                    amount: input.budget,
+                    amount: input.amount,
                 });
                 
                 return {
