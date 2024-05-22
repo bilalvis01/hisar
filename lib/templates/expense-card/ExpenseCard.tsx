@@ -11,7 +11,7 @@ import clsx from "clsx";
 import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { GET_EXPENSES } from "../../graphql-documents";
+import { GET_EXPENSES } from "../../graphql/documents";
 import Table from "../Table";
 import ExpenseAddForm from "../expense-add-form/ExpenseAddForm";
 import style from "./ExpenseCard.module.scss";

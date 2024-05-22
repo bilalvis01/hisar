@@ -2,7 +2,7 @@
 
 import React from "react";
 import DeleteDialog from "../delete-dialog/DeleteDialog";
-import { DELETE_BUDGET_MANY } from "../../graphql-documents";
+import { DELETE_BUDGET_MANY } from "../../graphql/documents";
 import { useMutation } from "@apollo/client";
 import { DeleteBudgetManyMutation, Budget } from "../../graphql/graphql";
 import { useTemplateContext } from "../Template";

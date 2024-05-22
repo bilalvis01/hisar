@@ -1,4 +1,4 @@
-import { gql } from "./graphql";
+import { gql } from ".";
 
 export const GET_EXCERPT_REPORT = gql(/* GraphQL */ `
     query GetExcerptReport {

@@ -4,7 +4,7 @@ import React from "react";
 import clsx from "clsx";
 import idr from "../../utils/idr";
 import { useQuery } from "@apollo/client";
-import { GET_EXPENSE_BY_CODE } from "../../graphql-documents";
+import { GET_EXPENSE_BY_CODE } from "../../graphql/documents";
 import { useParams } from "next/navigation";
 import style from "./ExpenseDetailCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";

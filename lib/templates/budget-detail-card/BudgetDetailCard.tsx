@@ -11,7 +11,7 @@ import clsx from "clsx";
 import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { GET_BUDGET_BY_CODE } from "../../graphql-documents";
+import { GET_BUDGET_BY_CODE } from "../../graphql/documents";
 import Table from "../Table";
 import { useParams } from "next/navigation";
 import style from "./BudgetDetailCard.module.scss";

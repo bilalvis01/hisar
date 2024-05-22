@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { GraphQLScalarType, Kind } from "graphql";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { Resolvers, GetBudgetInput } from "../../../lib/resolvers-types";
+import { Resolvers, GetBudgetInput } from "../../../lib/graphql/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient, Account, AccountCode } from "@prisma/client";
 import { 

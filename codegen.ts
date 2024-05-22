@@ -8,9 +8,9 @@ const config: CodegenConfig = {
     "app/**/*.(tsx|ts)",
   ],
   generates: {
-    './lib/resolvers-types.ts': {
+    './lib/graphql/resolvers-types.ts': {
       config: {
-        contextType: "./graphql-context#Context",
+        contextType: "./context#Context",
         scalars: {
           DateTime: "Date",
           Money: "bigint"
@@ -18,7 +18,7 @@ const config: CodegenConfig = {
       },
       plugins: ['typescript', 'typescript-resolvers']
     },
-    './lib/graphql-tag/': {
+    './lib/graphql/': {
       config: {
         scalars: {
           DateTime: "string",

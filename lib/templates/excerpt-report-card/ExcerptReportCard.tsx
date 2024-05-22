@@ -4,7 +4,7 @@ import React from "react";
 import style from "./ExcerptReportCard.module.scss";
 import clsx from "clsx";
 import idr from "../../utils/idr";
-import { GET_EXCERPT_REPORT } from "../../../lib/graphql-documents";
+import { GET_EXCERPT_REPORT } from "../../graphql/documents";
 import { useQuery } from "@apollo/client";
 import ProgressCircular from "../../../lib/components/ProgressCircular";
 import CardOutlined from "../../components/CardOutlined";
