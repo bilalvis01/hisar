@@ -16,10 +16,8 @@ import { DateTimeTypeDefinition, DateTimeResolver } from "graphql-scalars";
 import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
 import expenseCode from "../../../lib/utils/expenseCode";
 import accountCode from "../../../lib/utils/accountCode";
-import { 
-    ACTIVE,
-} from "../../../lib/database/state";
-import { BUDGET_ACCOUNT_CODE, CASH_ACCOUNT_CODE, EXPENSE_ACCOUNT_CODE } from "../../../lib/database/account-code";
+import { ACTIVE } from "../../../lib/database/state";
+import { BUDGET_ACCOUNT_CODE, EXPENSE_ACCOUNT_CODE } from "../../../lib/database/account-code";
 
 function splitCode(code: string) {
     return code.split("-").map(Number);

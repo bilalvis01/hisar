@@ -7,9 +7,9 @@ import {
 } from './lib/database/account-code';
 import { 
     ACTIVE,
+    HIDE,
     ACCOUNT_SOFT_DELETED,
     LEDGER_SOFT_DELETED,
-    LEDGER_CORRECTED,
 } from './lib/database/state';
 
 const prisma = new PrismaClient();
@@ -22,16 +22,16 @@ async function main() {
                 name: "active",
             },
             {
+                id: HIDE,
+                name: "hide",
+            },
+            {
                 id: ACCOUNT_SOFT_DELETED,
                 name: "account_soft_deleted",
             },
             { 
                 id: LEDGER_SOFT_DELETED,
                 name: "ledger_soft_deleted",
-            },
-            {
-                id: LEDGER_CORRECTED,
-                name: "ledger_corrected",
             },
         ],
     });
