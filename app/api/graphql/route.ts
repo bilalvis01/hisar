@@ -11,7 +11,7 @@ import {
     deleteBudgetMany, 
     entry, 
     updateExpense,
-} from "../../../lib/transactions";
+} from "../../../lib/database/transactions";
 import { DateTimeTypeDefinition, DateTimeResolver } from "graphql-scalars";
 import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
 import expenseCode from "../../../lib/utils/expenseCode";

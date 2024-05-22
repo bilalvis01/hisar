@@ -3,12 +3,12 @@ import {
     CASH_ACCOUNT_CODE, 
     EXPENSE_ACCOUNT_CODE, 
     BUDGET_ACCOUNT_CODE,
-} from "./database/account-code";
+} from "./account-code";
 import { 
     ACCOUNT_SOFT_DELETED,
     ACTIVE,
     LEDGER_CORRECTED, 
-} from "./database/state";
+} from "./state";
 
 async function refundProcedure(
     client: PrismaClient,

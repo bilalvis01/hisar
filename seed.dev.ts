@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { createBudget, createExpense } from "./lib/transactions";
+import { createBudget, createExpense } from "./lib/database/transactions";
 import { 
     CASH_ACCOUNT_CODE, 
     EXPENSE_ACCOUNT_CODE, 
