@@ -14,59 +14,85 @@ datasource db {
 }
 
 model Account {
-  id                  Int           @id @default(autoincrement())
-  accountCodeId       Int           @unique
-  accountCode         AccountCode   @relation(fields: [accountCodeId], references: [id])
-  name                String        @db.VarChar(255)
-  balance             BigInt
-  direction           Int           @db.TinyInt
-  stateId             Int           @default(1)
-  state               State         @relation(fields: [stateId], references: [id])
-  entries             Entry[]
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
+  id                    Int             @id @default(autoincrement())
+  name                  String          @db.VarChar(255)
+  active                Boolean         @default(true)
+  accountCodeId         Int             @unique
+  accountCode           AccountCode     @relation(fields: [accountCodeId], references: [id])
+  accountTypeId         Int             
+  accountType           AccountType     @relation(fields: [accountTypeId], references: [id])
+  ledger                Ledger[]
+  CashAccount_Budget    Budget?         @relation("BudgetCashAccount")
+  ExpenseAccount_Budget Budget?         @relation("BudgetExpenseAccount")
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+}
+
+model AccountType {
+  id                    Int             @id
+  name                  String          @unique @db.VarChar(40)
+  direction             Int             @db.TinyInt
+  accounts              Account[]
 }
 
 model AccountCode {
-  id                  Int           @id @default(autoincrement())
-  accountType         String?       @db.VarChar(40)
-  code                Int           @default(1)
-  accountSupercodeId  Int?          
-  accountSupercode    AccountCode?  @relation("AccountSubcode", fields: [accountSupercodeId], references: [id])  
-  accountSubcode      AccountCode[] @relation("AccountSubcode")
-  account             Account?
+  id                    Int             @id @default(autoincrement())
+  code                  Int             @default(1)
+  accountSupercodeId    Int?          
+  accountSupercode      AccountCode?    @relation("AccountSubcode", fields: [accountSupercodeId], references: [id])  
+  accountSubcode        AccountCode[]   @relation("AccountSubcode")
+  account               Account?
   
   @@unique([code, accountSupercodeId])
 }
 
 model Ledger {
-  id                  Int           @id @default(autoincrement())
-  code                Int?
-  description         String        @db.VarChar(255)
-  entries             Entry[]
-  incorrectLedgerId   Int?          @unique
-  incorrectLedger     Ledger?       @relation("CorrectionLedger", fields: [incorrectLedgerId], references: [id])
-  correction          Ledger?       @relation("CorrectionLedger")
-  stateId             Int           @default(1)
-  state               State         @relation(fields: [stateId], references: [id])
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
+  id                    Int             @id @default(autoincrement())
+  balance               BigInt
+  open                  Boolean         @default(true)
+  accountId             Int
+  account               Account         @relation(fields: [accountId], references: [id])
+  entries               LedgerEntry[]
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+}
+
+model LedgerEntry {
+  id                    Int             @id @default(autoincrement())
+  description           String?         @db.VarChar(255)
+  balance               BigInt
+  softDeleted           Boolean         @default(false)
+  ledgerId              Int
+  ledger                Ledger          @relation(fields: [ledgerId], references: [id])
+  entryId               Int             @unique
+  entry                 Entry           @relation(fields: [entryId], references: [id])
+}
+
+model Journal {
+  id                    Int             @id @default(autoincrement())
+  description           String          @db.VarChar(255)
+  softDeleted           Boolean         @default(false)
+  entries               Entry[]
+  createdAt             DateTime        @default(now())
 }
 
 model Entry {
-  id                  Int           @id @default(autoincrement())
-  ledgerId            Int
-  ledger              Ledger        @relation(fields: [ledgerId], references: [id])
-  accountId           Int
-  account             Account       @relation(fields: [accountId], references: [id])
-  amount              BigInt
-  balance             BigInt
-  direction           Int           @db.TinyInt
-} 
+  id                    Int             @id @default(autoincrement())
+  direction             Int             @db.TinyInt
+  amount                BigInt
+  journalId             Int
+  journal               Journal         @relation(fields: [journalId], references: [id])
+  ledger                LedgerEntry?
+}
 
-model State {
-  id                  Int           @id
-  name                String        @db.VarChar(40) @unique
-  accounts            Account[]
-  ledger              Ledger[]
+model Budget {
+  id                    Int             @id @default(autoincrement())
+  name                  String          @db.VarChar(255)
+  active                Boolean         @default(true)
+  cashAccountId         Int             @unique
+  cashAccount           Account         @relation(name: "BudgetCashAccount", fields: [cashAccountId], references: [id])
+  expenseAccountId      Int             @unique
+  expenseAccount        Account         @relation(name: "BudgetExpenseAccount", fields: [expenseAccountId], references: [id])
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
 }
