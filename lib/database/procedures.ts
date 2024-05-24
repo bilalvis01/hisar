@@ -5,11 +5,10 @@ import {
 } from "@prisma/client";
 import { 
     CASH_ACCOUNT_CODE, 
-    EXPENSE_ACCOUNT_CODE, 
-    BUDGET_ACCOUNT_CODE,
+    BUDGET_EXPENSE_ACCOUNT_CODE, 
+    BUDGET_CASH_ACCOUNT_CODE,
 } from "./account-code";
 import { ASSET } from "./account-type";
-import accountCode from "../utils/accountCode";
 
 const DEBIT = 1;
 const CREDIT = -1;
@@ -44,7 +43,7 @@ export async function createBudgetProcedure(
     });
 
     const budgetCashAccountSupercode = await client.accountCode.findFirst({
-        where: { code: BUDGET_ACCOUNT_CODE }
+        where: { code: BUDGET_CASH_ACCOUNT_CODE }
     });
     
     const latestBudgetCashAccountSubcode = await client.accountCode.findFirst({
@@ -65,12 +64,12 @@ export async function createBudgetProcedure(
         data: {
             name: `${name} (cash account)`,
             accountCode: { connect: { id: budgetCashAccountSubcode.id } },
-            accountType: { connect: { id: ASSET } }
+            accountType: { connect: { name: ASSET } }
         }
     });
 
     const budgetExpenseAccountSupercode = await client.accountCode.findFirst({
-        where: { code: EXPENSE_ACCOUNT_CODE }
+        where: { code: BUDGET_EXPENSE_ACCOUNT_CODE }
     });
     
     const latestBudgetExpenseAccountSubcode = await client.accountCode.findFirst({
@@ -91,14 +90,14 @@ export async function createBudgetProcedure(
         data: {
             name: `${name} (expense account)`,
             accountCode: { connect: { id: budgetExpenseAccountSubcode.id } },
-            accountType: { connect: { id: ASSET } }
+            accountType: { connect: { name: ASSET } }
         }
     });
 
     await client.ledger.create({
         data: {
             account: { connect: { id: budgetCashAccount.id } },
-            balance: amount,
+            balance: BigInt(0),
         },
     });
 
@@ -191,6 +190,15 @@ export async function balanceLedgerProcedure(client: PrismaClient, { id }: { id:
             },
         });
     }));
+
+    await client.ledger.update({
+        where: {
+            id: ledger.id,
+        },
+        data: {
+            updatedAt: new Date(),
+        },
+    });
 };
 
 export async function journalizeProcedure(
@@ -343,5 +351,5 @@ export async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: 
         },
     });
 
-    return
+    return budget;
 }

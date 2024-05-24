@@ -3,142 +3,171 @@ import { GraphQLScalarType, Kind } from "graphql";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers, GetBudgetInput } from "../../../lib/graphql/resolvers-types";
 import { readFileSync } from 'fs';
-import { PrismaClient, Account, AccountCode } from "@prisma/client";
+import { 
+    PrismaClient, 
+    Budget, 
+    Account, 
+    AccountCode 
+} from "@prisma/client";
 import { 
     createBudget, 
     updateBudget, 
     deleteBudget, 
     deleteBudgetMany, 
-    entry, 
+    createExpense,
     updateExpense,
 } from "../../../lib/database/transactions";
 import { DateTimeTypeDefinition, DateTimeResolver } from "graphql-scalars";
-import createMessageBudgetDelete from "../../../lib/utils/createMessageBudgetDelete";
-import expenseCode from "../../../lib/utils/expenseCode";
+import createMessageDeleteBudget from "../../../lib/utils/createMessageDeleteBudget";
+import expenseID from "../../../lib/utils/expenseID";
 import accountCode from "../../../lib/utils/accountCode";
-import { ACTIVE } from "../../../lib/database/state";
-import { BUDGET_ACCOUNT_CODE, EXPENSE_ACCOUNT_CODE } from "../../../lib/database/account-code";
+import { BUDGET_CASH_ACCOUNT_CODE } from "../../../lib/database/account-code";
 
-function splitCode(code: string) {
+function getAccountCode(code: string) {
     return code.split("-").map(Number);
+}
+
+function getBudgetCode(account: Account & { accountCode: AccountCode & { accountSupercode: AccountCode } }) {
+    const supercode = account.accountCode.accountSupercode.code;
+    const subcode = account.accountCode.code;
+    return `${supercode}-${accountCode.format(subcode)}`;
 }
 
 async function getBudgetDetail(
     dataSources: PrismaClient, 
-    account: Account & { accountCode: AccountCode & { accountSupercode: AccountCode } }
+    budget: Budget,
 ) {
-    const ledgerEntries = (await dataSources.ledger.findMany({
+    const budgetCashAccount = await dataSources.account.findUnique({
         where: {
-            entries: { 
-                some: { 
-                    account: { id: account.id },
-                }, 
-            },
-            state: {
-                id: ACTIVE,
-            },
+            id: budget.cashAccountId,
         },
-        include: { 
-            entries: { 
-                include: { 
-                    account: true 
-                },
+        include: {
+            ledger: {
                 where: {
-                    account: { id: account.id },
+                    open: true,
+                },
+                include: {
+                    entries: {
+                        include: {
+                            entry: {
+                                include: {
+                                    journal: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            accountCode: {
+                include: {
+                    accountSupercode: true,
                 },
             },
         },
-        orderBy: {
-            code: "desc" 
-        },
-    }))
-    .map(({ entries, ...ledgerEntry }) => {
-        return {
-            ...ledgerEntry,
-            entry: entries[0],
-        };
     });
 
-    const budget = ledgerEntries.reduce((acc, ledgerShadowEntry) => {
-        if (ledgerShadowEntry.entry.direction === 1) {
-            return ledgerShadowEntry.entry.amount;
+    const budgetExpenseAccount = await dataSources.account.findUnique({
+        where: {
+            id: budget.expenseAccountId,
+        },
+        include: {
+            ledger: {
+                where: {
+                    open: true,
+                },
+                include: {
+                    entries: true,
+                },
+            },
+        },
+    });
+
+    const openBudgetCashLedger = budgetCashAccount.ledger[0];
+    const openBudgetExpenseLedger = budgetExpenseAccount.ledger[0];
+
+    const budgetTotal = openBudgetCashLedger.entries.reduce((acc, ledgerEntry) => {
+        if (ledgerEntry.entry.direction === 1) {
+            return acc + ledgerEntry.entry.amount;
         }
 
         return acc;
     }, BigInt(0));
     
-    const expense = ledgerEntries.reduce((acc, ledgerShadowEntry) => {
-        if (ledgerShadowEntry.entry.direction === -1) {
-            return acc + ledgerShadowEntry.entry.amount;
-        }
-
-        return acc;
-    }, BigInt(0));
+    const expenseTotal = openBudgetExpenseLedger.balance;
     
-    const entries = ledgerEntries.map((ledgerEntry) => {
-        const entry = {
-            id: ledgerEntry.id,
-            code: expenseCode.format(ledgerEntry.code),
-            description: ledgerEntry.description,
-            balance: ledgerEntry.entry.balance,
-            createdAt: ledgerEntry.createdAt,
-            updatedAt: ledgerEntry.updatedAt,
+    const ledgerEntries = openBudgetCashLedger.entries.map((ledgerEntry) => {
+        const ledgerEntry_ = {
+            id: ledgerEntry.entry.journal.id,
+            description: ledgerEntry.entry.journal.description,
+            balance: ledgerEntry.balance,
+            createdAt: ledgerEntry.entry.journal.createdAt,
         };
 
         if (ledgerEntry.entry.direction === 1) {
             return {
-                ...entry,
+                ...ledgerEntry_,
                 ...{ debit: ledgerEntry.entry.amount },
             }
         }
 
         return {
-            ...entry,
+            ...ledgerEntry_,
             ...{ credit: ledgerEntry.entry.amount },
         }
     });
 
     return {
-        id: account.id,
-        code: `${accountCode.format(account.accountCode.accountSupercode.code)}-${accountCode.format(account.accountCode.code)}`,
-        name: account.name,
-        amount: budget,
-        expense: expense,
-        balance: account.balance,
-        ledgerEntries: entries,
-        createdAt: account.createdAt,
-        updatedAt: account.updatedAt,
+        code: getBudgetCode(budgetCashAccount),
+        name: budget.name,
+        amount: budgetTotal,
+        expense: expenseTotal,
+        balance: openBudgetCashLedger.balance,
+        ledgerEntries,
+        createdAt: budget.createdAt,
+        updatedAt: budget.updatedAt,
     }
 }
 
-async function fetchBugdets(dataSources: PrismaClient, input?: GetBudgetInput ) {    
-    const data = await dataSources.account.findMany({ 
-        where: { 
-            accountCode: { accountSupercode: { code: 101 } },
-            state: { id: ACTIVE },
-            createdAt: {
-                lt: input?.createdBefore,
+async function fetchBudgetByCode(dataSources: PrismaClient, code: string) {
+    const budgetCode = getAccountCode(code);
+    return await dataSources.budget.findFirst({
+        where: {
+            active: true,
+            cashAccount: {
+                accountCode: {
+                    code: budgetCode[1],
+                    accountSupercode: {
+                        code: budgetCode[0],
+                    },
+                },
             },
         },
-        include: {
-            accountCode: {
-                include: {
-                    accountSupercode: true
-                }
-            }
+    });
+} 
+
+async function fetchBudgetsByCodes(dataSources: PrismaClient, codes: string[]) {
+    return await Promise.all(codes.map(
+        async (code) => await fetchBudgetByCode(dataSources, code)
+    ));
+}
+
+async function fetchBudgets(dataSources: PrismaClient, input?: GetBudgetInput ) {    
+    const budgets = await dataSources.budget.findMany({ 
+        where: {
+            active: true,
         },
         orderBy: {
             createdAt: "desc",
         },
     });
 
-    return await Promise.all(data.map(async (account) => await getBudgetDetail(dataSources, account)));
+    return await Promise.all(budgets.map(async (budget) => await getBudgetDetail(dataSources, budget)));
 };
 
 const resolvers: Resolvers = {
     Query: {
         async excerptReport(_, __, context) {
-            const budgets = await fetchBugdets(context.dataSources);
+            const budgets = await fetchBudgets(context.dataSources);
 
             return budgets.reduce((acc, budget) => {
                 return {
@@ -154,146 +183,146 @@ const resolvers: Resolvers = {
         },
 
         async budgets(_, { input }, context) {
-            return await fetchBugdets(context.dataSources, input);
+            return await fetchBudgets(context.dataSources, input);
         },
 
-        async budgetByCode(_, { code: code_ }, context) {
-            const code = splitCode(code_);
-            const account = await context.dataSources.account.findFirst({
-                where: {
-                    accountCode: { 
-                        code: code[1], 
-                        accountSupercode: { code: code[0] },
-                    },
-                    state: { id: ACTIVE },
-                },
-                include: {
-                    accountCode: {
-                        include: {
-                            accountSupercode: true
-                        }
-                    }
-                }
-            });
+        async budgetByCode(_, { code }, context) {
+            const budget = await fetchBudgetByCode(context.dataSources, code);
 
-            if (!account) {
+            if (!budget) {
                 return {
                     code: 404,
                     success: false,
-                    message: `account budget dengan code ${code_} tidak ada`,
+                    message: `account budget dengan code ${code} tidak ada`,
                 }
             }
 
-            const budget = await getBudgetDetail(context.dataSources, account);
+            const budgetDetail = await getBudgetDetail(context.dataSources, budget);
 
             return {
                 code: 200,
                 success: true,
                 message: "",
-                budget,
+                budget: budgetDetail,
             }
         },
 
         async expenses(_, __, context) {
-            const ledgerEntries = await context.dataSources.ledger.findMany({ 
-                where: { 
-                    entries: { some: { account: { accountCode: { code: 200 } } } },
-                    state: { id: ACTIVE },
-                },
-                include: { 
-                    entries: { 
-                        include: { 
-                            account: { 
-                                include: { 
-                                    accountCode: { 
-                                        include: { 
-                                            accountSupercode: true 
-                                        } 
-                                    } 
-                                } 
-                            } 
-                        } 
-                    } 
-                },
+            const budgets = await context.dataSources.budget.findMany({
                 orderBy: {
-                    createdAt: "desc",
-                }
+                    id: "desc",
+                },
+                include: {
+                    cashAccount: {
+                        include: {
+                            accountCode: {
+                                include: {
+                                    accountSupercode: true,
+                                },
+                            },
+                        },
+                    },
+                    expenseAccount: {
+                        include: {
+                            ledger: {
+                                include: {
+                                    entries: {
+                                        include: {
+                                            entry: {
+                                                include: {
+                                                    journal: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                                where: {
+                                    open: true,
+                                },
+                            },
+                        },
+                    },
+                },
             });
-        
-            return ledgerEntries.map((ledgerEntry) => {
-                const budgetAccount = ledgerEntry.entries.filter(entry => {
-                    const accountSupercode = entry.account.accountCode.accountSupercode;
-                    if (accountSupercode) return accountSupercode.code === BUDGET_ACCOUNT_CODE;
-                    return false;
-                })[0].account;
 
-                const exepenseEntry = ledgerEntry.entries.filter((entry) => {
-                    return entry.account.accountCode.code === EXPENSE_ACCOUNT_CODE;
-                })[0];
-
-                return {
-                    id: ledgerEntry.id,
-                    code: expenseCode.format(ledgerEntry.code),
-                    description: ledgerEntry.description,
-                    budgetAccount: budgetAccount.name,
-                    budgetAccountId: budgetAccount.id,
-                    amount: exepenseEntry.amount,
-                    createdAt: ledgerEntry.createdAt,
-                    updatedAt: ledgerEntry.updatedAt,
-                };
-            });
+            return budgets.map(
+                (budget) => ({ 
+                    name: budget.name,
+                    cashAccount: budget.cashAccount,
+                    entries: budget.expenseAccount.ledger[0].entries,
+                })
+            )
+            .flatMap(
+                (budget) => budget.entries.map((ledgerEntry) => ({
+                    id: expenseID.format(ledgerEntry.entry.journal.id),
+                    description: ledgerEntry.entry.journal.description,
+                    budgetCode: getBudgetCode(budget.cashAccount),
+                    budgetName: budget.name,
+                    amount: ledgerEntry.entry.amount,
+                    createdAt: ledgerEntry.entry.journal.createdAt,
+                }))
+            );
         },
 
-        async expenseByCode(_, { code }, context) {
-            const ledgerEntry = await context.dataSources.ledger.findFirst({ 
+        async expenseById(_, { id }, context) {
+            const journal = await context.dataSources.journal.findUnique({ 
                 where: { 
-                    code: Number(code),
-                    state: { id: ACTIVE },
+                    id: parseInt(id),
+                    active: true,
                 },
-                include: { 
-                    entries: { 
-                        include: { 
-                            account: { 
-                                include: { 
-                                    accountCode: { 
-                                        include: { 
-                                            accountSupercode: true 
-                                        } 
-                                    } 
-                                } 
-                            } 
-                        } 
-                    } 
+                include: {
+                    entries: {
+                        include: {
+                            ledgerEntry: {
+                                include: {
+                                    ledger: {
+                                        include: {
+                                            account: {
+                                                include: {
+                                                    accountCode: {
+                                                        include: {
+                                                            accountSupercode: true,
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        where: {
+                            ledgerEntry: {
+                                ledger: {
+                                    account: {
+                                        accountCode: {
+                                            accountSupercode: {
+                                                code: BUDGET_CASH_ACCOUNT_CODE,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
                 },
             });
 
-            if (!ledgerEntry) {
+            if (!journal) {
                 return {
                     code: 404,
                     success: false,
-                    message: `expense dengan code ${code} tidak ada`,
+                    message: `expense dengan code ${id} tidak ada`,
                 }
             }
 
-            const budgetAccount = ledgerEntry.entries.filter(entry => {
-                const accountSupercode = entry.account.accountCode.accountSupercode;
-                if (accountSupercode) return accountSupercode.code === BUDGET_ACCOUNT_CODE;
-                return false;
-            })[0].account;
-
-            const exepenseEntry = ledgerEntry.entries.filter((entry) => {
-                return entry.account.accountCode.code === EXPENSE_ACCOUNT_CODE;
-            })[0];
-
             const expense = {
-                id: ledgerEntry.id,
-                code: expenseCode.format(ledgerEntry.code),
-                description: ledgerEntry.description,
-                budgetAccount: budgetAccount.name,
-                budgetAccountId: budgetAccount.id,
-                amount: exepenseEntry.amount,
-                createdAt: ledgerEntry.createdAt,
-                updatedAt: ledgerEntry.updatedAt,
+                id: expenseID.format(journal.id),
+                description: journal.description,
+                budgetCode: getBudgetCode(journal.entries[0].ledgerEntry.ledger.account),
+                budgetName: journal.entries[0].ledgerEntry.ledger.account.name,
+                amount: journal.entries[0].amount,
+                createdAt: journal.createdAt,
             };
 
             return {
@@ -308,9 +337,27 @@ const resolvers: Resolvers = {
     Mutation: {
         async createBudget(_, { input }, context) {
             try {
-                const account = await createBudget(context.dataSources, { 
+                const budget = await createBudget(context.dataSources, { 
                     name: input.name,
                     amount: input.amount,
+                });
+
+                const budgetCashAccount = await context.dataSources.account.findUnique({
+                    where: {
+                        id: budget.cashAccountId,
+                    },
+                    include: {
+                        accountCode: {
+                            include: {
+                                accountSupercode: true,
+                            },
+                        },
+                        ledger: {
+                            where: {
+                                open: true,
+                            },
+                        },
+                    },
                 });
                 
                 return {
@@ -318,15 +365,14 @@ const resolvers: Resolvers = {
                     success: true,
                     message: `akun ${input.name} berhasil dibuat`,
                     budget: {
-                        id: account.id,
-                        code: `${accountCode.format(account.accountCode.accountSupercode.code)}-${accountCode.format(account.accountCode.code)}`,
-                        name: account.name,
-                        amount: account.balance,
+                        code: getBudgetCode(budgetCashAccount),
+                        name: budget.name,
+                        amount: budgetCashAccount.ledger[0].balance,
                         expense: BigInt(0),
                         ledgerEntries: [],
-                        balance: account.balance,
-                        createdAt: account.createdAt,
-                        updatedAt: account.updatedAt,
+                        balance: budgetCashAccount.ledger[0].balance,
+                        createdAt: budget.createdAt,
+                        updatedAt: budget.updatedAt,
                     },
                 };
             } catch (err) {
@@ -340,19 +386,21 @@ const resolvers: Resolvers = {
 
         async updateBudget(_, { input }, context) {
             try {
-                const data = {
-                    code: splitCode(input.code),
+                const budget = await fetchBudgetByCode(context.dataSources, input.code);
+
+                await updateBudget(context.dataSources, {
+                    id: budget.id,
                     name: input.name,
                     amount: input.amount,
-                };
-                const account = await updateBudget(context.dataSources, data);
-                const budget = await getBudgetDetail(context.dataSources, account);
+                });
+
+                const budgetDetail = await getBudgetDetail(context.dataSources, budget);
                 
                 return {
                     code: 200,
                     success: true,
                     message: `${input.name} berhasil diperbarui`,
-                    budget,
+                    budget: budgetDetail,
                 };
             } catch (error) {
                 return {
@@ -364,91 +412,118 @@ const resolvers: Resolvers = {
         },
 
         async deleteBudget(_, { input }, context) {
+            const budget = await fetchBudgetByCode(context.dataSources, input.code);
+
             try {
-                const account = await deleteBudget(context.dataSources, { id: input.id });
-                const budget = await getBudgetDetail(context.dataSources, account);
+                await deleteBudget(context.dataSources, { id: budget.id });
+                const budgetDetail = await getBudgetDetail(context.dataSources, budget);
                 return {
                     code: 200,
                     success: true,
-                    message: `${account.name} berhasil dihapus`,
-                    budget,
+                    message: `${budgetDetail.name} berhasil dihapus`,
+                    budget: budgetDetail,
                 };
             } catch (error) {
-                const account = await context.dataSources.account.findUnique({
-                    where: {
-                        id: input.id,
-                    }
-                });
                 return {
                     code: 500,
                     success: false,
-                    message: `${account.name} gagal dihapus`,
+                    message: `${budget.name} gagal dihapus`,
                 }
             }
         },
 
-        async deleteBudgetMany(_, { input: { ids } }, context) {
-            async function getBudgetDetailList(budgets) {
-                return await Promise.all(budgets.map((budget) => getBudgetDetail(context.dataSources, budget)))
-            }
+        async deleteBudgetMany(_, { input: { codes } }, context) {
+            const budgets = await fetchBudgetsByCodes(context.dataSources, codes);
+            const budgetNames = budgets.map((budget) => budget.name);
+            const budgetDetailList = await Promise.all(budgets.map(
+                async (budget) => await getBudgetDetail(context.dataSources, budget)
+            ));
+            const budgetIds = budgets.map((budget) => budget.id);
 
             try {                
-                const accounts = await deleteBudgetMany(context.dataSources, { ids });
-
-                const budgets = await getBudgetDetailList(accounts);
+                await deleteBudgetMany(context.dataSources, { ids: budgetIds });
 
                 return {
                     code: 200,
                     success: true,
-                    message: createMessageBudgetDelete(budgets, "", " berhasil dihapus"),
-                    budgets: budgets,
+                    message: createMessageDeleteBudget(budgetNames, "", " berhasil dihapus"),
+                    budgets: budgetDetailList,
                 };
             } catch (error) {
                 const accounts = context.dataSources.account.findMany({
                     where: {
                         id: {
-                            in: ids
+                            in: budgetIds
                         }
                     }
                 });
 
-                const budgets = await getBudgetDetailList(accounts);
-
                 return {
                     code: 500,
                     success: false,
-                    message: createMessageBudgetDelete(budgets, "", " gagal dihapus")
+                    message: createMessageDeleteBudget(budgetNames, "", " gagal dihapus")
                 }
             }
         },
 
         async createExpense(_, { input }, context) {
             try {
-                const expenseAccount = await context.dataSources.account.findFirst({
-                    where: { accountCode: { code: 200 } }
+                const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
+
+                const journal = await createExpense(context.dataSources, { 
+                    ...input,
+                    ...{ budgetId: budget.id },
                 });
-                const budgetAccount = await context.dataSources.account.findUnique({
-                    where: { id: input.budgetAccountId }
+
+                const budgetCashAccountJournalEntry = await context.dataSources.entry.findFirst({
+                    where: {
+                        journal: { id: journal.id },
+                        ledgerEntry: {
+                            ledger: {
+                                account: {
+                                    accountCode: {
+                                        accountSupercode: {
+                                            code: BUDGET_CASH_ACCOUNT_CODE,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    include: {
+                        ledgerEntry: {
+                            include: {
+                                ledger: {
+                                    include: {
+                                        account: {
+                                            include: {
+                                                accountCode: {
+                                                    include: {
+                                                        accountSupercode: true,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
                 });
-                const ledger = await entry(context.dataSources, { 
-                    creditId: budgetAccount.id, 
-                    debitId: expenseAccount.id, 
-                    amount: input.amount, 
-                    description: input.description
-                }); 
+
+                const budgetCashAccount = budgetCashAccountJournalEntry.ledgerEntry.ledger.account;
+
                 return {
                     code: 200,
                     success: true,
-                    message: `${input.description} berhasil ditambahkan`,
+                    message: `${journal.description} berhasil ditambahkan`,
                     expense: {
-                        id: ledger.id,
-                        code: expenseCode.format(ledger.code),
-                        budgetAccountId: budgetAccount.id,
-                        budgetAccount: budgetAccount.name,
+                        id: expenseID.format(journal.id),
+                        budgetCode: getBudgetCode(budgetCashAccount),
+                        budgetName: budget.name,
                         amount: input.amount,
-                        description: ledger.description,
-                        createdAt: ledger.createdAt,
-                        updatedAt: ledger.updatedAt,
+                        description: journal.description,
+                        createdAt: journal.createdAt,
                     },
                 };
             } catch (error) {
@@ -462,26 +537,21 @@ const resolvers: Resolvers = {
 
         async updateExpense(_, { input: input_ }, context) {
             try {
-                const input = { ...input_, ...{ code: Number(input_.code) } };
-                const ledgerEntry = await updateExpense(context.dataSources, input);
-                const budgetAccount = ledgerEntry
-                    .entries
-                    .filter((entry) => entry.accountId === input.budgetAccountId)[0]
-                    .account;
+                const input = { ...input_, ...{ code: parseInt(input_.id) } };
+                const journal = await updateExpense(context.dataSources, input);
+                const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
 
                 return {
                     code: 200,
                     success: true,
                     message: `${input.description} berhasil diperbarui`,
                     expense: {
-                        id: ledgerEntry.id,
-                        code: expenseCode.format(ledgerEntry.code),
-                        budgetAccountId: budgetAccount.id,
-                        budgetAccount: budgetAccount.name,
+                        id: expenseID.format(journal.id),
+                        budgetCode: input.budgetCode,
+                        budgetName: budget.name,
                         amount: input.amount,
-                        description: ledgerEntry.description,
-                        createdAt: ledgerEntry.createdAt,
-                        updatedAt: ledgerEntry.updatedAt,
+                        description: journal.description,
+                        createdAt: journal.createdAt,
                     },
                 };
             } catch (error) {

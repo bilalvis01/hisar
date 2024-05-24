@@ -44,7 +44,7 @@ export async function createBudget(
     { name, amount }: { name: string; amount: bigint }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        return await createBudget(tx, { name, amount });
+        return await createBudgetProcedure(tx, { name, amount });
     });
 }
 
@@ -153,6 +153,15 @@ export async function updateBudget(client: PrismaClient, {
 
             await balanceLedgerProcedure(tx, { id: openBudgetCashLedger.id });
             await balanceLedgerProcedure(tx, { id: openCashLedger.id });
+
+            await tx.budget.update({
+                where: {
+                    id: budget.id,
+                },
+                data: {
+                    updatedAt: new Date(),
+                },
+            });
         }
 
         return budget;
@@ -183,8 +192,8 @@ export async function createExpense(
         amount: bigint,
     }
 ) {
-    await client.$transaction(async (tx: PrismaClient) => {
-        await createExpenseProcedure(tx, { budgetId, description, amount });
+    return await client.$transaction(async (tx: PrismaClient) => {
+        return await createExpenseProcedure(tx, { budgetId, description, amount });
     });
 }
 
@@ -210,35 +219,39 @@ export async function updateExpense(
             include: {
                 entries: {
                     include: {
-                        ledger: true
+                        ledgerEntry: {
+                            include: {
+                                ledger: true,
+                            },
+                        },
                     },
                 },
             },
         });
 
-        const debitEntry = journal.entries.filter((entry) => entry.direction === DEBIT)[0];
-        const creditEntry = journal.entries.filter((entry) => entry.direction === CREDIT)[0];
+        const debitJournalEntry = journal.entries.filter((entry) => entry.direction === DEBIT)[0];
+        const creditJournalEntry = journal.entries.filter((entry) => entry.direction === CREDIT)[0];
 
         const openDebitLedger = await tx.ledger.findUnique({
             where: {
-                id: debitEntry.ledger.id,
+                id: debitJournalEntry.ledgerEntry.ledger.id,
                 open: true,
             },
         });
 
         const openCreditLedger = await tx.ledger.findUnique({
             where: {
-                id: creditEntry.ledger.id,
+                id: creditJournalEntry.ledgerEntry.ledger.id,
                 open: true,
             },
         });
 
-        const currentExpenseAmount = debitEntry.amount;
+        const currentExpenseAmount = debitJournalEntry.amount;
 
         if (currentExpenseAmount !== amount) {
             await tx.entry.update({
                 where: {
-                    id: debitEntry.id,
+                    id: debitJournalEntry.id,
                 },
                 data: {
                     amount,
@@ -247,7 +260,7 @@ export async function updateExpense(
 
             await tx.entry.update({
                 where: {
-                    id: creditEntry.id,
+                    id: creditJournalEntry.id,
                 },
                 data: {
                     amount,
@@ -268,5 +281,7 @@ export async function updateExpense(
                 },
             });
         }
+
+        return journal;
     });
 }

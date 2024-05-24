@@ -26,7 +26,6 @@ export type Budget = {
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   expense: Scalars['Money']['output'];
-  id: Scalars['Int']['output'];
   ledgerEntries: Array<BudgetLedgerEntry>;
   name: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
@@ -43,13 +42,11 @@ export type BudgetByCodePayload = {
 export type BudgetLedgerEntry = {
   __typename?: 'BudgetLedgerEntry';
   balance: Scalars['Money']['output'];
-  code: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   credit?: Maybe<Scalars['Money']['output']>;
   debit?: Maybe<Scalars['Money']['output']>;
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type CreateBudgetInput = {
@@ -67,7 +64,7 @@ export type CreateBudgetPayload = {
 
 export type CreateExpenseInput = {
   amount: Scalars['Money']['input'];
-  budgetAccountId: Scalars['Int']['input'];
+  budgetCode: Scalars['String']['input'];
   description: Scalars['String']['input'];
 };
 
@@ -80,11 +77,11 @@ export type CreateExpensePayload = {
 };
 
 export type DeleteBudgetInput = {
-  id: Scalars['Int']['input'];
+  code: Scalars['String']['input'];
 };
 
 export type DeleteBudgetManyInput = {
-  ids: Array<Scalars['Int']['input']>;
+  codes: Array<Scalars['String']['input']>;
 };
 
 export type DeleteBudgetManyPayload = {
@@ -113,13 +110,11 @@ export type ExcerptReport = {
 export type Expense = {
   __typename?: 'Expense';
   amount: Scalars['Money']['output'];
-  budgetAccount: Scalars['String']['output'];
-  budgetAccountId: Scalars['Int']['output'];
-  code: Scalars['String']['output'];
+  budgetCode: Scalars['String']['output'];
+  budgetName: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  updatedAt: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
 };
 
 export type ExpenseByCodePayload = {
@@ -179,7 +174,7 @@ export type Query = {
   budgetByCode: BudgetByCodePayload;
   budgets: Array<Budget>;
   excerptReport: ExcerptReport;
-  expenseByCode: ExpenseByCodePayload;
+  expenseById: ExpenseByCodePayload;
   expenses: Array<Expense>;
 };
 
@@ -194,8 +189,8 @@ export type QueryBudgetsArgs = {
 };
 
 
-export type QueryExpenseByCodeArgs = {
-  code: Scalars['String']['input'];
+export type QueryExpenseByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type UpdateBudgetInput = {
@@ -214,9 +209,9 @@ export type UpdateBudgetPayload = {
 
 export type UpdateExpenseInput = {
   amount: Scalars['Money']['input'];
-  budgetAccountId: Scalars['Int']['input'];
-  code: Scalars['String']['input'];
+  budgetCode: Scalars['String']['input'];
   description: Scalars['String']['input'];
+  id: Scalars['String']['input'];
 };
 
 export type UpdateExpensePayload = {
@@ -362,7 +357,6 @@ export type BudgetResolvers<ContextType = Context, ParentType extends ResolversP
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   expense?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   ledgerEntries?: Resolver<Array<ResolversTypes['BudgetLedgerEntry']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -379,13 +373,11 @@ export type BudgetByCodePayloadResolvers<ContextType = Context, ParentType exten
 
 export type BudgetLedgerEntryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BudgetLedgerEntry'] = ResolversParentTypes['BudgetLedgerEntry']> = {
   balance?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
-  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   credit?: Resolver<Maybe<ResolversTypes['Money']>, ParentType, ContextType>;
   debit?: Resolver<Maybe<ResolversTypes['Money']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -434,13 +426,11 @@ export type ExcerptReportResolvers<ContextType = Context, ParentType extends Res
 
 export type ExpenseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Expense'] = ResolversParentTypes['Expense']> = {
   amount?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
-  budgetAccount?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  budgetAccountId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  budgetCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  budgetName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -469,7 +459,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   budgetByCode?: Resolver<ResolversTypes['BudgetByCodePayload'], ParentType, ContextType, RequireFields<QueryBudgetByCodeArgs, 'code'>>;
   budgets?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType, Partial<QueryBudgetsArgs>>;
   excerptReport?: Resolver<ResolversTypes['ExcerptReport'], ParentType, ContextType>;
-  expenseByCode?: Resolver<ResolversTypes['ExpenseByCodePayload'], ParentType, ContextType, RequireFields<QueryExpenseByCodeArgs, 'code'>>;
+  expenseById?: Resolver<ResolversTypes['ExpenseByCodePayload'], ParentType, ContextType, RequireFields<QueryExpenseByIdArgs, 'id'>>;
   expenses?: Resolver<Array<ResolversTypes['Expense']>, ParentType, ContextType>;
 };
 

@@ -13,22 +13,11 @@ export const GET_EXCERPT_REPORT = gql(/* GraphQL */ `
 export const GET_BUDGETS = gql(/* GraphQL */ `
     query GetBudget($input: GetBudgetInput) {
         budgets(input: $input) {
-            id
             code
             name
             amount
             expense
             balance
-            ledgerEntries {
-                id
-                code
-                description
-                debit
-                credit
-                balance
-                createdAt
-                updatedAt
-            }
             createdAt
             updatedAt
         }
@@ -42,7 +31,6 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
             success
             message
             budget {
-                id
                 code
                 name
                 amount
@@ -50,13 +38,11 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
                 balance
                 ledgerEntries {
                     id
-                    code
                     description
                     debit
                     credit
                     balance
                     createdAt
-                    updatedAt
                 }
                 createdAt
                 updatedAt
@@ -67,22 +53,11 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
 
 export const NEW_BUDGET = gql(/* GraphQL */ `
     fragment NewBudget on Budget {
-        id
         code
         name
         amount
         expense
         balance
-        ledgerEntries {
-            id
-            code
-            description
-            debit
-            credit
-            balance
-            createdAt
-            updatedAt
-        }
         createdAt
         updatedAt
     }
@@ -95,22 +70,11 @@ export const CREATE_BUDGET = gql(/* GraphQL */`
             success
             message
             budget {
-                id
                 code
                 name
                 amount
                 expense
                 balance
-                ledgerEntries {
-                    id
-                    code
-                    description
-                    debit
-                    credit
-                    balance
-                    createdAt
-                    updatedAt
-                }
                 createdAt
                 updatedAt
             }
@@ -125,7 +89,6 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
             success
             message
             budget {
-                id
                 code
                 name
                 amount
@@ -133,13 +96,11 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
                 balance
                 ledgerEntries {
                     id
-                    code
                     description
                     debit
                     credit
                     balance
                     createdAt
-                    updatedAt
                 }
                 createdAt
                 updatedAt
@@ -155,7 +116,6 @@ export const DELETE_BUDGET = gql(/* GraphQL */`
             success
             message
             budget {
-                id
                 code
                 name
                 amount
@@ -175,7 +135,6 @@ export const DELETE_BUDGET_MANY = gql(/* GraphQL */`
             success
             message
             budgets {
-                id
                 code
                 name
                 amount
@@ -196,13 +155,11 @@ export const CREATE_EXPENSE = gql(/* GraphQL */`
             message
             expense {
                 id
-                code
-                budgetAccountId
-                budgetAccount
+                budgetCode,
+                budgetName,
                 amount
                 description
                 createdAt
-                updatedAt
             }
         }
     }
@@ -216,13 +173,11 @@ export const UPDATE_EXPENSE = gql(/* GraphQL */`
             message
             expense {
                 id
-                code
-                budgetAccountId
-                budgetAccount
+                budgetCode
+                budgetName
                 amount
                 description
                 createdAt
-                updatedAt
             }
         }
     }
@@ -231,13 +186,11 @@ export const UPDATE_EXPENSE = gql(/* GraphQL */`
 export const NEW_EXPENSE = gql(/* GraphQL */`
     fragment NewExpense on Expense {
         id
-        code
         description
-        budgetAccountId
-        budgetAccount
+        budgetCode
+        budgetName
         amount
         createdAt
-        updatedAt
     }
 `);
 
@@ -245,32 +198,28 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
     query GetExpenses {
         expenses {
             id
-            code
             description
-            budgetAccountId
-            budgetAccount
+            budgetCode
+            budgetName
             amount
             createdAt
-            updatedAt
         }
     }
 `);
 
-export const GET_EXPENSE_BY_CODE = gql(/* GraphQL */ `
-    query GetExpenseByCode($code: String!) {
-        expenseByCode(code: $code) {
+export const GET_EXPENSE_BY_ID = gql(/* GraphQL */ `
+    query GetExpenseById($id: String!) {
+        expenseById(id: $id) {
             code
             success
             message
             expense {
                 id
-                code
                 description
-                budgetAccountId
-                budgetAccount
+                budgetCode
+                budgetName
                 amount
                 createdAt
-                updatedAt
             }
         }
     }

@@ -6,7 +6,7 @@ type Query {
     budgets(input: GetBudgetInput): [Budget!]!
     budgetByCode(code: String!): BudgetByCodePayload!
     expenses: [Expense!]!
-    expenseByCode(code: String!): ExpenseByCodePayload!
+    expenseById(id: String!): ExpenseByCodePayload!
 }
 
 type Mutation {
@@ -29,7 +29,6 @@ input GetBudgetInput {
 }
 
 type Budget {
-    id: Int!
     code: String!
     name: String!
     amount: Money!
@@ -49,13 +48,11 @@ type BudgetByCodePayload {
 
 type BudgetLedgerEntry {
     id: Int!
-    code: String!
     description: String!
     debit: Money
     credit: Money
     balance: Money!
     createdAt: DateTime!
-    updatedAt: DateTime!
 }
 
 input CreateBudgetInput {
@@ -84,7 +81,7 @@ type UpdateBudgetPayload {
 }
 
 input DeleteBudgetInput {
-    id: Int!
+    code: String!
 }
 
 type DeleteBudgetPayload {
@@ -95,7 +92,7 @@ type DeleteBudgetPayload {
 }
 
 input DeleteBudgetManyInput {
-    ids: [Int!]!
+    codes: [String!]!
 }
 
 type DeleteBudgetManyPayload {
@@ -113,20 +110,18 @@ type CreateExpensePayload {
 }
 
 input CreateExpenseInput {
-    budgetAccountId: Int!
+    budgetCode: String!
     description: String!
     amount: Money!
 }
 
 type Expense {
-    id: Int!
-    code: String!
-    budgetAccountId: Int!
-    budgetAccount: String!
+    id: String!
+    budgetCode: String!
+    budgetName: String!
     amount: Money!
     description: String!
     createdAt: DateTime!
-    updatedAt: DateTime!
 }
 
 type ExpenseByCodePayload {
@@ -137,8 +132,8 @@ type ExpenseByCodePayload {
 }
 
 input UpdateExpenseInput {
-    code: String!
-    budgetAccountId: Int!
+    id: String!
+    budgetCode: String!
     description: String!
     amount: Money!
 }

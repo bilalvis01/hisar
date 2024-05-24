@@ -41,20 +41,20 @@ export default function ExpenseAddForm({
             inputFields={[
                 {
                     type: "text",
-                    name: "code",
+                    name: "id",
                     label: "Kode Akun",
                     disabled: true,
                 },
                 {
                     type: "select",
-                    name: "budgetAccountId",
+                    name: "budgetCode",
                     label: "Akun Budget",
                     onOpenMenu: async () => {
                         const { data: { budgets }, loading, error } = await getBudgets({
                             variables: { input: { createdBefore: expense.createdAt } }
                         });
                         const data = budgets.map((budget) => ({
-                            value: budget.id.toString(),
+                            value: budget.code,
                             label: budget.name,
                         }));
                         return {
@@ -76,8 +76,8 @@ export default function ExpenseAddForm({
                 },
             ]}
             initialValues={{
-                code: expense.code,
-                budgetAccountId: expense.budgetAccountId.toString(),
+                id: expense.id,
+                budgetCode: expense.budgetCode,
                 description: expense.description,
                 amount: expense.amount,
             }}
@@ -87,8 +87,7 @@ export default function ExpenseAddForm({
                 description: Yup.string().required("Mohon diisi"),
                 amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
             })}
-            onSubmit={async (input_) => {
-                const input = { ...input_, ...{ budgetAccountId: Number(input_.budgetAccountId) } };
+            onSubmit={async (input) => {
                 await updateExpense({
                     variables: { input }
                 });

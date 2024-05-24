@@ -14,7 +14,7 @@ CREATE TABLE `Account` (
 
 -- CreateTable
 CREATE TABLE `AccountType` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(40) NOT NULL,
     `direction` TINYINT NOT NULL,
 
@@ -49,7 +49,7 @@ CREATE TABLE `LedgerEntry` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `description` VARCHAR(255) NULL,
     `balance` BIGINT NOT NULL,
-    `softDeleted` BOOLEAN NOT NULL DEFAULT false,
+    `active` BOOLEAN NOT NULL DEFAULT true,
     `ledgerId` INTEGER NOT NULL,
     `entryId` INTEGER NOT NULL,
 
@@ -61,7 +61,7 @@ CREATE TABLE `LedgerEntry` (
 CREATE TABLE `Journal` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `description` VARCHAR(255) NOT NULL,
-    `softDeleted` BOOLEAN NOT NULL DEFAULT false,
+    `active` BOOLEAN NOT NULL DEFAULT true,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)

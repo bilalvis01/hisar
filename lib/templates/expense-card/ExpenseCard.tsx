@@ -50,9 +50,9 @@ const columns = [
             </div>
         )
     }),
-    columnHelper.accessor("code", {
+    columnHelper.accessor("id", {
         header: () => (
-            <span className={clsx("description", "text-title-small")}>KODE</span>
+            <span className={clsx("description", "text-title-small")}>ID</span>
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
@@ -66,7 +66,7 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
-                <Link href={`/expense/${info.row.original.code}`} passHref legacyBehavior>
+                <Link href={`/expense/${info.row.original.id}`} passHref legacyBehavior>
                     <LinkText>
                         {info.getValue()}
                     </LinkText>
@@ -74,7 +74,7 @@ const columns = [
             </span>
         ),
     }),
-    columnHelper.accessor("budgetAccount", {
+    columnHelper.accessor("budgetName", {
         header: () => (
             <span className={clsx("description", "text-title-small")}>
                 BUDGET
@@ -101,19 +101,7 @@ const columns = [
     columnHelper.accessor("createdAt", {
         header: () => (
             <span className={clsx("description", "text-title-small")}>
-                DIBUAT
-            </span>
-        ),
-        cell: info => (
-            <span className={clsx("description", "text-body-small")}>
-                {date.format(info.getValue())}
-            </span>
-        ),
-    }),
-    columnHelper.accessor("updatedAt", {
-        header: () => (
-            <span className={clsx("description", "text-title-small")}>
-                DIPERBARUI
+                TANGGAL
             </span>
         ),
         cell: info => (
@@ -198,7 +186,7 @@ export default function ExpenseTable() {
                 )}
                 {isSingleSelectedRow() && isWindowSizeExpanded() && (
                     <>
-                        <Link href={`/expense/${selectedRows[0].code}`} passHref legacyBehavior>
+                        <Link href={`/expense/${selectedRows[0].id}`} passHref legacyBehavior>
                             <LinkText>
                                 Lihat
                             </LinkText>

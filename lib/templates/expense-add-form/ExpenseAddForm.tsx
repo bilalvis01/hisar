@@ -55,12 +55,12 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
             inputFields={[
                 {
                     type: "select",
-                    name: "budgetAccountId",
+                    name: "budgetCode",
                     label: "Akun Budget",
                     onOpenMenu: async () => {
                         const { data: { budgets }, loading, error } = await getBudgets();
                         const data = budgets.map((budget) => ({
-                            value: budget.id.toString(),
+                            value: budget.code,
                             label: budget.name,
                         }));
                         return {
@@ -82,17 +82,16 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
                 },
             ]}
             initialValues={{
-                budgetAccountId: null,
+                budgetCode: null,
                 description: null,
                 amount: null,
             }}
             validationSchema={Yup.object({
-                budgetAccountId: Yup.number().required("Mohon pilih salah satu"),
+                budgetCode: Yup.string().required("Mohon pilih salah satu"),
                 description: Yup.string().required("Mohon diisi"),
                 amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
             })}
-            onSubmit={async (values) => {
-                const input = { ...values, ...{ budgetAccountId: Number(values.budgetAccountId) } };
+            onSubmit={async (input) => {
                 await createExpense({
                     variables: { input }
                 });

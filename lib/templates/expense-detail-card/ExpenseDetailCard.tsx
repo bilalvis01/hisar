@@ -4,7 +4,7 @@ import React from "react";
 import clsx from "clsx";
 import idr from "../../utils/idr";
 import { useQuery } from "@apollo/client";
-import { GET_EXPENSE_BY_CODE } from "../../graphql/documents";
+import { GET_EXPENSE_BY_ID } from "../../graphql/documents";
 import { useParams } from "next/navigation";
 import style from "./ExpenseDetailCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";
@@ -13,9 +13,9 @@ import { notFound } from "next/navigation";
 import date from "../../utils/date";
 
 export default function ExpenseDetailCard() {
-    const { code } = useParams<{ code: string }>();
-    const { loading, error, data } = useQuery(GET_EXPENSE_BY_CODE, {
-        variables: { code }
+    const { id } = useParams<{ id: string }>();
+    const { loading, error, data } = useQuery(GET_EXPENSE_BY_ID, {
+        variables: { id }
     });
     const { 
         toolbarRef, 
@@ -24,11 +24,11 @@ export default function ExpenseDetailCard() {
         isWindowSizeSpanMedium,
     } = useTemplateContext();
 
-    if (data && data.expenseByCode.code === 404) {
+    if (data && data.expenseById.code === 404) {
         notFound();
     }
 
-    const expense = data ? data.expenseByCode.expense : null;
+    const expense = data ? data.expenseById.expense : null;
 
     if (loading) return (
         <>
@@ -57,7 +57,7 @@ export default function ExpenseDetailCard() {
                         <ul className={style.description}>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Kode</div>
-                                <div className="text-body-small">{expense.code}</div>
+                                <div className="text-body-small">{expense.id}</div>
                             </li>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Deskripsi</div>
@@ -65,19 +65,15 @@ export default function ExpenseDetailCard() {
                             </li>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Budget</div>
-                                <div className="text-body-small">{expense.budgetAccount}</div>
+                                <div className="text-body-small">{expense.budgetName}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Terpakai</div>
                                 <div className="text-body-small">{idr.format(expense.amount)}</div>
                             </li>
                             <li className={style.descriptionItem}>
-                                <div className="text-title-small">Dibuat</div>
+                                <div className="text-title-small">Tanggal</div>
                                 <div className="text-body-small">{date.format(expense.createdAt)}</div>
-                            </li>
-                            <li>
-                                <div className="text-title-small">Diperbarui</div>
-                                <div className="text-body-small">{date.format(expense.updatedAt)}</div>
                             </li>
                         </ul>
                     )}

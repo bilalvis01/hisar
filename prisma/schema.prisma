@@ -29,7 +29,7 @@ model Account {
 }
 
 model AccountType {
-  id                    Int             @id
+  id                    Int             @id @default(autoincrement())
   name                  String          @unique @db.VarChar(40)
   direction             Int             @db.TinyInt
   accounts              Account[]
@@ -61,7 +61,7 @@ model LedgerEntry {
   id                    Int             @id @default(autoincrement())
   description           String?         @db.VarChar(255)
   balance               BigInt
-  softDeleted           Boolean         @default(false)
+  active                Boolean         @default(true)
   ledgerId              Int
   ledger                Ledger          @relation(fields: [ledgerId], references: [id])
   entryId               Int             @unique
@@ -71,7 +71,7 @@ model LedgerEntry {
 model Journal {
   id                    Int             @id @default(autoincrement())
   description           String          @db.VarChar(255)
-  softDeleted           Boolean         @default(false)
+  active                Boolean         @default(true)
   entries               Entry[]
   createdAt             DateTime        @default(now())
 }
@@ -82,7 +82,7 @@ model Entry {
   amount                BigInt
   journalId             Int
   journal               Journal         @relation(fields: [journalId], references: [id])
-  ledger                LedgerEntry?
+  ledgerEntry           LedgerEntry?
 }
 
 model Budget {

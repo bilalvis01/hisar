@@ -14,7 +14,13 @@ import { usePathname } from "next/navigation";
 
 const client = new ApolloClient({
     uri: "/api/graphql",
-    cache: new InMemoryCache()
+    cache: new InMemoryCache({
+        typePolicies: {
+            Budget: {
+                keyFields: ["code"],
+            },
+        },
+    }),
 });
 
 export type WindowSize = "compact" | "medium" | "expanded";

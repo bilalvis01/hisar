@@ -3,7 +3,7 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation } from "@apollo/client";
-import { UPDATE_BUDGET } from "../../graphql/documents";
+import { UPDATE_BUDGET, NEW_BUDGET } from "../../graphql/documents";
 import { UpdateBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
@@ -24,6 +24,18 @@ export default function BudgetUpdateForm({
     const { setInfo } = useTemplateContext();
 
     const [updateBudget] = useMutation(UPDATE_BUDGET, {
+        update(cache, { data: { updateBudget } }) {
+            cache.modify({
+                fields: {
+                    budgets() {
+                        cache.writeFragment({
+                            data: updateBudget.budget,
+                            fragment: NEW_BUDGET,
+                        });
+                    },
+                },
+            });
+        },
         onCompleted(data) {
             console.log(data.updateBudget.message);
             setInfo(data.updateBudget.message);

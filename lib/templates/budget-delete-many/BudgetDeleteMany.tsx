@@ -6,7 +6,7 @@ import { DELETE_BUDGET_MANY } from "../../graphql/documents";
 import { useMutation } from "@apollo/client";
 import { DeleteBudgetManyMutation, Budget } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
-import createMessageBudgetDelete from "../../utils/createMessageBudgetDelete";
+import createMessageBudgetDelete from "../../utils/createMessageDeleteBudget";
 
 interface BudgetDeleteManyProps {
     budgets: Budget[];
@@ -22,7 +22,8 @@ export default function BudgetDeleteMany({
     onSuccess,
 }: BudgetDeleteManyProps) {
     const { setInfo } = useTemplateContext();
-    const ids = budgets.map((budget) => budget.id);
+    const codes = budgets.map((budget) => budget.code);
+    const budgetNames = budgets.map((budget) => budget.name);
 
     const [deleteBudgetMany] = useMutation(DELETE_BUDGET_MANY, {
         update(cache) {
@@ -30,7 +31,7 @@ export default function BudgetDeleteMany({
                 fields: {
                     budgets(existingBudgetRefs, { readField }) {
                         return existingBudgetRefs.filter(
-                            budgetRef => !ids.includes(readField("id", budgetRef))
+                            budgetRef => !codes.includes(readField("code", budgetRef))
                         );
                     },
                 }
@@ -44,9 +45,9 @@ export default function BudgetDeleteMany({
     });
 
     const data = {
-        values: { ids: ids },
+        values: { codes },
         headline: "Hapus Budget?",
-        supportingText: createMessageBudgetDelete(budgets, "Apakah anda ingin menghapus ", " ?"),
+        supportingText: createMessageBudgetDelete(budgetNames, "Apakah anda ingin menghapus ", " ?"),
     };
 
     return (

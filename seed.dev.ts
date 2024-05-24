@@ -6,8 +6,8 @@ import {
 } from "./lib/database/procedures";
 import { 
     CASH_ACCOUNT_CODE, 
-    EXPENSE_ACCOUNT_CODE, 
-    BUDGET_ACCOUNT_CODE,
+    BUDGET_EXPENSE_ACCOUNT_CODE, 
+    BUDGET_CASH_ACCOUNT_CODE,
     PRIVE_ACCOUNT_CODE, 
 } from './lib/database/account-code';
 import {
@@ -22,24 +22,21 @@ async function main() {
     await prisma.$transaction(async (tx: PrismaClient) => {
         const assetAccountType = await tx.accountType.create({
             data: {
-                id: ASSET,
-                name: "asset",
+                name: ASSET,
                 direction: 1,
             },
         });
     
         const expenseAccountType = await tx.accountType.create({
             data: {
-                id: EXPENSE,
-                name: "expense",
+                name: EXPENSE,
                 direction: -1,
             },
         });
     
         const priveAccountType = await tx.accountType.create({
             data: {
-                id: PRIVE,
-                name: "prive",
+                name: PRIVE,
                 direction: -1,
             },
         });
@@ -52,13 +49,13 @@ async function main() {
     
         const expenseAccountCode = await tx.accountCode.create({
             data: {
-                code: EXPENSE_ACCOUNT_CODE,
+                code: BUDGET_EXPENSE_ACCOUNT_CODE,
             }
         });
     
         const budgetAccountCode = await tx.accountCode.create({
             data: {
-                code: BUDGET_ACCOUNT_CODE,
+                code: BUDGET_CASH_ACCOUNT_CODE,
             }
         });
     
@@ -125,36 +122,43 @@ async function main() {
             amount: BigInt(300_000_0000), 
             description: "beli sapu",
         });
+        
         await createExpenseProcedure(tx, {
             budgetId: budgetPeralatan.id, 
             amount: BigInt(200_000_0000), 
             description: "beli pengki", 
         });
+
         await createExpenseProcedure(tx, {
             budgetId: budgetMakan.id, 
             amount: BigInt(300_000_0000), 
             description: "beli minum",
         });
+
         await createExpenseProcedure(tx, {
             budgetId: budgetMakan.id,
             amount: BigInt(300_000_0000), 
             description: "beli makan pagi",
         });
+
         await createExpenseProcedure(tx, {
             budgetId: budgetMakan.id, 
             amount: BigInt(300_000_0000), 
             description: "beli makan malam",
         });
+
         await createExpenseProcedure(tx, {
             budgetId: budgetMakan.id, 
             amount: BigInt(300_000_0000), 
             description: "beli makan sore",
         });
+
         await createExpenseProcedure(tx, {
             budgetId: budgetTransportasi.id,
             amount: BigInt(60_000_0000), 
             description: "naik gojek berangkat",
         });
+
         await createExpenseProcedure(tx, {
             budgetId: budgetTransportasi.id,
             amount: BigInt(60_000_0000), 

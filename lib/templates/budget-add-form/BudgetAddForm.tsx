@@ -28,7 +28,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                         });
 
                         if (existingBudgetRefs.some(
-                            ref => readField("id", ref) === createBudget.budget.id
+                            ref => readField("code", ref) === createBudget.budget.code
                         )) {
                             return existingBudgetRefs;
                         }

@@ -30,7 +30,7 @@ export default function BudgetDelete({
                 fields: {
                     budgets(existingBudgetRefs, { readField }) {
                         return existingBudgetRefs.filter(
-                            budgetRef => budget.id !== readField("id", budgetRef)
+                            budgetRef => budget.code !== readField("code", budgetRef)
                         );
                     },
                     budgetByCode(_, { DELETE }) {
@@ -47,7 +47,7 @@ export default function BudgetDelete({
     });
 
     const data = {
-        values: { id: budget.id },
+        values: { code: budget.code },
         headline: "Hapus Budget?",
         supportingText: `Apakah anda ingin menghapus "${budget.name}"?`,
     };

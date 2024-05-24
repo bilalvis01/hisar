@@ -1,6 +1,6 @@
-import { Budget } from "../graphql/generated/graphql";
+import { Budget } from "@prisma/client";
 
-export default function createMessageBudgetDelete(budgets: Budget[], prefix?: string, suffix?: string) {
+export default function createMessageBudgetDelete(budgets: string[], prefix?: string, suffix?: string) {
     const message = budgets.reduce((acc, budget, index, array) => {
         let conjunction;
 
@@ -10,8 +10,8 @@ export default function createMessageBudgetDelete(budgets: Budget[], prefix?: st
             conjunction = ", "
         }
 
-        if (index === 0) return `"${budget.name}"`;
-        if (index === 1) return `${acc}${conjunction}"${budget.name}"`;
+        if (index === 0) return `"${budget}"`;
+        if (index === 1) return `${acc}${conjunction}"${budget}"`;
         if (index === 2) return `${acc}${conjunction}yang lainnya`;
 
         return acc;
