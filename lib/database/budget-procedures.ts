@@ -55,7 +55,7 @@ export async function createBudgetProcedure(
     });
 
     const budgetExpenseAccount = await createAccountProcedure(client, {
-        name: `${name} (expense account)`,
+        name: `${name} (expense)`,
         accountCode: { code: BUDGET_EXPENSE_ACCOUNT_CODE, createChildIncrement: true },
         accountType: EXPENSE,
     });
@@ -248,14 +248,43 @@ export async function changeBudgetNameProcedure(
         name: string,
     }
 ) {
-    await client.budget.update({
+    const budget = await client.budget.update({
         data: {
             name,
         },
         where: {
             id,
         },
+        include: {
+            accountAssignments: {
+                include: {
+                    account: true,
+                    task: true,
+                },
+            },
+        },
     });
+
+    await Promise.all(budget.accountAssignments.map(async (accountAssignment) => {
+        let newName;
+
+        if (accountAssignment.task.name === BUDGET_CASH_ACCOUNT) {
+            newName = `${name} (cash)`;
+        }
+
+        if (accountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT) {
+            newName = `${name} (expense)`;
+        }
+
+        await client.account.update({
+            data: {
+                name: newName,
+            },
+            where: {
+                id: accountAssignment.account.id,
+            },
+        });
+    }));
 
     const budgetTransactions = await client.budgetTransaction.findMany({
         select: {
