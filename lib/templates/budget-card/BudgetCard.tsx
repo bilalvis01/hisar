@@ -35,7 +35,7 @@ import { IconButtonStandard } from "../../components/IconButtonStandard";
 import BudgetDeleteMany from "../budget-delete-many/BudgetDeleteMany";
 import date from "../../utils/date";
 
-const columnHelper = createColumnHelper<Omit<Budget, "__typedef" | "ledgerEntries">>();
+const columnHelper = createColumnHelper<Omit<Budget, "__typedef" | "transactions">>();
 
 const columns = [
     columnHelper.display({

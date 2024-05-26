@@ -48,14 +48,15 @@ model AccountCode {
 }
 
 model Ledger {
-  id         Int        @id @default(autoincrement())
-  balance    BigInt
-  open       Boolean    @default(true)
-  accountId  Int
-  account    Account    @relation(fields: [accountId], references: [id])
-  entries    Entry[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  id            Int        @id @default(autoincrement())
+  balance       BigInt
+  open          Boolean    @default(true)
+  softDeleted   Boolean    @default(false)
+  accountId     Int
+  account       Account    @relation(fields: [accountId], references: [id])
+  entries       Entry[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
 
 model Journal {
@@ -92,19 +93,25 @@ model Budget {
 }
 
 model BudgetAccountAssignment {
-  id          Int       @id @default(autoincrement())
-  task        String    @db.VarChar(20)
+  id          Int                 @id @default(autoincrement())
+  taskId      Int
+  task        BudgetAccountTask   @relation(fields: [taskId], references: [id])
   budgetId    Int
-  budget      Budget    @relation(fields: [budgetId], references: [id])
-  accountId   Int       @unique
-  account     Account?  @relation(fields: [accountId], references: [id]) 
+  budget      Budget              @relation(fields: [budgetId], references: [id])
+  accountId   Int                 @unique
+  account     Account?            @relation(fields: [accountId], references: [id]) 
+}
 
-  @@unique([budgetId, task])
+model BudgetAccountTask {
+  id                        Int                         @id @default(autoincrement())
+  name                      String                      @db.VarChar(20) @unique
+  budgetAccountAssignments  BudgetAccountAssignment[]
 }
 
 model BudgetTransaction {
   id                 Int                    @id @default(autoincrement())
   description        String                 @db.VarChar(255)
+  softDeleted        Boolean                @default(false)
   transactionTypeId  Int                         
   transactionType    BudgetTransactionType  @relation(fields: [transactionTypeId], references: [id])
   journalId          Int                    @unique

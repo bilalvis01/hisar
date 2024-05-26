@@ -17,11 +17,11 @@ import {
 import { 
     BUDGET_CASH_ACCOUNT, 
     BUDGET_EXPENSE_ACCOUNT,
-} from "./budget-account-assignment";
+} from "./budget-account-task";
 import { 
     BUDGET_FUNDING, 
     BUDGET_EXPENSE,
-} from "./budget-transacton-type";
+} from "./budget-transaction-type";
 import { 
     getBudgetCashAccount, 
     getBudgetExpenseAccount, 
@@ -127,6 +127,8 @@ export async function balanceLedgerProcedure(client: PrismaClient, { id }: { id:
     const ledger = await client.ledger.findUnique({
         where: {
             id,
+            open: true,
+            softDeleted: false,
         },
         include: {
             entries: true,
@@ -137,6 +139,10 @@ export async function balanceLedgerProcedure(client: PrismaClient, { id }: { id:
             },
         },
     });
+
+    if (!ledger) {
+        return;
+    };
 
     const ledgerDirection = ledger.account.accountType.ledgerDirection;
 
@@ -267,9 +273,9 @@ export async function journalizeProcedure(
     return journal;
 }
 
-export async function softDeleteJournalProcedure(
+export async function deleteJournalProcedure(
     client: PrismaClient,
-    { id }: { id: number }
+    { id, skipUpdateLedgerBalance = false }: { id: number, skipUpdateLedgerBalance?: boolean }
 ) {
     const journal = await client.journal.update({
         data: {
@@ -279,7 +285,11 @@ export async function softDeleteJournalProcedure(
             id,
         },
         include: {
-            entries: true,
+            entries: {
+                include: {
+                    ledger: true,
+                },
+            },
         },
     });
 
@@ -292,41 +302,45 @@ export async function softDeleteJournalProcedure(
         },
     });
 
-    await Promise.all(journal.entries.map(async (entry) => {
-        await balanceLedgerProcedure(client, { id: entry.ledgerId });
-    }));
+    if (!skipUpdateLedgerBalance) {
+        await Promise.all(journal.entries.map(async (entry) => {
+            if (entry.ledger.open && !entry.ledger.softDeleted) {
+                await balanceLedgerProcedure(client, { id: entry.ledger.id });
+            }
+        }));
+    }
 
     return journal;
 }
 
-export async function hardDeleteJournalProcedure(
+export async function deleteJournalManyProcedure(
     client: PrismaClient,
-    { id }: { id: number }
+    { ids }: { ids: number[] }
 ) {
-    await client.entry.deleteMany({
-        where: {
-            journal: { id },
-        },
-    });
-
-    const journal = await client.journal.delete({
-        where: { id },
-        include: {
-            entries: true,
-        },
-    });
-
-    await Promise.all(journal.entries.map(async (entry) => {
-        await balanceLedgerProcedure(client, { id: entry.ledgerId });
+    const journals = await Promise.all(ids.map(async (id) => {
+        return await deleteJournalProcedure(client, { 
+            id, skipUpdateLedgerBalance: true 
+        });
     }));
 
-    return journal;
+    const ledgerIds = journals.reduce<number[]>((acc, journal) => {
+        return journal.entries.reduce((acc, entry) => {
+            if (!acc.includes(entry.ledger.id) && entry.ledger.open && !entry.ledger.softDeleted) {
+                acc.push(entry.ledger.id);
+            }
+
+            return acc
+        }, acc);
+    }, []);
+
+    await Promise.all(ledgerIds.map(
+        async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
+    ));
 }
 
 export async function createBudgetProcedure(
     client: PrismaClient,
     { name, amount }: { name: string; amount: bigint }
-
 ) {
     const budget = await client.budget.create({
         data: {
@@ -360,7 +374,7 @@ export async function createBudgetProcedure(
 
     await client.budgetAccountAssignment.create({
         data: {
-            task: BUDGET_CASH_ACCOUNT,
+            task: { connect: { name: BUDGET_CASH_ACCOUNT } },
             budget: { connect: { id: budget.id } },
             account: { connect: { id: budgetCashAccount.id } },
         },
@@ -368,7 +382,7 @@ export async function createBudgetProcedure(
 
     await client.budgetAccountAssignment.create({
         data: {
-            task: BUDGET_EXPENSE_ACCOUNT,
+            task: { connect: { name: BUDGET_EXPENSE_ACCOUNT } },
             budget: { connect: { id: budget.id } },
             account: { connect: { id: budgetExpenseAccount.id } },
         },
@@ -402,6 +416,7 @@ export async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: 
             accountAssignments: {
                 include: {
                     account: true,
+                    task: true,
                 },
             },
         },
@@ -443,9 +458,11 @@ export async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: 
         },
     });
 
-    await Promise.all(transactions.map(async (transaction) => {
-        return await softDeleteJournalProcedure(client, { id: transaction.journalId });
-    }));
+    const journalIds = transactions.map(
+        (transaction) => transaction.journalId
+    );
+
+    await deleteJournalManyProcedure(client, { ids: journalIds });
 
     return budget;
 }
@@ -472,17 +489,18 @@ export async function createBudgetTransactionProcedure(
             accountAssignments: {
                 include: {
                     account: true,
+                    task: true,
                 },
             },
         },
     });
 
     const budgetCashAccount = budget.accountAssignments.filter(
-        (accountAssignment) => accountAssignment.task === BUDGET_CASH_ACCOUNT 
+        (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT 
     )[0].account;
 
     const budgetExpenseAccount = budget.accountAssignments.filter(
-        (accountAssignment) => accountAssignment.task === BUDGET_EXPENSE_ACCOUNT
+        (accountAssignment) => accountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT
     )[0].account;
 
     const journal = await journalizeProcedure(client, {
@@ -502,6 +520,88 @@ export async function createBudgetTransactionProcedure(
     });
 }
 
+export async function changeBudgetTransactionAmountProcedure(
+    client: PrismaClient,
+    {
+        id,
+        amount,
+    }: {
+        id: number;
+        amount: bigint;
+    }
+) {
+    const budgetTransaction = await client.budgetTransaction.findUnique({
+        where: {
+            id,
+        },
+        include: {
+            journal: {
+                include: {
+                    entries: {
+                        include: {
+                            ledger: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    if (
+        budgetTransaction.journal.entries.every(
+            (entry) => entry.ledger.open && !entry.ledger.softDeleted
+        )
+    ) {
+        await Promise.all(budgetTransaction.journal.entries.map(async (entry) => {
+            await client.entry.update({
+                data: {
+                    amount,
+                },
+                where: {
+                    id: entry.id,
+                },
+            });
+
+            await balanceLedgerProcedure(client, { id: entry.ledger.id });
+        }));
+    }
+}
+
+export async function changeBudgetTransactionDescriptionProcedure(
+    client: PrismaClient,
+    {
+        id,
+        description,
+    }: {
+        id: number,
+        description: string,
+    }
+) {
+    const budgetTransaction = await client.budgetTransaction.update({
+        data: {
+            description,
+        },
+        where: {
+            id,
+        },
+        include: {
+            journal: true,
+            budget: true,
+        },
+    })
+
+    await client.journal.update({
+        data: {
+            description: `${description} (${budgetTransaction.budget.name})`
+        },
+        where: {
+            id: budgetTransaction.journal.id,
+        },
+    })
+
+    return budgetTransaction;
+}
+
 export async function createExpenseProcedure(
     client: PrismaClient,
     {
@@ -514,10 +614,42 @@ export async function createExpenseProcedure(
         amount: bigint,
     }
 ) {
-    await createBudgetTransactionProcedure(client, {
+    return await createBudgetTransactionProcedure(client, {
         id: budgetId,
         description,
         amount,
         transactionType: BUDGET_EXPENSE,
     });
-};
+}
+
+export async function changeExpenseAmountProcedure(
+    client: PrismaClient,
+    {
+        id,
+        amount,
+    }: {
+        id: number;
+        amount: bigint;
+    }
+) {
+    return await changeBudgetTransactionAmountProcedure(client, {
+        id,
+        amount,
+    });
+}
+
+export async function changeExpenseDescriptionProcedure(
+    client: PrismaClient,
+    {
+        id,
+        description,
+    }: {
+        id: number,
+        description: string,
+    }
+) {
+    await changeBudgetTransactionDescriptionProcedure(client, {
+        id,
+        description,
+    });
+}

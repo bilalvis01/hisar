@@ -130,7 +130,7 @@ export default function BudgetDetailCard() {
         notFound();
     }
 
-    const expenseDetail = data ? data.budgetByCode.budget.ledgerEntries : [];
+    const expenseDetail = data ? data.budgetByCode.budget.transactions : [];
     const budget = data ? data.budgetByCode.budget : null; 
 
     const table = useReactTable({

@@ -36,13 +36,13 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
                 amount
                 expense
                 balance
-                ledgerEntries {
+                transactions {
                     id
                     description
-                    debit
-                    credit
+                    expense
                     balance
                     createdAt
+                    updatedAt
                 }
                 createdAt
                 updatedAt
@@ -94,13 +94,13 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
                 amount
                 expense
                 balance
-                ledgerEntries {
+                transactions {
                     id
                     description
-                    debit
-                    credit
+                    expense
                     balance
                     createdAt
+                    updatedAt
                 }
                 createdAt
                 updatedAt
@@ -160,6 +160,7 @@ export const CREATE_EXPENSE = gql(/* GraphQL */`
                 amount
                 description
                 createdAt
+                updatedAt
             }
         }
     }
@@ -178,6 +179,7 @@ export const UPDATE_EXPENSE = gql(/* GraphQL */`
                 amount
                 description
                 createdAt
+                updatedAt
             }
         }
     }
@@ -191,6 +193,7 @@ export const NEW_EXPENSE = gql(/* GraphQL */`
         budgetName
         amount
         createdAt
+        updatedAt
     }
 `);
 
@@ -203,6 +206,7 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
             budgetName
             amount
             createdAt
+            updatedAt
         }
     }
 `);
@@ -220,6 +224,7 @@ export const GET_EXPENSE_BY_ID = gql(/* GraphQL */ `
                 budgetName
                 amount
                 createdAt
+                updatedAt
             }
         }
     }

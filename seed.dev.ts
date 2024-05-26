@@ -6,7 +6,6 @@ import {
     createAccountProcedure,
 } from "./lib/database/procedures";
 import { 
-    CASH_ACCOUNT_CODE, 
     BUDGET_EXPENSE_ACCOUNT_CODE, 
     BUDGET_CASH_ACCOUNT_CODE,
     OWNER_CAPITAL_ACCOUNT_CODE, 
@@ -19,7 +18,11 @@ import {
 import { 
     BUDGET_FUNDING,
     BUDGET_EXPENSE,
-} from './lib/database/budget-transacton-type';
+} from './lib/database/budget-transaction-type';
+import { 
+    BUDGET_CASH_ACCOUNT,
+    BUDGET_EXPENSE_ACCOUNT,
+} from './lib/database/budget-account-task';
 
 const prisma = new PrismaClient();
 
@@ -72,8 +75,20 @@ async function main() {
                 name: BUDGET_EXPENSE,
             },
         });
+
+        await tx.budgetAccountTask.create({
+            data: {
+                name: BUDGET_CASH_ACCOUNT,
+            }
+        });
+
+        await tx.budgetAccountTask.create({
+            data: {
+                name: BUDGET_EXPENSE_ACCOUNT,
+            }
+        });
     
-        createAccountProcedure(tx, {
+        await createAccountProcedure(tx, {
             name: "modal pemilik",
             accountCode: { code: OWNER_CAPITAL_ACCOUNT_CODE },
             accountType: EQUITY,

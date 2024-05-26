@@ -2,6 +2,7 @@ import {
     PrismaClient,
 } from "@prisma/client";
 import { 
+    BUDGET_EXPENSE_ACCOUNT_CODE,
     CASH_ACCOUNT_CODE,
 } from "./account-code";
 import { 
@@ -10,6 +11,8 @@ import {
     deleteBudgetProcedure,
     createExpenseProcedure,
     balanceLedgerProcedure,
+    changeExpenseAmountProcedure,
+    changeExpenseDescriptionProcedure,
 } from "./procedures";
 import { 
     getBudgetCashAccount, 
@@ -72,6 +75,7 @@ export async function updateBudget(client: PrismaClient, {
                 accountAssignments: {
                     include: {
                         account: true,
+                        task: true,
                     },
                 },
             },
@@ -207,74 +211,47 @@ export async function updateExpense(
     }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        const journalId = parseInt(id);
+        const transactionId = parseInt(id);
 
-        const journal = await tx.journal.findUnique({
+        const budgetTransaction = await tx.budgetTransaction.findUnique({
             where: {
-                id: journalId,
+                id: transactionId,
             },
             include: {
-                entries: {
+                journal: {
                     include: {
-                        ledger: true,
+                        entries: {
+                            where: {
+                                ledger: {
+                                    account: {
+                                        accountCode: {
+                                            parent: {
+                                                code: BUDGET_EXPENSE_ACCOUNT_CODE,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
                     },
                 },
             },
         });
 
-        const debitJournalEntry = journal.entries.filter((entry) => entry.direction === DEBIT)[0];
-        const creditJournalEntry = journal.entries.filter((entry) => entry.direction === CREDIT)[0];
-
-        const openDebitLedger = await tx.ledger.findUnique({
-            where: {
-                id: debitJournalEntry.ledger.id,
-                open: true,
-            },
-        });
-
-        const openCreditLedger = await tx.ledger.findUnique({
-            where: {
-                id: creditJournalEntry.ledger.id,
-                open: true,
-            },
-        });
-
-        const currentExpenseAmount = debitJournalEntry.amount;
+        const currentExpenseAmount = budgetTransaction.journal.entries[0].amount;
 
         if (currentExpenseAmount !== amount) {
-            await tx.entry.update({
-                where: {
-                    id: debitJournalEntry.id,
-                },
-                data: {
-                    amount,
-                },
-            });
-
-            await tx.entry.update({
-                where: {
-                    id: creditJournalEntry.id,
-                },
-                data: {
-                    amount,
-                },
-            });
-
-            await balanceLedgerProcedure(tx, { id: openDebitLedger.id });
-            await balanceLedgerProcedure(tx, { id: openCreditLedger.id });
+            await changeExpenseAmountProcedure(tx, { id: transactionId, amount });
         }
 
-        if (journal.description != description) {
-            await tx.journal.update({
-                where: {
-                    id: journal.id,
-                },
-                data: {
-                    description,
-                },
-            });
+        if (budgetTransaction.description != description) {
+            await changeExpenseDescriptionProcedure(tx, { id: transactionId, description });
         }
 
-        return journal;
+        return await tx.budgetTransaction.findUnique({
+            where: {
+                id: transactionId,
+            },
+        });
     });
 }
