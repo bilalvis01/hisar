@@ -12,13 +12,8 @@ import {
     updateBudgetProcedure,
     createExpenseProcedure,
     updateExpenseProcedure,
-    changeExpenseAmountProcedure,
-    changeExpenseDescriptionProcedure,
+    deleteExpenseProcedure,
 } from "./procedures";
-import { 
-    getBudgetCashAccount, 
-    getBudgetExpenseAccount, 
-} from "../utils/getBudgetAccount";
 
 const DEBIT = 1;
 const CREDIT = -1;
@@ -105,5 +100,14 @@ export async function updateExpense(
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
         return await updateExpenseProcedure(tx, data);
+    });
+}
+
+export async function deleteExpense(
+    client: PrismaClient, 
+    data: { id: string }
+) {
+    return await client.$transaction(async (tx: PrismaClient) => {
+        return await deleteExpenseProcedure(tx, data);
     });
 }

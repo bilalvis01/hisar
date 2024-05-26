@@ -26,6 +26,7 @@ import date from "../../utils/date";
 import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
 import { Expense } from "../../graphql/generated/graphql";
 import { ButtonText } from "../../components/ButtonText";
+import ExpenseDelete from "../expense-delete/ExpenseDelete";
 
 const columnHelper = createColumnHelper<Expense>();
 
@@ -125,6 +126,7 @@ export default function ExpenseTable() {
         isWindowSizeSpanMedium,
     } = useTemplateContext();
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+    const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
 
     const expenses = data ? data.expenses : [];
 
@@ -163,6 +165,10 @@ export default function ExpenseTable() {
         setOpenExpenseUpdateForm(true);
     }, []);
 
+    const handleOpenExpenseDelete = React.useCallback(() => {
+        setOpenExpenseDelete(true);
+    }, []);
+
     if (loading) return (
         <div className={clsx(style.placeholder)}>
             <ProgressCircular />
@@ -194,6 +200,9 @@ export default function ExpenseTable() {
                         <ButtonText onClick={handleOpenExpenseUpdateForm}>
                             Edit
                         </ButtonText>
+                        <ButtonText onClick={handleOpenExpenseDelete}>
+                            Hapus
+                        </ButtonText>
                     </>
                 )}
             </header>
@@ -209,6 +218,14 @@ export default function ExpenseTable() {
                     expense={selectedRows[0] as Expense}
                     open={openExpenseUpdateForm}
                     onOpenChange={setOpenExpenseUpdateForm}
+                    onSuccess={(data) => table.resetRowSelection()}
+                />
+            )}
+            {isSingleSelectedRow() && (
+                <ExpenseDelete
+                    expense={selectedRows[0] as Expense}
+                    open={openExpenseDelete}
+                    onOpenChange={setOpenExpenseDelete}
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}

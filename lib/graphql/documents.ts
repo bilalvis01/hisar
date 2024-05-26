@@ -185,6 +185,25 @@ export const UPDATE_EXPENSE = gql(/* GraphQL */`
     }
 `);
 
+export const DELETE_EXPENSE = gql(/* GraphQL */`
+    mutation DeleteExpense($input: DeleteExpenseInput!) {
+        deleteExpense(input: $input) {
+            code
+            success
+            message
+            expense {
+                id
+                budgetCode
+                budgetName
+                amount
+                description
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`);
+
 export const NEW_EXPENSE = gql(/* GraphQL */`
     fragment NewExpense on Expense {
         id

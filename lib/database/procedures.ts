@@ -41,7 +41,7 @@ function countBalance({
     entryIndex: number,
 }) {
     return entries.reduce((acc, entry, countingBalanceIndex) => {
-        if (countingBalanceIndex > entryIndex) {
+        if (countingBalanceIndex > entryIndex || entry.softDeleted) {
             return acc;
         }
 
@@ -151,16 +151,18 @@ export async function balanceLedgerProcedure(client: PrismaClient, { id }: { id:
     const ledgerDirection = ledger.account.accountType.ledgerDirection;
 
     await Promise.all(ledger.entries.map(async (entry, entryIndex, entries) => {
-        const balance = countBalance({ ledgerDirection, entries, entryIndex });
+        if (!entry.softDeleted) {
+            const balance = countBalance({ ledgerDirection, entries, entryIndex });
 
-        await client.entry.update({
-            where: {
-                id: entry.id,
-            },
-            data: {
-                balance,
-            },
-        });
+            await client.entry.update({
+                where: {
+                    id: entry.id,
+                },
+                data: {
+                    balance,
+                },
+            });
+        }
     }));
 
     const ledgerBalance = countBalance({ 
@@ -308,7 +310,7 @@ export async function deleteJournalProcedure(
             softDeleted: true,
         },
         where: {
-            id: journal.id,
+            journal: { id: journal.id },
         },
     });
 
@@ -526,6 +528,28 @@ export async function createBudgetTransactionProcedure(
             journal: { connect: { id: journal.id } },
             transactionType: { connect: { name: transactionType } },
             description,
+        },
+    });
+}
+
+export async function deleteBudgetTransactionProcedure(
+    client: PrismaClient,
+    { id }: { id: string }
+) {
+    const budgetTransaction = await client.budgetTransaction.findUnique({
+        where: {
+            id: parseInt(id),
+        },
+    }); 
+
+    await deleteJournalProcedure(client, { id: budgetTransaction.journalId });
+
+    return await client.budgetTransaction.update({
+        data: {
+            softDeleted: true,
+        },
+        where: {
+            id: budgetTransaction.id,
         },
     });
 }
@@ -998,4 +1022,11 @@ export async function updateExpenseProcedure(
             id: transactionId,
         },
     });
+}
+
+export async function deleteExpenseProcedure(
+    client: PrismaClient,
+    data: { id: string },
+) {
+    return await deleteBudgetTransactionProcedure(client, data);
 }
