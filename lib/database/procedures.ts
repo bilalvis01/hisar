@@ -792,3 +792,59 @@ export async function changeExpenseDescriptionProcedure(
         description,
     });
 }
+
+export async function updateExpenseProcedure(
+    client: PrismaClient, 
+    { 
+        id,
+        description, 
+        amount 
+    }: { 
+        id: string; 
+        description: string; 
+        amount: bigint; 
+    }
+) {
+    const transactionId = parseInt(id);
+
+    const budgetTransaction = await client.budgetTransaction.findUnique({
+        where: {
+            id: transactionId,
+        },
+        include: {
+            journal: {
+                include: {
+                    entries: {
+                        where: {
+                            ledger: {
+                                account: {
+                                    accountCode: {
+                                        parent: {
+                                            code: BUDGET_EXPENSE_ACCOUNT_CODE,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    const currentExpenseAmount = budgetTransaction.journal.entries[0].amount;
+
+    if (currentExpenseAmount !== amount) {
+        await changeExpenseAmountProcedure(client, { id: transactionId, amount });
+    }
+
+    if (budgetTransaction.description != description) {
+        await changeExpenseDescriptionProcedure(client, { id: transactionId, description });
+    }
+
+    return await client.budgetTransaction.findUnique({
+        where: {
+            id: transactionId,
+        },
+    });
+}

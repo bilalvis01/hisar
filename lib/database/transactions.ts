@@ -11,7 +11,7 @@ import {
     deleteBudgetProcedure,
     updateBudgetProcedure,
     createExpenseProcedure,
-    balanceLedgerProcedure,
+    updateExpenseProcedure,
     changeExpenseAmountProcedure,
     changeExpenseDescriptionProcedure,
 } from "./procedures";
@@ -107,47 +107,10 @@ export async function updateExpense(
     }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        const transactionId = parseInt(id);
-
-        const budgetTransaction = await tx.budgetTransaction.findUnique({
-            where: {
-                id: transactionId,
-            },
-            include: {
-                journal: {
-                    include: {
-                        entries: {
-                            where: {
-                                ledger: {
-                                    account: {
-                                        accountCode: {
-                                            parent: {
-                                                code: BUDGET_EXPENSE_ACCOUNT_CODE,
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        });
-
-        const currentExpenseAmount = budgetTransaction.journal.entries[0].amount;
-
-        if (currentExpenseAmount !== amount) {
-            await changeExpenseAmountProcedure(tx, { id: transactionId, amount });
-        }
-
-        if (budgetTransaction.description != description) {
-            await changeExpenseDescriptionProcedure(tx, { id: transactionId, description });
-        }
-
-        return await tx.budgetTransaction.findUnique({
-            where: {
-                id: transactionId,
-            },
+        return await updateExpenseProcedure(tx, {
+            id,
+            description,
+            amount,
         });
     });
 }
