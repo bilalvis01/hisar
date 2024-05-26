@@ -1,3 +1,3 @@
 export const ASSET = "asset";
 export const EXPENSE = "expense";
-export const PRIVE = "prive";
+export const EQUITY = "equity";

@@ -3,103 +3,80 @@ import {
     createBudgetProcedure, 
     createExpenseProcedure, 
     journalizeProcedure,
+    createAccountProcedure,
 } from "./lib/database/procedures";
 import { 
     CASH_ACCOUNT_CODE, 
     BUDGET_EXPENSE_ACCOUNT_CODE, 
     BUDGET_CASH_ACCOUNT_CODE,
-    PRIVE_ACCOUNT_CODE, 
+    OWNER_CAPITAL_ACCOUNT_CODE, 
 } from './lib/database/account-code';
 import {
     ASSET,
     EXPENSE,
-    PRIVE,
+    EQUITY,
 } from "./lib/database/account-type";
+import { 
+    BUDGET_FUNDING,
+    BUDGET_EXPENSE,
+} from './lib/database/budget-transacton-type';
 
 const prisma = new PrismaClient();
 
 async function main() {
     await prisma.$transaction(async (tx: PrismaClient) => {
-        const assetAccountType = await tx.accountType.create({
+        await tx.accountType.create({
             data: {
                 name: ASSET,
                 direction: 1,
+                ledgerDirection: 1,
             },
         });
     
-        const expenseAccountType = await tx.accountType.create({
+        await tx.accountType.create({
             data: {
                 name: EXPENSE,
                 direction: -1,
+                ledgerDirection: 1,
             },
         });
     
-        const priveAccountType = await tx.accountType.create({
+        await tx.accountType.create({
             data: {
-                name: PRIVE,
-                direction: -1,
+                name: EQUITY,
+                direction: 1,
+                ledgerDirection: -1,
             },
         });
     
-        const cashAccountCode = await tx.accountCode.create({
-            data: {
-                code: CASH_ACCOUNT_CODE,
-            }
-        });
-    
-        const expenseAccountCode = await tx.accountCode.create({
+        await tx.accountCode.create({
             data: {
                 code: BUDGET_EXPENSE_ACCOUNT_CODE,
             }
         });
     
-        const budgetAccountCode = await tx.accountCode.create({
+        await tx.accountCode.create({
             data: {
                 code: BUDGET_CASH_ACCOUNT_CODE,
             }
         });
-    
-        const priveAccountCode = await tx.accountCode.create({
+
+        await tx.budgetTransactionType.create({
             data: {
-                code: PRIVE_ACCOUNT_CODE,
-            }
+                name: BUDGET_FUNDING,
+            },
         });
-    
-        const cashAccount = await tx.account.create({
+
+        await tx.budgetTransactionType.create({
             data: {
-                name: "cash account",
-                accountCode: { connect: { id: cashAccountCode.id } },
-                accountType: { connect: { id: assetAccountType.id } },
+                name: BUDGET_EXPENSE,
             },
         });
     
-        const priveAccount = await tx.account.create({
-            data: {
-                name: "prive account",
-                accountCode: { connect: { id: priveAccountCode.id } },
-                accountType: { connect: { id: priveAccountType.id } },
-            },
-        });
-    
-        const cashAccountLedger = await tx.ledger.create({
-            data: {
-                balance: BigInt(0),
-                account: { connect: { id: cashAccount.id, } },
-            },
-        });
-    
-        const priveAccountLedger = await tx.ledger.create({
-            data: {
-                balance: BigInt(0),
-                account: { connect: { id: priveAccount.id, } },
-            },
-        });
-    
-        await journalizeProcedure(tx, {
-            debitAccountId: cashAccount.id,
-            creditAccountId: priveAccount.id,
-            amount: BigInt(1_000_000_000_0000),
-            description: "modal awal",
+        createAccountProcedure(tx, {
+            name: "modal pemilik",
+            accountCode: { code: OWNER_CAPITAL_ACCOUNT_CODE },
+            accountType: EQUITY,
         });
     
         const budgetPeralatan = await createBudgetProcedure(tx, { 

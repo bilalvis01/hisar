@@ -11,6 +11,10 @@ import {
     createExpenseProcedure,
     balanceLedgerProcedure,
 } from "./procedures";
+import { 
+    getBudgetCashAccount, 
+    getBudgetExpenseAccount, 
+} from "../utils/getBudgetAccount";
 
 const DEBIT = 1;
 const CREDIT = -1;
@@ -52,12 +56,6 @@ export async function updateBudget(client: PrismaClient, {
     id, name, amount
 }: { id: number; name: string; amount: bigint; }) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        const budget = await tx.budget.findUnique({
-            where: {
-                id,
-            },
-        });
-
         const cashAccount = await tx.account.findFirst({
             where: {
                 accountCode: {
@@ -65,12 +63,21 @@ export async function updateBudget(client: PrismaClient, {
                 },
             },
         });
-
-        const budgetCashAccount = await tx.account.findFirst({
+        
+        const budget = await tx.budget.findUnique({
             where: {
-                id: budget.cashAccountId,
+                id,
+            },
+            include: {
+                accountAssignments: {
+                    include: {
+                        account: true,
+                    },
+                },
             },
         });
+
+        const budgetCashAccount = getBudgetCashAccount(budget);
 
         const openCashLedger = await tx.ledger.findFirst({
             where: {
@@ -80,13 +87,8 @@ export async function updateBudget(client: PrismaClient, {
             include: {
                 entries:  {
                     where: {
-                        entry: {
-                            direction: DEBIT,
-                        },
+                        direction: DEBIT,
                     },
-                    include: {
-                        entry: true,
-                    },  
                     orderBy: {
                         id: "asc",
                     },
@@ -102,12 +104,7 @@ export async function updateBudget(client: PrismaClient, {
             include: {
                 entries: {
                     where: {
-                        entry: {
-                            direction: CREDIT,
-                        },
-                    },
-                    include: {
-                        entry: true,
+                        direction: CREDIT,
                     },
                     orderBy: {
                         id: "asc",
@@ -116,10 +113,10 @@ export async function updateBudget(client: PrismaClient, {
             },
         });
 
-        const cashEntry = openCashLedger.entries[0].entry;
+        const cashEntry = openCashLedger.entries[0];
         const budgetCashEntry = openBudgetCashLedger.entries[0];
 
-        const currentBudgetFund = openBudgetCashLedger.entries[0].entry.amount;
+        const currentBudgetFund = openBudgetCashLedger.entries[0].amount;
 
         if (budget.name !== name) {
             await tx.budget.update({
@@ -219,11 +216,7 @@ export async function updateExpense(
             include: {
                 entries: {
                     include: {
-                        ledgerEntry: {
-                            include: {
-                                ledger: true,
-                            },
-                        },
+                        ledger: true,
                     },
                 },
             },
@@ -234,14 +227,14 @@ export async function updateExpense(
 
         const openDebitLedger = await tx.ledger.findUnique({
             where: {
-                id: debitJournalEntry.ledgerEntry.ledger.id,
+                id: debitJournalEntry.ledger.id,
                 open: true,
             },
         });
 
         const openCreditLedger = await tx.ledger.findUnique({
             where: {
-                id: creditJournalEntry.ledgerEntry.ledger.id,
+                id: creditJournalEntry.ledger.id,
                 open: true,
             },
         });

@@ -7,7 +7,7 @@ import {
     PrismaClient, 
     Budget, 
     Account, 
-    AccountCode 
+    AccountCode,
 } from "@prisma/client";
 import { 
     createBudget, 
@@ -22,6 +22,7 @@ import createMessageDeleteBudget from "../../../lib/utils/createMessageDeleteBud
 import expenseID from "../../../lib/utils/expenseID";
 import accountCode from "../../../lib/utils/accountCode";
 import { BUDGET_CASH_ACCOUNT_CODE } from "../../../lib/database/account-code";
+import { BUDGET_CASH, BUDGET_EXPENSE } from "../../../lib/database/budget-account-assignment";
 
 function getAccountCode(code: string) {
     return code.split("-").map(Number);
@@ -37,23 +38,32 @@ async function getBudgetDetail(
     dataSources: PrismaClient, 
     budget: Budget,
 ) {
+    const budgetAccounts = await dataSources.budgetAccount.findMany({
+        where: {
+            budget: { id: budget.id },
+        },
+    });
+
+    const budgetCashAccountId = budgetAccounts.filter(
+        (budgetAccount) => budgetAccount.task === BUDGET_CASH,
+    )[0]["id"];
+    const budgetExpenseAccountId = budgetAccounts.filter(
+        (budgetAccount) => budgetAccount.task === BUDGET_EXPENSE,
+    )[0]["id"];
+
     const budgetCashAccount = await dataSources.account.findUnique({
         where: {
-            id: budget.cashAccountId,
+            id: budgetCashAccountId,
         },
         include: {
-            ledger: {
+            ledgers: {
                 where: {
                     open: true,
                 },
                 include: {
                     entries: {
                         include: {
-                            entry: {
-                                include: {
-                                    journal: true,
-                                },
-                            },
+                            journal: true,
                         },
                     },
                 },
@@ -68,10 +78,10 @@ async function getBudgetDetail(
 
     const budgetExpenseAccount = await dataSources.account.findUnique({
         where: {
-            id: budget.expenseAccountId,
+            id: budgetExpenseAccountId,
         },
         include: {
-            ledger: {
+            ledgers: {
                 where: {
                     open: true,
                 },
@@ -82,12 +92,12 @@ async function getBudgetDetail(
         },
     });
 
-    const openBudgetCashLedger = budgetCashAccount.ledger[0];
-    const openBudgetExpenseLedger = budgetExpenseAccount.ledger[0];
+    const openBudgetCashLedger = budgetCashAccount.ledgers[0];
+    const openBudgetExpenseLedger = budgetExpenseAccount.ledgers[0];
 
-    const budgetTotal = openBudgetCashLedger.entries.reduce((acc, ledgerEntry) => {
-        if (ledgerEntry.entry.direction === 1) {
-            return acc + ledgerEntry.entry.amount;
+    const budgetTotal = openBudgetCashLedger.entries.reduce((acc, entry) => {
+        if (entry.direction === 1) {
+            return acc + entry.amount;
         }
 
         return acc;
@@ -95,24 +105,24 @@ async function getBudgetDetail(
     
     const expenseTotal = openBudgetExpenseLedger.balance;
     
-    const ledgerEntries = openBudgetCashLedger.entries.map((ledgerEntry) => {
-        const ledgerEntry_ = {
-            id: ledgerEntry.entry.journal.id,
-            description: ledgerEntry.entry.journal.description,
-            balance: ledgerEntry.balance,
-            createdAt: ledgerEntry.entry.journal.createdAt,
+    const ledgerEntries = openBudgetCashLedger.entries.map((entry) => {
+        const entry_ = {
+            id: entry.journal.id,
+            description: entry.journal.description,
+            balance: entry.balance,
+            createdAt: entry.journal.createdAt,
         };
 
-        if (ledgerEntry.entry.direction === 1) {
+        if (entry.direction === 1) {
             return {
-                ...ledgerEntry_,
-                ...{ debit: ledgerEntry.entry.amount },
+                ...entry_,
+                ...{ debit: entry.amount },
             }
         }
 
         return {
-            ...ledgerEntry_,
-            ...{ credit: ledgerEntry.entry.amount },
+            ...entry_,
+            ...{ credit: entry.amount },
         }
     });
 
@@ -133,11 +143,15 @@ async function fetchBudgetByCode(dataSources: PrismaClient, code: string) {
     return await dataSources.budget.findFirst({
         where: {
             active: true,
-            cashAccount: {
-                accountCode: {
-                    code: budgetCode[1],
-                    accountSupercode: {
-                        code: budgetCode[0],
+            budgetAccounts: {
+                some: {
+                    account: {
+                        accountCode: {
+                            code: budgetCode[1],
+                            accountSupercode: {
+                                code: budgetCode[0],
+                            },
+                        },
                     },
                 },
             },
@@ -213,33 +227,32 @@ const resolvers: Resolvers = {
                     id: "desc",
                 },
                 include: {
-                    cashAccount: {
+                    budgetAccounts: {
                         include: {
-                            accountCode: {
+                            account: {
                                 include: {
-                                    accountSupercode: true,
-                                },
-                            },
-                        },
-                    },
-                    expenseAccount: {
-                        include: {
-                            ledger: {
-                                include: {
-                                    entries: {
+                                    accountCode: {
                                         include: {
-                                            entry: {
+                                            accountSupercode: true,
+                                        },
+                                    },
+                                    ledgers: {
+                                        include: {
+                                            entries: {
                                                 include: {
                                                     journal: true,
                                                 },
                                             },
                                         },
+                                        where: {
+                                            open: true,
+                                        },
                                     },
                                 },
-                                where: {
-                                    open: true,
-                                },
                             },
+                        },
+                        where: {
+                            task: BUDGET_EXPENSE,
                         },
                     },
                 },
@@ -248,18 +261,18 @@ const resolvers: Resolvers = {
             return budgets.map(
                 (budget) => ({ 
                     name: budget.name,
-                    cashAccount: budget.cashAccount,
-                    entries: budget.expenseAccount.ledger[0].entries,
+                    cashAccount: budget.budgetAccounts[0].account,
+                    entries: budget.budgetAccounts[0].account.ledgers[0].entries,
                 })
             )
             .flatMap(
-                (budget) => budget.entries.map((ledgerEntry) => ({
-                    id: expenseID.format(ledgerEntry.entry.journal.id),
-                    description: ledgerEntry.entry.journal.description,
+                (budget) => budget.entries.map((entry) => ({
+                    id: expenseID.format(entry.journal.id),
+                    description: entry.journal.description,
                     budgetCode: getBudgetCode(budget.cashAccount),
                     budgetName: budget.name,
-                    amount: ledgerEntry.entry.amount,
-                    createdAt: ledgerEntry.entry.journal.createdAt,
+                    amount: entry.amount,
+                    createdAt: entry.journal.createdAt,
                 }))
             );
         },
@@ -273,17 +286,13 @@ const resolvers: Resolvers = {
                 include: {
                     entries: {
                         include: {
-                            ledgerEntry: {
+                            ledger: {
                                 include: {
-                                    ledger: {
+                                    account: {
                                         include: {
-                                            account: {
+                                            accountCode: {
                                                 include: {
-                                                    accountCode: {
-                                                        include: {
-                                                            accountSupercode: true,
-                                                        },
-                                                    },
+                                                    accountSupercode: true,
                                                 },
                                             },
                                         },
@@ -292,13 +301,11 @@ const resolvers: Resolvers = {
                             },
                         },
                         where: {
-                            ledgerEntry: {
-                                ledger: {
-                                    account: {
-                                        accountCode: {
-                                            accountSupercode: {
-                                                code: BUDGET_CASH_ACCOUNT_CODE,
-                                            },
+                            ledger: {
+                                account: {
+                                    accountCode: {
+                                        accountSupercode: {
+                                            code: BUDGET_CASH_ACCOUNT_CODE,
                                         },
                                     },
                                 },
@@ -319,8 +326,8 @@ const resolvers: Resolvers = {
             const expense = {
                 id: expenseID.format(journal.id),
                 description: journal.description,
-                budgetCode: getBudgetCode(journal.entries[0].ledgerEntry.ledger.account),
-                budgetName: journal.entries[0].ledgerEntry.ledger.account.name,
+                budgetCode: getBudgetCode(journal.entries[0].ledger.account),
+                budgetName: journal.entries[0].ledger.account.name,
                 amount: journal.entries[0].amount,
                 createdAt: journal.createdAt,
             };
@@ -342,9 +349,13 @@ const resolvers: Resolvers = {
                     amount: input.amount,
                 });
 
-                const budgetCashAccount = await context.dataSources.account.findUnique({
+                const budgetCashAccount = await context.dataSources.account.findFirst({
                     where: {
-                        id: budget.cashAccountId,
+                        budgetAccount: {
+                            budget: {
+                                id: budget.id,
+                            },
+                        },
                     },
                     include: {
                         accountCode: {
@@ -352,7 +363,7 @@ const resolvers: Resolvers = {
                                 accountSupercode: true,
                             },
                         },
-                        ledger: {
+                        ledgers: {
                             where: {
                                 open: true,
                             },
@@ -367,10 +378,10 @@ const resolvers: Resolvers = {
                     budget: {
                         code: getBudgetCode(budgetCashAccount),
                         name: budget.name,
-                        amount: budgetCashAccount.ledger[0].balance,
+                        amount: budgetCashAccount.ledgers[0].balance,
                         expense: BigInt(0),
                         ledgerEntries: [],
-                        balance: budgetCashAccount.ledger[0].balance,
+                        balance: budgetCashAccount.ledgers[0].balance,
                         createdAt: budget.createdAt,
                         updatedAt: budget.updatedAt,
                     },
@@ -478,30 +489,24 @@ const resolvers: Resolvers = {
                 const budgetCashAccountJournalEntry = await context.dataSources.entry.findFirst({
                     where: {
                         journal: { id: journal.id },
-                        ledgerEntry: {
-                            ledger: {
-                                account: {
-                                    accountCode: {
-                                        accountSupercode: {
-                                            code: BUDGET_CASH_ACCOUNT_CODE,
-                                        },
+                        ledger: {
+                            account: {
+                                accountCode: {
+                                    accountSupercode: {
+                                        code: BUDGET_CASH_ACCOUNT_CODE,
                                     },
                                 },
                             },
                         },
                     },
                     include: {
-                        ledgerEntry: {
+                        ledger: {
                             include: {
-                                ledger: {
+                                account: {
                                     include: {
-                                        account: {
+                                        accountCode: {
                                             include: {
-                                                accountCode: {
-                                                    include: {
-                                                        accountSupercode: true,
-                                                    },
-                                                },
+                                                accountSupercode: true,
                                             },
                                         },
                                     },
@@ -511,7 +516,7 @@ const resolvers: Resolvers = {
                     },
                 });
 
-                const budgetCashAccount = budgetCashAccountJournalEntry.ledgerEntry.ledger.account;
+                const budgetCashAccount = budgetCashAccountJournalEntry.ledger.account;
 
                 return {
                     code: 200,

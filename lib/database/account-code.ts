@@ -1,4 +1,4 @@
 export const CASH_ACCOUNT_CODE = 100;
 export const BUDGET_CASH_ACCOUNT_CODE = 101;
 export const BUDGET_EXPENSE_ACCOUNT_CODE = 201;
-export const PRIVE_ACCOUNT_CODE = 300;
+export const OWNER_CAPITAL_ACCOUNT_CODE = 300;
