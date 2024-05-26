@@ -159,12 +159,18 @@ export async function balanceLedgerProcedure(client: PrismaClient, { id }: { id:
         });
     }));
 
+    const ledgerBalance = countBalance({ 
+        ledgerDirection, 
+        entries: ledger.entries,
+        entryIndex: ledger.entries.length - 1,
+    });
+
     await client.ledger.update({
         where: {
             id: ledger.id,
         },
         data: {
-            updatedAt: new Date(),
+            balance: ledgerBalance,
         },
     });
 };
@@ -518,6 +524,139 @@ export async function createBudgetTransactionProcedure(
             description,
         },
     });
+}
+
+export async function updateBudgetProcedure(
+    client: PrismaClient, 
+    {
+        id, 
+        name, 
+        amount
+    }: { 
+        id: number; 
+        name: string; 
+        amount: bigint; 
+    }
+) {
+    const budget = await client.budget.findUnique({
+        where: {
+            id,
+        },
+        include: {
+            accountAssignments: {
+                include: {
+                    account: true,
+                    task: true,
+                },
+            },
+        },
+    });
+
+    const budgetTransaction = await client.budgetTransaction.findFirst({
+        where: {
+            budget: { id, },
+            transactionType: { name: BUDGET_FUNDING },
+        },
+        include: {
+            journal: {
+                include: {
+                    entries: {
+                        where: {
+                            ledger: {
+                                account: {
+                                    accountCode: {
+                                        parent: {
+                                            code: BUDGET_CASH_ACCOUNT_CODE,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    const currentBudgetAmount = budgetTransaction.journal.entries[0].amount;
+
+    if (budget.name !== name) {
+        await changeBudgetName(client, {
+            id,
+            name,
+        });
+    }
+
+    if (currentBudgetAmount !== amount) {
+        await changeBudgetAmount(client, { 
+            idTransaction: budgetTransaction.id,
+            amount,
+        }); 
+    }
+
+    return await client.budget.findUnique({
+        where: {
+            id,
+        },
+    });
+}
+
+export async function changeBudgetAmount(
+    client: PrismaClient,
+    {
+        idTransaction,
+        amount,
+    }: {
+        idTransaction: number;
+        amount: bigint;
+    }
+) {
+    await changeBudgetTransactionAmountProcedure(client, {
+        id: idTransaction,
+        amount,
+    });
+}
+
+export async function changeBudgetName(
+    client: PrismaClient,
+    {
+        id,
+        name,
+    }: {
+        id: number,
+        name: string,
+    }
+) {
+    await client.budget.update({
+        data: {
+            name,
+        },
+        where: {
+            id,
+        },
+    });
+
+    const budgetTransactions = await client.budgetTransaction.findMany({
+        select: {
+            id: true,
+            description: true,
+            journalId: true,
+        },
+        where: {
+            budget: { id },
+        },
+    });
+
+    await Promise.all(budgetTransactions.map(async (budgetTransaction) => {
+        await client.journal.update({
+            data: {
+                description: `${budgetTransaction.description} (${name})`,
+            },
+            where: {
+                id: budgetTransaction.journalId,
+            },
+        });
+    }));
 }
 
 export async function changeBudgetTransactionAmountProcedure(

@@ -9,6 +9,7 @@ import {
     journalizeProcedure,
     createBudgetProcedure,
     deleteBudgetProcedure,
+    updateBudgetProcedure,
     createExpenseProcedure,
     balanceLedgerProcedure,
     changeExpenseAmountProcedure,
@@ -55,117 +56,12 @@ export async function createBudget(
     });
 }
 
-export async function updateBudget(client: PrismaClient, {
-    id, name, amount
-}: { id: number; name: string; amount: bigint; }) {
+export async function updateBudget(
+    client: PrismaClient, 
+    data: { id: number; name: string; amount: bigint; }
+) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        const cashAccount = await tx.account.findFirst({
-            where: {
-                accountCode: {
-                    code: CASH_ACCOUNT_CODE,
-                },
-            },
-        });
-        
-        const budget = await tx.budget.findUnique({
-            where: {
-                id,
-            },
-            include: {
-                accountAssignments: {
-                    include: {
-                        account: true,
-                        task: true,
-                    },
-                },
-            },
-        });
-
-        const budgetCashAccount = getBudgetCashAccount(budget);
-
-        const openCashLedger = await tx.ledger.findFirst({
-            where: {
-                account: { id: cashAccount.id },
-                open: true,
-            },
-            include: {
-                entries:  {
-                    where: {
-                        direction: DEBIT,
-                    },
-                    orderBy: {
-                        id: "asc",
-                    },
-                },
-            },
-        });
-
-        const openBudgetCashLedger = await tx.ledger.findFirst({
-            where: {
-                account: { id: budgetCashAccount.id },
-                open: true,
-            },
-            include: {
-                entries: {
-                    where: {
-                        direction: CREDIT,
-                    },
-                    orderBy: {
-                        id: "asc",
-                    },
-                },
-            },
-        });
-
-        const cashEntry = openCashLedger.entries[0];
-        const budgetCashEntry = openBudgetCashLedger.entries[0];
-
-        const currentBudgetFund = openBudgetCashLedger.entries[0].amount;
-
-        if (budget.name !== name) {
-            await tx.budget.update({
-                where: {
-                    id,
-                },
-                data: {
-                    name,
-                }
-            });
-        }
-
-        if (currentBudgetFund !== amount) {
-            await tx.entry.update({
-                where: {
-                    id: cashEntry.id,
-                },
-                data: {
-                    amount: amount,
-                },
-            });
-
-            await tx.entry.update({
-                where: {
-                    id: budgetCashEntry.id,
-                },
-                data: {
-                    amount: amount,
-                },
-            });
-
-            await balanceLedgerProcedure(tx, { id: openBudgetCashLedger.id });
-            await balanceLedgerProcedure(tx, { id: openCashLedger.id });
-
-            await tx.budget.update({
-                where: {
-                    id: budget.id,
-                },
-                data: {
-                    updatedAt: new Date(),
-                },
-            });
-        }
-
-        return budget;
+        return updateBudgetProcedure(tx, data);
     });
 }
 

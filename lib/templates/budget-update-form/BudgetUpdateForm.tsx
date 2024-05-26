@@ -36,8 +36,10 @@ export default function BudgetUpdateForm({
                 },
             });
         },
+        onError(err) {
+            console.log(err.message);
+        },
         onCompleted(data) {
-            console.log(data.updateBudget.message);
             setInfo(data.updateBudget.message);
             setOpen(false);
             if (onSuccess) onSuccess(data);
