@@ -72,7 +72,7 @@ async function getBudgetDetail(
             },
             transactionType: true,
         },
-    }))
+    }));
 
     const budgetTransactions = rawBudgetTransactions.map((budgetTransaction) => ({
         id: budgetTransaction.id,
@@ -111,7 +111,9 @@ async function getBudgetDetail(
 
     const budgetAmount = rawBudgetTransactions.filter(
         (rawBudgetTransaction) => rawBudgetTransaction.transactionType.name === BUDGET_FUNDING
-    )[0]["amount"];
+    )[0]["journal"]["entries"][0]["amount"];
+
+    console.log(budgetAmount);
 
     const budgetCashAccount = accountAssignments.filter(
         (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT
