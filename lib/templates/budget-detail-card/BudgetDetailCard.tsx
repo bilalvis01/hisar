@@ -29,15 +29,9 @@ import IconPencil from "../../icons/Pencil";
 import IconTrash from "../../icons/Trash";
 import Link from "next/link";
 import { LinkText } from "../../components/ButtonText";
+import { BudgetTransaction } from "../../graphql/generated/graphql";
 
-interface Budget {
-    description: string;
-    debit?: number;
-    credit?: number;
-    balance: number;
-}
-
-const columnHelper = createColumnHelper<Budget>();
+const columnHelper = createColumnHelper<BudgetTransaction>();
 
 const columns = [
     columnHelper.display({
@@ -70,23 +64,10 @@ const columns = [
             </span>
         ),
     }),
-    columnHelper.accessor("debit", {
+    columnHelper.accessor("expense", {
         header: () => (
             <span className={clsx("currency", "text-title-small")}>
-                DEBIT
-            </span>
-        ),
-        cell: info => (
-            <span className={clsx("currency", "text-body-small")}>
-                {!info.getValue() && "-"}
-                {info.getValue() && idr.format(info.getValue())}
-            </span>
-        ),
-    }),
-    columnHelper.accessor("credit", {
-        header: () => (
-            <span className={clsx("currency", "text-title-small")}>
-                CREDIT
+                TERPAKAI
             </span>
         ),
         cell: info => (

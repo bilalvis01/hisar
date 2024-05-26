@@ -25,7 +25,7 @@ export type Budget = {
   balance: Scalars['Money']['output'];
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  expense?: Maybe<Scalars['Money']['output']>;
+  expense: Scalars['Money']['output'];
   name: Scalars['String']['output'];
   transactions: Array<BudgetTransaction>;
   updatedAt: Scalars['DateTime']['output'];
@@ -44,7 +44,7 @@ export type BudgetTransaction = {
   balance: Scalars['Money']['output'];
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
-  expense: Scalars['Money']['output'];
+  expense?: Maybe<Scalars['Money']['output']>;
   id: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -357,7 +357,7 @@ export type BudgetResolvers<ContextType = Context, ParentType extends ResolversP
   balance?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  expense?: Resolver<Maybe<ResolversTypes['Money']>, ParentType, ContextType>;
+  expense?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   transactions?: Resolver<Array<ResolversTypes['BudgetTransaction']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -376,7 +376,7 @@ export type BudgetTransactionResolvers<ContextType = Context, ParentType extends
   balance?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  expense?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
+  expense?: Resolver<Maybe<ResolversTypes['Money']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

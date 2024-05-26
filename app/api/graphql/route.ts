@@ -113,8 +113,6 @@ async function getBudgetDetail(
         (rawBudgetTransaction) => rawBudgetTransaction.transactionType.name === BUDGET_FUNDING
     )[0]["journal"]["entries"][0]["amount"];
 
-    console.log(budgetAmount);
-
     const budgetCashAccount = accountAssignments.filter(
         (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT
     )[0]["account"];
@@ -199,7 +197,7 @@ const resolvers: Resolvers = {
 
         async budgetByCode(_, { code }, context) {
             const budget = await fetchBudgetByCode(context.dataSources, code);
-
+            
             if (!budget) {
                 return {
                     code: 404,

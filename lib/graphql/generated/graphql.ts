@@ -24,7 +24,7 @@ export type Budget = {
   balance: Scalars['Money']['output'];
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
-  expense?: Maybe<Scalars['Money']['output']>;
+  expense: Scalars['Money']['output'];
   name: Scalars['String']['output'];
   transactions: Array<BudgetTransaction>;
   updatedAt: Scalars['DateTime']['output'];
@@ -43,7 +43,7 @@ export type BudgetTransaction = {
   balance: Scalars['Money']['output'];
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
-  expense: Scalars['Money']['output'];
+  expense?: Maybe<Scalars['Money']['output']>;
   id: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
@@ -232,44 +232,44 @@ export type GetBudgetQueryVariables = Exact<{
 }>;
 
 
-export type GetBudgetQuery = { __typename?: 'Query', budgets: Array<{ __typename?: 'Budget', code: string, name: string, amount: number, expense?: number | null, balance: number, createdAt: string, updatedAt: string }> };
+export type GetBudgetQuery = { __typename?: 'Query', budgets: Array<{ __typename?: 'Budget', code: string, name: string, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string }> };
 
 export type GetBudgetByCodeQueryVariables = Exact<{
   code: Scalars['String']['input'];
 }>;
 
 
-export type GetBudgetByCodeQuery = { __typename?: 'Query', budgetByCode: { __typename?: 'BudgetByCodePayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', code: string, name: string, amount: number, expense?: number | null, balance: number, createdAt: string, updatedAt: string, transactions: Array<{ __typename?: 'BudgetTransaction', id: number, description: string, expense: number, balance: number, createdAt: string, updatedAt: string }> } | null } };
+export type GetBudgetByCodeQuery = { __typename?: 'Query', budgetByCode: { __typename?: 'BudgetByCodePayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', code: string, name: string, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string, transactions: Array<{ __typename?: 'BudgetTransaction', id: number, description: string, expense?: number | null, balance: number, createdAt: string, updatedAt: string }> } | null } };
 
-export type NewBudgetFragment = { __typename?: 'Budget', code: string, name: string, amount: number, expense?: number | null, balance: number, createdAt: string, updatedAt: string } & { ' $fragmentName'?: 'NewBudgetFragment' };
+export type NewBudgetFragment = { __typename?: 'Budget', code: string, name: string, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string } & { ' $fragmentName'?: 'NewBudgetFragment' };
 
 export type CreateBudgetMutationVariables = Exact<{
   input: CreateBudgetInput;
 }>;
 
 
-export type CreateBudgetMutation = { __typename?: 'Mutation', createBudget: { __typename?: 'CreateBudgetPayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', code: string, name: string, amount: number, expense?: number | null, balance: number, createdAt: string, updatedAt: string } | null } };
+export type CreateBudgetMutation = { __typename?: 'Mutation', createBudget: { __typename?: 'CreateBudgetPayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', code: string, name: string, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string } | null } };
 
 export type UpdateBudgetMutationVariables = Exact<{
   input: UpdateBudgetInput;
 }>;
 
 
-export type UpdateBudgetMutation = { __typename?: 'Mutation', updateBudget: { __typename?: 'UpdateBudgetPayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', code: string, name: string, amount: number, expense?: number | null, balance: number, createdAt: string, updatedAt: string, transactions: Array<{ __typename?: 'BudgetTransaction', id: number, description: string, expense: number, balance: number, createdAt: string, updatedAt: string }> } | null } };
+export type UpdateBudgetMutation = { __typename?: 'Mutation', updateBudget: { __typename?: 'UpdateBudgetPayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', code: string, name: string, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string, transactions: Array<{ __typename?: 'BudgetTransaction', id: number, description: string, expense?: number | null, balance: number, createdAt: string, updatedAt: string }> } | null } };
 
 export type DeleteBudgetMutationVariables = Exact<{
   input: DeleteBudgetInput;
 }>;
 
 
-export type DeleteBudgetMutation = { __typename?: 'Mutation', deleteBudget: { __typename?: 'DeleteBudgetPayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', code: string, name: string, amount: number, expense?: number | null, balance: number, createdAt: string, updatedAt: string } | null } };
+export type DeleteBudgetMutation = { __typename?: 'Mutation', deleteBudget: { __typename?: 'DeleteBudgetPayload', code: number, success: boolean, message: string, budget?: { __typename?: 'Budget', code: string, name: string, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string } | null } };
 
 export type DeleteBudgetManyMutationVariables = Exact<{
   input: DeleteBudgetManyInput;
 }>;
 
 
-export type DeleteBudgetManyMutation = { __typename?: 'Mutation', deleteBudgetMany: { __typename?: 'DeleteBudgetManyPayload', code: number, success: boolean, message: string, budgets?: Array<{ __typename?: 'Budget', code: string, name: string, amount: number, expense?: number | null, balance: number, createdAt: string, updatedAt: string }> | null } };
+export type DeleteBudgetManyMutation = { __typename?: 'Mutation', deleteBudgetMany: { __typename?: 'DeleteBudgetManyPayload', code: number, success: boolean, message: string, budgets?: Array<{ __typename?: 'Budget', code: string, name: string, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string }> | null } };
 
 export type CreateExpenseMutationVariables = Exact<{
   input: CreateExpenseInput;
