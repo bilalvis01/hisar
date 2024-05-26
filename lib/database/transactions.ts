@@ -6,14 +6,16 @@ import {
     CASH_ACCOUNT_CODE,
 } from "./account-code";
 import { 
-    journalizeProcedure,
     createBudgetProcedure,
     deleteBudgetProcedure,
     updateBudgetProcedure,
+} from "./budget-procedures"
+import {
     createExpenseProcedure,
     updateExpenseProcedure,
     deleteExpenseProcedure,
-} from "./procedures";
+} from "./expense-procedures";
+import { createJournalProcedure } from "./journal-procedures";
 
 const DEBIT = 1;
 const CREDIT = -1;
@@ -33,7 +35,7 @@ export async function journalize(
     }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        return await journalizeProcedure(tx, { 
+        return await createJournalProcedure(tx, { 
             debitAccountId,
             creditAccountId,
             amount, 

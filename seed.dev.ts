@@ -1,10 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { 
-    createBudgetProcedure, 
-    createExpenseProcedure, 
-    journalizeProcedure,
-    createAccountProcedure,
-} from "./lib/database/procedures";
+import { createBudgetProcedure } from './lib/database/budget-procedures';
+import { createExpenseProcedure } from './lib/database/expense-procedures';
+import { createAccountProcedure } from './lib/database/account-procedures';
 import { 
     BUDGET_EXPENSE_ACCOUNT_CODE, 
     BUDGET_CASH_ACCOUNT_CODE,
