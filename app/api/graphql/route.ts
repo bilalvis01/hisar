@@ -218,9 +218,6 @@ const resolvers: Resolvers = {
 
         async expenses(_, __, context) {
             const budgetTransactions = await context.dataSources.budgetTransaction.findMany({
-                orderBy: {
-                    id: "desc",
-                },
                 include: {
                     journal: {
                         include: {
@@ -262,12 +259,20 @@ const resolvers: Resolvers = {
                         },
                     },
                 },
+                where: {
+                    transactionType: {
+                        name: BUDGET_EXPENSE,
+                    },
+                },
+                orderBy: {
+                    id: "desc",
+                },
             });
 
             return budgetTransactions.map(
                 (budgetTransaction) => ({ 
                     id: expenseID.format(budgetTransaction.id),
-                    description: budgetTransaction.journal.description,
+                    description: budgetTransaction.description,
                     budgetCode: getBudgetCode(budgetTransaction.budget.accountAssignments[0].account),
                     budgetName: budgetTransaction.budget.name,
                     amount: budgetTransaction.journal.entries[0].amount,
@@ -316,6 +321,7 @@ const resolvers: Resolvers = {
                             },
                         },
                     },
+                    budget: true,
                 },
             });
 
@@ -329,9 +335,9 @@ const resolvers: Resolvers = {
 
             const expense = {
                 id: expenseID.format(budgetTransaction.id),
-                description: budgetTransaction.journal.description,
+                description: budgetTransaction.description,
                 budgetCode: getBudgetCode(budgetTransaction.journal.entries[0].ledger.account),
-                budgetName: budgetTransaction.journal.entries[0].ledger.account.name,
+                budgetName: budgetTransaction.budget.name,
                 amount: budgetTransaction.journal.entries[0].amount,
                 createdAt: budgetTransaction.createdAt,
                 updatedAt: budgetTransaction.updatedAt,
