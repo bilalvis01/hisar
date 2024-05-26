@@ -96,21 +96,14 @@ export async function createExpense(
 
 export async function updateExpense(
     client: PrismaClient, 
-    { 
-        id,
-        description, 
-        amount 
-    }: { 
+    data: { 
         id: string; 
+        budgetCode: string;
         description: string; 
         amount: bigint; 
     }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        return await updateExpenseProcedure(tx, {
-            id,
-            description,
-            amount,
-        });
+        return await updateExpenseProcedure(tx, data);
     });
 }

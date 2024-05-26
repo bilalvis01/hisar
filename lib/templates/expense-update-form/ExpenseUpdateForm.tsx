@@ -24,11 +24,26 @@ export default function ExpenseAddForm({
     const { setInfo } = useTemplateContext();
 
     const [updateExpense] = useMutation(UPDATE_EXPENSE, {
+        update(cache, { data: { updateExpense } }) {
+            cache.modify({
+                fields: {
+                    expenses() {
+                        cache.writeFragment({
+                            data: updateExpense.expense,
+                            fragment: NEW_EXPENSE,
+                        });
+                    },
+                },
+            });
+        },
         onCompleted(data) {
             setInfo(data.updateExpense.message);
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },
+        onError(err) {
+            console.log(err.message);
+        }
     });
 
     const [getBudgets] = useLazyQuery(GET_BUDGETS);
@@ -82,8 +97,8 @@ export default function ExpenseAddForm({
                 amount: expense.amount,
             }}
             validationSchema={Yup.object({
-                code: Yup.string().required("Mohon diisi"),
-                budgetAccountId: Yup.number().required("Mohon pilih salah satu"),
+                id: Yup.string().required("Mohon diisi"),
+                budgetCode: Yup.string().required("Mohon pilih salah satu"),
                 description: Yup.string().required("Mohon diisi"),
                 amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
             })}

@@ -23,7 +23,7 @@ import {
 } from "graphql-scalars";
 import createMessageDeleteBudget from "../../../lib/utils/createMessageDeleteBudget";
 import expenseID from "../../../lib/utils/expenseID";
-import accountCode from "../../../lib/utils/accountCode";
+import * as accountCode from "../../../lib/utils/accountCode";
 import { BUDGET_CASH_ACCOUNT_CODE } from "../../../lib/database/account-code";
 import { 
     BUDGET_CASH_ACCOUNT, 
@@ -33,10 +33,6 @@ import {
     BUDGET_FUNDING,
     BUDGET_EXPENSE,
 } from "../../../lib/database/budget-transaction-type";
-
-function getAccountCode(code: string) {
-    return code.split("-").map(Number);
-}
 
 function getBudgetCode(account: Account & { accountCode: AccountCode & { parent: AccountCode } }) {
     const supercode = account.accountCode.parent.code;
@@ -134,7 +130,7 @@ async function getBudgetDetail(
 }
 
 async function fetchBudgetByCode(dataSources: PrismaClient, code: string) {
-    const budgetCode = getAccountCode(code);
+    const budgetCode = accountCode.split(code);
     return await dataSources.budget.findFirst({
         where: {
             active: true,
@@ -526,9 +522,7 @@ const resolvers: Resolvers = {
             try {
                 const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
 
-                const budgetTransaction = await updateExpense(context.dataSources, {
-                    ...input, ...{ code: parseInt(input.id) }
-                });
+                const budgetTransaction = await updateExpense(context.dataSources, input);
 
                 return {
                     code: 200,
