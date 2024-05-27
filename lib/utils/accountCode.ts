@@ -10,9 +10,3 @@ export function format(value: number) {
 export function split(value: string) {
     return value.split("-").map(Number);
 }
-
-export function getBudgetCode(account: Account & { accountCode: AccountCode & { parent: AccountCode } }) {
-    const parent = account.accountCode.parent.code;
-    const subcode = account.accountCode.code;
-    return `${parent}-${format(subcode)}`;
-}

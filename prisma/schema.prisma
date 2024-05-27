@@ -15,6 +15,7 @@ datasource db {
 
 model Account {
   id                       Int                      @id @default(autoincrement())
+  code                     String                   @db.VarChar(20) @unique
   name                     String                   @db.VarChar(255)
   active                   Boolean                  @default(true)
   accountCodeId            Int                      @unique
@@ -86,6 +87,7 @@ model Entry {
 
 model Budget {
   id                  Int                         @id @default(autoincrement())
+  code                String                      @db.VarChar(20) @unique
   name                String                      @db.VarChar(255)
   active              Boolean                     @default(true)
   accountAssignments  BudgetAccountAssignment[]

@@ -30,12 +30,6 @@ export async function createBudgetProcedure(
     client: PrismaClient,
     { name, amount }: { name: string; amount: bigint }
 ) {
-    const budget = await client.budget.create({
-        data: {
-            name,
-        },
-    });
-
     const ownerCapitalAccountCode = await client.accountCode.findUnique({
         where: {
             code_virtualParentId: { code: OWNER_CAPITAL_ACCOUNT_CODE, virtualParentId: 0 },
@@ -58,6 +52,13 @@ export async function createBudgetProcedure(
         name: `${name} (expense)`,
         accountCode: { code: BUDGET_EXPENSE_ACCOUNT_CODE, createChildIncrement: true },
         accountType: EXPENSE,
+    });
+
+    const budget = await client.budget.create({
+        data: {
+            code: budgetCashAccount.code,
+            name,
+        },
     });
 
     await client.budgetAccountAssignment.create({

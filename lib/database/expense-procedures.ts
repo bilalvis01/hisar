@@ -126,7 +126,7 @@ export async function updateExpenseProcedure(
 
 export async function deleteExpenseProcedure(
     client: PrismaClient,
-    data: { id: string },
+    data: { id: number },
 ) {
     return await deleteBudgetTransactionProcedure(client, data);
 }

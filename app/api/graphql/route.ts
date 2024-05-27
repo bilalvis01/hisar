@@ -114,7 +114,7 @@ async function getBudgetDetail(
     )[0]["account"];
 
     return {
-        code: accountCode.getBudgetCode(budgetCashAccount),
+        code: budget.code,
         name: budget.name,
         amount: budgetAmount,
         expense: budgetExpenseAccount.ledgers[0].balance,
@@ -129,19 +129,8 @@ async function fetchBudgetByCode(dataSources: PrismaClient, code: string) {
     const budgetCode = accountCode.split(code);
     return await dataSources.budget.findFirst({
         where: {
+            code,
             active: true,
-            accountAssignments: {
-                some: {
-                    account: {
-                        accountCode: {
-                            code: budgetCode[1],
-                            parent: {
-                                code: budgetCode[0],
-                            },
-                        },
-                    },
-                },
-            },
         },
     });
 } 
@@ -228,28 +217,7 @@ const resolvers: Resolvers = {
                             },
                         },
                     },
-                    budget: {
-                        include: {
-                            accountAssignments: {
-                                include: {
-                                    account: {
-                                        include: {
-                                            accountCode: {
-                                                include: {
-                                                    parent: true,
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                                where: {
-                                    task: {
-                                        name: BUDGET_CASH_ACCOUNT,
-                                    },
-                                },
-                            },
-                        },
-                    },
+                    budget: true,
                 },
                 where: {
                     transactionType: {
@@ -266,7 +234,7 @@ const resolvers: Resolvers = {
                 (budgetTransaction) => ({ 
                     id: expenseID.format(budgetTransaction.id),
                     description: budgetTransaction.description,
-                    budgetCode: accountCode.getBudgetCode(budgetTransaction.budget.accountAssignments[0].account),
+                    budgetCode: budgetTransaction.budget.code,
                     budgetName: budgetTransaction.budget.name,
                     amount: budgetTransaction.journal.entries[0].amount,
                     createdAt: budgetTransaction.createdAt,
@@ -329,7 +297,7 @@ const resolvers: Resolvers = {
             const expense = {
                 id: expenseID.format(budgetTransaction.id),
                 description: budgetTransaction.description,
-                budgetCode: accountCode.getBudgetCode(budgetTransaction.journal.entries[0].ledger.account),
+                budgetCode: budgetTransaction.budget.code,
                 budgetName: budgetTransaction.budget.name,
                 amount: budgetTransaction.journal.entries[0].amount,
                 createdAt: budgetTransaction.createdAt,
@@ -362,11 +330,6 @@ const resolvers: Resolvers = {
                         },
                     },
                     include: {
-                        accountCode: {
-                            include: {
-                                parent: true,
-                            },
-                        },
                         ledgers: {
                             where: {
                                 open: true,
@@ -380,7 +343,7 @@ const resolvers: Resolvers = {
                     success: true,
                     message: `akun ${input.name} berhasil dibuat`,
                     budget: {
-                        code: accountCode.getBudgetCode(budgetCashAccount),
+                        code: budget.code,
                         name: budget.name,
                         amount: budgetCashAccount.ledgers[0].balance,
                         expense: BigInt(0),
@@ -546,7 +509,7 @@ const resolvers: Resolvers = {
 
         async deleteExpense(_, { input }, context) {
             try {
-                await deleteExpense(context.dataSources, input);
+                await deleteExpense(context.dataSources, { ...input, ...{ id: parseInt(input.id) } });
 
                 const budgetTransaction = await context.dataSources.budgetTransaction.findUnique({
                     where: {
@@ -570,30 +533,9 @@ const resolvers: Resolvers = {
                                 },
                             },
                         },
-                        budget: {
-                            include: {
-                                accountAssignments: {
-                                    include: {
-                                        account: {
-                                            include: {
-                                                accountCode: {
-                                                    include: {
-                                                        parent: true,
-                                                    },
-                                                },
-                                            },
-                                        },
-                                        task: true,
-                                    },
-                                },
-                            },
-                        },
+                        budget: true,
                     },
                 });
-
-                const budgetCashAccount = budgetTransaction.budget.accountAssignments.filter(
-                    (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT  
-                )[0].account;
 
                 return {
                     code: 200,
@@ -601,7 +543,7 @@ const resolvers: Resolvers = {
                     message: `${budgetTransaction.description} berhasil diperbarui`,
                     expense: {
                         id: expenseID.format(budgetTransaction.id),
-                        budgetCode: accountCode.getBudgetCode(budgetCashAccount),
+                        budgetCode: budgetTransaction.budget.code,
                         budgetName: budgetTransaction.budget.name,
                         amount: budgetTransaction.journal.entries[0].amount,
                         description: budgetTransaction.description,
