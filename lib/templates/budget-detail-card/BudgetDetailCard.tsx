@@ -15,7 +15,6 @@ import { GET_BUDGET_BY_CODE } from "../../graphql/documents";
 import Table from "../Table";
 import { useParams } from "next/navigation";
 import style from "./BudgetDetailCard.module.scss";
-import * as date from "date-fns";
 import ProgressCircular from "../../components/ProgressCircular";
 import BudgetUpdateForm from "../budget-update-form/BudgetUpdateForm";
 import BudgetDelete from "../budget-delete/BudgetDelete";
@@ -48,6 +47,7 @@ import {
 import Fab from "../fab/Fab";
 import IconPlusLg from "../../icons/PlusLg";
 import IconEye from "../../icons/Eye";
+import date from "../../utils/date";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -117,7 +117,27 @@ const columns = [
                 {idr.format(info.getValue())}
             </span>
         ),
-    })
+    }),
+    columnHelper.accessor("createdAt", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>DIBUAT</span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {date.format(info.getValue())}
+            </span>
+        ),
+    }),
+    columnHelper.accessor("updatedAt", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>DIPERBARUI</span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {date.format(info.getValue())}
+            </span>
+        ),
+    }),
 ];
 
 export default function BudgetDetailCard() {
@@ -337,11 +357,11 @@ export default function BudgetDetailCard() {
                             </li>
                             <li>
                                 <div className="text-title-small">Dibuat</div>
-                                <div className="text-body-small">{date.format(budget.createdAt, "d-M-y H:m:s")}</div>
+                                <div className="text-body-small">{date.format(budget.createdAt)}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Diperbarui</div>
-                                <div className="text-body-small">{date.format(budget.updatedAt, "d-M-y H:m:s")}</div>
+                                <div className="text-body-small">{date.format(budget.updatedAt)}</div>
                             </li>
                         </ul>
                     )}
