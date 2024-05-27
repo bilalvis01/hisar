@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { createPortal } from "react-dom";
 import clsx from "clsx";
 import idr from "../../utils/idr";
 import { useQuery } from "@apollo/client";
@@ -11,6 +12,16 @@ import ProgressCircular from "../../components/ProgressCircular";
 import { useTemplateContext } from "../Template";
 import { notFound } from "next/navigation";
 import date from "../../utils/date";
+import Link from "next/link";
+import { LinkText } from "../../components/ButtonText";
+import { ButtonText } from "../../components/ButtonText";
+import ExpenseDelete from "../expense-delete/ExpenseDelete";
+import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
+import { IconLinkFilled } from "../../components/IconButtonFilled";
+import { IconButtonFilled } from "../../components/IconButtonFilled";
+import IconArrowLeft from "../../icons/ArrowLeft";
+import IconPencil from "../../icons/Pencil";
+import IconTrash from "../../icons/Trash";
 
 export default function ExpenseDetailCard() {
     const { id } = useParams<{ id: string }>();
@@ -23,6 +34,16 @@ export default function ExpenseDetailCard() {
         isWindowSizeExpanded,
         isWindowSizeSpanMedium,
     } = useTemplateContext();
+    const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
+    const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
+
+    const handleOpenExpenseUpdateForm = React.useCallback(() => {
+        setOpenExpenseUpdateForm(true);
+    }, []);
+
+    const handleOpenExpenseDelete = React.useCallback(() => {
+        setOpenExpenseDelete(true);
+    }, []);
 
     if (data && data.expenseById.code === 404) {
         notFound();
@@ -51,6 +72,21 @@ export default function ExpenseDetailCard() {
                     <h2 className={clsx("text-title-large", style.headline)}>
                         {expense && expense.description.toUpperCase()}
                     </h2>
+                    {isWindowSizeExpanded() && (
+                        <>
+                            <Link href={`/expense`} passHref legacyBehavior>
+                                <LinkText>
+                                    Kembali
+                                </LinkText>
+                            </Link>
+                            <ButtonText onClick={handleOpenExpenseUpdateForm}>
+                                Edit
+                            </ButtonText>
+                            <ButtonText onClick={handleOpenExpenseDelete}>
+                                Hapus
+                            </ButtonText>
+                        </>
+                    )}
                 </header>
                 <div className={style.body}>
                     {expense && (
@@ -78,6 +114,36 @@ export default function ExpenseDetailCard() {
                         </ul>
                     )}
                 </div>
+                {expense && (
+                    <ExpenseUpdateForm
+                        expense={expense}
+                        open={openExpenseUpdateForm}
+                        onOpenChange={setOpenExpenseUpdateForm}
+                    />
+                )}
+                {expense && (
+                    <ExpenseDelete
+                        expense={expense}
+                        open={openExpenseDelete}
+                        onOpenChange={setOpenExpenseDelete}
+                    />
+                )}
+                {isWindowSizeSpanMedium() && createPortal(
+                <>
+                    <Link href={`/expense`} passHref legacyBehavior>
+                        <IconLinkFilled>
+                            <IconArrowLeft />
+                        </IconLinkFilled>
+                    </Link>
+                    <IconButtonFilled onClick={handleOpenExpenseUpdateForm}>
+                        <IconPencil />
+                    </IconButtonFilled>
+                    <IconButtonFilled onClick={handleOpenExpenseDelete}>
+                        <IconTrash />
+                    </IconButtonFilled>
+                </>,
+                toolbarRef.current
+            )}
             </div>
         </>
     );
