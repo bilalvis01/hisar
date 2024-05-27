@@ -58,9 +58,9 @@ const resolvers: Resolvers = {
         },
 
         async budgetByCode(_, { code }, context) {
-            const budget = await fetchBudgetByCode(context.dataSources, code);
+            const rawBudget = await fetchBudgetByCode(context.dataSources, code);
             
-            if (!budget) {
+            if (!rawBudget) {
                 return {
                     code: 404,
                     success: false,
@@ -68,13 +68,13 @@ const resolvers: Resolvers = {
                 }
             }
 
-            const budgetDetail = await getBudgetDetail(context.dataSources, budget);
+            const budget = await getBudgetDetail(context.dataSources, rawBudget);
 
             return {
                 code: 200,
                 success: true,
                 message: "",
-                budget: budgetDetail,
+                budget,
             }
         },
 

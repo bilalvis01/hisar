@@ -100,8 +100,9 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("currency", "text-body-small")}>
-                {!info.getValue() && "-"}
-                {info.getValue() && idr.format(info.getValue())}
+                {info.row.original.transactionType === BudgetTransactionType.Expense && (
+                    idr.format(info.getValue())
+                )}
             </span>
         ),
     }),

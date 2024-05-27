@@ -59,19 +59,7 @@ export async function getBudgetDetail(
         include: {
             journal: {
                 include: {
-                    entries: {
-                        where: {
-                            ledger: {
-                                account: {
-                                    accountCode: {
-                                        parent: {
-                                            code: BUDGET_EXPENSE_ACCOUNT_CODE,
-                                        }
-                                    },
-                                },
-                            },
-                        },
-                    },
+                    entries: true,
                 },
             },
             transactionType: true,
@@ -84,9 +72,7 @@ export async function getBudgetDetail(
         budgetCode: budgetTransaction.budget.code,
         budgetName: budgetTransaction.budget.name,
         description: budgetTransaction.description,
-        amount: budgetTransaction.transactionType.name === BUDGET_EXPENSE
-            ? budgetTransaction.journal.entries[0].amount
-            : null,
+        amount: budgetTransaction.journal.entries[0].amount,
         balance: budgetTransaction.journal.entries[0].balance,
         transactionType: budgetTransaction.transactionType.name === BUDGET_FUNDING
             ? BudgetTransactionType.Funding
