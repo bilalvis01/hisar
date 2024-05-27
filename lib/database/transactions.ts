@@ -8,6 +8,7 @@ import {
 import { 
     createBudgetProcedure,
     deleteBudgetProcedure,
+    deleteBudgetManyProcedure,
     updateBudgetProcedure,
 } from "./budget-procedures"
 import {
@@ -68,9 +69,9 @@ export async function deleteBudget(client: PrismaClient, { id }: { id: number })
     });
 } 
 
-export async function deleteBudgetMany(client: PrismaClient, { ids }: { ids: number[] }) {
+export async function deleteBudgetMany(client: PrismaClient, data: { ids: number[] }) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        return await Promise.all(ids.map(id => deleteBudgetProcedure(tx, { id })));
+        return await deleteBudgetManyProcedure(tx, data);
     });
 } 
 

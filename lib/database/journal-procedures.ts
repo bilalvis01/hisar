@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Journal } from "@prisma/client";
 import { DEBIT, CREDIT } from "./direction";
 import { balanceLedgerProcedure } from "./common-procedures";
 import { skip } from "node:test";
@@ -110,7 +110,7 @@ export async function createJournalProcedure(
 export async function deleteJournalProcedure(
     client: PrismaClient,
     { id, delegateBalancingLedgers = false }: { id: number, delegateBalancingLedgers?: boolean }
-) {
+): Promise<{ journal: Journal, ledgerIds: number[] }> {
     const journal = await client.journal.update({
         data: {
             softDeleted: true,
@@ -149,7 +149,7 @@ export async function deleteJournalProcedure(
             await balanceLedgerProcedure(client, { id: ledgerId });
         }));
 
-        return { journal };
+        return { journal, ledgerIds: [] };
     }
 
     return { journal, ledgerIds };
@@ -158,14 +158,14 @@ export async function deleteJournalProcedure(
 export async function deleteJournalManyProcedure(
     client: PrismaClient,
     { ids, delegateBalancingLedger = false }: { ids: number[], delegateBalancingLedger?: boolean }
-) {
+): Promise<{ journals: Journal[]; ledgerIds: number[] }> {
     const deleteResults = await Promise.all(ids.map(async (id) => {
         return await deleteJournalProcedure(client, { 
             id, delegateBalancingLedgers: true 
         });
     }));
 
-    const ledgerIds = deleteResults.reduce<number[]>((acc, { ledgerIds }) => {
+    const ledgerIds = deleteResults.reduce((acc, { ledgerIds }) => {
         return ledgerIds.reduce((acc, id) => {
             if (!acc.includes(id)) {
                 acc.push(id);
@@ -182,7 +182,7 @@ export async function deleteJournalManyProcedure(
             async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
         ));   
 
-        return { journals };
+        return { journals, ledgerIds: [] };
     }
 
     return { journals, ledgerIds };

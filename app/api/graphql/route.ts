@@ -384,7 +384,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `${input.name} gagal diperbarui: ${error.message}`,
+                    message: `${input.name} gagal diperbarui`,
                 }
             }
         },
@@ -405,7 +405,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `${budget.name} gagal dihapus: ${error.message}`,
+                    message: `${budget.name} gagal dihapus`,
                 }
             }
         },
@@ -439,7 +439,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: createMessageDeleteBudget(budgetNames, "", " gagal dihapus")
+                    message: createMessageDeleteBudget(budgetNames, "", ` gagal dihapus`)
                 }
             }
         },
@@ -473,7 +473,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `${input.description} gagal ditambahkan: ${error.message}`,
+                    message: `${input.description} gagal ditambahkan`,
                 }
             }
         },
@@ -502,7 +502,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `${input.description} gagal diperbarui: ${error.message}`,
+                    message: `${input.description} gagal diperbarui`,
                 }
             }
         },
@@ -561,7 +561,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `${budgetTransaction.description} gagal diperbarui: ${error.message}`,
+                    message: `${budgetTransaction.description} gagal diperbarui`,
                 }
             }
         }

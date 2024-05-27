@@ -26,16 +26,18 @@ export default function BudgetDeleteMany({
     const budgetNames = budgets.map((budget) => budget.name);
 
     const [deleteBudgetMany] = useMutation(DELETE_BUDGET_MANY, {
-        update(cache) {
-            cache.modify({
-                fields: {
-                    budgets(existingBudgetRefs, { readField }) {
-                        return existingBudgetRefs.filter(
-                            budgetRef => !codes.includes(readField("code", budgetRef))
-                        );
-                    },
-                }
-            });
+        update(cache, { data: { deleteBudgetMany } }) {
+            if (deleteBudgetMany.code === 200) {
+                cache.modify({
+                    fields: {
+                        budgets(existingBudgetRefs, { readField }) {
+                            return existingBudgetRefs.filter(
+                                budgetRef => !codes.includes(readField("code", budgetRef))
+                            );
+                        },
+                    }
+                });
+            }
         },
         onCompleted(data) {
             setInfo(data.deleteBudgetMany.message);

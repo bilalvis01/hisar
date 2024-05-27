@@ -1,4 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { 
+    PrismaClient,
+    BudgetTransaction, 
+} from "@prisma/client";
 import { 
     BUDGET_CASH_ACCOUNT,
     BUDGET_EXPENSE_ACCOUNT,
@@ -269,7 +272,7 @@ export async function changeBudgetTransactionDescriptionProcedure(
 export async function deleteBudgetTransactionProcedure(
     client: PrismaClient,
     { id, delegateBalancingLedgers = false }: { id: number, delegateBalancingLedgers?: boolean }
-) {
+): Promise<{ budgetTransaction: BudgetTransaction; ledgerIds: number[] }> {
     const budgetTransaction = await client.budgetTransaction.findUnique({
         where: {
             id,
@@ -291,7 +294,7 @@ export async function deleteBudgetTransactionProcedure(
     });
 
     if (!delegateBalancingLedgers) {
-        return { budgetTransaction: deletedBudgetTransaction };
+        return { budgetTransaction: deletedBudgetTransaction, ledgerIds: [] };
     }
 
     return { 
@@ -303,7 +306,7 @@ export async function deleteBudgetTransactionProcedure(
 export async function deleteBudgetTransactionManyProcedure(
     client: PrismaClient,
     { ids, delegateBalancingLedgers = false }: { ids: number[], delegateBalancingLedgers?: boolean }
-) {
+): Promise<{ budgetTransactions: BudgetTransaction[], ledgerIds: number[] }> {
     const deleteResults = await Promise.all(ids.map(async (id) => {
         return await deleteBudgetTransactionProcedure(client, {
             id, delegateBalancingLedgers: true,
@@ -329,7 +332,7 @@ export async function deleteBudgetTransactionManyProcedure(
             async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
         ));   
 
-        return { budgetTransactions };
+        return { budgetTransactions, ledgerIds: [] };
     }
 
     return { budgetTransactions, ledgerIds };

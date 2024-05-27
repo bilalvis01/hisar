@@ -21,10 +21,7 @@ import {
     changeBudgetTransactionAmountProcedure, 
     deleteBudgetTransactionManyProcedure,
 } from "./budget-transaction-procedures";
-import { 
-    getBudgetCashAccount, 
-    getBudgetExpenseAccount, 
-} from "../utils/getBudgetAccount";
+import { balanceLedgerProcedure } from "./common-procedures";
 
 export async function createBudgetProcedure(
     client: PrismaClient,
@@ -163,7 +160,10 @@ export async function updateBudgetProcedure(
     });
 }
 
-export async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: number }) {
+export async function deleteBudgetProcedure(
+    client: PrismaClient, 
+    { id, delegateBalancingLedgers = false }: { id: number, delegateBalancingLedgers?: boolean }
+) {
     const budget = await client.budget.findUnique({
         where: {
             id,
@@ -256,10 +256,38 @@ export async function deleteBudgetProcedure(client: PrismaClient, { id }: { id: 
 
     const transactionIds = transactions.map((transaction) => transaction.id);
 
-    await deleteBudgetTransactionManyProcedure(client, { ids: transactionIds });
+    const { ledgerIds }  = await deleteBudgetTransactionManyProcedure(client, { 
+        ids: transactionIds, 
+        delegateBalancingLedgers,
+    });
 
-    return budget;
+    return { budget, ledgerIds };
 } 
+
+export async function deleteBudgetManyProcedure(
+    client: PrismaClient,
+    { ids }: { ids: number[] }
+) {
+    const deleteResults = await Promise.all(ids.map(
+        async (id) => await deleteBudgetProcedure(client, { 
+            id, delegateBalancingLedgers: true
+        })
+    ));
+
+    const ledgerIds = deleteResults.reduce<number[]>((acc, deleteResult) => {
+        return deleteResult.ledgerIds.reduce((acc, ledgerId) => {
+            if (!acc.includes(ledgerId)) {
+                acc.push(ledgerId);
+            }
+
+            return acc;
+        }, acc);
+    }, []);
+
+    await Promise.all(ledgerIds.map(
+        async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
+    ));   
+}
 
 export async function changeBudgetAmountProcedure(
     client: PrismaClient,
