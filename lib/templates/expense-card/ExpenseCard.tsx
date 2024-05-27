@@ -25,7 +25,7 @@ import Link from "next/link";
 import { LinkText } from "../../components/ButtonText";
 import date from "../../utils/date";
 import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
-import { Expense } from "../../graphql/generated/graphql";
+import { BudgetTransaction } from "../../graphql/generated/graphql";
 import { ButtonText } from "../../components/ButtonText";
 import ExpenseDelete from "../expense-delete/ExpenseDelete";
 import ExpenseDeleteMany from "../expense-delete-many/ExpenseDeleteMany";
@@ -35,7 +35,7 @@ import IconPencil from "../../icons/Pencil";
 import IconTrash from "../../icons/Trash";
 import { useRouter } from "next/navigation";
 
-const columnHelper = createColumnHelper<Expense>();
+const columnHelper = createColumnHelper<BudgetTransaction>();
 
 const columns = [
     columnHelper.display({
@@ -270,7 +270,7 @@ export default function ExpenseTable() {
             />
             {isSingleSelectedRow() && (
                 <ExpenseUpdateForm
-                    expense={selectedRows[0] as Expense}
+                    expense={selectedRows[0]}
                     open={openExpenseUpdateForm}
                     onOpenChange={setOpenExpenseUpdateForm}
                     onSuccess={(data) => table.resetRowSelection()}
@@ -278,7 +278,7 @@ export default function ExpenseTable() {
             )}
             {isSingleSelectedRow() && (
                 <ExpenseDelete
-                    expense={selectedRows[0] as Expense}
+                    expense={selectedRows[0]}
                     open={openExpenseDelete}
                     onOpenChange={setOpenExpenseDelete}
                     onSuccess={(data) => table.resetRowSelection()}
@@ -286,7 +286,7 @@ export default function ExpenseTable() {
             )}
             {isManySelectedRow() && (
                 <ExpenseDeleteMany
-                    expenses={selectedRows as Expense[]}
+                    expenses={selectedRows}
                     open={openExpenseDeleteMany}
                     onOpenChange={setOpenExpenseDeleteMany}
                     onSuccess={(data) => table.resetRowSelection()}

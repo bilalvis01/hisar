@@ -13,9 +13,12 @@ import {
     BUDGET_FUNDING,
     BUDGET_EXPENSE,
 } from "../database/budget-transaction-type"
-import { GetBudgetInput, BudgetTransactionType } from "../graphql/resolvers-types";
+import { 
+    GetBudgetInput, 
+    BudgetTransactionType,
+} from "../graphql/resolvers-types";
 
-export async function fetchBudgets(dataSources: PrismaClient, input?: GetBudgetInput ) {    
+export async function fetchBudgets(dataSources: PrismaClient) {    
     const budgets = await dataSources.budget.findMany({ 
         where: {
             active: true,
@@ -48,7 +51,7 @@ export async function getBudgetDetail(
     dataSources: PrismaClient, 
     budget: Budget,
 ) {
-    const rawBudgetTransactions = (await dataSources.budgetTransaction.findMany({
+    const rawBudgetTransactions = await dataSources.budgetTransaction.findMany({
         where: {
             budget: { id: budget.id },
             softDeleted: false,
@@ -72,13 +75,16 @@ export async function getBudgetDetail(
                 },
             },
             transactionType: true,
+            budget: true,
         },
-    }));
+    });
 
     const budgetTransactions = rawBudgetTransactions.map((budgetTransaction) => ({
         id: expenseID.format(budgetTransaction.id),
+        budgetCode: budgetTransaction.budget.code,
+        budgetName: budgetTransaction.budget.name,
         description: budgetTransaction.description,
-        expense: budgetTransaction.transactionType.name === BUDGET_EXPENSE
+        amount: budgetTransaction.transactionType.name === BUDGET_EXPENSE
             ? budgetTransaction.journal.entries[0].amount
             : null,
         balance: budgetTransaction.journal.entries[0].balance,

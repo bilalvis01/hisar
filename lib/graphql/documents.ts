@@ -11,8 +11,8 @@ export const GET_EXCERPT_REPORT = gql(/* GraphQL */ `
 `);
 
 export const GET_BUDGETS = gql(/* GraphQL */ `
-    query GetBudget($input: GetBudgetInput) {
-        budgets(input: $input) {
+    query GetBudget {
+        budgets {
             code
             name
             amount
@@ -38,9 +38,11 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
                 balance
                 transactions {
                     id
+                    budgetCode
+                    budgetName
                     description
-                    expense
-                    balance
+                    amount
+                    balance 
                     transactionType
                     createdAt
                     updatedAt
@@ -97,8 +99,10 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
                 balance
                 transactions {
                     id
+                    budgetCode
+                    budgetName
                     description
-                    expense
+                    amount
                     balance
                     transactionType
                     createdAt
@@ -159,8 +163,10 @@ export const CREATE_EXPENSE = gql(/* GraphQL */`
                 id
                 budgetCode,
                 budgetName,
-                amount
                 description
+                amount
+                balance
+                transactionType
                 createdAt
                 updatedAt
             }
@@ -178,8 +184,10 @@ export const UPDATE_EXPENSE = gql(/* GraphQL */`
                 id
                 budgetCode
                 budgetName
-                amount
                 description
+                amount
+                balance
+                transactionType
                 createdAt
                 updatedAt
             }
@@ -197,8 +205,10 @@ export const DELETE_EXPENSE = gql(/* GraphQL */`
                 id
                 budgetCode
                 budgetName
-                amount
                 description
+                amount
+                balance
+                transactionType
                 createdAt
                 updatedAt
             }
@@ -216,8 +226,10 @@ export const DELETE_EXPENSE_MANY = gql(/* GraphQL */`
                 id
                 budgetCode
                 budgetName
-                amount
                 description
+                amount
+                balance
+                transactionType
                 createdAt
                 updatedAt
             }
@@ -225,13 +237,15 @@ export const DELETE_EXPENSE_MANY = gql(/* GraphQL */`
     }
 `);
 
-export const NEW_EXPENSE = gql(/* GraphQL */`
-    fragment NewExpense on Expense {
+export const NEW_BUDGET_TRANSACTION = gql(/* GraphQL */`
+    fragment NewBudgetTransaction on BudgetTransaction {
         id
-        description
         budgetCode
         budgetName
+        description
         amount
+        balance
+        transactionType
         createdAt
         updatedAt
     }
@@ -241,10 +255,12 @@ export const GET_EXPENSES = gql(/* GraphQL */ `
     query GetExpenses {
         expenses {
             id
-            description
             budgetCode
             budgetName
+            description
             amount
+            balance
+            transactionType
             createdAt
             updatedAt
         }
@@ -259,10 +275,12 @@ export const GET_EXPENSE_BY_ID = gql(/* GraphQL */ `
             message
             expense {
                 id
-                description
                 budgetCode
                 budgetName
+                description
                 amount
+                balance
+                transactionType
                 createdAt
                 updatedAt
             }

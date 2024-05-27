@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import expenseID from "../utils/expenseID";
 import { BUDGET_EXPENSE_ACCOUNT_CODE } from "../database/account-code";
-import { BUDGET_EXPENSE } from "../database/budget-transaction-type";
+import { BUDGET_EXPENSE, BUDGET_FUNDING } from "../database/budget-transaction-type";
+import { BudgetTransactionType } from "../graphql/resolvers-types";
 
 export async function fetchExpenses(dataSources: PrismaClient) {
     const budgetTransactions = await dataSources.budgetTransaction.findMany({
@@ -24,6 +25,7 @@ export async function fetchExpenses(dataSources: PrismaClient) {
                 },
             },
             budget: true,
+            transactionType: true,
         },
         where: {
             transactionType: {
@@ -39,10 +41,14 @@ export async function fetchExpenses(dataSources: PrismaClient) {
     return budgetTransactions.map(
         (budgetTransaction) => ({ 
             id: expenseID.format(budgetTransaction.id),
-            description: budgetTransaction.description,
             budgetCode: budgetTransaction.budget.code,
             budgetName: budgetTransaction.budget.name,
+            description: budgetTransaction.description,
             amount: budgetTransaction.journal.entries[0].amount,
+            balance: budgetTransaction.journal.entries[0].balance,
+            transactionType: budgetTransaction.transactionType.name === BUDGET_FUNDING
+                ? BudgetTransactionType.Funding
+                : BudgetTransactionType.Expense,
             createdAt: budgetTransaction.createdAt,
             updatedAt: budgetTransaction.updatedAt
         })
@@ -89,15 +95,20 @@ export async function fetchExpenseById(dataSources: PrismaClient, id: string) {
                 },
             },
             budget: true,
+            transactionType: true,
         },
     });
 
     return {
         id: expenseID.format(budgetTransaction.id),
-        description: budgetTransaction.description,
         budgetCode: budgetTransaction.budget.code,
         budgetName: budgetTransaction.budget.name,
+        description: budgetTransaction.description,
         amount: budgetTransaction.journal.entries[0].amount,
+        balance: budgetTransaction.journal.entries[0].balance,
+        transactionType: budgetTransaction.transactionType.name === BUDGET_FUNDING
+            ? BudgetTransactionType.Funding
+            : BudgetTransactionType.Expense,
         createdAt: budgetTransaction.createdAt,
         updatedAt: budgetTransaction.updatedAt,
     };

@@ -92,7 +92,7 @@ const columns = [
             </span>
         ),
     }),
-    columnHelper.accessor("expense", {
+    columnHelper.accessor("amount", {
         header: () => (
             <span className={clsx("currency", "text-title-small")}>
                 TERPAKAI
@@ -222,30 +222,6 @@ export default function BudgetDetailCard() {
     const handleOpenExpenseDeleteMany = React.useCallback(() => {
         setOpenExpenseDeleteMany(true);
     }, []);
-
-    const expense = isSingleSelectedRow() && budget
-        ? {
-            id: selectedRows[0].id,
-            budgetCode: budget.code,
-            budgetName: budget.name,
-            amount: selectedRows[0].expense,
-            description: selectedRows[0].description,
-            createdAt: selectedRows[0].createdAt,
-            updatedAt: selectedRows[0].updatedAt,
-        }
-        : null;
-
-    const expenses = isManySelectedRow() && budget
-        ? selectedRows.map((row) => ({
-            id: row.id,
-            budgetCode: budget.code,
-            budgetName: budget.name,
-            amount: row.expense,
-            description: row.description,
-            createdAt: row.createdAt,
-            updatedAt: row.updatedAt,
-        }))
-        : null
 
     React.useEffect(() => {
         if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
@@ -391,25 +367,25 @@ export default function BudgetDetailCard() {
                 open={openExpenseAddForm} 
                 onOpenChange={setOpenExpenseAddForm}
             />
-            {isSingleSelectedRow() && expense && (
+            {isSingleSelectedRow() && (
                 <ExpenseUpdateForm
-                    expense={expense}
+                    expense={selectedRows[0]}
                     open={openExpenseUpdateForm}
                     onOpenChange={setOpenExpenseUpdateForm}
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
-            {isSingleSelectedRow() && expense && (
+            {isSingleSelectedRow() && (
                 <ExpenseDelete
-                    expense={expense}
+                    expense={selectedRows[0]}
                     open={openExpenseDelete}
                     onOpenChange={setOpenExpenseDelete}
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
-            {isManySelectedRow() && expenses && (
+            {isManySelectedRow() && (
                 <ExpenseDeleteMany
-                    expenses={expenses}
+                    expenses={selectedRows}
                     open={openExpenseDeleteMany}
                     onOpenChange={setOpenExpenseDeleteMany}
                     onSuccess={(data) => table.resetRowSelection()}

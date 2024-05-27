@@ -4,12 +4,12 @@ import React from "react";
 import DeleteDialog from "../delete-dialog/DeleteDialog";
 import { DELETE_EXPENSE_MANY } from "../../graphql/documents";
 import { useMutation } from "@apollo/client";
-import { DeleteExpenseManyMutation, Expense } from "../../graphql/generated/graphql";
+import { DeleteExpenseManyMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
 import createMessageDeleteMany from "../../utils/createMessageDeleteMany";
 
 interface ExpenseDeleteManyProps {
-    expenses: Expense[];
+    expenses: BudgetTransaction[];
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onSuccess?: (data: DeleteExpenseManyMutation) => void;

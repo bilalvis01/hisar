@@ -3,13 +3,13 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { UPDATE_EXPENSE, GET_BUDGETS, NEW_EXPENSE } from "../../graphql/documents";
-import { UpdateExpenseMutation, Expense } from "../../graphql/generated/graphql";
+import { UPDATE_EXPENSE, GET_BUDGETS, NEW_BUDGET_TRANSACTION } from "../../graphql/documents";
+import { UpdateExpenseMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
 
 interface ExpenseAddFormProps {
-    expense: Expense,
+    expense: BudgetTransaction,
     open: boolean,
     onOpenChange: (open: boolean) => void;
     onSuccess?: (data: UpdateExpenseMutation) => void;
@@ -30,7 +30,7 @@ export default function ExpenseAddForm({
                     expenses() {
                         cache.writeFragment({
                             data: updateExpense.expense,
-                            fragment: NEW_EXPENSE,
+                            fragment: NEW_BUDGET_TRANSACTION,
                         });
                     },
                 },
@@ -65,9 +65,7 @@ export default function ExpenseAddForm({
                     name: "budgetCode",
                     label: "Akun Budget",
                     onOpenMenu: async () => {
-                        const { data: { budgets }, loading, error } = await getBudgets({
-                            variables: { input: { createdBefore: expense.createdAt } }
-                        });
+                        const { data: { budgets }, loading, error } = await getBudgets();
                         const data = budgets.map((budget) => ({
                             value: budget.code,
                             label: budget.name,

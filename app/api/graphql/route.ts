@@ -31,6 +31,9 @@ import {
 } from "graphql-scalars";
 import createMessageDeleteMany from "../../../lib/utils/createMessageDeleteMany";
 import expenseID from "../../../lib/utils/expenseID";
+import { BudgetTransactionType } from "../../../lib/graphql/resolvers-types";
+import { BUDGET_EXPENSE_ACCOUNT_CODE } from "../../../lib/database/account-code";
+import { BUDGET_FUNDING } from "../../../lib/database/budget-transaction-type";
 
 const resolvers: Resolvers = {
     Query: {
@@ -50,8 +53,8 @@ const resolvers: Resolvers = {
             })
         },
 
-        async budgets(_, { input }, context) {
-            return await fetchBudgets(context.dataSources, input);
+        async budgets(_, __, context) {
+            return await fetchBudgets(context.dataSources);
         },
 
         async budgetByCode(_, { code }, context) {
@@ -234,12 +237,37 @@ const resolvers: Resolvers = {
             try {
                 const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
 
-                const expense = await createExpense(context.dataSources, { 
+                const { id: expenseId } = await createExpense(context.dataSources, { 
                     ...input,
                     ...{ budgetId: budget.id },
                 });
 
-                
+                const expense = await context.dataSources.budgetTransaction.findUnique({
+                    where: {
+                        id: expenseId,
+                    },
+                    include: {
+                        journal: {
+                            include: {
+                                entries: {
+                                    where: {
+                                        ledger: {
+                                            account: {
+                                                accountCode: {
+                                                    parent: {
+                                                        code: BUDGET_EXPENSE_ACCOUNT_CODE,
+                                                    }
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        transactionType: true,
+                        budget: true,
+                    },
+                });
 
                 return {
                     code: 200,
@@ -247,10 +275,14 @@ const resolvers: Resolvers = {
                     message: `${expense.description} berhasil ditambahkan`,
                     expense: {
                         id: expenseID.format(expense.id),
-                        budgetCode: budget.code,
-                        budgetName: budget.name,
-                        amount: input.amount,
                         description: expense.description,
+                        budgetCode: expense.budget.code,
+                        budgetName: expense.budget.name,
+                        amount: expense.journal.entries[0].amount,
+                        balance: expense.journal.entries[0].balance,
+                        transactionType: expense.transactionType.name === BUDGET_FUNDING
+                            ? BudgetTransactionType.Funding
+                            : BudgetTransactionType.Expense,
                         createdAt: expense.createdAt,
                         updatedAt: expense.updatedAt
                     },
@@ -268,7 +300,34 @@ const resolvers: Resolvers = {
             try {
                 const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
 
-                const expense = await updateExpense(context.dataSources, input);
+                const { id: expenseId } = await updateExpense(context.dataSources, input);
+
+                const expense = await context.dataSources.budgetTransaction.findUnique({
+                    where: {
+                        id: expenseId,
+                    },
+                    include: {
+                        journal: {
+                            include: {
+                                entries: {
+                                    where: {
+                                        ledger: {
+                                            account: {
+                                                accountCode: {
+                                                    parent: {
+                                                        code: BUDGET_EXPENSE_ACCOUNT_CODE,
+                                                    }
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        transactionType: true,
+                        budget: true,
+                    },
+                });
 
                 return {
                     code: 200,
@@ -276,10 +335,14 @@ const resolvers: Resolvers = {
                     message: `${input.description} berhasil diperbarui`,
                     expense: {
                         id: expenseID.format(expense.id),
-                        budgetCode: input.budgetCode,
-                        budgetName: budget.name,
-                        amount: input.amount,
                         description: expense.description,
+                        budgetCode: expense.budget.code,
+                        budgetName: expense.budget.name,
+                        amount: expense.journal.entries[0].amount,
+                        balance: expense.journal.entries[0].balance,
+                        transactionType: expense.transactionType.name === BUDGET_FUNDING
+                            ? BudgetTransactionType.Funding
+                            : BudgetTransactionType.Expense,
                         createdAt: expense.createdAt,
                         updatedAt: expense.updatedAt
                     },

@@ -4,11 +4,11 @@ import React from "react";
 import DeleteDialog from "../delete-dialog/DeleteDialog";
 import { DELETE_EXPENSE } from "../../graphql/documents";
 import { useMutation } from "@apollo/client";
-import { DeleteExpenseMutation, Expense } from "../../graphql/generated/graphql";
+import { DeleteExpenseMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
 
 interface ExpenseDeleteProps {
-    expense: Expense;
+    expense: BudgetTransaction;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onSuccess?: (data: DeleteExpenseMutation) => void;

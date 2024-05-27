@@ -3,10 +3,10 @@ scalar Money
 
 type Query {
     excerptReport: ExcerptReport!
-    budgets(input: GetBudgetInput): [Budget!]!
+    budgets: [Budget!]!
     budgetByCode(code: String!): BudgetByCodePayload!
-    expenses: [Expense!]!
-    expenseById(id: String!): ExpenseByCodePayload!
+    expenses: [BudgetTransaction!]!
+    expenseById(id: String!): ExpenseByIdPayload!
 }
 
 type Mutation {
@@ -46,21 +46,6 @@ type BudgetByCodePayload {
     success: Boolean!
     message: String!
     budget: Budget
-}
-
-type BudgetTransaction {
-    id: String!
-    description: String!
-    expense: Money
-    balance: Money!
-    transactionType: BudgetTransactionType!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-}
-
-enum BudgetTransactionType {
-    FUNDING
-    EXPENSE
 }
 
 input CreateBudgetInput {
@@ -110,11 +95,28 @@ type DeleteBudgetManyPayload {
     budgets: [Budget!]
 }
 
+enum BudgetTransactionType {
+    FUNDING
+    EXPENSE
+}
+
+type BudgetTransaction {
+    id: String!
+    budgetCode: String!
+    budgetName: String!
+    description: String!
+    amount: Money!
+    balance: Money!
+    transactionType: BudgetTransactionType!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
 type CreateExpensePayload {
     code: Int!
     success: Boolean!
     message: String!
-    expense: Expense
+    expense: BudgetTransaction
 }
 
 input CreateExpenseInput {
@@ -123,21 +125,11 @@ input CreateExpenseInput {
     amount: Money!
 }
 
-type Expense {
-    id: String!
-    budgetCode: String!
-    budgetName: String!
-    amount: Money!
-    description: String!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-}
-
-type ExpenseByCodePayload {
+type ExpenseByIdPayload {
     code: Int!
     success: Boolean!
     message: String!
-    expense: Expense
+    expense: BudgetTransaction
 }
 
 input UpdateExpenseInput {
@@ -151,7 +143,7 @@ type UpdateExpensePayload {
     code: Int!
     success: Boolean!
     message: String!
-    expense: Expense
+    expense: BudgetTransaction
 }
 
 input DeleteExpenseInput {
@@ -162,7 +154,7 @@ type DeleteExpensePayload {
     code: Int!
     success: Boolean!
     message: String!
-    expense: Expense
+    expense: BudgetTransaction
 }
 
 input DeleteExpenseManyInput {
@@ -173,5 +165,5 @@ type DeleteExpenseManyPayload {
     code: Int!
     success: Boolean!
     message: String!
-    expenses: [Expense!]
+    expenses: [BudgetTransaction!]
 }
