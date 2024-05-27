@@ -54,7 +54,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                 {
                     type: "text",
                     name: "name",
-                    label: "Nama Akun",
+                    label: "Nama",
                 },
                 {
                     type: "number",

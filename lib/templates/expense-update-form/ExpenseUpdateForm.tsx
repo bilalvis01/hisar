@@ -65,7 +65,7 @@ export default function ExpenseUpdateForm({
                 {
                     type: "select",
                     name: "budgetCode",
-                    label: "Akun Budget",
+                    label: "Budget",
                     disabled: disableBudgetSelection,
                     onOpenMenu: async () => {
                         const { data: { budgets }, loading, error } = await getBudgets();

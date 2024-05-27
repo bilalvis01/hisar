@@ -316,11 +316,11 @@ export default function BudgetDetailCard() {
                     {budget && (
                         <ul className={style.description}>
                             <li className={style.descriptionItem}>
-                                <div className="text-title-small">Kode Akun</div>
+                                <div className="text-title-small">Kode</div>
                                 <div className="text-body-small">{budget.code}</div>
                             </li>
                             <li className={style.descriptionItem}>
-                                <div className="text-title-small">Nama Akun</div>
+                                <div className="text-title-small">Nama</div>
                                 <div className="text-body-small">{budget.name}</div>
                             </li>
                             <li>

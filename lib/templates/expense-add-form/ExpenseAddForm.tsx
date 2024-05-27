@@ -56,7 +56,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
                 {
                     type: "select",
                     name: "budgetCode",
-                    label: "Akun Budget",
+                    label: "Budget",
                     onOpenMenu: async () => {
                         const { data: { budgets }, loading, error } = await getBudgets();
                         const data = budgets.map((budget) => ({

@@ -61,13 +61,13 @@ export default function BudgetUpdateForm({
                 {
                     type: "text",
                     name: "code",
-                    label: "Kode Akun",
+                    label: "Kode",
                     disabled: true,
                 },
                 {
                     type: "text",
                     name: "name",
-                    label: "Nama Akun",
+                    label: "Nama",
                 },
                 {
                     type: "number",
