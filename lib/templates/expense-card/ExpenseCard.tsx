@@ -135,6 +135,10 @@ export default function ExpenseTable() {
         isWindowSizeMedium,
         isWindowSizeExpanded,
         isWindowSizeSpanMedium,
+        setShowCompactWindowSizeAppBarSecondary,
+        addClickCloseAppBarSecondaryEventListener,
+        removeClickCloseAppBarSecondaryEventListener,
+        windowSize,
     } = useTemplateContext();
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const router = useRouter();
@@ -183,6 +187,21 @@ export default function ExpenseTable() {
     const handleOpenExpenseDeleteMany = React.useCallback(() => {
         setOpenExpenseDeleteMany(true);
     }, []);
+
+    React.useEffect(() => {
+        if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
+            setShowCompactWindowSizeAppBarSecondary(true);
+            addClickCloseAppBarSecondaryEventListener(() => {
+                table.resetRowSelection();
+                setShowCompactWindowSizeAppBarSecondary(false);
+            });
+        } else {
+            setShowCompactWindowSizeAppBarSecondary(false);
+        }
+
+        () => removeClickCloseAppBarSecondaryEventListener();
+    }, [windowSize, selectedRows.length]);
+
 
     if (loading) return (
         <div className={clsx(style.placeholder)}>
