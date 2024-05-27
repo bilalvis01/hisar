@@ -90,7 +90,11 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
-                {info.getValue()}
+                <Link href={`/budget/${info.row.original.budgetCode}`} passHref legacyBehavior>
+                    <LinkText>
+                        {info.getValue()}
+                    </LinkText>
+                </Link>
             </span>
         ),
     }),
