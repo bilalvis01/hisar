@@ -1,12 +1,9 @@
 import { ApolloServer } from "@apollo/server";
 import { GraphQLScalarType, Kind } from "graphql";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { Resolvers, GetBudgetInput, BudgetTransactionType } from "../../../lib/graphql/resolvers-types";
+import { Resolvers } from "../../../lib/graphql/resolvers-types";
 import { readFileSync } from 'fs';
-import { 
-    PrismaClient, 
-    Budget, 
-} from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { 
     createBudget, 
     updateBudget, 
@@ -18,253 +15,22 @@ import {
     deleteExpenseMany,
 } from "../../../lib/database/transactions";
 import { 
+    fetchBudgets, 
+    fetchBudgetByCode, 
+    fetchBudgetsByCodes,
+    getBudgetDetail,
+} from "../../../lib/database/budget-fetching";
+import { 
+    fetchExpenses,
+    fetchExpenseById,
+    fetchExpensesByIds,
+} from "../../../lib/database/expense-fetching";
+import { 
     DateTimeTypeDefinition, 
     DateTimeResolver,
 } from "graphql-scalars";
 import createMessageDeleteMany from "../../../lib/utils/createMessageDeleteMany";
 import expenseID from "../../../lib/utils/expenseID";
-import * as accountCode from "../../../lib/utils/accountCode";
-import { 
-    BUDGET_CASH_ACCOUNT_CODE,
-    BUDGET_EXPENSE_ACCOUNT_CODE, 
-} from "../../../lib/database/account-code";
-import { 
-    BUDGET_CASH_ACCOUNT, 
-    BUDGET_EXPENSE_ACCOUNT,
-} from "../../../lib/database/budget-account-task";
-import { 
-    BUDGET_FUNDING,
-    BUDGET_EXPENSE,
-} from "../../../lib/database/budget-transaction-type";
-import { EXPENSE } from "../../../lib/database/account-type";
-
-async function getBudgetDetail(
-    dataSources: PrismaClient, 
-    budget: Budget,
-) {
-    const rawBudgetTransactions = (await dataSources.budgetTransaction.findMany({
-        where: {
-            budget: { id: budget.id },
-            softDeleted: false,
-        },
-        include: {
-            journal: {
-                include: {
-                    entries: {
-                        where: {
-                            ledger: {
-                                account: {
-                                    accountCode: {
-                                        parent: {
-                                            code: BUDGET_CASH_ACCOUNT_CODE,
-                                        }
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-            transactionType: true,
-        },
-    }));
-
-    const budgetTransactions = rawBudgetTransactions.map((budgetTransaction) => ({
-        id: expenseID.format(budgetTransaction.id),
-        description: budgetTransaction.description,
-        expense: budgetTransaction.transactionType.name === BUDGET_EXPENSE
-            ? budgetTransaction.journal.entries[0].amount
-            : null,
-        balance: budgetTransaction.journal.entries[0].balance,
-        transactionType: budgetTransaction.transactionType.name === BUDGET_FUNDING
-            ? BudgetTransactionType.Funding
-            : BudgetTransactionType.Expense,
-        createdAt: budget.createdAt,
-        updatedAt: budget.updatedAt,
-    }));
-
-    const accountAssignments = await dataSources.budgetAccountAssignment.findMany({
-        where: {
-            budget: { id: budget.id }
-        },
-        include: {
-            account: {
-                include: {
-                    ledgers: {
-                        where: {
-                            open: true,
-                            softDeleted: false,
-                        },
-                    },
-                    accountCode: {
-                        include: {
-                            parent: true,
-                        },
-                    },
-                },
-            },
-            task: true
-        },
-    });
-
-    const budgetAmount = rawBudgetTransactions.filter(
-        (rawBudgetTransaction) => rawBudgetTransaction.transactionType.name === BUDGET_FUNDING
-    )[0]["journal"]["entries"][0]["amount"];
-
-    const budgetCashAccount = accountAssignments.filter(
-        (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT
-    )[0]["account"];
-
-    const budgetExpenseAccount = accountAssignments.filter(
-        (accountAssignment) => accountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT
-    )[0]["account"];
-
-    return {
-        code: budget.code,
-        name: budget.name,
-        amount: budgetAmount,
-        expense: budgetExpenseAccount.ledgers[0].balance,
-        balance: budgetCashAccount.ledgers[0].balance,
-        transactions: budgetTransactions,
-        createdAt: budget.createdAt,
-        updatedAt: budget.updatedAt,
-    }
-}
-
-async function fetchBudgetByCode(dataSources: PrismaClient, code: string) {
-    const budgetCode = accountCode.split(code);
-    return await dataSources.budget.findFirst({
-        where: {
-            code,
-            active: true,
-        },
-    });
-} 
-
-async function fetchBudgetsByCodes(dataSources: PrismaClient, codes: string[]) {
-    return await Promise.all(codes.map(
-        async (code) => await fetchBudgetByCode(dataSources, code)
-    ));
-}
-
-async function fetchBudgets(dataSources: PrismaClient, input?: GetBudgetInput ) {    
-    const budgets = await dataSources.budget.findMany({ 
-        where: {
-            active: true,
-        },
-        orderBy: {
-            createdAt: "desc",
-        },
-    });
-
-    return await Promise.all(budgets.map(async (budget) => await getBudgetDetail(dataSources, budget)));
-};
-
-async function fetchExpenses(dataSources: PrismaClient) {
-    const budgetTransactions = await dataSources.budgetTransaction.findMany({
-        include: {
-            journal: {
-                include: {
-                    entries: {
-                        where: {
-                            ledger: {
-                                account: {
-                                    accountCode: {
-                                        parent: {
-                                            code: BUDGET_CASH_ACCOUNT_CODE,
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-            budget: true,
-        },
-        where: {
-            transactionType: {
-                name: BUDGET_EXPENSE,
-            },
-            softDeleted: false,
-        },
-        orderBy: {
-            id: "desc",
-        },
-    });
-
-    return budgetTransactions.map(
-        (budgetTransaction) => ({ 
-            id: expenseID.format(budgetTransaction.id),
-            description: budgetTransaction.description,
-            budgetCode: budgetTransaction.budget.code,
-            budgetName: budgetTransaction.budget.name,
-            amount: budgetTransaction.journal.entries[0].amount,
-            createdAt: budgetTransaction.createdAt,
-            updatedAt: budgetTransaction.updatedAt
-        })
-    )
-}
-
-async function fetchExpenseById(dataSources: PrismaClient, id: string) {
-    const budgetTransaction = await dataSources.budgetTransaction.findUnique({
-        where: {
-            id: parseInt(id),
-            softDeleted: false,
-        },
-        include: {
-            journal: {
-                include: {
-                    entries: {
-                        include: {
-                            ledger: {
-                                include: {
-                                    account: {
-                                        include: {
-                                            accountCode: {
-                                                include: {
-                                                    parent: true,
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                        where: {
-                            ledger: {
-                                account: {
-                                    accountCode: {
-                                        parent: {
-                                            code: BUDGET_EXPENSE_ACCOUNT_CODE,
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-            budget: true,
-        },
-    });
-
-    return {
-        id: expenseID.format(budgetTransaction.id),
-        description: budgetTransaction.description,
-        budgetCode: budgetTransaction.budget.code,
-        budgetName: budgetTransaction.budget.name,
-        amount: budgetTransaction.journal.entries[0].amount,
-        createdAt: budgetTransaction.createdAt,
-        updatedAt: budgetTransaction.updatedAt,
-    };
-}
-
-async function fetchExpensesByIds(dataSources: PrismaClient, { ids }: { ids: string[]; }) {
-    return await Promise.all(ids.map(
-        async (id) => await fetchExpenseById(dataSources, id)
-    ));
-};
 
 const resolvers: Resolvers = {
     Query: {
