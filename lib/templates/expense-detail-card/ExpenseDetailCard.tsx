@@ -118,7 +118,6 @@ export default function ExpenseDetailCard() {
                         expense={expense}
                         open={openExpenseUpdateForm}
                         onOpenChange={setOpenExpenseUpdateForm}
-                        disableBudgetSelection={true}
                     />
                 )}
                 {expense && (
