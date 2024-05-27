@@ -374,6 +374,7 @@ export default function BudgetDetailCard() {
                     open={openExpenseUpdateForm}
                     onOpenChange={setOpenExpenseUpdateForm}
                     onSuccess={(data) => table.resetRowSelection()}
+                    disableBudgetSelection={true}
                 />
             )}
             {isSingleSelectedRow() && (

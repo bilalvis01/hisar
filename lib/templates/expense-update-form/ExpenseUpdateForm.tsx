@@ -8,19 +8,21 @@ import { UpdateExpenseMutation, BudgetTransaction } from "../../graphql/generate
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
 
-interface ExpenseAddFormProps {
+interface ExpenseUpdateFormProps {
     expense: BudgetTransaction,
     open: boolean,
     onOpenChange: (open: boolean) => void;
     onSuccess?: (data: UpdateExpenseMutation) => void;
+    disableBudgetSelection?: boolean;
 }
 
-export default function ExpenseAddForm({ 
+export default function ExpenseUpdateForm({ 
     expense, 
     open, 
     onOpenChange: setOpen, 
-    onSuccess 
-}: ExpenseAddFormProps) {
+    onSuccess,
+    disableBudgetSelection = false,
+}: ExpenseUpdateFormProps) {
     const { setInfo } = useTemplateContext();
 
     const [updateExpense] = useMutation(UPDATE_EXPENSE, {
@@ -57,13 +59,14 @@ export default function ExpenseAddForm({
                 {
                     type: "text",
                     name: "id",
-                    label: "Kode Akun",
+                    label: "ID",
                     disabled: true,
                 },
                 {
                     type: "select",
                     name: "budgetCode",
                     label: "Akun Budget",
+                    disabled: disableBudgetSelection,
                     onOpenMenu: async () => {
                         const { data: { budgets }, loading, error } = await getBudgets();
                         const data = budgets.map((budget) => ({
