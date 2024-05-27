@@ -8,6 +8,7 @@ import {
     deleteJournalProcedure,
 } from "./journal-procedures";
 import { balanceLedgerProcedure } from "./common-procedures";
+import * as accountCode from "../utils/accountCode";
 
 export async function createBudgetTransactionProcedure(
     client: PrismaClient,
@@ -60,6 +61,127 @@ export async function createBudgetTransactionProcedure(
             description,
         },
     });
+}
+
+export async function changeBudgetTransactionHostProcedure(
+    client: PrismaClient,
+    {
+        idTransaction,
+        budgetCode: rawBudgetCode,
+    }: {
+        idTransaction: number;
+        budgetCode: string;
+    }
+) {
+    const budgetTransaction = await client.budgetTransaction.findUnique({
+        where: {
+            id: idTransaction,
+        },
+        include: {
+            journal: {
+                include: {
+                    entries: {
+                        include: {
+                            ledger: {
+                                include: {
+                                    account: {
+                                        include: {
+                                            budgetAccountAssignment: {
+                                                include: {
+                                                    task: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                }
+                            }
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    const budgetCode = accountCode.split(rawBudgetCode);
+
+    const newBudgetHost = await client.budget.findFirst({
+        include: {
+            accountAssignments: {
+                include: {
+                    account: {
+                        include: {
+                            ledgers: {
+                                where: {
+                                    open: true,
+                                    softDeleted: false,
+                                },
+                            },
+                        },
+                    },
+                    task: true,
+                },
+            },
+        },
+        where: {
+            accountAssignments: {
+                some: {
+                    account: {
+                        accountCode: {
+                            code: budgetCode[1],
+                            parent: {
+                                code: budgetCode[0],
+                            },
+                        },
+                    },  
+                },
+            },
+        },
+    });
+
+    const newBudgetHostCashAccount = newBudgetHost.accountAssignments.filter(
+        (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT
+    )[0]["account"];
+
+    const newBudgetHostExpenseAccount = newBudgetHost.accountAssignments.filter(
+        (accountAssignment) => accountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT
+    )[0]["account"];
+
+    await client.budgetTransaction.update({
+        data: {
+            budget: { connect: { id: newBudgetHost.id } },
+        },
+        where: {
+            id: budgetTransaction.id,
+        },
+    });
+
+    await Promise.all(budgetTransaction.journal.entries.map(async (entry) => {
+        let newLedgerId;
+        
+        if (
+            entry.ledger.account.budgetAccountAssignment.task.name === BUDGET_CASH_ACCOUNT
+        ) {
+            newLedgerId = newBudgetHostCashAccount.ledgers[0].id;
+        }
+
+        if (
+            entry.ledger.account.budgetAccountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT
+        ) {
+            newLedgerId = newBudgetHostExpenseAccount.ledgers[0].id;
+        }
+
+        await client.entry.update({
+            data: {
+                ledger: { connect: { id: newLedgerId } }
+            },
+            where: {
+                id: entry.id,
+            },
+        });
+
+        await balanceLedgerProcedure(client, { id: entry.ledger.id });
+        await balanceLedgerProcedure(client, { id: newLedgerId });
+    }));
 }
 
 export async function changeBudgetTransactionAmountProcedure(

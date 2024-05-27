@@ -3,7 +3,8 @@ import {
     createBudgetTransactionProcedure, 
     deleteBudgetTransactionProcedure,
     changeBudgetTransactionAmountProcedure,
-    changeBudgetTransactionDescriptionProcedure
+    changeBudgetTransactionDescriptionProcedure,
+    changeBudgetTransactionHostProcedure,
 } from "./budget-transaction-procedures";
 import { balanceLedgerProcedure } from "./common-procedures";
 import { BUDGET_EXPENSE } from "./budget-transaction-type";
@@ -72,33 +73,11 @@ export async function updateExpenseProcedure(
                     },
                 },
             },
-            budget: {
-                include: {
-                    accountAssignments: {
-                        include: {
-                            account: {
-                                include: {
-                                    accountCode: {
-                                        include: {
-                                            parent: true,
-                                        },
-                                    },
-                                },
-                            },
-                            task: true,
-                        },
-                    },
-                },
-            },
+            budget: true,
         },
     });
 
-    const budgetCashAccount = budgetTransaction.budget.accountAssignments.filter(
-        (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT
-    )[0]["account"];
-
-    const currentBudgetCode = 
-        `${budgetCashAccount.accountCode.parent.code}-${accountCode.format(budgetCashAccount.accountCode.code)}`;
+    const currentBudgetCode = budgetTransaction.budget.code;
 
     const currentExpenseAmount = budgetTransaction.journal.entries[0].amount;
 
@@ -165,121 +144,7 @@ export async function changeExpenseDescriptionProcedure(
 
 export async function changeExpenseBudgetHostProcedure(
     client: PrismaClient,
-    {
-        idTransaction,
-        budgetCode: rawBudgetCode,
-    }: {
-        idTransaction: number,
-        budgetCode: string,
-    }
+    data: { idTransaction: number; budgetCode: string; }
 ) {
-    const budgetTransaction = await client.budgetTransaction.findUnique({
-        where: {
-            id: idTransaction,
-        },
-        include: {
-            journal: {
-                include: {
-                    entries: {
-                        include: {
-                            ledger: {
-                                include: {
-                                    account: {
-                                        include: {
-                                            budgetAccountAssignment: {
-                                                include: {
-                                                    task: true,
-                                                },
-                                            },
-                                        },
-                                    },
-                                }
-                            }
-                        },
-                    },
-                },
-            },
-        },
-    });
-
-    const budgetCode = accountCode.split(rawBudgetCode);
-
-    const newBudgetHost = await client.budget.findFirst({
-        include: {
-            accountAssignments: {
-                include: {
-                    account: {
-                        include: {
-                            ledgers: {
-                                where: {
-                                    open: true,
-                                    softDeleted: false,
-                                },
-                            },
-                        },
-                    },
-                    task: true,
-                },
-            },
-        },
-        where: {
-            accountAssignments: {
-                some: {
-                    account: {
-                        accountCode: {
-                            code: budgetCode[1],
-                            parent: {
-                                code: budgetCode[0],
-                            },
-                        },
-                    },  
-                },
-            },
-        },
-    });
-
-    const newBudgetHostCashAccount = newBudgetHost.accountAssignments.filter(
-        (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT
-    )[0]["account"];
-
-    const newBudgetHostExpenseAccount = newBudgetHost.accountAssignments.filter(
-        (accountAssignment) => accountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT
-    )[0]["account"];
-
-    await client.budgetTransaction.update({
-        data: {
-            budget: { connect: { id: newBudgetHost.id } },
-        },
-        where: {
-            id: budgetTransaction.id,
-        },
-    });
-
-    await Promise.all(budgetTransaction.journal.entries.map(async (entry) => {
-        let newLedgerId;
-        
-        if (
-            entry.ledger.account.budgetAccountAssignment.task.name === BUDGET_CASH_ACCOUNT
-        ) {
-            newLedgerId = newBudgetHostCashAccount.ledgers[0].id;
-        }
-
-        if (
-            entry.ledger.account.budgetAccountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT
-        ) {
-            newLedgerId = newBudgetHostExpenseAccount.ledgers[0].id;
-        }
-
-        await client.entry.update({
-            data: {
-                ledger: { connect: { id: newLedgerId } }
-            },
-            where: {
-                id: entry.id,
-            },
-        });
-
-        await balanceLedgerProcedure(client, { id: entry.ledger.id });
-        await balanceLedgerProcedure(client, { id: newLedgerId });
-    }));
+    await changeBudgetTransactionHostProcedure(client, data);
 }
