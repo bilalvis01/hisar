@@ -74,11 +74,6 @@ export default function ExpenseDetailCard() {
                     </h2>
                     {isWindowSizeExpanded() && (
                         <>
-                            <Link href={`/expense`} passHref legacyBehavior>
-                                <LinkText>
-                                    Kembali
-                                </LinkText>
-                            </Link>
                             <ButtonText onClick={handleOpenExpenseUpdateForm}>
                                 Edit
                             </ButtonText>
@@ -92,7 +87,7 @@ export default function ExpenseDetailCard() {
                     {expense && (
                         <ul className={style.description}>
                             <li className={style.descriptionItem}>
-                                <div className="text-title-small">Kode</div>
+                                <div className="text-title-small">ID</div>
                                 <div className="text-body-small">{expense.id}</div>
                             </li>
                             <li className={style.descriptionItem}>
@@ -108,7 +103,11 @@ export default function ExpenseDetailCard() {
                                 <div className="text-body-small">{idr.format(expense.amount)}</div>
                             </li>
                             <li className={style.descriptionItem}>
-                                <div className="text-title-small">Tanggal</div>
+                                <div className="text-title-small">Dibuat</div>
+                                <div className="text-body-small">{date.format(expense.createdAt)}</div>
+                            </li>
+                            <li className={style.descriptionItem}>
+                                <div className="text-title-small">Diperbarui</div>
                                 <div className="text-body-small">{date.format(expense.createdAt)}</div>
                             </li>
                         </ul>
@@ -130,11 +129,6 @@ export default function ExpenseDetailCard() {
                 )}
                 {isWindowSizeSpanMedium() && createPortal(
                 <>
-                    <Link href={`/expense`} passHref legacyBehavior>
-                        <IconLinkFilled>
-                            <IconArrowLeft />
-                        </IconLinkFilled>
-                    </Link>
                     <IconButtonFilled onClick={handleOpenExpenseUpdateForm}>
                         <IconPencil />
                     </IconButtonFilled>

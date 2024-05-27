@@ -72,6 +72,16 @@ const columns = [
             </div>
         ),
     }),
+    columnHelper.accessor("id", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>ID</span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {info.getValue()}
+            </span>
+        ),
+    }),
     columnHelper.accessor("description", {
         header: () => (
             <span className={clsx("description", "text-title-small")}>DESKIPSI </span>
@@ -406,35 +416,28 @@ export default function BudgetDetailCard() {
                 />
             )}
             {isWindowSizeSpanMedium() && createPortal(
-                <>
-                    <Link href={`/budget`} passHref legacyBehavior>
-                        <IconLinkFilled>
-                            <IconArrowLeft />
-                        </IconLinkFilled>
-                    </Link>
-                    <div>
-                        <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
-                            <IconThreeDotsVertial />
-                        </IconButtonFilled>
-                        {openActionsMenu && (
-                            <Menu 
-                                {...getFloatingProps()} 
-                                ref={refs.setFloating} 
-                                style={floatingStyles} 
-                                className={style.actionsMenu}
-                            >
-                                <ul>
-                                    <li>
-                                        <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
-                                    </li>
-                                    <li>
-                                        <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
-                                    </li>
-                                </ul>
-                            </Menu>
-                        )}
-                    </div>
-                </>,
+                <div>
+                    <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
+                        <IconThreeDotsVertial />
+                    </IconButtonFilled>
+                    {openActionsMenu && (
+                        <Menu 
+                            {...getFloatingProps()} 
+                            ref={refs.setFloating} 
+                            style={floatingStyles} 
+                            className={style.actionsMenu}
+                        >
+                            <ul>
+                                <li>
+                                    <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
+                                </li>
+                                <li>
+                                    <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
+                                </li>
+                            </ul>
+                        </Menu>
+                    )}
+                </div>,
                 toolbarRef.current
             )}
             {isSingleSelectedRow() && isWindowSizeSpanMedium() && (

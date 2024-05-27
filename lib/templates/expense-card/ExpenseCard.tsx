@@ -113,7 +113,19 @@ const columns = [
     columnHelper.accessor("createdAt", {
         header: () => (
             <span className={clsx("description", "text-title-small")}>
-                TANGGAL
+                DIBUAT
+            </span>
+        ),
+        cell: info => (
+            <span className={clsx("description", "text-body-small")}>
+                {date.format(info.getValue())}
+            </span>
+        ),
+    }),
+    columnHelper.accessor("updatedAt", {
+        header: () => (
+            <span className={clsx("description", "text-title-small")}>
+                DIPERBARUI
             </span>
         ),
         cell: info => (
