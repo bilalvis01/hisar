@@ -45,9 +45,15 @@ export type BudgetTransaction = {
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   expense?: Maybe<Scalars['Money']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
+  transactionType: BudgetTransactionType;
   updatedAt: Scalars['DateTime']['output'];
 };
+
+export enum BudgetTransactionType {
+  Expense = 'EXPENSE',
+  Funding = 'FUNDING'
+}
 
 export type CreateBudgetInput = {
   amount: Scalars['Money']['input'];
@@ -334,6 +340,7 @@ export type ResolversTypes = {
   Budget: ResolverTypeWrapper<Budget>;
   BudgetByCodePayload: ResolverTypeWrapper<BudgetByCodePayload>;
   BudgetTransaction: ResolverTypeWrapper<BudgetTransaction>;
+  BudgetTransactionType: BudgetTransactionType;
   CreateBudgetInput: CreateBudgetInput;
   CreateBudgetPayload: ResolverTypeWrapper<CreateBudgetPayload>;
   CreateExpenseInput: CreateExpenseInput;
@@ -421,7 +428,8 @@ export type BudgetTransactionResolvers<ContextType = Context, ParentType extends
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   expense?: Resolver<Maybe<ResolversTypes['Money']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  transactionType?: Resolver<ResolversTypes['BudgetTransactionType'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -49,12 +49,18 @@ type BudgetByCodePayload {
 }
 
 type BudgetTransaction {
-    id: Int!
+    id: String!
     description: String!
     expense: Money
     balance: Money!
+    transactionType: BudgetTransactionType!
     createdAt: DateTime!
     updatedAt: DateTime!
+}
+
+enum BudgetTransactionType {
+    FUNDING
+    EXPENSE
 }
 
 input CreateBudgetInput {

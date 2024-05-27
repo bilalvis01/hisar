@@ -29,7 +29,25 @@ import IconPencil from "../../icons/Pencil";
 import IconTrash from "../../icons/Trash";
 import Link from "next/link";
 import { LinkText } from "../../components/ButtonText";
-import { BudgetTransaction } from "../../graphql/generated/graphql";
+import { BudgetTransaction, BudgetTransactionType } from "../../graphql/generated/graphql";
+import ExpenseDelete from "../expense-delete/ExpenseDelete";
+import ExpenseDeleteMany from "../expense-delete-many/ExpenseDeleteMany";
+import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
+import ExpenseAddForm from "../expense-add-form/ExpenseAddForm";
+import ButtonFilled from "../../components/ButtonFIlled";
+import { Menu, MenuItem } from "../../components/Menu";
+import { IconButtonStandard } from "../../components/IconButtonStandard";
+import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
+import { 
+    useFloating, 
+    useClick, 
+    useInteractions, 
+    useDismiss, 
+    offset,
+} from "@floating-ui/react";
+import Fab from "../fab/Fab";
+import IconPlusLg from "../../icons/PlusLg";
+import IconEye from "../../icons/Eye";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -52,7 +70,7 @@ const columns = [
                     onChange={row.getToggleSelectedHandler()}
                 />
             </div>
-        )
+        ),
     }),
     columnHelper.accessor("description", {
         header: () => (
@@ -101,11 +119,39 @@ export default function BudgetDetailCard() {
         windowSize,
         isWindowSizeExpanded,
         isWindowSizeSpanMedium,
+        isWindowSizeMedium,
+        setSnackbarStyle,
+        toolbarSecondaryRef,
+        headlineSecondaryRef,
+        setShowCompactWindowSizeAppBarSecondary,
+        showCompactWindowSizeAppBarSecondary,
+        addClickCloseAppBarSecondaryEventListener,
+        removeClickCloseAppBarSecondaryEventListener,
     } = useTemplateContext();
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
+    const [openExpenseAddForm, setOpenExpenseAddForm] = React.useState(false);
+    const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
+    const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
+    const [openExpenseDeleteMany, setOpenExpenseDeleteMany] = React.useState(false);
     const router = useRouter();
     const [rowSelection, setRowSelection] = React.useState({});
+    const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
+    const { refs, floatingStyles, context } = useFloating({
+        open: openActionsMenu,
+        onOpenChange: setOpenActionsMenu,
+        placement: "bottom-end",
+        middleware: [offset(4)],
+    });
+    const fabRef = React.useRef(null);
+
+    const clickActionsMenu = useClick(context);
+    const dismissActionsMenu = useDismiss(context);
+
+    const { getFloatingProps, getReferenceProps } = useInteractions([
+        clickActionsMenu,
+        dismissActionsMenu,
+    ]);
 
     if (data && data.budgetByCode.code === 404) {
         notFound();
@@ -118,12 +164,30 @@ export default function BudgetDetailCard() {
         data: expenseDetail,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        enableRowSelection: true,
+        enableRowSelection: (row) => {
+            return row.original.transactionType === BudgetTransactionType.Expense
+        },
         onRowSelectionChange: setRowSelection,
         state: {
             rowSelection
         },
     });
+
+    const selectedRows = table.getSelectedRowModel()
+        .rows
+        .map((row) => row.original);
+
+    const isNoneSelectedRow = React.useCallback(() => {
+        return selectedRows.length === 0;
+    }, [selectedRows.length]);
+
+    const isSingleSelectedRow = React.useCallback(() => {
+        return selectedRows.length === 1;
+    }, [selectedRows.length]);
+
+    const isManySelectedRow = React.useCallback(() => {
+        return selectedRows.length >= 2;
+    }, [selectedRows.length]);
 
     const handleOpenBudgetUpdateForm = React.useCallback(() => {
         setOpenBudgetUpdateForm(true);
@@ -132,6 +196,60 @@ export default function BudgetDetailCard() {
     const handleOpenBudgetDelete = React.useCallback(() => {
         setOpenBudgetDelete(true);
     }, []);
+
+    const handleOpenExpenseAddForm = React.useCallback(() => {
+        setOpenExpenseAddForm(true)
+    }, []);
+
+    const handleOpenExpenseUpdateForm = React.useCallback(() => {
+        setOpenExpenseUpdateForm(true);
+    }, []);
+
+    const handleOpenExpenseDelete = React.useCallback(() => {
+        setOpenExpenseDelete(true);
+    }, []);
+
+    const handleOpenExpenseDeleteMany = React.useCallback(() => {
+        setOpenExpenseDeleteMany(true);
+    }, []);
+
+    const expense = isSingleSelectedRow() && budget
+        ? {
+            id: selectedRows[0].id,
+            budgetCode: budget.code,
+            budgetName: budget.name,
+            amount: selectedRows[0].expense,
+            description: selectedRows[0].description,
+            createdAt: selectedRows[0].createdAt,
+            updatedAt: selectedRows[0].updatedAt,
+        }
+        : null;
+
+    const expenses = isManySelectedRow() && budget
+        ? selectedRows.map((row) => ({
+            id: row.id,
+            budgetCode: budget.code,
+            budgetName: budget.name,
+            amount: row.expense,
+            description: row.description,
+            createdAt: row.createdAt,
+            updatedAt: row.updatedAt,
+        }))
+        : null
+
+    React.useEffect(() => {
+        if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
+            setShowCompactWindowSizeAppBarSecondary(true);
+            addClickCloseAppBarSecondaryEventListener(() => {
+                table.resetRowSelection();
+                setShowCompactWindowSizeAppBarSecondary(false);
+            });
+        } else {
+            setShowCompactWindowSizeAppBarSecondary(false);
+        }
+
+        () => removeClickCloseAppBarSecondaryEventListener();
+    }, [windowSize, selectedRows.length]);
 
     if (loading) return (
         <>
@@ -157,20 +275,54 @@ export default function BudgetDetailCard() {
                     <h2 className={clsx("text-title-large", style.headline)}>
                         {budget && budget.name.toUpperCase()}
                     </h2>
-                    {isWindowSizeExpanded() && (
+                    {isNoneSelectedRow() && isWindowSizeExpanded() && (
+                        <ButtonFilled onClick={handleOpenExpenseAddForm}>
+                            Tambah Expense
+                        </ButtonFilled>
+                    )}
+                    {isSingleSelectedRow() && isWindowSizeExpanded() && (
                         <>
-                            <Link href={`/budget`} passHref legacyBehavior>
+                            <Link href={`/expense/${selectedRows[0].id}`} passHref legacyBehavior>
                                 <LinkText>
-                                    Kembali
+                                    Lihat
                                 </LinkText>
                             </Link>
-                            <ButtonText onClick={handleOpenBudgetUpdateForm}>
+                            <ButtonText onClick={handleOpenExpenseUpdateForm}>
                                 Edit
                             </ButtonText>
-                            <ButtonText onClick={handleOpenBudgetDelete}>
+                            <ButtonText onClick={handleOpenExpenseDelete}>
                                 Hapus
                             </ButtonText>
                         </>
+                    )}
+                    {isManySelectedRow() && isWindowSizeExpanded() && (
+                        <ButtonText onClick={handleOpenExpenseDeleteMany}>
+                            Hapus
+                        </ButtonText>
+                    )}
+                    {isNoneSelectedRow() && isWindowSizeExpanded() && (
+                        <div>
+                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                <IconThreeDotsVertial />
+                            </IconButtonStandard>
+                            {openActionsMenu && (
+                                <Menu 
+                                    {...getFloatingProps()} 
+                                    ref={refs.setFloating} 
+                                    style={floatingStyles} 
+                                    className={style.actionsMenu}
+                                >
+                                    <ul>
+                                        <li>
+                                            <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
+                                        </li>
+                                        <li>
+                                            <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
+                                        </li>
+                                    </ul>
+                                </Menu>
+                            )}
+                        </div>
                     )}
                 </header>
                 <div className={style.body}>
@@ -206,15 +358,7 @@ export default function BudgetDetailCard() {
                             </li>
                         </ul>
                     )}
-                </div>
-            </div>
-            <div className={style.card}>
-                <header className={style.header}>
-                    <h2 className={clsx("text-title-large", style.headline)}>
-                        EXPENSE
-                    </h2>
-                </header>
-                <div className={style.body}>
+                    <h3 className={clsx("text-title-medium", style.tableTitle)}>Tabel Expense</h3>
                     <Table table={table} />
                 </div>
             </div>
@@ -233,6 +377,34 @@ export default function BudgetDetailCard() {
                     onSuccess={() => router.push("/budget")}
                 />
             )}
+            <ExpenseAddForm 
+                open={openExpenseAddForm} 
+                onOpenChange={setOpenExpenseAddForm}
+            />
+            {isSingleSelectedRow() && expense && (
+                <ExpenseUpdateForm
+                    expense={expense}
+                    open={openExpenseUpdateForm}
+                    onOpenChange={setOpenExpenseUpdateForm}
+                    onSuccess={(data) => table.resetRowSelection()}
+                />
+            )}
+            {isSingleSelectedRow() && expense && (
+                <ExpenseDelete
+                    expense={expense}
+                    open={openExpenseDelete}
+                    onOpenChange={setOpenExpenseDelete}
+                    onSuccess={(data) => table.resetRowSelection()}
+                />
+            )}
+            {isManySelectedRow() && expenses && (
+                <ExpenseDeleteMany
+                    expenses={expenses}
+                    open={openExpenseDeleteMany}
+                    onOpenChange={setOpenExpenseDeleteMany}
+                    onSuccess={(data) => table.resetRowSelection()}
+                />
+            )}
             {isWindowSizeSpanMedium() && createPortal(
                 <>
                     <Link href={`/budget`} passHref legacyBehavior>
@@ -240,15 +412,72 @@ export default function BudgetDetailCard() {
                             <IconArrowLeft />
                         </IconLinkFilled>
                     </Link>
-                    <IconButtonFilled onClick={handleOpenBudgetUpdateForm}>
-                        <IconPencil />
-                    </IconButtonFilled>
-                    <IconButtonFilled onClick={handleOpenBudgetDelete}>
-                        <IconTrash />
-                    </IconButtonFilled>
+                    <div>
+                        <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
+                            <IconThreeDotsVertial />
+                        </IconButtonFilled>
+                        {openActionsMenu && (
+                            <Menu 
+                                {...getFloatingProps()} 
+                                ref={refs.setFloating} 
+                                style={floatingStyles} 
+                                className={style.actionsMenu}
+                            >
+                                <ul>
+                                    <li>
+                                        <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
+                                    </li>
+                                    <li>
+                                        <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
+                                    </li>
+                                </ul>
+                            </Menu>
+                        )}
+                    </div>
                 </>,
                 toolbarRef.current
             )}
+            {isSingleSelectedRow() && isWindowSizeSpanMedium() && (
+                createPortal(
+                    <>
+                        <IconButtonStandard onClick={() => router.push(`/expense/${selectedRows[0].id}`)}>
+                            <IconEye />
+                        </IconButtonStandard>
+                        <IconButtonStandard onClick={handleOpenExpenseUpdateForm}>
+                            <IconPencil />
+                        </IconButtonStandard>
+                        <IconButtonStandard onClick={handleOpenExpenseDelete}>
+                            <IconTrash />
+                        </IconButtonStandard>
+                    </>,
+                    toolbarSecondaryRef.current
+                )
+            )}
+            {isManySelectedRow() && isWindowSizeSpanMedium() && createPortal(
+                <IconButtonStandard onClick={handleOpenExpenseDeleteMany}>
+                    <IconTrash />
+                </IconButtonStandard>,
+                toolbarSecondaryRef.current
+            )}
+            {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
+                createPortal(
+                    selectedRows.length,
+                    headlineSecondaryRef.current
+                )
+            )}
+            <Fab 
+                ref={fabRef}
+                onClick={handleOpenExpenseAddForm}
+                onShow={() => {
+                    if (fabRef.current instanceof HTMLElement) {
+                        const rect = fabRef.current.getBoundingClientRect();
+                        setSnackbarStyle({ bottom: `calc(${window.innerHeight - rect.top}px + 1rem)` });
+                    }
+                }}
+                onClose={() => setSnackbarStyle(null)}
+            >
+                <IconPlusLg />
+            </Fab>
         </>
     );
 }

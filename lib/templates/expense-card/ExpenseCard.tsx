@@ -223,7 +223,7 @@ export default function ExpenseTable() {
         <div className={style.card}>
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>EXPENSE</h2>
-                {isNoneSelectedRow() && (isWindowSizeExpanded() || isWindowSizeMedium()) && (
+                {isNoneSelectedRow() && isWindowSizeExpanded() && (
                     <ButtonFilled onClick={handleOpenExpenseAddForm}>
                         Tambah
                     </ButtonFilled>

@@ -241,7 +241,7 @@ export default function BudgetTable() {
         <div className={style.card}>
             <header className={style.header}>
                 <h2 className={clsx("text-title-large", style.headline)}>BUDGET</h2>
-                {isNoneSelectedRow() && (isWindowSizeExpanded() || isWindowSizeMedium()) && (
+                {isNoneSelectedRow() && isWindowSizeExpanded() && (
                     <ButtonFilled onClick={handleOpenBudgetAddForm}>
                         Buat Budget
                     </ButtonFilled>

@@ -65,12 +65,18 @@
     }
 }
 
-.actionsMenuContainer {
-    position: relative;
+.actionsMenu {
+    width: 14rem;
 }
 
-.actionsMenu {
-    width: 20rem;
-    position: absolute;
-    right: 1rem;
+.tableTitle {
+    padding: {
+        top: 1.5rem;
+        bottom: 0.5rem;
+    };
+}
+
+.link {
+    text-decoration: none;
+    color: var(--color-on-surface);
 }

@@ -41,6 +41,7 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
                     description
                     expense
                     balance
+                    transactionType
                     createdAt
                     updatedAt
                 }
@@ -99,6 +100,7 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
                     description
                     expense
                     balance
+                    transactionType
                     createdAt
                     updatedAt
                 }

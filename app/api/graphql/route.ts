@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { GraphQLScalarType, Kind } from "graphql";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { Resolvers, GetBudgetInput } from "../../../lib/graphql/resolvers-types";
+import { Resolvers, GetBudgetInput, BudgetTransactionType } from "../../../lib/graphql/resolvers-types";
 import { readFileSync } from 'fs';
 import { 
     PrismaClient, 
@@ -36,6 +36,7 @@ import {
     BUDGET_FUNDING,
     BUDGET_EXPENSE,
 } from "../../../lib/database/budget-transaction-type";
+import { EXPENSE } from "../../../lib/database/account-type";
 
 async function getBudgetDetail(
     dataSources: PrismaClient, 
@@ -69,12 +70,15 @@ async function getBudgetDetail(
     }));
 
     const budgetTransactions = rawBudgetTransactions.map((budgetTransaction) => ({
-        id: budgetTransaction.id,
+        id: expenseID.format(budgetTransaction.id),
         description: budgetTransaction.description,
         expense: budgetTransaction.transactionType.name === BUDGET_EXPENSE
             ? budgetTransaction.journal.entries[0].amount
             : null,
         balance: budgetTransaction.journal.entries[0].balance,
+        transactionType: budgetTransaction.transactionType.name === BUDGET_FUNDING
+            ? BudgetTransactionType.Funding
+            : BudgetTransactionType.Expense,
         createdAt: budget.createdAt,
         updatedAt: budget.updatedAt,
     }));

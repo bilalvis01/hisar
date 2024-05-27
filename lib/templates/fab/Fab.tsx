@@ -23,19 +23,19 @@ const Fab = React.forwardRef<
     ...props 
 }, ref) {
     const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false);
-    const { windowSize } = useTemplateContext();
+    const { isWindowSizeSpanMedium } = useTemplateContext();
     const dialogRef = React.useRef(null);
 
     const open = controlledOpen ?? uncontrolledOpen;
     const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
     React.useEffect(() => {
-        if (windowSize === "compact") {
+        if (isWindowSizeSpanMedium()) {
             setOpen(true);
         } else {
             setOpen(false);
         }
-    }, [windowSize]);
+    }, [isWindowSizeSpanMedium]);
 
     React.useEffect(() => {
         if (dialogRef.current instanceof HTMLDialogElement) {
