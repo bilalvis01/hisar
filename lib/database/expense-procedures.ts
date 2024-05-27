@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { 
     createBudgetTransactionProcedure, 
     deleteBudgetTransactionProcedure,
+    deleteBudgetTransactionManyProcedure,
     changeBudgetTransactionAmountProcedure,
     changeBudgetTransactionDescriptionProcedure,
     changeBudgetTransactionHostProcedure,
@@ -108,6 +109,13 @@ export async function deleteExpenseProcedure(
     data: { id: number },
 ) {
     return await deleteBudgetTransactionProcedure(client, data);
+}
+
+export async function deleteExpenseManyProcedure(
+    client: PrismaClient,
+    data: { ids: number[] }, 
+) {
+    return await deleteBudgetTransactionManyProcedure(client, data);
 }
 
 export async function changeExpenseAmountProcedure(

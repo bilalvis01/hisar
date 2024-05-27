@@ -6,8 +6,6 @@ import { readFileSync } from 'fs';
 import { 
     PrismaClient, 
     Budget, 
-    Account, 
-    AccountCode,
 } from "@prisma/client";
 import { 
     createBudget, 
@@ -17,15 +15,19 @@ import {
     createExpense,
     updateExpense,
     deleteExpense,
+    deleteExpenseMany,
 } from "../../../lib/database/transactions";
 import { 
     DateTimeTypeDefinition, 
     DateTimeResolver,
 } from "graphql-scalars";
-import createMessageDeleteBudget from "../../../lib/utils/createMessageDeleteBudget";
+import createMessageDeleteMany from "../../../lib/utils/createMessageDeleteMany";
 import expenseID from "../../../lib/utils/expenseID";
 import * as accountCode from "../../../lib/utils/accountCode";
-import { BUDGET_CASH_ACCOUNT_CODE } from "../../../lib/database/account-code";
+import { 
+    BUDGET_CASH_ACCOUNT_CODE,
+    BUDGET_EXPENSE_ACCOUNT_CODE, 
+} from "../../../lib/database/account-code";
 import { 
     BUDGET_CASH_ACCOUNT, 
     BUDGET_EXPENSE_ACCOUNT,
@@ -154,6 +156,112 @@ async function fetchBudgets(dataSources: PrismaClient, input?: GetBudgetInput ) 
     return await Promise.all(budgets.map(async (budget) => await getBudgetDetail(dataSources, budget)));
 };
 
+async function fetchExpenses(dataSources: PrismaClient) {
+    const budgetTransactions = await dataSources.budgetTransaction.findMany({
+        include: {
+            journal: {
+                include: {
+                    entries: {
+                        where: {
+                            ledger: {
+                                account: {
+                                    accountCode: {
+                                        parent: {
+                                            code: BUDGET_CASH_ACCOUNT_CODE,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            budget: true,
+        },
+        where: {
+            transactionType: {
+                name: BUDGET_EXPENSE,
+            },
+            softDeleted: false,
+        },
+        orderBy: {
+            id: "desc",
+        },
+    });
+
+    return budgetTransactions.map(
+        (budgetTransaction) => ({ 
+            id: expenseID.format(budgetTransaction.id),
+            description: budgetTransaction.description,
+            budgetCode: budgetTransaction.budget.code,
+            budgetName: budgetTransaction.budget.name,
+            amount: budgetTransaction.journal.entries[0].amount,
+            createdAt: budgetTransaction.createdAt,
+            updatedAt: budgetTransaction.updatedAt
+        })
+    )
+}
+
+async function fetchExpenseById(dataSources: PrismaClient, id: string) {
+    const budgetTransaction = await dataSources.budgetTransaction.findUnique({
+        where: {
+            id: parseInt(id),
+            softDeleted: false,
+        },
+        include: {
+            journal: {
+                include: {
+                    entries: {
+                        include: {
+                            ledger: {
+                                include: {
+                                    account: {
+                                        include: {
+                                            accountCode: {
+                                                include: {
+                                                    parent: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        where: {
+                            ledger: {
+                                account: {
+                                    accountCode: {
+                                        parent: {
+                                            code: BUDGET_EXPENSE_ACCOUNT_CODE,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            budget: true,
+        },
+    });
+
+    return {
+        id: expenseID.format(budgetTransaction.id),
+        description: budgetTransaction.description,
+        budgetCode: budgetTransaction.budget.code,
+        budgetName: budgetTransaction.budget.name,
+        amount: budgetTransaction.journal.entries[0].amount,
+        createdAt: budgetTransaction.createdAt,
+        updatedAt: budgetTransaction.updatedAt,
+    };
+}
+
+async function fetchExpensesByIds(dataSources: PrismaClient, { ids }: { ids: string[]; }) {
+    return await Promise.all(ids.map(
+        async (id) => await fetchExpenseById(dataSources, id)
+    ));
+};
+
 const resolvers: Resolvers = {
     Query: {
         async excerptReport(_, __, context) {
@@ -198,111 +306,19 @@ const resolvers: Resolvers = {
         },
 
         async expenses(_, __, context) {
-            const budgetTransactions = await context.dataSources.budgetTransaction.findMany({
-                include: {
-                    journal: {
-                        include: {
-                            entries: {
-                                where: {
-                                    ledger: {
-                                        account: {
-                                            accountCode: {
-                                                parent: {
-                                                    code: BUDGET_CASH_ACCOUNT_CODE,
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    budget: true,
-                },
-                where: {
-                    transactionType: {
-                        name: BUDGET_EXPENSE,
-                    },
-                    softDeleted: false,
-                },
-                orderBy: {
-                    id: "desc",
-                },
-            });
-
-            return budgetTransactions.map(
-                (budgetTransaction) => ({ 
-                    id: expenseID.format(budgetTransaction.id),
-                    description: budgetTransaction.description,
-                    budgetCode: budgetTransaction.budget.code,
-                    budgetName: budgetTransaction.budget.name,
-                    amount: budgetTransaction.journal.entries[0].amount,
-                    createdAt: budgetTransaction.createdAt,
-                    updatedAt: budgetTransaction.updatedAt
-                })
-            )
+            return fetchExpenses(context.dataSources);
         },
 
         async expenseById(_, { id }, context) {
-            const budgetTransaction = await context.dataSources.budgetTransaction.findUnique({
-                where: {
-                    id: parseInt(id),
-                    softDeleted: false,
-                },
-                include: {
-                    journal: {
-                        include: {
-                            entries: {
-                                include: {
-                                    ledger: {
-                                        include: {
-                                            account: {
-                                                include: {
-                                                    accountCode: {
-                                                        include: {
-                                                            parent: true,
-                                                        },
-                                                    },
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                                where: {
-                                    ledger: {
-                                        account: {
-                                            accountCode: {
-                                                parent: {
-                                                    code: BUDGET_CASH_ACCOUNT_CODE,
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    budget: true,
-                },
-            });
+            const expense = await fetchExpenseById(context.dataSources, id);
 
-            if (!budgetTransaction) {
+            if (!expense) {
                 return {
                     code: 404,
                     success: false,
                     message: `expense dengan id ${id} tidak ada`,
                 }
             }
-
-            const expense = {
-                id: expenseID.format(budgetTransaction.id),
-                description: budgetTransaction.description,
-                budgetCode: budgetTransaction.budget.code,
-                budgetName: budgetTransaction.budget.name,
-                amount: budgetTransaction.journal.entries[0].amount,
-                createdAt: budgetTransaction.createdAt,
-                updatedAt: budgetTransaction.updatedAt,
-            };
 
             return {
                 code: 200,
@@ -424,7 +440,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 200,
                     success: true,
-                    message: createMessageDeleteBudget(budgetNames, "", " berhasil dihapus"),
+                    message: createMessageDeleteMany(budgetNames, "", " berhasil dihapus"),
                     budgets: budgetDetailList,
                 };
             } catch (error) {
@@ -439,7 +455,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: createMessageDeleteBudget(budgetNames, "", ` gagal dihapus`)
+                    message: createMessageDeleteMany(budgetNames, "", ` gagal dihapus`)
                 }
             }
         },
@@ -448,7 +464,7 @@ const resolvers: Resolvers = {
             try {
                 const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
 
-                const budgetTransaction = await createExpense(context.dataSources, { 
+                const expense = await createExpense(context.dataSources, { 
                     ...input,
                     ...{ budgetId: budget.id },
                 });
@@ -458,15 +474,15 @@ const resolvers: Resolvers = {
                 return {
                     code: 200,
                     success: true,
-                    message: `${budgetTransaction.description} berhasil ditambahkan`,
+                    message: `${expense.description} berhasil ditambahkan`,
                     expense: {
-                        id: expenseID.format(budgetTransaction.id),
-                        budgetCode: input.budgetCode,
+                        id: expenseID.format(expense.id),
+                        budgetCode: budget.code,
                         budgetName: budget.name,
                         amount: input.amount,
-                        description: budgetTransaction.description,
-                        createdAt: budgetTransaction.createdAt,
-                        updatedAt: budgetTransaction.updatedAt
+                        description: expense.description,
+                        createdAt: expense.createdAt,
+                        updatedAt: expense.updatedAt
                     },
                 };
             } catch (error) {
@@ -482,20 +498,20 @@ const resolvers: Resolvers = {
             try {
                 const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
 
-                const budgetTransaction = await updateExpense(context.dataSources, input);
+                const expense = await updateExpense(context.dataSources, input);
 
                 return {
                     code: 200,
                     success: true,
                     message: `${input.description} berhasil diperbarui`,
                     expense: {
-                        id: expenseID.format(budgetTransaction.id),
+                        id: expenseID.format(expense.id),
                         budgetCode: input.budgetCode,
                         budgetName: budget.name,
                         amount: input.amount,
-                        description: budgetTransaction.description,
-                        createdAt: budgetTransaction.createdAt,
-                        updatedAt: budgetTransaction.updatedAt
+                        description: expense.description,
+                        createdAt: expense.createdAt,
+                        updatedAt: expense.updatedAt
                     },
                 };
             } catch (error) {
@@ -508,60 +524,44 @@ const resolvers: Resolvers = {
         },
 
         async deleteExpense(_, { input }, context) {
+            const expense = await fetchExpenseById(context.dataSources, input.id);
+
             try {
                 await deleteExpense(context.dataSources, { ...input, ...{ id: parseInt(input.id) } });
-
-                const budgetTransaction = await context.dataSources.budgetTransaction.findUnique({
-                    where: {
-                        id: parseInt(input.id),
-                    },
-                    include: {
-                        journal: {
-                            include: {
-                                entries: {
-                                    where: {
-                                        ledger: {
-                                            account: {
-                                                budgetAccountAssignment: {
-                                                    task: {
-                                                        name: BUDGET_CASH_ACCOUNT,
-                                                    },
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                        budget: true,
-                    },
-                });
 
                 return {
                     code: 200,
                     success: true,
-                    message: `${budgetTransaction.description} berhasil diperbarui`,
-                    expense: {
-                        id: expenseID.format(budgetTransaction.id),
-                        budgetCode: budgetTransaction.budget.code,
-                        budgetName: budgetTransaction.budget.name,
-                        amount: budgetTransaction.journal.entries[0].amount,
-                        description: budgetTransaction.description,
-                        createdAt: budgetTransaction.createdAt,
-                        updatedAt: budgetTransaction.updatedAt
-                    },
+                    message: `${expense.description} berhasil dihapus`,
+                    expense,
                 };
             } catch (error) {
-                const budgetTransaction = await context.dataSources.budgetTransaction.findUnique({
-                    where: {
-                        id: parseInt(input.id),
-                    },
-                });
-
                 return {
                     code: 500,
                     success: false,
-                    message: `${budgetTransaction.description} gagal diperbarui`,
+                    message: `${expense.description} gagal dihapus`,
+                }
+            }
+        },
+
+        async deleteExpenseMany(_, { input }, context) {
+            const expenses = await fetchExpensesByIds(context.dataSources, input);
+            const descriptions = expenses.map(expense => expense.description);
+
+            try {
+                await deleteExpenseMany(context.dataSources, { ids: input.ids.map(id => parseInt(id)) });
+
+                return {
+                    code: 200,
+                    success: true,
+                    message: createMessageDeleteMany(descriptions, "", " berhasil dihapus"),
+                    expenses,
+                };
+            } catch (error) {
+                return {
+                    code: 500,
+                    success: false,
+                    message: createMessageDeleteMany(descriptions, "", " gagal dihapus"),
                 }
             }
         }

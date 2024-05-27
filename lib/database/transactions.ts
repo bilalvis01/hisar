@@ -15,6 +15,7 @@ import {
     createExpenseProcedure,
     updateExpenseProcedure,
     deleteExpenseProcedure,
+    deleteExpenseManyProcedure,
 } from "./expense-procedures";
 import { createJournalProcedure } from "./journal-procedures";
 
@@ -112,5 +113,14 @@ export async function deleteExpense(
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
         return await deleteExpenseProcedure(tx, data);
+    });
+}
+
+export async function deleteExpenseMany(
+    client: PrismaClient, 
+    data: { ids: number[] }
+) {
+    return await client.$transaction(async (tx: PrismaClient) => {
+        return await deleteExpenseManyProcedure(tx, data);
     });
 }

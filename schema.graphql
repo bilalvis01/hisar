@@ -17,6 +17,7 @@ type Mutation {
     createExpense(input: CreateExpenseInput!): CreateExpensePayload!
     updateExpense(input: UpdateExpenseInput!): UpdateExpensePayload!
     deleteExpense(input: DeleteExpenseInput!): DeleteExpensePayload!
+    deleteExpenseMany(input: DeleteExpenseManyInput!): DeleteExpenseManyPayload!
 }
 
 type ExcerptReport {
@@ -156,4 +157,15 @@ type DeleteExpensePayload {
     success: Boolean!
     message: String!
     expense: Expense
+}
+
+input DeleteExpenseManyInput {
+    ids: [String!]!
+}
+
+type DeleteExpenseManyPayload {
+    code: Int!
+    success: Boolean!
+    message: String!
+    expenses: [Expense!]
 }

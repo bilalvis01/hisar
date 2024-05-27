@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { createPortal } from "react-dom";
 import {
     createColumnHelper,
     getCoreRowModel,
@@ -27,6 +28,12 @@ import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
 import { Expense } from "../../graphql/generated/graphql";
 import { ButtonText } from "../../components/ButtonText";
 import ExpenseDelete from "../expense-delete/ExpenseDelete";
+import ExpenseDeleteMany from "../expense-delete-many/ExpenseDeleteMany";
+import { IconButtonStandard } from "../../components/IconButtonStandard";
+import IconEye from "../../icons/Eye";
+import IconPencil from "../../icons/Pencil";
+import IconTrash from "../../icons/Trash";
+import { useRouter } from "next/navigation";
 
 const columnHelper = createColumnHelper<Expense>();
 
@@ -117,16 +124,20 @@ export default function ExpenseTable() {
     const { loading, error, data } = useQuery(GET_EXPENSES);
     const [openExpenseAddForm, setOpenExpenseAddForm] = React.useState(false);
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
+    const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
+    const [openExpenseDeleteMany, setOpenExpenseDeleteMany] = React.useState(false);
     const fabRef = React.useRef(null);
     const { 
         setSnackbarStyle, 
+        toolbarSecondaryRef,
+        headlineSecondaryRef,
         isWindowSizeCompact,
         isWindowSizeMedium,
         isWindowSizeExpanded,
         isWindowSizeSpanMedium,
     } = useTemplateContext();
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
-    const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
+    const router = useRouter();
 
     const expenses = data ? data.expenses : [];
 
@@ -169,6 +180,10 @@ export default function ExpenseTable() {
         setOpenExpenseDelete(true);
     }, []);
 
+    const handleOpenExpenseDeleteMany = React.useCallback(() => {
+        setOpenExpenseDeleteMany(true);
+    }, []);
+
     if (loading) return (
         <div className={clsx(style.placeholder)}>
             <ProgressCircular />
@@ -205,6 +220,11 @@ export default function ExpenseTable() {
                         </ButtonText>
                     </>
                 )}
+                {isManySelectedRow() && isWindowSizeExpanded() && (
+                    <ButtonText onClick={handleOpenExpenseDeleteMany}>
+                        Hapus
+                    </ButtonText>
+                )}
             </header>
             <div className={style.body}>
                 <Table table={table} />
@@ -229,6 +249,14 @@ export default function ExpenseTable() {
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
+            {isManySelectedRow() && (
+                <ExpenseDeleteMany
+                    expenses={selectedRows as Expense[]}
+                    open={openExpenseDeleteMany}
+                    onOpenChange={setOpenExpenseDeleteMany}
+                    onSuccess={(data) => table.resetRowSelection()}
+                />
+            )}
             <Fab 
                 ref={fabRef}
                 onClick={handleOpenExpenseAddForm}
@@ -242,6 +270,34 @@ export default function ExpenseTable() {
             >
                 <IconPlusLg />
             </Fab>
+            {isSingleSelectedRow() && isWindowSizeSpanMedium() && (
+                createPortal(
+                    <>
+                        <IconButtonStandard onClick={() => router.push(`/expense/${selectedRows[0].id}`)}>
+                            <IconEye />
+                        </IconButtonStandard>
+                        <IconButtonStandard onClick={handleOpenExpenseUpdateForm}>
+                            <IconPencil />
+                        </IconButtonStandard>
+                        <IconButtonStandard onClick={handleOpenExpenseDelete}>
+                            <IconTrash />
+                        </IconButtonStandard>
+                    </>,
+                    toolbarSecondaryRef.current
+                )
+            )}
+            {isManySelectedRow() && isWindowSizeSpanMedium() && createPortal(
+                <IconButtonStandard onClick={handleOpenExpenseDeleteMany}>
+                    <IconTrash />
+                </IconButtonStandard>,
+                toolbarSecondaryRef.current
+            )}
+            {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
+                createPortal(
+                    selectedRows.length,
+                    headlineSecondaryRef.current
+                )
+            )}
         </div>
     );
 }
