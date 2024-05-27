@@ -30,6 +30,7 @@ export default function Select({
     name, 
     label,
     onOpenMenu: handleOpenMenu,
+    disabled,
     ...textFieldProps
 }: SelectOutlinedProps) {
     const menuRef = React.useRef(null);
@@ -150,17 +151,19 @@ export default function Select({
         }
     }, [open]);
 
-    const caret = (
-        <button 
-            ref={caretRef}
-            type="button" 
-            className={style.caretButton}
-            onClick={handleClickCaret}
-            onMouseDown={handleMouseDown}
-        >
-            <IconCaretDownFill />
-        </button>
-    );
+    const caret = !disabled  
+        ? (
+            <button 
+                ref={caretRef}
+                type="button" 
+                className={style.caretButton}
+                onClick={handleClickCaret}
+                onMouseDown={handleMouseDown}
+            >
+                <IconCaretDownFill />
+            </button>
+        )
+        : null;
 
     let menuHeight_;
     
@@ -258,6 +261,7 @@ export default function Select({
                 onFocus={handleFocus}
                 onChange={handleInputChange}
                 error={meta.touched && meta.error}
+                disabled={disabled}
             />
             {open && menu}
         </div>
