@@ -14,11 +14,11 @@ type Param = Budget & { accountAssignments: (BudgetAccountAssignment & { account
 export function getBudgetCashAccount(budget: Param) {
     return budget.accountAssignments.filter(
         (budgetAccount) => budgetAccount.task.name === BUDGET_CASH_ACCOUNT
-    )[0];
+    )[0]["account"];
 };
 
 export function getBudgetExpenseAccount(budget: Param) {
     return budget.accountAssignments.filter(
         (budgetAccount) => budgetAccount.task.name === BUDGET_EXPENSE_ACCOUNT
-    )[0];
+    )[0]["account"];
 };

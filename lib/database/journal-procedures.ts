@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { DEBIT, CREDIT } from "./direction";
 import { balanceLedgerProcedure } from "./common-procedures";
+import { skip } from "node:test";
 
 export async function createJournalProcedure(
     client: PrismaClient,
@@ -108,7 +109,7 @@ export async function createJournalProcedure(
 
 export async function deleteJournalProcedure(
     client: PrismaClient,
-    { id, skipUpdateLedgerBalance = false }: { id: number, skipUpdateLedgerBalance?: boolean }
+    { id, delegateBalancingLedgers = false }: { id: number, delegateBalancingLedgers?: boolean }
 ) {
     const journal = await client.journal.update({
         data: {
@@ -135,38 +136,54 @@ export async function deleteJournalProcedure(
         },
     });
 
-    if (!skipUpdateLedgerBalance) {
-        await Promise.all(journal.entries.map(async (entry) => {
-            if (entry.ledger.open && !entry.ledger.softDeleted) {
-                await balanceLedgerProcedure(client, { id: entry.ledger.id });
-            }
+    const ledgerIds = journal.entries.reduce((acc, entry) => {
+        if (entry.ledger.open && !entry.ledger.softDeleted) {
+            acc.push(entry.ledger.id);
+        }
+
+        return acc;
+    }, []);
+
+    if (!delegateBalancingLedgers) {
+        await Promise.all(ledgerIds.map(async (ledgerId) => {
+            await balanceLedgerProcedure(client, { id: ledgerId });
         }));
+
+        return { journal };
     }
 
-    return journal;
+    return { journal, ledgerIds };
 }
 
 export async function deleteJournalManyProcedure(
     client: PrismaClient,
-    { ids }: { ids: number[] }
+    { ids, delegateBalancingLedger = false }: { ids: number[], delegateBalancingLedger?: boolean }
 ) {
-    const journals = await Promise.all(ids.map(async (id) => {
+    const deleteResults = await Promise.all(ids.map(async (id) => {
         return await deleteJournalProcedure(client, { 
-            id, skipUpdateLedgerBalance: true 
+            id, delegateBalancingLedgers: true 
         });
     }));
 
-    const ledgerIds = journals.reduce<number[]>((acc, journal) => {
-        return journal.entries.reduce((acc, entry) => {
-            if (!acc.includes(entry.ledger.id) && entry.ledger.open && !entry.ledger.softDeleted) {
-                acc.push(entry.ledger.id);
+    const ledgerIds = deleteResults.reduce<number[]>((acc, { ledgerIds }) => {
+        return ledgerIds.reduce((acc, id) => {
+            if (!acc.includes(id)) {
+                acc.push(id);
             }
 
             return acc
         }, acc);
     }, []);
 
-    await Promise.all(ledgerIds.map(
-        async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
-    ));
+    const journals = deleteResults.map(({ journal }) => journal);
+
+    if (!delegateBalancingLedger) {
+        await Promise.all(ledgerIds.map(
+            async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
+        ));   
+
+        return { journals };
+    }
+
+    return { journals, ledgerIds };
 }

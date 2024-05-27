@@ -2,7 +2,7 @@
 
 import React from "react";
 import DeleteDialog from "../delete-dialog/DeleteDialog";
-import { DELETE_BUDGET, GET_BUDGET_BY_CODE } from "../../graphql/documents";
+import { DELETE_BUDGET } from "../../graphql/documents";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { DeleteBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
@@ -22,24 +22,25 @@ export default function BudgetDelete({
 }: BudgetDeleteProps) {
     const { setInfo } = useTemplateContext();
 
-    const [getBudgetByCode, { data: getBudgetByCodeData }] = useLazyQuery(GET_BUDGET_BY_CODE);
-
     const [deleteBudget] = useMutation(DELETE_BUDGET, {
-        update(cache) {
-            cache.modify({
-                fields: {
-                    budgets(existingBudgetRefs, { readField }) {
-                        return existingBudgetRefs.filter(
-                            budgetRef => budget.code !== readField("code", budgetRef)
-                        );
-                    },
-                    budgetByCode(_, { DELETE }) {
-                        return DELETE;
-                    },
-                }
-            });
+        update(cache, { data: { deleteBudget } }) {
+            if (deleteBudget.code === 200) {
+                cache.modify({
+                    fields: {
+                        budgets(existingBudgetRefs, { readField }) {
+                            return existingBudgetRefs.filter(
+                                budgetRef => budget.code !== readField("code", budgetRef)
+                            );
+                        },
+                        budgetByCode(_, { DELETE }) {
+                            return DELETE;
+                        },
+                    }
+                });
+            }
         },
         onCompleted(data) {
+            console.error(data.deleteBudget.message);
             setInfo(data.deleteBudget.message);
             setOpen(false);
             if (onSuccess) onSuccess(data);

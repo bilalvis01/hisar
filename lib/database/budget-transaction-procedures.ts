@@ -146,17 +146,15 @@ export async function changeBudgetTransactionDescriptionProcedure(
 
 export async function deleteBudgetTransactionProcedure(
     client: PrismaClient,
-    { id }: { id: string }
+    { id, delegateBalancingLedgers = false }: { id: number, delegateBalancingLedgers?: boolean }
 ) {
     const budgetTransaction = await client.budgetTransaction.findUnique({
         where: {
-            id: parseInt(id),
+            id,
         },
-    }); 
-
-    await deleteJournalProcedure(client, { id: budgetTransaction.journalId });
-
-    return await client.budgetTransaction.update({
+    });
+    
+    const deletedBudgetTransaction = await client.budgetTransaction.update({
         data: {
             softDeleted: true,
         },
@@ -164,4 +162,53 @@ export async function deleteBudgetTransactionProcedure(
             id: budgetTransaction.id,
         },
     });
+
+    const { ledgerIds } = await deleteJournalProcedure(client, { 
+        id: budgetTransaction.journalId, 
+        delegateBalancingLedgers 
+    });
+
+    if (!delegateBalancingLedgers) {
+        return { budgetTransaction: deletedBudgetTransaction };
+    }
+
+    return { 
+        budgetTransaction: deletedBudgetTransaction, 
+        ledgerIds 
+    };
+}
+
+export async function deleteBudgetTransactionManyProcedure(
+    client: PrismaClient,
+    { ids, delegateBalancingLedgers = false }: { ids: number[], delegateBalancingLedgers?: boolean }
+) {
+    const deleteResults = await Promise.all(ids.map(async (id) => {
+        return await deleteBudgetTransactionProcedure(client, {
+            id, delegateBalancingLedgers: true,
+        });
+    }));
+
+    const ledgerIds = deleteResults.reduce((acc, deleteResult) => {
+        return deleteResult.ledgerIds.reduce((acc, ledgerId) => {
+            if (!acc.includes(ledgerId)) {
+                acc.push(ledgerId);
+            }
+
+            return acc;
+        }, acc);
+    }, []);
+
+    const budgetTransactions = deleteResults.map(
+        ({ budgetTransaction }) => budgetTransaction
+    );
+
+    if (!delegateBalancingLedgers) {
+        await Promise.all(ledgerIds.map(
+            async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
+        ));   
+
+        return { budgetTransactions };
+    }
+
+    return { budgetTransactions, ledgerIds };
 }

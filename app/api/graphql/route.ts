@@ -430,8 +430,8 @@ const resolvers: Resolvers = {
             const budget = await fetchBudgetByCode(context.dataSources, input.code);
 
             try {
-                await deleteBudget(context.dataSources, { id: budget.id });
                 const budgetDetail = await getBudgetDetail(context.dataSources, budget);
+                await deleteBudget(context.dataSources, { id: budget.id });
                 return {
                     code: 200,
                     success: true,
@@ -442,7 +442,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: `${budget.name} gagal dihapus`,
+                    message: `${budget.name} gagal dihapus: ${error.message}`,
                 }
             }
         },
