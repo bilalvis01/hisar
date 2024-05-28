@@ -272,7 +272,7 @@ export default function BudgetDetailCard() {
     }, []);
 
     const handleExportBudgetTransactions = React.useCallback(() => {
-        exportBudgetTransactions(budget, budgetTransactions);
+        exportBudgetTransactions({ budget, budgetTransactions });
     }, [budget, budgetTransactions]);
 
     React.useEffect(() => {

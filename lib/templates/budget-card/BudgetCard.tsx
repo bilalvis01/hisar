@@ -11,8 +11,9 @@ import {
 import clsx from "clsx";
 import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
-import { useQuery } from "@apollo/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import { GET_BUDGETS } from "../../graphql/budget-documents";
+import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import Table from "../table/Table";
 import { LinkText } from "../../components/ButtonText";
 import Link from "next/link";
@@ -34,6 +35,20 @@ import { useRouter } from "next/navigation";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
 import BudgetDeleteMany from "../budget-delete-many/BudgetDeleteMany";
 import date from "../../utils/date";
+import { 
+    exportBudgetTransactions, 
+    exportBudgetTransactionsMany, 
+} from "../../utils/exportBudgetTransaction";
+import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
+import { Menu, MenuItem } from "../../components/Menu";
+import { 
+    useFloating, 
+    useClick, 
+    useInteractions, 
+    useDismiss, 
+    offset,
+} from "@floating-ui/react";
+import IconDownload from "../../icons/Download";
 
 const columnHelper = createColumnHelper<Omit<Budget, "__typedef" | "transactions">>();
 
@@ -142,6 +157,7 @@ const columns = [
 
 export default function BudgetTable() {
     const { loading, error, data } = useQuery(GET_BUDGETS);
+    const [getBudgetTransactions] = useLazyQuery(GET_BUDGET_TRANSACTIONS);
     const [openFab, setOpenFab] = React.useState(false);
     const [openBudgetAddForm, setOpenBudgetAddForm] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
@@ -164,6 +180,21 @@ export default function BudgetTable() {
         windowSize,
     } = useTemplateContext();
     const router = useRouter();
+    const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
+    const { refs, floatingStyles, context } = useFloating({
+        open: openActionsMenu,
+        onOpenChange: setOpenActionsMenu,
+        placement: "bottom-end",
+        middleware: [offset(4)],
+    });
+
+    const clickActionsMenu = useClick(context);
+    const dismissActionsMenu = useDismiss(context);
+
+    const { getFloatingProps, getReferenceProps } = useInteractions([
+        clickActionsMenu,
+        dismissActionsMenu,
+    ]);
 
     const budgets = data ? data.budgets : [];
 
@@ -211,6 +242,26 @@ export default function BudgetTable() {
         setOpenBudgetDeleteMany(true);
     }, []);
 
+    const handleExportBudgetTransactions = React.useCallback(() => {
+        if (isSingleSelectedRow()) {
+            exportBudgetTransactions({ 
+                budget: selectedRows[0], 
+                getBudgetTransactions,
+            })
+            .then();
+        }
+    }, [selectedRows.length]);
+
+    const handleExportBudgetTransactionsMany = React.useCallback(() => {
+        if (isManySelectedRow()) {
+            exportBudgetTransactionsMany({ 
+                budgets: selectedRows, 
+                getBudgetTransactions,
+            })
+            .then();
+        }
+    }, [selectedRows.length]);
+
     React.useEffect(() => {
         if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
             setShowCompactWindowSizeAppBarSecondary(true);
@@ -256,15 +307,55 @@ export default function BudgetTable() {
                         <ButtonText onClick={handleOpenBudgetUpdateForm}>
                             Edit
                         </ButtonText>
-                        <ButtonText onClick={handleOpenBudgetDelete}>
-                            Hapus
-                        </ButtonText>
+                        <div>
+                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                <IconThreeDotsVertial />
+                            </IconButtonStandard>
+                            {openActionsMenu && (
+                                <Menu 
+                                    {...getFloatingProps()} 
+                                    ref={refs.setFloating} 
+                                    style={floatingStyles} 
+                                    className={style.actionsMenu}
+                                >
+                                    <ul>
+                                        <li>
+                                            <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                        </li>
+                                        <li>
+                                            <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
+                                        </li>
+                                    </ul>
+                                </Menu>
+                            )}
+                        </div>
                     </>
                 )}
                 {isManySelectedRow() && isWindowSizeExpanded() && (
-                    <ButtonText onClick={handleOpenBudgetDeleteMany}>
-                        Hapus
-                    </ButtonText>
+                    <>
+                        <ButtonText onClick={handleExportBudgetTransactionsMany}>
+                            Export
+                        </ButtonText>
+                        <div>
+                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                <IconThreeDotsVertial />
+                            </IconButtonStandard>
+                            {openActionsMenu && (
+                                <Menu 
+                                    {...getFloatingProps()} 
+                                    ref={refs.setFloating} 
+                                    style={floatingStyles} 
+                                    className={style.actionsMenu}
+                                >
+                                    <ul>
+                                        <li>
+                                            <MenuItem onClick={handleOpenBudgetDeleteMany}>Hapus</MenuItem>
+                                        </li>
+                                    </ul>
+                                </Menu>
+                            )}
+                        </div>
+                    </>
                 )}
             </header>
             <div className={style.body}>
@@ -322,17 +413,57 @@ export default function BudgetTable() {
                         <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
                             <IconPencil />
                         </IconButtonStandard>
-                        <IconButtonStandard onClick={handleOpenBudgetDelete}>
-                            <IconTrash />
-                        </IconButtonStandard>
+                        <div>
+                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                <IconThreeDotsVertial />
+                            </IconButtonStandard>
+                            {openActionsMenu && (
+                                <Menu 
+                                    {...getFloatingProps()} 
+                                    ref={refs.setFloating} 
+                                    style={floatingStyles} 
+                                    className={style.actionsMenu}
+                                >
+                                    <ul>
+                                        <li>
+                                            <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                        </li>
+                                        <li>
+                                            <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
+                                        </li>
+                                    </ul>
+                                </Menu>
+                            )}
+                        </div>
                     </>,
                     toolbarSecondaryRef.current
                 )
             )}
             {isManySelectedRow() && isWindowSizeSpanMedium() && createPortal(
-                <IconButtonStandard onClick={handleOpenBudgetDeleteMany}>
-                    <IconTrash />
-                </IconButtonStandard>,
+                <>
+                    <IconButtonStandard onClick={handleExportBudgetTransactionsMany}>
+                        <IconDownload />
+                    </IconButtonStandard>
+                    <div>
+                        <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                            <IconThreeDotsVertial />
+                        </IconButtonStandard>
+                        {openActionsMenu && (
+                            <Menu 
+                                {...getFloatingProps()} 
+                                ref={refs.setFloating} 
+                                style={floatingStyles} 
+                                className={style.actionsMenu}
+                            >
+                                <ul>
+                                    <li>
+                                        <MenuItem onClick={handleOpenBudgetDeleteMany}>Hapus</MenuItem>
+                                    </li>
+                                </ul>
+                            </Menu>
+                        )}
+                    </div>
+                </>,
                 toolbarSecondaryRef.current
             )}
             {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
