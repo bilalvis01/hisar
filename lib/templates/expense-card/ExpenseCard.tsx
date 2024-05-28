@@ -12,7 +12,7 @@ import clsx from "clsx";
 import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { GET_EXPENSES } from "../../graphql/documents";
+import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import Table from "../Table";
 import ExpenseAddForm from "../expense-add-form/ExpenseAddForm";
 import style from "./ExpenseCard.module.scss";
@@ -34,6 +34,7 @@ import IconEye from "../../icons/Eye";
 import IconPencil from "../../icons/Pencil";
 import IconTrash from "../../icons/Trash";
 import { useRouter } from "next/navigation";
+import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -137,7 +138,9 @@ const columns = [
 ];
 
 export default function ExpenseTable() {
-    const { loading, error, data } = useQuery(GET_EXPENSES);
+    const { loading, error, data } = useQuery(GET_BUDGET_TRANSACTIONS, {
+        variables: { input: { transactionType: BUDGET_EXPENSE } }
+    });
     const [openExpenseAddForm, setOpenExpenseAddForm] = React.useState(false);
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
     const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
@@ -159,7 +162,7 @@ export default function ExpenseTable() {
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const router = useRouter();
 
-    const expenses = data ? data.expenses : [];
+    const expenses = data ? data.budgetTransactions : [];
 
     const table = useReactTable({
         data: expenses,

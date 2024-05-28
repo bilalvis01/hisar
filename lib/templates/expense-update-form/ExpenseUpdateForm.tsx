@@ -3,7 +3,8 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { UPDATE_EXPENSE, GET_BUDGETS, NEW_BUDGET_TRANSACTION } from "../../graphql/documents";
+import { GET_BUDGETS, NEW_BUDGET_TRANSACTION } from "../../graphql/budget-documents";
+import { UPDATE_EXPENSE } from "../../graphql/expense-documents";
 import { UpdateExpenseMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";

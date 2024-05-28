@@ -44,17 +44,15 @@ export async function updateExpenseProcedure(
         description, 
         amount 
     }: { 
-        id: string; 
+        id: number; 
         budgetCode: string;
         description: string; 
         amount: bigint; 
     }
 ) {
-    const transactionId = parseInt(id);
-
     const budgetTransaction = await client.budgetTransaction.findUnique({
         where: {
-            id: transactionId,
+            id,
         },
         include: {
             journal: {
@@ -90,16 +88,16 @@ export async function updateExpenseProcedure(
     }
 
     if (currentExpenseAmount !== amount) {
-        await changeExpenseAmountProcedure(client, { id: transactionId, amount });
+        await changeExpenseAmountProcedure(client, { id, amount });
     }
 
     if (budgetTransaction.description != description) { 
-        await changeExpenseDescriptionProcedure(client, { id: transactionId, description });
+        await changeExpenseDescriptionProcedure(client, { id, description });
     }
 
     return await client.budgetTransaction.findUnique({
         where: {
-            id: transactionId,
+            id,
         },
     });
 }

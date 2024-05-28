@@ -18,10 +18,12 @@ import {
     fetchBudgets, 
     fetchBudgetByCode, 
     fetchBudgetsByCodes,
-    getBudgetDetail,
+    mapRawBudgetData,
 } from "../../../lib/database/budget-fetching";
 import { 
-    fetchExpenses,
+    fetchBudgetTransactions,
+} from "../../../lib/database/budget-transaction-fetching";
+import { 
     fetchExpenseById,
     fetchExpensesByIds,
 } from "../../../lib/database/expense-fetching";
@@ -31,7 +33,6 @@ import {
 } from "graphql-scalars";
 import createMessageDeleteMany from "../../../lib/utils/createMessageDeleteMany";
 import expenseID from "../../../lib/utils/expenseID";
-import { BudgetTransactionType } from "../../../lib/graphql/resolvers-types";
 import { BUDGET_EXPENSE_ACCOUNT_CODE } from "../../../lib/database/account-code";
 import { BUDGET_FUNDING } from "../../../lib/database/budget-transaction-type";
 
@@ -58,17 +59,15 @@ const resolvers: Resolvers = {
         },
 
         async budgetByCode(_, { code }, context) {
-            const rawBudget = await fetchBudgetByCode(context.dataSources, code);
+            const budget = await fetchBudgetByCode(context.dataSources, code);
             
-            if (!rawBudget) {
+            if (!budget) {
                 return {
                     code: 404,
                     success: false,
                     message: `account budget dengan code ${code} tidak ada`,
                 }
             }
-
-            const budget = await getBudgetDetail(context.dataSources, rawBudget);
 
             return {
                 code: 200,
@@ -78,12 +77,12 @@ const resolvers: Resolvers = {
             }
         },
 
-        async expenses(_, __, context) {
-            return fetchExpenses(context.dataSources);
+        async budgetTransactions(_, { input }, context) {
+            return fetchBudgetTransactions(context.dataSources, input);
         },
 
         async expenseById(_, { id }, context) {
-            const expense = await fetchExpenseById(context.dataSources, id);
+            const expense = await fetchExpenseById(context.dataSources, { id: parseInt(id) });
 
             if (!expense) {
                 return {
@@ -160,14 +159,12 @@ const resolvers: Resolvers = {
                     name: input.name,
                     amount: input.amount,
                 });
-
-                const budgetDetail = await getBudgetDetail(context.dataSources, budget);
                 
                 return {
                     code: 200,
                     success: true,
                     message: `${input.name} berhasil diperbarui`,
-                    budget: budgetDetail,
+                    budget,
                 };
             } catch (error) {
                 return {
@@ -182,13 +179,12 @@ const resolvers: Resolvers = {
             const budget = await fetchBudgetByCode(context.dataSources, input.code);
 
             try {
-                const budgetDetail = await getBudgetDetail(context.dataSources, budget);
                 await deleteBudget(context.dataSources, { id: budget.id });
                 return {
                     code: 200,
                     success: true,
-                    message: `${budgetDetail.name} berhasil dihapus`,
-                    budget: budgetDetail,
+                    message: `${budget.name} berhasil dihapus`,
+                    budget,
                 };
             } catch (error) {
                 return {
@@ -202,9 +198,6 @@ const resolvers: Resolvers = {
         async deleteBudgetMany(_, { input: { codes } }, context) {
             const budgets = await fetchBudgetsByCodes(context.dataSources, codes);
             const budgetNames = budgets.map((budget) => budget.name);
-            const budgetDetailList = await Promise.all(budgets.map(
-                async (budget) => await getBudgetDetail(context.dataSources, budget)
-            ));
             const budgetIds = budgets.map((budget) => budget.id);
 
             try {                
@@ -214,7 +207,7 @@ const resolvers: Resolvers = {
                     code: 200,
                     success: true,
                     message: createMessageDeleteMany(budgetNames, "", " berhasil dihapus"),
-                    budgets: budgetDetailList,
+                    budgets,
                 };
             } catch (error) {
                 const accounts = context.dataSources.account.findMany({
@@ -242,50 +235,13 @@ const resolvers: Resolvers = {
                     ...{ budgetId: budget.id },
                 });
 
-                const expense = await context.dataSources.budgetTransaction.findUnique({
-                    where: {
-                        id: expenseId,
-                    },
-                    include: {
-                        journal: {
-                            include: {
-                                entries: {
-                                    where: {
-                                        ledger: {
-                                            account: {
-                                                accountCode: {
-                                                    parent: {
-                                                        code: BUDGET_EXPENSE_ACCOUNT_CODE,
-                                                    }
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                        transactionType: true,
-                        budget: true,
-                    },
-                });
+                const expense = await fetchExpenseById(context.dataSources, { id: expenseId });
 
                 return {
                     code: 200,
                     success: true,
                     message: `${expense.description} berhasil ditambahkan`,
-                    expense: {
-                        id: expenseID.format(expense.id),
-                        description: expense.description,
-                        budgetCode: expense.budget.code,
-                        budgetName: expense.budget.name,
-                        amount: expense.journal.entries[0].amount,
-                        balance: expense.journal.entries[0].balance,
-                        transactionType: expense.transactionType.name === BUDGET_FUNDING
-                            ? BudgetTransactionType.Funding
-                            : BudgetTransactionType.Expense,
-                        createdAt: expense.createdAt,
-                        updatedAt: expense.updatedAt
-                    },
+                    expense,
                 };
             } catch (error) {
                 return {
@@ -300,52 +256,18 @@ const resolvers: Resolvers = {
             try {
                 const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
 
-                const { id: expenseId } = await updateExpense(context.dataSources, input);
+                const { id: expenseId } = await updateExpense(
+                    context.dataSources, 
+                    { ...input, ...{ id: parseInt(input.id) } },
+                );
 
-                const expense = await context.dataSources.budgetTransaction.findUnique({
-                    where: {
-                        id: expenseId,
-                    },
-                    include: {
-                        journal: {
-                            include: {
-                                entries: {
-                                    where: {
-                                        ledger: {
-                                            account: {
-                                                accountCode: {
-                                                    parent: {
-                                                        code: BUDGET_EXPENSE_ACCOUNT_CODE,
-                                                    }
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                        transactionType: true,
-                        budget: true,
-                    },
-                });
+                const expense = await fetchExpenseById(context.dataSources, { id: expenseId });
 
                 return {
                     code: 200,
                     success: true,
                     message: `${input.description} berhasil diperbarui`,
-                    expense: {
-                        id: expenseID.format(expense.id),
-                        description: expense.description,
-                        budgetCode: expense.budget.code,
-                        budgetName: expense.budget.name,
-                        amount: expense.journal.entries[0].amount,
-                        balance: expense.journal.entries[0].balance,
-                        transactionType: expense.transactionType.name === BUDGET_FUNDING
-                            ? BudgetTransactionType.Funding
-                            : BudgetTransactionType.Expense,
-                        createdAt: expense.createdAt,
-                        updatedAt: expense.updatedAt
-                    },
+                    expense,
                 };
             } catch (error) {
                 return {
@@ -357,7 +279,7 @@ const resolvers: Resolvers = {
         },
 
         async deleteExpense(_, { input }, context) {
-            const expense = await fetchExpenseById(context.dataSources, input.id);
+            const expense = await fetchExpenseById(context.dataSources, { id: parseInt(input.id) });
 
             try {
                 await deleteExpense(context.dataSources, { ...input, ...{ id: parseInt(input.id) } });
@@ -378,7 +300,8 @@ const resolvers: Resolvers = {
         },
 
         async deleteExpenseMany(_, { input }, context) {
-            const expenses = await fetchExpensesByIds(context.dataSources, input);
+            const ids = input.ids.map((id) => parseInt(id));
+            const expenses = await fetchExpensesByIds(context.dataSources, { ids });
             const descriptions = expenses.map(expense => expense.description);
 
             try {

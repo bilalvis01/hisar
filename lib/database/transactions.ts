@@ -96,7 +96,7 @@ export async function createExpense(
 export async function updateExpense(
     client: PrismaClient, 
     data: { 
-        id: string; 
+        id: number; 
         budgetCode: string;
         description: string; 
         amount: bigint; 

@@ -11,7 +11,8 @@ import clsx from "clsx";
 import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { GET_BUDGET_BY_CODE } from "../../graphql/documents";
+import { GET_BUDGET_BY_CODE } from "../../graphql/budget-documents";
+import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import Table from "../Table";
 import { useParams } from "next/navigation";
 import style from "./BudgetDetailCard.module.scss";
@@ -28,7 +29,7 @@ import IconPencil from "../../icons/Pencil";
 import IconTrash from "../../icons/Trash";
 import Link from "next/link";
 import { LinkText } from "../../components/ButtonText";
-import { BudgetTransaction, BudgetTransactionType } from "../../graphql/generated/graphql";
+import { BudgetTransaction } from "../../graphql/generated/graphql";
 import ExpenseDelete from "../expense-delete/ExpenseDelete";
 import ExpenseDeleteMany from "../expense-delete-many/ExpenseDeleteMany";
 import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
@@ -48,6 +49,7 @@ import Fab from "../fab/Fab";
 import IconPlusLg from "../../icons/PlusLg";
 import IconEye from "../../icons/Eye";
 import date from "../../utils/date";
+import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -100,7 +102,7 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("currency", "text-body-small")}>
-                {info.row.original.transactionType === BudgetTransactionType.Expense && (
+                {info.row.original.transactionType === BUDGET_EXPENSE && (
                     idr.format(info.getValue())
                 )}
             </span>
@@ -142,8 +144,19 @@ const columns = [
 
 export default function BudgetDetailCard() {
     const { code } = useParams<{ code: string }>();
-    const { loading, error, data } = useQuery(GET_BUDGET_BY_CODE, {
+    const { 
+        loading: budgetLoading, 
+        error: budgetError, 
+        data: budgetData,
+    } = useQuery(GET_BUDGET_BY_CODE, {
         variables: { code }
+    });
+    const { 
+        loading: budgetTransactionsLoading, 
+        error: budgetTransactionsError, 
+        data: budgetTransactionData, 
+    } = useQuery(GET_BUDGET_TRANSACTIONS, {
+        variables: { input: { budgetCode: code } },
     });
     const { 
         toolbarRef, 
@@ -184,19 +197,21 @@ export default function BudgetDetailCard() {
         dismissActionsMenu,
     ]);
 
-    if (data && data.budgetByCode.code === 404) {
+    if (budgetData && budgetData.budgetByCode.code === 404) {
         notFound();
     }
 
-    const expenseDetail = data ? data.budgetByCode.budget.transactions : [];
-    const budget = data ? data.budgetByCode.budget : null; 
+    const budget = budgetData ? budgetData.budgetByCode.budget : null; 
+    const budgetTransactions = budgetTransactionData 
+        ? budgetTransactionData.budgetTransactions 
+        : [];
 
     const table = useReactTable({
-        data: expenseDetail,
+        data: budgetTransactions,
         columns,
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: (row) => {
-            return row.original.transactionType === BudgetTransactionType.Expense
+            return row.original.transactionType === BUDGET_EXPENSE
         },
         onRowSelectionChange: setRowSelection,
         state: {
@@ -258,20 +273,23 @@ export default function BudgetDetailCard() {
         () => removeClickCloseAppBarSecondaryEventListener();
     }, [windowSize, selectedRows.length]);
 
-    if (loading) return (
+    if (budgetLoading || budgetTransactionsLoading) return (
         <>
-            <div className={clsx(style.placeholder)}>
-                <ProgressCircular />
-            </div>
             <div className={clsx(style.placeholder)}>
                 <ProgressCircular />
             </div>
         </>
     );
 
-    if (error) return (
+    if (budgetError) return (
         <div className={clsx(style.placeholder)}>
-            {error.message}
+            {budgetError.message}
+        </div>
+    );
+
+    if (budgetTransactionsError) return (
+        <div className={clsx(style.placeholder)}>
+            {budgetTransactionsError.message}
         </div>
     );
 

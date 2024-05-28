@@ -12,7 +12,7 @@ import clsx from "clsx";
 import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
-import { GET_BUDGETS } from "../../graphql/documents";
+import { GET_BUDGETS } from "../../graphql/budget-documents";
 import Table from "../Table";
 import { LinkText } from "../../components/ButtonText";
 import Link from "next/link";

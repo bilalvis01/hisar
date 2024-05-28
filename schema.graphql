@@ -5,7 +5,7 @@ type Query {
     excerptReport: ExcerptReport!
     budgets: [Budget!]!
     budgetByCode(code: String!): BudgetByCodePayload!
-    expenses: [BudgetTransaction!]!
+    budgetTransactions(input: GetBudgetTransactionsInput!): [BudgetTransaction!]!
     expenseById(id: String!): ExpenseByIdPayload!
 }
 
@@ -26,17 +26,12 @@ type ExcerptReport {
     balance: Money!
 }
 
-input GetBudgetInput {
-    createdBefore: DateTime
-}
-
 type Budget {
     code: String!
     name: String!
     amount: Money!
     expense: Money!
     balance: Money!
-    transactions: [BudgetTransaction!]!
     createdAt: DateTime!
     updatedAt: DateTime!
 }
@@ -95,11 +90,6 @@ type DeleteBudgetManyPayload {
     budgets: [Budget!]
 }
 
-enum BudgetTransactionType {
-    FUNDING
-    EXPENSE
-}
-
 type BudgetTransaction {
     id: String!
     budgetCode: String!
@@ -107,9 +97,14 @@ type BudgetTransaction {
     description: String!
     amount: Money!
     balance: Money!
-    transactionType: BudgetTransactionType!
+    transactionType: String!
     createdAt: DateTime!
     updatedAt: DateTime!
+}
+
+input GetBudgetTransactionsInput {
+    budgetCode: String
+    transactionType: String
 }
 
 type CreateExpensePayload {

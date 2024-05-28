@@ -1,44 +1,92 @@
 import { 
     PrismaClient, 
+    Account,
     Budget, 
+    BudgetAccountAssignment,
+    BudgetAccountTask,
+    BudgetTransaction,
+    BudgetTransactionType,
+    Journal,
+    Entry,
+    Ledger,
 } from "@prisma/client";
-import expenseID from "../utils/expenseID";
 import * as accountCode from "../utils/accountCode";
-import { BUDGET_EXPENSE_ACCOUNT_CODE } from "../database/account-code";
 import { 
     BUDGET_CASH_ACCOUNT, 
     BUDGET_EXPENSE_ACCOUNT,
 } from "../database/budget-account-task";
 import { 
     BUDGET_FUNDING,
-    BUDGET_EXPENSE,
 } from "../database/budget-transaction-type"
-import { 
-    GetBudgetInput, 
-    BudgetTransactionType,
-} from "../graphql/resolvers-types";
 
 export async function fetchBudgets(dataSources: PrismaClient) {    
-    const budgets = await dataSources.budget.findMany({ 
+    const rawBudgets = await dataSources.budget.findMany({ 
         where: {
             active: true,
         },
         orderBy: {
             createdAt: "desc",
         },
+        include: {
+            accountAssignments: {
+                include: {
+                    task: true,
+                    account: {
+                        include: {
+                            ledgers: true,
+                        },
+                    },
+                },
+            },
+            budgetTransactions: {
+                include: {
+                    transactionType: true,
+                    journal: {
+                        include: {
+                            entries: true,
+                        },
+                    },
+                },
+            },
+        },
     });
 
-    return await Promise.all(budgets.map(async (budget) => await getBudgetDetail(dataSources, budget)));
+    return rawBudgets.map(
+        (rawBudget) => mapRawBudgetData(rawBudget)
+    );
 };
 
 export async function fetchBudgetByCode(dataSources: PrismaClient, code: string) {
-    const budgetCode = accountCode.split(code);
-    return await dataSources.budget.findFirst({
+    const rawBudget = await dataSources.budget.findFirst({
         where: {
             code,
             active: true,
         },
+        include: {
+            accountAssignments: {
+                include: {
+                    task: true,
+                    account: {
+                        include: {
+                            ledgers: true,
+                        },
+                    },
+                },
+            },
+            budgetTransactions: {
+                include: {
+                    transactionType: true,
+                    journal: {
+                        include: {
+                            entries: true,
+                        },
+                    },
+                },
+            },
+        },
     });
+
+    return mapRawBudgetData(rawBudget);
 } 
 
 export async function fetchBudgetsByCodes(dataSources: PrismaClient, codes: string[]) {
@@ -47,84 +95,38 @@ export async function fetchBudgetsByCodes(dataSources: PrismaClient, codes: stri
     ));
 }
 
-export async function getBudgetDetail(
-    dataSources: PrismaClient, 
-    budget: Budget,
+export function mapRawBudgetData(
+    rawBudget: Budget & { 
+        accountAssignments: (BudgetAccountAssignment & { 
+            account: Account & { ledgers: Ledger[] };
+            task: BudgetAccountTask;
+        })[];
+        budgetTransactions: (BudgetTransaction & { 
+            transactionType: BudgetTransactionType;
+            journal: Journal & { entries: Entry[] };
+        })[];
+    }
 ) {
-    const rawBudgetTransactions = await dataSources.budgetTransaction.findMany({
-        where: {
-            budget: { id: budget.id },
-            softDeleted: false,
-        },
-        include: {
-            journal: {
-                include: {
-                    entries: true,
-                },
-            },
-            transactionType: true,
-            budget: true,
-        },
-    });
-
-    const budgetTransactions = rawBudgetTransactions.map((budgetTransaction) => ({
-        id: expenseID.format(budgetTransaction.id),
-        budgetCode: budgetTransaction.budget.code,
-        budgetName: budgetTransaction.budget.name,
-        description: budgetTransaction.description,
-        amount: budgetTransaction.journal.entries[0].amount,
-        balance: budgetTransaction.journal.entries[0].balance,
-        transactionType: budgetTransaction.transactionType.name === BUDGET_FUNDING
-            ? BudgetTransactionType.Funding
-            : BudgetTransactionType.Expense,
-        createdAt: budget.createdAt,
-        updatedAt: budget.updatedAt,
-    }));
-
-    const accountAssignments = await dataSources.budgetAccountAssignment.findMany({
-        where: {
-            budget: { id: budget.id }
-        },
-        include: {
-            account: {
-                include: {
-                    ledgers: {
-                        where: {
-                            open: true,
-                            softDeleted: false,
-                        },
-                    },
-                    accountCode: {
-                        include: {
-                            parent: true,
-                        },
-                    },
-                },
-            },
-            task: true
-        },
-    });
-
-    const budgetAmount = rawBudgetTransactions.filter(
+    const amount = rawBudget.budgetTransactions.filter(
         (rawBudgetTransaction) => rawBudgetTransaction.transactionType.name === BUDGET_FUNDING
-    )[0]["journal"]["entries"][0]["amount"];
+    )[0].journal.entries[0].amount;
 
-    const budgetCashAccount = accountAssignments.filter(
+    const balance = rawBudget.accountAssignments.filter(
         (accountAssignment) => accountAssignment.task.name === BUDGET_CASH_ACCOUNT
-    )[0]["account"];
+    )[0].account.ledgers[0].balance;
 
-    const budgetExpenseAccount = accountAssignments.filter(
+    const expense = rawBudget.accountAssignments.filter(
         (accountAssignment) => accountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT
-    )[0]["account"];
+    )[0].account.ledgers[0].balance;
 
     return {
-        code: budget.code,
-        name: budget.name,
-        amount: budgetAmount,
-        expense: budgetExpenseAccount.ledgers[0].balance,
-        balance: budgetCashAccount.ledgers[0].balance,
-        transactions: budgetTransactions,
-        createdAt: budget.createdAt,
-        updatedAt: budget.updatedAt,
-    }
+        id: rawBudget.id,
+        code: rawBudget.code,
+        name: rawBudget.name,
+        amount,
+        expense,
+        balance,
+        createdAt: rawBudget.createdAt,
+        updatedAt: rawBudget.updatedAt,
+    };
 }
