@@ -272,8 +272,8 @@ export default function BudgetDetailCard() {
     }, []);
 
     const handleExportBudgetTransactions = React.useCallback(() => {
-        exportBudgetTransactions(budgetTransactions);
-    }, [budgetTransactions]);
+        exportBudgetTransactions(budget, budgetTransactions);
+    }, [budget, budgetTransactions]);
 
     React.useEffect(() => {
         if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {

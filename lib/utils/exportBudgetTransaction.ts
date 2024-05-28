@@ -1,8 +1,8 @@
 import * as XLXS from "xlsx";
-import { BudgetTransaction } from "../graphql/generated/graphql";
+import { Budget, BudgetTransaction } from "../graphql/generated/graphql";
 
-export function exportBudgetTransactions(data: BudgetTransaction[]) {
-    const rows = data.map((item) => ({
+export function exportBudgetTransactions(rawBudget: Budget, rawBudgetTransaction: BudgetTransaction[]) {
+    const budgetTransactionRows = rawBudgetTransaction.map((item) => ({
         id: item.id,
         description: item.description,
         amount: item.amount,
@@ -11,39 +11,39 @@ export function exportBudgetTransactions(data: BudgetTransaction[]) {
         updatedAt: item.updatedAt,
     }));
 
-    const maxWidthIdColumn = rows.reduce(
+    const maxWidthIdColumn = budgetTransactionRows.reduce(
         (w, r) => Math.max(w, r.id.length),
         10
     );
 
-    const maxWidthDescriptionColumn = rows.reduce(
+    const maxWidthDescriptionColumn = budgetTransactionRows.reduce(
         (w, r) => Math.max(w, r.description.length),
         10
     );
 
-    const maxWidthAmountColumn = rows.reduce(
+    const maxWidthAmountColumn = budgetTransactionRows.reduce(
         (w, r) => Math.max(w, r.amount.toString().length),
         10
     );
 
-    const maxWidthBalanceColumn = rows.reduce(
+    const maxWidthBalanceColumn = budgetTransactionRows.reduce(
         (w, r) => Math.max(w, r.balance.toString().length),
         10
     );
 
-    const maxWidthCreatedAtColumn = rows.reduce(
+    const maxWidthCreatedAtColumn = budgetTransactionRows.reduce(
         (w, r) => Math.max(w, r.createdAt.length),
         10
     );
 
-    const maxWidthUpdatedAtColumn = rows.reduce(
+    const maxWidthUpdatedAtColumn = budgetTransactionRows.reduce(
         (w, r) => Math.max(w, r.updatedAt.length),
         10
     );
 
-    const worksheet = XLXS.utils.json_to_sheet(rows);
+    const budgetTransactionWorksheet = XLXS.utils.json_to_sheet(budgetTransactionRows);
 
-    worksheet["!cols"] = [ 
+    budgetTransactionWorksheet["!cols"] = [ 
         { wch: maxWidthIdColumn }, 
         { wch: maxWidthDescriptionColumn },
         { wch: maxWidthAmountColumn },
@@ -53,14 +53,14 @@ export function exportBudgetTransactions(data: BudgetTransaction[]) {
     ];
 
     XLXS.utils.sheet_add_aoa(
-        worksheet, 
+        budgetTransactionWorksheet, 
         [["ID", "Deskripsi", "Terpakai", "Saldo", "Dibuat", "Diperbarui"]],
         { origin: "A1" },
     );
 
     const workbook = XLXS.utils.book_new();
 
-    XLXS.utils.book_append_sheet(workbook, worksheet, "Budget Expenses");
+    XLXS.utils.book_append_sheet(workbook, budgetTransactionWorksheet, "Expenses");
 
-    XLXS.writeFile(workbook, "BudgetTransactions.xlsx", { compression: true });
+    XLXS.writeFile(workbook, `${rawBudget.name}.xlsx`, { compression: true });
 }
