@@ -50,6 +50,7 @@ import IconPlusLg from "../../icons/PlusLg";
 import IconEye from "../../icons/Eye";
 import date from "../../utils/date";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
+import { exportBudgetTransactions } from "../../utils/exportBudgetTransaction";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -270,6 +271,10 @@ export default function BudgetDetailCard() {
         setOpenExpenseDeleteMany(true);
     }, []);
 
+    const handleExportBudgetTransactions = React.useCallback(() => {
+        exportBudgetTransactions(budgetTransactions);
+    }, [budgetTransactions]);
+
     React.useEffect(() => {
         if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
             setShowCompactWindowSizeAppBarSecondary(true);
@@ -354,6 +359,9 @@ export default function BudgetDetailCard() {
                                         </li>
                                         <li>
                                             <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
+                                        </li>
+                                        <li>
+                                            <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
                                         </li>
                                     </ul>
                                 </Menu>
