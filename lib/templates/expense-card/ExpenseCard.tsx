@@ -13,7 +13,7 @@ import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
 import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
-import Table from "../Table";
+import Table from "../table/Table";
 import ExpenseAddForm from "../expense-add-form/ExpenseAddForm";
 import style from "./ExpenseCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";

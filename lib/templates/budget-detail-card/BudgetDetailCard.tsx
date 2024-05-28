@@ -13,7 +13,7 @@ import Checkbox from "../../components/Checkbox";
 import { useQuery } from "@apollo/client";
 import { GET_BUDGET_BY_CODE } from "../../graphql/budget-documents";
 import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
-import Table from "../Table";
+import Table from "../table/Table";
 import { useParams } from "next/navigation";
 import style from "./BudgetDetailCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";

@@ -6,7 +6,7 @@ import {
     Form as FormikForm,
     FormikHelpers
 } from "formik";
-import TextField from "../TextField";
+import TextField from "../text-field/TextField";
 import style from "./FormDialog.module.scss";
 import {
     Dialog as DialogFullscreen,
