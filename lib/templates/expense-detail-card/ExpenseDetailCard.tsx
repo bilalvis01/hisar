@@ -22,6 +22,16 @@ import { IconButtonFilled } from "../../components/IconButtonFilled";
 import IconArrowLeft from "../../icons/ArrowLeft";
 import IconPencil from "../../icons/Pencil";
 import IconTrash from "../../icons/Trash";
+import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
+import { Menu, MenuItem } from "../../components/Menu";
+import { 
+    useFloating, 
+    useClick, 
+    useInteractions, 
+    useDismiss, 
+    offset,
+} from "@floating-ui/react";
+import { IconButtonStandard } from "../../components/IconButtonStandard";
 
 export default function ExpenseDetailCard() {
     const { id } = useParams<{ id: string }>();
@@ -36,7 +46,21 @@ export default function ExpenseDetailCard() {
     } = useTemplateContext();
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
     const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
+    const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
+    const { refs, floatingStyles, context } = useFloating({
+        open: openActionsMenu,
+        onOpenChange: setOpenActionsMenu,
+        placement: "bottom-end",
+        middleware: [offset(4)],
+    });
 
+    const clickActionsMenu = useClick(context);
+    const dismissActionsMenu = useDismiss(context);
+
+    const { getFloatingProps, getReferenceProps } = useInteractions([
+        clickActionsMenu,
+        dismissActionsMenu,
+    ]);
     const handleOpenExpenseUpdateForm = React.useCallback(() => {
         setOpenExpenseUpdateForm(true);
     }, []);
@@ -77,9 +101,25 @@ export default function ExpenseDetailCard() {
                             <ButtonText onClick={handleOpenExpenseUpdateForm}>
                                 Edit
                             </ButtonText>
-                            <ButtonText onClick={handleOpenExpenseDelete}>
-                                Hapus
-                            </ButtonText>
+                            <div>
+                                <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                    <IconThreeDotsVertial />
+                                </IconButtonStandard>
+                                {openActionsMenu && (
+                                    <Menu 
+                                        {...getFloatingProps()} 
+                                        ref={refs.setFloating} 
+                                        style={floatingStyles} 
+                                        className={style.actionsMenu}
+                                    >
+                                        <ul>
+                                            <li>
+                                                <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                            </li>
+                                        </ul>
+                                    </Menu>
+                                )}
+                            </div>
                         </>
                     )}
                 </header>
@@ -132,9 +172,25 @@ export default function ExpenseDetailCard() {
                     <IconButtonFilled onClick={handleOpenExpenseUpdateForm}>
                         <IconPencil />
                     </IconButtonFilled>
-                    <IconButtonFilled onClick={handleOpenExpenseDelete}>
-                        <IconTrash />
-                    </IconButtonFilled>
+                    <div>
+                        <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
+                            <IconThreeDotsVertial />
+                        </IconButtonFilled>
+                        {openActionsMenu && (
+                            <Menu 
+                                {...getFloatingProps()} 
+                                ref={refs.setFloating} 
+                                style={floatingStyles} 
+                                className={style.actionsMenu}
+                            >
+                                <ul>
+                                    <li>
+                                        <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                    </li>
+                                </ul>
+                            </Menu>
+                        )}
+                    </div>
                 </>,
                 toolbarRef.current
             )}
