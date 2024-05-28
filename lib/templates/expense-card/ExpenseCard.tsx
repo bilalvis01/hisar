@@ -35,6 +35,15 @@ import IconPencil from "../../icons/Pencil";
 import IconTrash from "../../icons/Trash";
 import { useRouter } from "next/navigation";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
+import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
+import { Menu, MenuItem } from "../../components/Menu";
+import { 
+    useFloating, 
+    useClick, 
+    useInteractions, 
+    useDismiss, 
+    offset,
+} from "@floating-ui/react";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -161,6 +170,21 @@ export default function ExpenseTable() {
     } = useTemplateContext();
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const router = useRouter();
+    const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
+    const { refs, floatingStyles, context } = useFloating({
+        open: openActionsMenu,
+        onOpenChange: setOpenActionsMenu,
+        placement: "bottom-end",
+        middleware: [offset(4)],
+    });
+
+    const clickActionsMenu = useClick(context);
+    const dismissActionsMenu = useDismiss(context);
+
+    const { getFloatingProps, getReferenceProps } = useInteractions([
+        clickActionsMenu,
+        dismissActionsMenu,
+    ]);
 
     const expenses = data ? data.budgetTransactions : [];
 
@@ -253,15 +277,47 @@ export default function ExpenseTable() {
                         <ButtonText onClick={handleOpenExpenseUpdateForm}>
                             Edit
                         </ButtonText>
-                        <ButtonText onClick={handleOpenExpenseDelete}>
-                            Hapus
-                        </ButtonText>
+                        <div>
+                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                <IconThreeDotsVertial />
+                            </IconButtonStandard>
+                            {openActionsMenu && (
+                                <Menu 
+                                    {...getFloatingProps()} 
+                                    ref={refs.setFloating} 
+                                    style={floatingStyles} 
+                                    className={style.actionsMenu}
+                                >
+                                    <ul>
+                                        <li>
+                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                        </li>
+                                    </ul>
+                                </Menu>
+                            )}
+                        </div>
                     </>
                 )}
                 {isManySelectedRow() && isWindowSizeExpanded() && (
-                    <ButtonText onClick={handleOpenExpenseDeleteMany}>
-                        Hapus
-                    </ButtonText>
+                    <div>
+                        <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                            <IconThreeDotsVertial />
+                        </IconButtonStandard>
+                        {openActionsMenu && (
+                            <Menu 
+                                {...getFloatingProps()} 
+                                ref={refs.setFloating} 
+                                style={floatingStyles} 
+                                className={style.actionsMenu}
+                            >
+                                <ul>
+                                    <li>
+                                        <MenuItem onClick={handleOpenExpenseDeleteMany}>Hapus</MenuItem>
+                                    </li>
+                                </ul>
+                            </Menu>
+                        )}
+                    </div>
                 )}
             </header>
             <div className={style.body}>
@@ -317,17 +373,49 @@ export default function ExpenseTable() {
                         <IconButtonStandard onClick={handleOpenExpenseUpdateForm}>
                             <IconPencil />
                         </IconButtonStandard>
-                        <IconButtonStandard onClick={handleOpenExpenseDelete}>
-                            <IconTrash />
-                        </IconButtonStandard>
+                        <div>
+                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                <IconThreeDotsVertial />
+                            </IconButtonStandard>
+                            {openActionsMenu && (
+                                <Menu 
+                                    {...getFloatingProps()} 
+                                    ref={refs.setFloating} 
+                                    style={floatingStyles} 
+                                    className={style.actionsMenu}
+                                >
+                                    <ul>
+                                        <li>
+                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                        </li>
+                                    </ul>
+                                </Menu>
+                            )}
+                        </div>
                     </>,
                     toolbarSecondaryRef.current
                 )
             )}
             {isManySelectedRow() && isWindowSizeSpanMedium() && createPortal(
-                <IconButtonStandard onClick={handleOpenExpenseDeleteMany}>
-                    <IconTrash />
-                </IconButtonStandard>,
+                <div>
+                    <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                        <IconThreeDotsVertial />
+                    </IconButtonStandard>
+                    {openActionsMenu && (
+                        <Menu 
+                            {...getFloatingProps()} 
+                            ref={refs.setFloating} 
+                            style={floatingStyles} 
+                            className={style.actionsMenu}
+                        >
+                            <ul>
+                                <li>
+                                    <MenuItem onClick={handleOpenExpenseDeleteMany}>Hapus</MenuItem>
+                                </li>
+                            </ul>
+                        </Menu>
+                    )}
+                </div>,
                 toolbarSecondaryRef.current
             )}
             {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
