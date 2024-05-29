@@ -16,10 +16,10 @@ export async function fetchBudgetTransactionById(
     const rawBudgetTransaction = await client.budgetTransaction.findUnique({
         where: {
             id,
-            softDeleted: false,
             transactionType: {
                 name: transactionType,
             },
+            deletedAt: null,
         },
         include: {
             journal: {
@@ -43,6 +43,10 @@ export async function fetchBudgetTransactionById(
             transactionType: true,
         },
     });
+
+    if (!rawBudgetTransaction) {
+        return;
+    }
 
     return mapRawBudgetTransaction(rawBudgetTransaction);
 }
@@ -86,7 +90,7 @@ export async function fetchBudgetTransactions(
             transactionType: {
                 name: transactionType,
             },
-            softDeleted: false,
+            deletedAt: null,
         },
         orderBy: {
             id: "desc",

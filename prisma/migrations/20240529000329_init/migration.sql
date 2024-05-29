@@ -32,6 +32,7 @@ CREATE TABLE `AccountCode` (
     `virtualParentId` INTEGER NOT NULL DEFAULT 0,
     `parentId` INTEGER NULL,
 
+    UNIQUE INDEX `AccountCode_code_parentId_key`(`code`, `parentId`),
     UNIQUE INDEX `AccountCode_code_virtualParentId_key`(`code`, `virtualParentId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -41,10 +42,10 @@ CREATE TABLE `Ledger` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `balance` BIGINT NOT NULL,
     `open` BOOLEAN NOT NULL DEFAULT true,
-    `softDeleted` BOOLEAN NOT NULL DEFAULT false,
     `accountId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -53,9 +54,9 @@ CREATE TABLE `Ledger` (
 CREATE TABLE `Journal` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `description` VARCHAR(255) NOT NULL,
-    `softDeleted` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -67,11 +68,11 @@ CREATE TABLE `Entry` (
     `direction` TINYINT NOT NULL,
     `amount` BIGINT NOT NULL,
     `balance` BIGINT NOT NULL,
-    `softDeleted` BOOLEAN NOT NULL DEFAULT false,
     `journalId` INTEGER NOT NULL,
     `ledgerId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -113,12 +114,12 @@ CREATE TABLE `BudgetAccountTask` (
 CREATE TABLE `BudgetTransaction` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `description` VARCHAR(255) NOT NULL,
-    `softDeleted` BOOLEAN NOT NULL DEFAULT false,
     `transactionTypeId` INTEGER NOT NULL,
     `journalId` INTEGER NOT NULL,
     `budgetId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
 
     UNIQUE INDEX `BudgetTransaction_journalId_key`(`journalId`),
     PRIMARY KEY (`id`)

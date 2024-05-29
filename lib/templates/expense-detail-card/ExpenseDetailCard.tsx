@@ -32,6 +32,7 @@ import {
     offset,
 } from "@floating-ui/react";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
+import { useRouter } from "next/navigation";
 
 export default function ExpenseDetailCard() {
     const { id } = useParams<{ id: string }>();
@@ -53,6 +54,7 @@ export default function ExpenseDetailCard() {
         placement: "bottom-end",
         middleware: [offset(4)],
     });
+    const router = useRouter();
 
     const clickActionsMenu = useClick(context);
     const dismissActionsMenu = useDismiss(context);
@@ -165,6 +167,7 @@ export default function ExpenseDetailCard() {
                         expense={expense}
                         open={openExpenseDelete}
                         onOpenChange={setOpenExpenseDelete}
+                        onSuccess={() => router.push("/expense")}
                     />
                 )}
                 {isWindowSizeSpanMedium() && createPortal(

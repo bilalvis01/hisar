@@ -116,7 +116,7 @@ export async function changeBudgetTransactionHostProcedure(
                             ledgers: {
                                 where: {
                                     open: true,
-                                    softDeleted: false,
+                                    deletedAt: null,
                                 },
                             },
                         },
@@ -216,7 +216,7 @@ export async function changeBudgetTransactionAmountProcedure(
 
     if (
         budgetTransaction.journal.entries.every(
-            (entry) => entry.ledger.open && !entry.ledger.softDeleted
+            (entry) => entry.ledger.open && !entry.ledger.deletedAt
         )
     ) {
         await Promise.all(budgetTransaction.journal.entries.map(async (entry) => {
@@ -281,7 +281,7 @@ export async function deleteBudgetTransactionProcedure(
     
     const deletedBudgetTransaction = await client.budgetTransaction.update({
         data: {
-            softDeleted: true,
+            deletedAt: new Date(),
         },
         where: {
             id: budgetTransaction.id,

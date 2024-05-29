@@ -113,7 +113,7 @@ export async function deleteJournalProcedure(
 ): Promise<{ journal: Journal, ledgerIds: number[] }> {
     const journal = await client.journal.update({
         data: {
-            softDeleted: true,
+            deletedAt: new Date(),
         },
         where: {
             id,
@@ -129,7 +129,7 @@ export async function deleteJournalProcedure(
 
     await client.entry.updateMany({
         data: {
-            softDeleted: true,
+            deletedAt: new Date(),
         },
         where: {
             journal: { id: journal.id },
@@ -137,7 +137,7 @@ export async function deleteJournalProcedure(
     });
 
     const ledgerIds = journal.entries.reduce((acc, entry) => {
-        if (entry.ledger.open && !entry.ledger.softDeleted) {
+        if (entry.ledger.open && !entry.ledger.deletedAt) {
             acc.push(entry.ledger.id);
         }
 

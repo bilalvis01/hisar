@@ -86,6 +86,10 @@ export async function fetchBudgetByCode(dataSources: PrismaClient, code: string)
         },
     });
 
+    if (!rawBudget) {
+        return;
+    }
+
     return mapRawBudgetData(rawBudget);
 } 
 

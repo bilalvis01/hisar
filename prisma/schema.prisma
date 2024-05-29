@@ -45,6 +45,7 @@ model AccountCode {
   childs           AccountCode[]  @relation("AccountCodeChild")
   account          Account?
   
+  @@unique([code, parentId])
   @@unique([code, virtualParentId])
 }
 
@@ -52,22 +53,22 @@ model Ledger {
   id            Int        @id @default(autoincrement())
   balance       BigInt
   open          Boolean    @default(true)
-  softDeleted   Boolean    @default(false)
   accountId     Int
   account       Account    @relation(fields: [accountId], references: [id])
   entries       Entry[]
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+  deletedAt     DateTime?    
 }
 
 model Journal {
   id                 Int                 @id @default(autoincrement())
   description        String              @db.VarChar(255)
-  softDeleted        Boolean             @default(false)
   entries            Entry[]
   budgetTransaction  BudgetTransaction?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
+  deletedAt          DateTime?
 }
 
 model Entry {
@@ -76,13 +77,13 @@ model Entry {
   direction    Int        @db.TinyInt
   amount       BigInt
   balance      BigInt
-  softDeleted  Boolean    @default(false)
   journalId    Int
   journal      Journal    @relation(fields: [journalId], references: [id])
   ledgerId     Int
   ledger       Ledger     @relation(fields: [ledgerId], references: [id])
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
 }
 
 model Budget {
@@ -115,7 +116,6 @@ model BudgetAccountTask {
 model BudgetTransaction {
   id                 Int                    @id @default(autoincrement())
   description        String                 @db.VarChar(255)
-  softDeleted        Boolean                @default(false)
   transactionTypeId  Int                         
   transactionType    BudgetTransactionType  @relation(fields: [transactionTypeId], references: [id])
   journalId          Int                    @unique
@@ -124,6 +124,7 @@ model BudgetTransaction {
   budget             Budget                 @relation(fields: [budgetId], references: [id])
   createdAt          DateTime               @default(now())
   updatedAt          DateTime               @updatedAt
+  deletedAt          DateTime?
 }
 
 model BudgetTransactionType {

@@ -10,7 +10,7 @@ function countBalance({
     entryIndex: number,
 }) {
     return entries.reduce((acc, entry, countingBalanceIndex) => {
-        if (countingBalanceIndex > entryIndex || entry.softDeleted) {
+        if (countingBalanceIndex > entryIndex || entry.deletedAt) {
             return acc;
         }
 
@@ -23,7 +23,7 @@ export async function balanceLedgerProcedure(client: PrismaClient, { id }: { id:
         where: {
             id,
             open: true,
-            softDeleted: false,
+            deletedAt: null,
         },
         include: {
             entries: {
@@ -46,7 +46,7 @@ export async function balanceLedgerProcedure(client: PrismaClient, { id }: { id:
     const ledgerDirection = ledger.account.accountType.ledgerDirection;
 
     await Promise.all(ledger.entries.map(async (entry, entryIndex, entries) => {
-        if (!entry.softDeleted) {
+        if (!entry.deletedAt) {
             const balance = countBalance({ ledgerDirection, entries, entryIndex });
 
             await client.entry.update({

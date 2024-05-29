@@ -176,7 +176,7 @@ export async function deleteBudgetProcedure(
                             ledgers: {
                                 where: {
                                     open: true,
-                                    softDeleted: false,
+                                    deletedAt: null,
                                 },
                             },
                         },
@@ -229,7 +229,7 @@ export async function deleteBudgetProcedure(
     if (budgetCashAccountLedger) {
         await client.ledger.update({
             data: {
-                softDeleted: true,
+                deletedAt: new Date(),
             },
             where: {
                 id: budgetCashAccountLedger.id,
@@ -240,7 +240,7 @@ export async function deleteBudgetProcedure(
     if (budgetExpenseAccountLedger) {
         await client.ledger.update({
             data: {
-                softDeleted: true,
+                deletedAt: new Date(),
             },
             where: {
                 id: budgetExpenseAccountLedger.id,
