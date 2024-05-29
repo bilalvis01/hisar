@@ -143,6 +143,7 @@ export type ExpenseByIdPayload = {
 
 export type GetBudgetTransactionsInput = {
   budgetCode?: InputMaybe<Scalars['String']['input']>;
+  sortOrder?: InputMaybe<SortOrder>;
   transactionType?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -221,6 +222,11 @@ export type QueryBudgetTransactionsArgs = {
 export type QueryExpenseByIdArgs = {
   id: Scalars['String']['input'];
 };
+
+export enum SortOrder {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 export type UpdateBudgetInput = {
   amount: Scalars['Money']['input'];
@@ -346,6 +352,7 @@ export type ResolversTypes = {
   Money: ResolverTypeWrapper<Scalars['Money']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  SortOrder: SortOrder;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UpdateBudgetInput: UpdateBudgetInput;
   UpdateBudgetPayload: ResolverTypeWrapper<UpdateBudgetPayload>;

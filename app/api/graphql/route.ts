@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { GraphQLScalarType, Kind } from "graphql";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { Resolvers } from "../../../lib/graphql/resolvers-types";
+import { Resolvers, SortOrder } from "../../../lib/graphql/resolvers-types";
 import { readFileSync } from 'fs';
 import { PrismaClient } from "@prisma/client";
 import { 
@@ -78,7 +78,13 @@ const resolvers: Resolvers = {
         },
 
         async budgetTransactions(_, { input }, context) {
-            return fetchBudgetTransactions(context.dataSources, input);
+            return fetchBudgetTransactions(
+                context.dataSources, 
+                {
+                    ...input,
+                    ...{ sortOrder: input.sortOrder && input.sortOrder === SortOrder.Asc ? "asc" : "desc" },
+                }
+            );
         },
 
         async expenseById(_, { id }, context) {
@@ -356,6 +362,10 @@ const server = new ApolloServer({
     resolvers: {
         DateTime: DateTimeResolver,
         Money: MoneyResolver,
+        SortOrder: {
+            ASC: "asc",
+            DESC: "desc",
+        },
         ...resolvers
     }, 
     typeDefs: [

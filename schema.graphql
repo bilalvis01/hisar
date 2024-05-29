@@ -1,6 +1,11 @@
 scalar DateTime
 scalar Money
 
+enum SortOrder {
+    ASC
+    DESC
+}
+
 type Query {
     excerptReport: ExcerptReport!
     budgets: [Budget!]!
@@ -105,6 +110,7 @@ type BudgetTransaction {
 input GetBudgetTransactionsInput {
     budgetCode: String
     transactionType: String
+    sortOrder: SortOrder
 }
 
 type CreateExpensePayload {

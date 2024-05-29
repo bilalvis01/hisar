@@ -142,6 +142,7 @@ export type ExpenseByIdPayload = {
 
 export type GetBudgetTransactionsInput = {
   budgetCode?: InputMaybe<Scalars['String']['input']>;
+  sortOrder?: InputMaybe<SortOrder>;
   transactionType?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -220,6 +221,11 @@ export type QueryBudgetTransactionsArgs = {
 export type QueryExpenseByIdArgs = {
   id: Scalars['String']['input'];
 };
+
+export enum SortOrder {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 export type UpdateBudgetInput = {
   amount: Scalars['Money']['input'];

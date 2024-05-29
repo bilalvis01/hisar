@@ -56,9 +56,11 @@ export async function fetchBudgetTransactions(
     {
         budgetCode,
         transactionType,
+        sortOrder = "desc",
     }: {
         budgetCode?: string;
         transactionType?: string;
+        sortOrder?: "asc" | "desc";
     }
 ) {
     const rawBudgetTransactions = await client.budgetTransaction.findMany({
@@ -93,7 +95,7 @@ export async function fetchBudgetTransactions(
             deletedAt: null,
         },
         orderBy: {
-            id: "desc",
+            createdAt: sortOrder,
         },
     });
 
