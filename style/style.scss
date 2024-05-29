@@ -18,10 +18,12 @@
     font-weight: bold;
     font-size: 1.2rem;
     color: var(--system-color-on-secondary);
-    background-color: var(--system-color-secondary);
 
     & > th {
         @extend %cell;
+        background-color: var(--system-color-secondary);
+        position: sticky;
+        top: 0;
 
         & > .description {
             width: 100%;
@@ -47,19 +49,28 @@
             white-space: nowrap;
         }
     }
+
+    & > .selection {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+    }
 }
 
 .table > tbody > tr {
     height: var(--system-spacer2);
-    background-color: var(--system-color-primary-container);
   
     &:nth-of-type(odd) {
-        background: var(--system-color-surface-container);
         color: var(--system-color-on-surface);
+
+        & > td {
+            background: var(--system-color-surface-container);
+        }
     }
 
     & > td {
         @extend %cell;
+        background-color: var(--system-color-primary-container);
 
         & > .checkbox-container {
             vertical-align: middle;
@@ -93,5 +104,11 @@
             text-align: end;
             white-space: nowrap;
         }
+    }
+
+    & > .selection {
+        position: sticky;
+        left: 0;
+        z-index: 1;
     }
 }
