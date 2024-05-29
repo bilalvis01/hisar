@@ -404,7 +404,9 @@ export default function BudgetDetailCard() {
                         </ul>
                     )}
                     <h3 className={clsx("text-title-medium", style.tableTitle)}>Tabel Expense</h3>
-                    <Table table={table} />
+                    <div className={style.tableContainer}>
+                        <Table table={table} />
+                    </div>
                 </div>
             </div>
             {budget && (

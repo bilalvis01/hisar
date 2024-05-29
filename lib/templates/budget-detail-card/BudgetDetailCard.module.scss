@@ -27,8 +27,7 @@
 
 .body {
     grid-area: body;
-    width: 100%;
-    overflow-x: auto;
+    display: grid;
 }
 
 .description {
@@ -79,4 +78,9 @@
 .link {
     text-decoration: none;
     color: var(--color-on-surface);
+}
+
+.tableContainer {
+    width: 100%;
+    overflow-x: auto;
 }
