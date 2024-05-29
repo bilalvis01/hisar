@@ -372,36 +372,42 @@ export default function BudgetDetailCard() {
                 </header>
                 <div className={style.body}>
                     {budget && (
-                        <ul className={style.description}>
-                            <li className={style.descriptionItem}>
-                                <div className="text-title-small">Kode</div>
-                                <div className="text-body-small">{budget.code}</div>
-                            </li>
-                            <li className={style.descriptionItem}>
-                                <div className="text-title-small">Nama</div>
-                                <div className="text-body-small">{budget.name}</div>
-                            </li>
-                            <li>
-                                <div className="text-title-small">Total Budget</div>
-                                <div className="text-body-small">{idr.format(budget.amount)}</div>
-                            </li>
-                            <li>
-                                <div className="text-title-small">Total Expense</div>
-                                <div className="text-body-small">{idr.format(budget.expense)}</div>
-                            </li>
-                            <li>
-                                <div className="text-title-small">Saldo Terakhir</div>
-                                <div className="text-body-small">{idr.format(budget.balance)}</div>
-                            </li>
-                            <li>
-                                <div className="text-title-small">Dibuat</div>
-                                <div className="text-body-small">{date.format(budget.createdAt)}</div>
-                            </li>
-                            <li>
-                                <div className="text-title-small">Diperbarui</div>
-                                <div className="text-body-small">{date.format(budget.updatedAt)}</div>
-                            </li>
-                        </ul>
+                        <>
+                            <h3 className={clsx("text-title-medium")}>Informasi umum</h3>
+                            <ul className={style.description}>
+                                <li className={style.descriptionItem}>
+                                    <div className="text-title-small">Kode</div>
+                                    <div className="text-body-small">{budget.code}</div>
+                                </li>
+                                <li className={style.descriptionItem}>
+                                    <div className="text-title-small">Nama</div>
+                                    <div className="text-body-small">{budget.name}</div>
+                                </li>
+                                <li>
+                                    <div className="text-title-small">Dibuat</div>
+                                    <div className="text-body-small">{date.format(budget.createdAt)}</div>
+                                </li>
+                                <li>
+                                    <div className="text-title-small">Diperbarui</div>
+                                    <div className="text-body-small">{date.format(budget.updatedAt)}</div>
+                                </li>
+                            </ul>
+                            <h3 className={clsx("text-title-medium")}>Informasi saldo</h3>
+                            <ul className={style.description}>
+                                <li>
+                                    <div className="text-title-small">Budget</div>
+                                    <div className="text-body-small">{idr.format(budget.amount)}</div>
+                                </li>
+                                <li>
+                                    <div className="text-title-small">Expense</div>
+                                    <div className="text-body-small">{idr.format(budget.expense)}</div>
+                                </li>
+                                <li>
+                                    <div className="text-title-small">Saldo</div>
+                                    <div className="text-body-small">{idr.format(budget.balance)}</div>
+                                </li>
+                            </ul>
+                        </>
                     )}
                     <h3 className={clsx("text-title-medium", style.tableTitle)}>Tabel Expense</h3>
                     <div className={style.tableContainer}>

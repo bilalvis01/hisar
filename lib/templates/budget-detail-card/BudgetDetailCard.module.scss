@@ -35,7 +35,7 @@
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 0.5rem;
     margin: 0;
-    padding: 0;
+    padding: 0.5rem 1rem;
     list-style-type: none;
 
     @media (min-width: 600px) {
@@ -70,10 +70,7 @@
 }
 
 .tableTitle {
-    padding: {
-        top: 1.5rem;
-        bottom: 0.5rem;
-    };
+    padding-bottom: 0.5rem;
 }
 
 .link {
