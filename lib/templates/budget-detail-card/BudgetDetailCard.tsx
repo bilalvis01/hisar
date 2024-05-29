@@ -474,6 +474,9 @@ export default function BudgetDetailCard() {
                                 <li>
                                     <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
                                 </li>
+                                <li>
+                                    <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                </li>
                             </ul>
                         </Menu>
                     )}
