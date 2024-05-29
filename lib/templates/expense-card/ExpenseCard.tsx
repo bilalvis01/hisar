@@ -171,6 +171,7 @@ export default function ExpenseTable() {
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const router = useRouter();
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
+    const [openFab, setOpenFab] = React.useState(false);
     const { refs, floatingStyles, context } = useFloating({
         open: openActionsMenu,
         onOpenChange: setOpenActionsMenu,
@@ -353,6 +354,8 @@ export default function ExpenseTable() {
             )}
             <Fab 
                 ref={fabRef}
+                open={openFab && isNoneSelectedRow()}
+                onOpenChange={setOpenFab}
                 onClick={handleOpenExpenseAddForm}
                 onShow={() => {
                     if (fabRef.current instanceof HTMLElement) {
