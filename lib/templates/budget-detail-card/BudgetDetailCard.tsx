@@ -193,6 +193,7 @@ export default function BudgetDetailCard() {
     const router = useRouter();
     const [rowSelection, setRowSelection] = React.useState({});
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
+    const [openFab, setOpenFab] = React.useState(false);
     const { refs, floatingStyles, context } = useFloating({
         open: openActionsMenu,
         onOpenChange: setOpenActionsMenu,
@@ -507,6 +508,8 @@ export default function BudgetDetailCard() {
             )}
             <Fab 
                 ref={fabRef}
+                open={openFab && isNoneSelectedRow()}
+                onOpenChange={setOpenFab}
                 onClick={handleOpenExpenseAddForm}
                 onShow={() => {
                     if (fabRef.current instanceof HTMLElement) {
