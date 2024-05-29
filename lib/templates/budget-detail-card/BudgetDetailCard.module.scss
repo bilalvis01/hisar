@@ -79,6 +79,32 @@
 }
 
 .tableContainer {
+    display: grid;
+    grid-template-areas: 
+        "header"
+        "body";
+    grid-template-rows: 4rem 1fr;
+    grid-template-columns: 1fr;
+}
+
+.tableContainerHeader {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+}
+
+.tableContainerBody {
+    grid-area: body;
     width: 100%;
     overflow-x: auto;
+}
+
+.tableContainerHeadline {
+    flex-grow: 1;
+}
+
+.divider {
+    color: var(--system-color-outline-variant);
+    width: 100%;
+    margin-top: 1rem;
 }

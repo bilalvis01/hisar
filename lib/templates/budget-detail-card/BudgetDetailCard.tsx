@@ -318,31 +318,6 @@ export default function BudgetDetailCard() {
                         {budget && budget.name.toUpperCase()}
                     </h2>
                     {isNoneSelectedRow() && isWindowSizeExpanded() && (
-                        <ButtonFilled onClick={handleOpenExpenseAddForm}>
-                            Tambah Expense
-                        </ButtonFilled>
-                    )}
-                    {isSingleSelectedRow() && isWindowSizeExpanded() && (
-                        <>
-                            <Link href={`/expense/${selectedRows[0].id}`} passHref legacyBehavior>
-                                <LinkText>
-                                    Lihat
-                                </LinkText>
-                            </Link>
-                            <ButtonText onClick={handleOpenExpenseUpdateForm}>
-                                Edit
-                            </ButtonText>
-                            <ButtonText onClick={handleOpenExpenseDelete}>
-                                Hapus
-                            </ButtonText>
-                        </>
-                    )}
-                    {isManySelectedRow() && isWindowSizeExpanded() && (
-                        <ButtonText onClick={handleOpenExpenseDeleteMany}>
-                            Hapus
-                        </ButtonText>
-                    )}
-                    {isNoneSelectedRow() && isWindowSizeExpanded() && (
                         <div>
                             <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
                                 <IconThreeDotsVertial />
@@ -409,9 +384,71 @@ export default function BudgetDetailCard() {
                             </ul>
                         </>
                     )}
-                    <h3 className={clsx("text-title-medium", style.tableTitle)}>Tabel Expense</h3>
+                    <hr className={style.divider} />
                     <div className={style.tableContainer}>
-                        <Table table={table} />
+                        <div className={style.tableContainerHeader}>
+                            <h3 className={clsx("text-title-medium", style.tableContainerHeadline)}>Tabel Expense</h3>
+                            {isNoneSelectedRow() && isWindowSizeExpanded() && (
+                                <ButtonFilled onClick={handleOpenExpenseAddForm}>
+                                    Tambah
+                                </ButtonFilled>
+                            )}
+                            {isSingleSelectedRow() && isWindowSizeExpanded() && (
+                                <>
+                                    <Link href={`/expense/${selectedRows[0].id}`} passHref legacyBehavior>
+                                        <LinkText>
+                                            Lihat
+                                        </LinkText>
+                                    </Link>
+                                    <ButtonText onClick={handleOpenExpenseUpdateForm}>
+                                        Edit
+                                    </ButtonText>
+                                    <div>
+                                        <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                            <IconThreeDotsVertial />
+                                        </IconButtonStandard>
+                                        {openActionsMenu && (
+                                            <Menu 
+                                                {...getFloatingProps()} 
+                                                ref={refs.setFloating} 
+                                                style={floatingStyles} 
+                                                className={style.actionsMenu}
+                                            >
+                                                <ul>
+                                                    <li>
+                                                        <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                                    </li>
+                                                </ul>
+                                            </Menu>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+                            {isManySelectedRow() && isWindowSizeExpanded() && (
+                                <div>
+                                    <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                        <IconThreeDotsVertial />
+                                    </IconButtonStandard>
+                                    {openActionsMenu && (
+                                        <Menu 
+                                            {...getFloatingProps()} 
+                                            ref={refs.setFloating} 
+                                            style={floatingStyles} 
+                                            className={style.actionsMenu}
+                                        >
+                                            <ul>
+                                                <li>
+                                                    <MenuItem onClick={handleOpenExpenseDeleteMany}>Hapus</MenuItem>
+                                                </li>
+                                            </ul>
+                                        </Menu>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                        <div className={style.tableContainerBody}>
+                            <Table table={table} />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -498,17 +535,49 @@ export default function BudgetDetailCard() {
                         <IconButtonStandard onClick={handleOpenExpenseUpdateForm}>
                             <IconPencil />
                         </IconButtonStandard>
-                        <IconButtonStandard onClick={handleOpenExpenseDelete}>
-                            <IconTrash />
-                        </IconButtonStandard>
+                        <div>
+                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                <IconThreeDotsVertial />
+                            </IconButtonStandard>
+                            {openActionsMenu && (
+                                <Menu 
+                                    {...getFloatingProps()} 
+                                    ref={refs.setFloating} 
+                                    style={floatingStyles} 
+                                    className={style.actionsMenu}
+                                >
+                                    <ul>
+                                        <li>
+                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                        </li>
+                                    </ul>
+                                </Menu>
+                            )}
+                        </div>
                     </>,
                     toolbarSecondaryRef.current
                 )
             )}
             {isManySelectedRow() && isWindowSizeSpanMedium() && createPortal(
-                <IconButtonStandard onClick={handleOpenExpenseDeleteMany}>
-                    <IconTrash />
-                </IconButtonStandard>,
+                <div>
+                    <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                        <IconThreeDotsVertial />
+                    </IconButtonStandard>
+                    {openActionsMenu && (
+                        <Menu 
+                            {...getFloatingProps()} 
+                            ref={refs.setFloating} 
+                            style={floatingStyles} 
+                            className={style.actionsMenu}
+                        >
+                            <ul>
+                                <li>
+                                    <MenuItem onClick={handleOpenExpenseDeleteMany}>Hapus</MenuItem>
+                                </li>
+                            </ul>
+                        </Menu>
+                    )}
+                </div>,
                 toolbarSecondaryRef.current
             )}
             {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
