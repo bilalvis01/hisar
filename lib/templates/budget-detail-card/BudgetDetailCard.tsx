@@ -424,6 +424,8 @@ export default function BudgetDetailCard() {
             <ExpenseAddForm 
                 open={openExpenseAddForm} 
                 onOpenChange={setOpenExpenseAddForm}
+                budgetCode={budget.code}
+                disableBudgetSelection={true}
             />
             {isSingleSelectedRow() && (
                 <ExpenseUpdateForm

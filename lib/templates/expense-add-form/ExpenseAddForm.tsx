@@ -13,9 +13,17 @@ interface ExpenseAddFormProps {
     open: boolean,
     onOpenChange: (open: boolean) => void;
     onSuccess?: (data: CreateExpenseMutation) => void;
+    budgetCode?: string;
+    disableBudgetSelection?: boolean;
 }
 
-export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess }: ExpenseAddFormProps) {
+export default function ExpenseAddForm({ 
+    open, 
+    onOpenChange: setOpen, 
+    onSuccess,
+    budgetCode,
+    disableBudgetSelection = false,
+}: ExpenseAddFormProps) {
     const { setInfo } = useTemplateContext();
 
     const [createExpense] = useMutation(CREATE_EXPENSE, {
@@ -58,6 +66,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
                     type: "select",
                     name: "budgetCode",
                     label: "Budget",
+                    disabled: disableBudgetSelection,
                     onOpenMenu: async () => {
                         const { data: { budgets }, loading, error } = await getBudgets();
                         const data = budgets.map((budget) => ({
@@ -83,7 +92,7 @@ export default function ExpenseAddForm({ open, onOpenChange: setOpen, onSuccess 
                 },
             ]}
             initialValues={{
-                budgetCode: null,
+                budgetCode,
                 description: null,
                 amount: null,
             }}
