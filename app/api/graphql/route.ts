@@ -362,10 +362,6 @@ const server = new ApolloServer({
     resolvers: {
         DateTime: DateTimeResolver,
         Money: MoneyResolver,
-        SortOrder: {
-            ASC: "asc",
-            DESC: "desc",
-        },
         ...resolvers
     }, 
     typeDefs: [

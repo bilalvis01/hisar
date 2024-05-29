@@ -32,7 +32,7 @@ export async function exportBudgetTransactions(
 
     if (!rawBudgetTransactionsParam) {
         const { data, error: getRawBudgetTransactionsError } = await getRawBudgetTransactions({
-            variables: { input: { budgetCode: budget.code } }
+            variables: { input: { budgetCode: budget.code, sortOrder: SortOrder.Asc } }
         });
 
         if (data) {

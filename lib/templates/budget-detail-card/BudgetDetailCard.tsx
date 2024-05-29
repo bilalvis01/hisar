@@ -10,7 +10,7 @@ import {
 import clsx from "clsx";
 import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
-import { useQuery } from "@apollo/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import { GET_BUDGET_BY_CODE } from "../../graphql/budget-documents";
 import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import Table from "../table/Table";
@@ -170,6 +170,7 @@ export default function BudgetDetailCard() {
     } = useQuery(GET_BUDGET_TRANSACTIONS, {
         variables: { input: { budgetCode: code } },
     });
+    const [getBudgetTransactions] = useLazyQuery(GET_BUDGET_TRANSACTIONS);
     const { 
         toolbarRef, 
         windowSize,
@@ -273,8 +274,8 @@ export default function BudgetDetailCard() {
     }, []);
 
     const handleExportBudgetTransactions = React.useCallback(() => {
-        exportBudgetTransactions({ budget, budgetTransactions });
-    }, [budget, budgetTransactions]);
+        exportBudgetTransactions({ budget, getBudgetTransactions });
+    }, [budget, getBudgetTransactions]);
 
     React.useEffect(() => {
         if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
@@ -367,6 +368,7 @@ export default function BudgetDetailCard() {
                                     <div className="text-body-small">{date.format(budget.updatedAt)}</div>
                                 </li>
                             </ul>
+                            <hr className={style.divider} />
                             <h3 className={clsx("text-title-medium")}>Informasi saldo</h3>
                             <ul className={style.description}>
                                 <li>

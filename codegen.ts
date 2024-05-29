@@ -13,8 +13,8 @@ const config: CodegenConfig = {
         contextType: "./context#Context",
         scalars: {
           DateTime: "Date",
-          Money: "bigint"
-        }
+          Money: "bigint",
+        },
       },
       plugins: ['typescript', 'typescript-resolvers']
     },

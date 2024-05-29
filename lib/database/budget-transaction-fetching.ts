@@ -95,7 +95,7 @@ export async function fetchBudgetTransactions(
             deletedAt: null,
         },
         orderBy: {
-            createdAt: sortOrder,
+            id: sortOrder,
         },
     });
 
