@@ -34,6 +34,8 @@ interface TemplateContext {
     setInfo: React.Dispatch<React.SetStateAction<string | null>>;
     snackbarStyle: React.CSSProperties;
     setSnackbarStyle: React.Dispatch<React.SetStateAction<React.CSSProperties | null>>;
+    openSnackbar: boolean;
+    setOpenSnackbar: React.Dispatch<React.SetStateAction<boolean>>;
     showCompactWindowSizeAppBarSecondary: boolean;
     setShowCompactWindowSizeAppBarSecondary: React.Dispatch<React.SetStateAction<boolean>>;
     addClickCloseAppBarSecondaryEventListener: (listener?: React.MouseEventHandler<HTMLButtonElement>) => void;
@@ -59,6 +61,7 @@ function useTemplate(): TemplateContext {
     const [windowSize, setWindowSize] = React.useState<WindowSize>("compact");
     const [info, setInfo] = React.useState<string | null>(null);
     const [snackbarStyle, setSnackbarStyle] = React.useState<React.CSSProperties | null>(null);
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
     const [showCompactWindowSizeAppBarSecondary, setShowCompactWindowSizeAppBarSecondary] = React.useState(false);
     const pathname = usePathname()
     const [prevPathname, setPrevPathname] = React.useState(pathname);
@@ -113,6 +116,10 @@ function useTemplate(): TemplateContext {
     }, []);
 
     React.useEffect(() => {
+        if (info) setOpenSnackbar(true);
+    }, [info]);
+
+    React.useEffect(() => {
         if (prevPathname !== pathname) {
             setShowCompactWindowSizeAppBarSecondary(false);
             setPrevPathname(pathname);
@@ -128,6 +135,8 @@ function useTemplate(): TemplateContext {
         setInfo,
         snackbarStyle,
         setSnackbarStyle,
+        openSnackbar,
+        setOpenSnackbar,
         showCompactWindowSizeAppBarSecondary,
         setShowCompactWindowSizeAppBarSecondary,
         addClickCloseAppBarSecondaryEventListener,
@@ -142,6 +151,7 @@ function useTemplate(): TemplateContext {
         windowSize,
         info,
         snackbarStyle,
+        openSnackbar,
         showCompactWindowSizeAppBarSecondary,
         handleClickCloseAppBarSecondary,
         isWindowSizeCompact,
@@ -175,7 +185,8 @@ export default function Template({
                 </TemplateContext.Provider>
             </ApolloProvider>
             <Snackbar 
-                open={!!templateContext.info} 
+                open={templateContext.openSnackbar} 
+                onOpenChange={templateContext.setOpenSnackbar}
                 onClose={() => templateContext.setInfo(null)}
                 style={templateContext.snackbarStyle}
             >

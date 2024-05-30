@@ -1,11 +1,11 @@
-.dialog {
+.snackbar {
     position: fixed;
     border: none;
     background: none;
     padding: 0 1rem;
     margin: 0;
     width: 100%;
-    bottom: 1rem;
+    z-index: 1;
 
     @media (min-width: 600px) {
         width: 30rem;
@@ -13,8 +13,4 @@
         margin: 0 auto;
         bottom: 1rem;
     }
-}
-
-.snackbar {
-    width: 100%;
 }
