@@ -9,9 +9,9 @@ enum SortOrder {
 type Query {
     excerptReport: ExcerptReport!
     budgets: [Budget!]!
-    budgetByCode(code: String!): BudgetByCodePayload!
+    budgetByCode(input: BudgetByCodeInput!): BudgetByCodePayload!
     budgetTransactions(input: GetBudgetTransactionsInput!): [BudgetTransaction!]!
-    expenseById(id: String!): ExpenseByIdPayload!
+    budgetTransactionById(input: BudgetTransactionByIdInput!): BudgetTransactionByIdPayload!
 }
 
 type Mutation {
@@ -39,6 +39,10 @@ type Budget {
     balance: Money!
     createdAt: DateTime!
     updatedAt: DateTime!
+}
+
+input BudgetByCodeInput {
+    code: String!
 }
 
 type BudgetByCodePayload {
@@ -126,11 +130,16 @@ input CreateExpenseInput {
     amount: Money!
 }
 
-type ExpenseByIdPayload {
+type BudgetTransactionByIdPayload {
     code: Int!
     success: Boolean!
     message: String!
-    expense: BudgetTransaction
+    budgetTransaction: BudgetTransaction
+}
+
+input BudgetTransactionByIdInput {
+    id: String!
+    transactionType: String
 }
 
 input UpdateExpenseInput {

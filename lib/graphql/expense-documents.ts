@@ -1,26 +1,5 @@
 import { gql } from "./generated";
 
-export const GET_EXPENSE_BY_ID = gql(/* GraphQL */ `
-    query GetExpenseById($id: String!) {
-        expenseById(id: $id) {
-            code
-            success
-            message
-            expense {
-                id
-                budgetCode
-                budgetName
-                description
-                amount
-                balance
-                transactionType
-                createdAt
-                updatedAt
-            }
-        }
-    }
-`);
-
 export const CREATE_EXPENSE = gql(/* GraphQL */`
     mutation CreateExpense($input: CreateExpenseInput!) {
         createExpense(input: $input) {

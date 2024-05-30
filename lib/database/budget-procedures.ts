@@ -252,12 +252,15 @@ export async function deleteBudgetProcedure(
         where: {
             budget: { id: budget.id },
         },
+        include: {
+            transactionType: true,
+        },
     });
 
-    const transactionIds = transactions.map((transaction) => transaction.id);
-
     const { ledgerIds }  = await deleteBudgetTransactionManyProcedure(client, { 
-        ids: transactionIds, 
+        transactions: transactions.map(
+            (transaction) => ({ id: transaction.id, transactionType: transaction.transactionType.name })
+        ), 
         delegateBalancingLedgers,
     });
 

@@ -71,16 +71,19 @@ export async function createBudgetTransactionProcedure(
 export async function changeBudgetTransactionHostProcedure(
     client: PrismaClient,
     {
-        idTransaction,
+        id,
         budgetCode: rawBudgetCode,
+        transactionType,
     }: {
-        idTransaction: number;
+        id: number;
         budgetCode: string;
+        transactionType?: string;
     }
 ) {
     const budgetTransaction = await client.budgetTransaction.findUnique({
         where: {
-            id: idTransaction,
+            id,
+            transactionType: { name: transactionType },
         },
         include: {
             journal: {
@@ -106,6 +109,10 @@ export async function changeBudgetTransactionHostProcedure(
             },
         },
     });
+
+    if (!budgetTransaction) {
+        return;
+    }
 
     const budgetCode = accountCode.split(rawBudgetCode);
 
@@ -205,14 +212,17 @@ export async function changeBudgetTransactionAmountProcedure(
     {
         id,
         amount,
+        transactionType,
     }: {
         id: number;
         amount: bigint;
+        transactionType?: string;
     }
 ) {
     const budgetTransaction = await client.budgetTransaction.findUnique({
         where: {
             id,
+            transactionType: { name: transactionType }
         },
         include: {
             journal: {
@@ -226,6 +236,10 @@ export async function changeBudgetTransactionAmountProcedure(
             },
         },
     });
+
+    if (!budgetTransaction) {
+        return;
+    }
 
     const journal = await updateJournalAmountProcedure(client, {
         id: budgetTransaction.journalId,
@@ -262,9 +276,11 @@ export async function changeBudgetTransactionDescriptionProcedure(
     {
         id,
         description,
+        transactionType,
     }: {
-        id: number,
-        description: string,
+        id: number;
+        description: string;
+        transactionType?: string;
     }
 ) {
     const budgetTransaction = await client.budgetTransaction.update({
@@ -273,11 +289,16 @@ export async function changeBudgetTransactionDescriptionProcedure(
         },
         where: {
             id,
+            transactionType: { name: transactionType },
         },
         include: {
             budget: true,
         },
     });
+
+    if (!budgetTransaction) {
+        return;
+    }
 
     const updatedJournal = await client.journal.update({
         data: {
@@ -311,13 +332,26 @@ export async function changeBudgetTransactionDescriptionProcedure(
 
 export async function deleteBudgetTransactionProcedure(
     client: PrismaClient,
-    { id, delegateBalancingLedgers = false }: { id: number, delegateBalancingLedgers?: boolean }
+    { 
+        id, 
+        transactionType,
+        delegateBalancingLedgers = false,
+    }: { 
+        id: number, 
+        transactionType?: string,
+        delegateBalancingLedgers?: boolean 
+    }
 ): Promise<{ budgetTransaction: BudgetTransaction; ledgerIds: number[] }> {
     const budgetTransaction = await client.budgetTransaction.findUnique({
         where: {
             id,
+            transactionType: { name: transactionType },
         },
     });
+
+    if (!budgetTransaction) {
+        return;
+    }
     
     const deletedBudgetTransaction = await client.budgetTransaction.update({
         data: {
@@ -345,11 +379,17 @@ export async function deleteBudgetTransactionProcedure(
 
 export async function deleteBudgetTransactionManyProcedure(
     client: PrismaClient,
-    { ids, delegateBalancingLedgers = false }: { ids: number[], delegateBalancingLedgers?: boolean }
+    { 
+        transactions, 
+        delegateBalancingLedgers = false 
+    }: { 
+        transactions: { id: number; transactionType?: string; }[], 
+        delegateBalancingLedgers?: boolean 
+    }
 ): Promise<{ budgetTransactions: BudgetTransaction[], ledgerIds: number[] }> {
-    const deleteResults = await Promise.all(ids.map(async (id) => {
+    const deleteResults = await Promise.all(transactions.map(async ({ id, transactionType }) => {
         return await deleteBudgetTransactionProcedure(client, {
-            id, delegateBalancingLedgers: true,
+            id, transactionType, delegateBalancingLedgers: true,
         });
     }));
 

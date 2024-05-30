@@ -75,10 +75,7 @@ export async function updateExpenseProcedure(
     const currentExpenseAmount = budgetTransaction.journal.entries[0].amount;
 
     if (currentBudgetCode !== budgetCode) {
-        await changeExpenseBudgetHostProcedure(client, {
-            idTransaction: budgetTransaction.id,
-            budgetCode,
-        });
+        await changeExpenseBudgetHostProcedure(client, { id, budgetCode });
     }
 
     if (currentExpenseAmount !== amount) {
@@ -105,46 +102,34 @@ export async function deleteExpenseProcedure(
 
 export async function deleteExpenseManyProcedure(
     client: PrismaClient,
-    data: { ids: number[] }, 
+    data: { transactions: { id: number; transactionType: string; }[] }, 
 ) {
     return await deleteBudgetTransactionManyProcedure(client, data);
 }
 
 export async function changeExpenseAmountProcedure(
     client: PrismaClient,
-    {
-        id,
-        amount,
-    }: {
-        id: number;
-        amount: bigint;
-    }
+    data: { id: number; amount: bigint; }
 ) {
-    return await changeBudgetTransactionAmountProcedure(client, {
-        id,
-        amount,
-    });
+    return await changeBudgetTransactionAmountProcedure(client, 
+        { ...data, ...{ transactionType: BUDGET_EXPENSE } }
+    );
 }
 
 export async function changeExpenseDescriptionProcedure(
     client: PrismaClient,
-    {
-        id,
-        description,
-    }: {
-        id: number,
-        description: string,
-    }
+    data: { id: number, description: string }
 ) {
-    await changeBudgetTransactionDescriptionProcedure(client, {
-        id,
-        description,
-    });
+    await changeBudgetTransactionDescriptionProcedure(client, 
+        { ...data, ...{ transactionType: BUDGET_EXPENSE } }
+    );
 }
 
 export async function changeExpenseBudgetHostProcedure(
     client: PrismaClient,
-    data: { idTransaction: number; budgetCode: string; }
+    data: { id: number; budgetCode: string; }
 ) {
-    await changeBudgetTransactionHostProcedure(client, data);
+    await changeBudgetTransactionHostProcedure(client, 
+        { ...data, ...{ transactionType: BUDGET_EXPENSE } }
+    );
 }

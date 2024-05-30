@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import clsx from "clsx";
 import idr from "../../utils/idr";
 import { useQuery } from "@apollo/client";
-import { GET_EXPENSE_BY_ID } from "../../graphql/expense-documents";
+import { GET_BUDGET_TRANSACTION_BY_ID } from "../../graphql/budget-transaction-documents";
 import { useParams } from "next/navigation";
 import style from "./ExpenseDetailCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";
@@ -36,8 +36,8 @@ import { useRouter } from "next/navigation";
 
 export default function ExpenseDetailCard() {
     const { id } = useParams<{ id: string }>();
-    const { loading, error, data } = useQuery(GET_EXPENSE_BY_ID, {
-        variables: { id }
+    const { loading, error, data } = useQuery(GET_BUDGET_TRANSACTION_BY_ID, {
+        variables: { input: { id } }
     });
     const { 
         toolbarRef, 
@@ -71,11 +71,11 @@ export default function ExpenseDetailCard() {
         setOpenExpenseDelete(true);
     }, []);
 
-    if (data && data.expenseById.code === 404) {
+    if (data && data.budgetTransactionById.code === 404) {
         notFound();
     }
 
-    const expense = data ? data.expenseById.expense : null;
+    const budgetTransaction = data ? data.budgetTransactionById.budgetTransaction : null;
 
     if (loading) return (
         <>
@@ -96,7 +96,7 @@ export default function ExpenseDetailCard() {
             <div className={style.card}>
                 <header className={style.header}>
                     <h2 className={clsx("text-title-large", style.headline)}>
-                        {expense && expense.description.toUpperCase()}
+                        {budgetTransaction && budgetTransaction.description.toUpperCase()}
                     </h2>
                     {isWindowSizeExpanded() && (
                         <>
@@ -126,45 +126,45 @@ export default function ExpenseDetailCard() {
                     )}
                 </header>
                 <div className={style.body}>
-                    {expense && (
+                    {budgetTransaction && (
                         <ul className={style.description}>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">ID</div>
-                                <div className="text-body-small">{expense.id}</div>
+                                <div className="text-body-small">{budgetTransaction.id}</div>
                             </li>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Deskripsi</div>
-                                <div className="text-body-small">{expense.description}</div>
+                                <div className="text-body-small">{budgetTransaction.description}</div>
                             </li>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Budget</div>
-                                <div className="text-body-small">{expense.budgetName}</div>
+                                <div className="text-body-small">{budgetTransaction.budgetName}</div>
                             </li>
                             <li>
                                 <div className="text-title-small">Terpakai</div>
-                                <div className="text-body-small">{idr.format(expense.amount)}</div>
+                                <div className="text-body-small">{idr.format(budgetTransaction.amount)}</div>
                             </li>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Dibuat</div>
-                                <div className="text-body-small">{date.format(expense.createdAt)}</div>
+                                <div className="text-body-small">{date.format(budgetTransaction.createdAt)}</div>
                             </li>
                             <li className={style.descriptionItem}>
                                 <div className="text-title-small">Diperbarui</div>
-                                <div className="text-body-small">{date.format(expense.createdAt)}</div>
+                                <div className="text-body-small">{date.format(budgetTransaction.createdAt)}</div>
                             </li>
                         </ul>
                     )}
                 </div>
-                {expense && (
+                {budgetTransaction && (
                     <ExpenseUpdateForm
-                        expense={expense}
+                        expense={budgetTransaction}
                         open={openExpenseUpdateForm}
                         onOpenChange={setOpenExpenseUpdateForm}
                     />
                 )}
-                {expense && (
+                {budgetTransaction && (
                     <ExpenseDelete
-                        expense={expense}
+                        expense={budgetTransaction}
                         open={openExpenseDelete}
                         onOpenChange={setOpenExpenseDelete}
                         onSuccess={() => router.push("/expense")}

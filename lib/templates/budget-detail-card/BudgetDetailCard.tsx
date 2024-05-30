@@ -91,18 +91,11 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
-                {info.row.original.transactionType === BUDGET_EXPENSE 
-                    ? (
-                        <Link href={`/expense/${info.row.original.id}`} passHref legacyBehavior>
-                            <LinkText>
-                                {info.getValue()}
-                            </LinkText>
-                        </Link>
-                    )
-                    : (
-                        info.getValue()
-                    )
-                }
+                 <Link href={`/expense/${info.row.original.id}`} passHref legacyBehavior>
+                    <LinkText>
+                        {info.getValue()}
+                    </LinkText>
+                </Link>
             </span>
         ),
     }),
@@ -161,7 +154,7 @@ export default function BudgetDetailCard() {
         error: budgetError, 
         data: budgetData,
     } = useQuery(GET_BUDGET_BY_CODE, {
-        variables: { code }
+        variables: { input: { code } }
     });
     const { 
         loading: budgetTransactionsLoading, 
@@ -224,9 +217,7 @@ export default function BudgetDetailCard() {
         data: budgetTransactions,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        enableRowSelection: (row) => {
-            return row.original.transactionType === BUDGET_EXPENSE
-        },
+        enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
         state: {
             rowSelection

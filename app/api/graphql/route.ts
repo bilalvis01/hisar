@@ -18,10 +18,10 @@ import {
     fetchBudgets, 
     fetchBudgetByCode, 
     fetchBudgetsByCodes,
-    mapRawBudgetData,
 } from "../../../lib/database/budget-fetching";
 import { 
     fetchBudgetTransactions,
+    fetchBudgetTransactionById,
 } from "../../../lib/database/budget-transaction-fetching";
 import { 
     fetchExpenseById,
@@ -58,7 +58,7 @@ const resolvers: Resolvers = {
             return await fetchBudgets(context.dataSources);
         },
 
-        async budgetByCode(_, { code }, context) {
+        async budgetByCode(_, { input: { code } }, context) {
             const budget = await fetchBudgetByCode(context.dataSources, code);
             
             if (!budget) {
@@ -87,14 +87,16 @@ const resolvers: Resolvers = {
             );
         },
 
-        async expenseById(_, { id }, context) {
-            const expense = await fetchExpenseById(context.dataSources, { id: parseInt(id) });
+        async budgetTransactionById(_, { input }, context) {
+            const budgetTransaction = await fetchBudgetTransactionById(context.dataSources, 
+                { ...input, ...{ id: parseInt(input.id) } }
+            );
 
-            if (!expense) {
+            if (!budgetTransaction) {
                 return {
                     code: 404,
                     success: false,
-                    message: `expense dengan id ${id} tidak ada`,
+                    message: `expense dengan id ${input.id} tidak ada`,
                 }
             }
 
@@ -102,7 +104,7 @@ const resolvers: Resolvers = {
                 code: 200,
                 success: true,
                 message: "",
-                expense,
+                budgetTransaction,
             }
         }
     },

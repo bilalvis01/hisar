@@ -25,8 +25,8 @@ export const GET_BUDGETS = gql(/* GraphQL */ `
 `);
 
 export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
-    query GetBudgetByCode($code: String!) {
-        budgetByCode(code: $code) {
+    query GetBudgetByCode($input: BudgetByCodeInput!) {
+        budgetByCode(input: $input) {
             code
             success
             message
