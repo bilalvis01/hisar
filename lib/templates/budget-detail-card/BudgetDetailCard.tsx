@@ -91,7 +91,7 @@ const columns = [
         ),
         cell: info => (
             <span className={clsx("description", "text-body-small")}>
-                 <Link href={`/expense/${info.row.original.id}`} passHref legacyBehavior>
+                 <Link href={`/budget-transaction/${info.row.original.id}`} passHref legacyBehavior>
                     <LinkText>
                         {info.getValue()}
                     </LinkText>
@@ -217,7 +217,9 @@ export default function BudgetDetailCard() {
         data: budgetTransactions,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        enableRowSelection: true,
+        enableRowSelection: (row) => {
+            return row.original.transactionType === BUDGET_EXPENSE;
+        },
         onRowSelectionChange: setRowSelection,
         state: {
             rowSelection

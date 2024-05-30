@@ -7,7 +7,7 @@ import idr from "../../utils/idr";
 import { useQuery } from "@apollo/client";
 import { GET_BUDGET_TRANSACTION_BY_ID } from "../../graphql/budget-transaction-documents";
 import { useParams } from "next/navigation";
-import style from "./ExpenseDetailCard.module.scss";
+import style from "./BudgetTransactionDetailCard.module.scss";
 import ProgressCircular from "../../components/ProgressCircular";
 import { useTemplateContext } from "../Template";
 import { notFound } from "next/navigation";
@@ -33,6 +33,7 @@ import {
 } from "@floating-ui/react";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
 import { useRouter } from "next/navigation";
+import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 
 export default function ExpenseDetailCard() {
     const { id } = useParams<{ id: string }>();
@@ -63,6 +64,14 @@ export default function ExpenseDetailCard() {
         clickActionsMenu,
         dismissActionsMenu,
     ]);
+
+    if (data && data.budgetTransactionById.code === 404) {
+        notFound();
+    }
+
+    const budgetTransaction = data ? data.budgetTransactionById.budgetTransaction : null;
+    const transactionType = budgetTransaction ? budgetTransaction.transactionType : null;
+
     const handleOpenExpenseUpdateForm = React.useCallback(() => {
         setOpenExpenseUpdateForm(true);
     }, []);
@@ -71,11 +80,13 @@ export default function ExpenseDetailCard() {
         setOpenExpenseDelete(true);
     }, []);
 
-    if (data && data.budgetTransactionById.code === 404) {
-        notFound();
-    }
+    const handleBack = React.useCallback(() => {
+        router.back();
+    }, [router]);
 
-    const budgetTransaction = data ? data.budgetTransactionById.budgetTransaction : null;
+    const isExpense = React.useCallback(() => {
+        return transactionType === BUDGET_EXPENSE;
+    }, [transactionType]);
 
     if (loading) return (
         <>
@@ -99,6 +110,11 @@ export default function ExpenseDetailCard() {
                         {budgetTransaction && budgetTransaction.description.toUpperCase()}
                     </h2>
                     {isWindowSizeExpanded() && (
+                        <ButtonText onClick={handleBack}>
+                            Kembali
+                        </ButtonText>
+                    )}
+                    {isExpense() && isWindowSizeExpanded() && (
                         <>
                             <ButtonText onClick={handleOpenExpenseUpdateForm}>
                                 Edit
@@ -137,11 +153,11 @@ export default function ExpenseDetailCard() {
                                 <div className="text-body-small">{budgetTransaction.description}</div>
                             </li>
                             <li className={style.descriptionItem}>
-                                <div className="text-title-small">Budget</div>
+                                <div className="text-title-small">Nama Budget</div>
                                 <div className="text-body-small">{budgetTransaction.budgetName}</div>
                             </li>
                             <li>
-                                <div className="text-title-small">Terpakai</div>
+                                <div className="text-title-small">{isExpense() ? "Terpakai" : "Budget"}</div>
                                 <div className="text-body-small">{idr.format(budgetTransaction.amount)}</div>
                             </li>
                             <li className={style.descriptionItem}>
@@ -155,14 +171,14 @@ export default function ExpenseDetailCard() {
                         </ul>
                     )}
                 </div>
-                {budgetTransaction && (
+                {budgetTransaction && isExpense() && (
                     <ExpenseUpdateForm
                         expense={budgetTransaction}
                         open={openExpenseUpdateForm}
                         onOpenChange={setOpenExpenseUpdateForm}
                     />
                 )}
-                {budgetTransaction && (
+                {budgetTransaction && isExpense() && (
                     <ExpenseDelete
                         expense={budgetTransaction}
                         open={openExpenseDelete}
@@ -170,33 +186,42 @@ export default function ExpenseDetailCard() {
                         onSuccess={() => router.push("/expense")}
                     />
                 )}
-                {isWindowSizeSpanMedium() && createPortal(
-                <>
-                    <IconButtonFilled onClick={handleOpenExpenseUpdateForm}>
-                        <IconPencil />
-                    </IconButtonFilled>
-                    <div>
-                        <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
-                            <IconThreeDotsVertial />
+                {isWindowSizeSpanMedium() && !isExpense() && createPortal(
+                    <IconButtonFilled onClick={handleBack}>
+                        <IconArrowLeft />
+                    </IconButtonFilled>,
+                    toolbarRef.current
+                )}
+                {isWindowSizeSpanMedium() && isExpense() && createPortal(
+                    <>
+                        <IconButtonFilled onClick={handleBack}>
+                            <IconArrowLeft />
                         </IconButtonFilled>
-                        {openActionsMenu && (
-                            <Menu 
-                                {...getFloatingProps()} 
-                                ref={refs.setFloating} 
-                                style={floatingStyles} 
-                                className={style.actionsMenu}
-                            >
-                                <ul>
-                                    <li>
-                                        <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                    </li>
-                                </ul>
-                            </Menu>
-                        )}
-                    </div>
-                </>,
-                toolbarRef.current
-            )}
+                        <IconButtonFilled onClick={handleOpenExpenseUpdateForm}>
+                            <IconPencil />
+                        </IconButtonFilled>
+                        <div>
+                            <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
+                                <IconThreeDotsVertial />
+                            </IconButtonFilled>
+                            {openActionsMenu && (
+                                <Menu 
+                                    {...getFloatingProps()} 
+                                    ref={refs.setFloating} 
+                                    style={floatingStyles} 
+                                    className={style.actionsMenu}
+                                >
+                                    <ul>
+                                        <li>
+                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                        </li>
+                                    </ul>
+                                </Menu>
+                            )}
+                        </div>
+                    </>,
+                    toolbarRef.current
+                )}
             </div>
         </>
     );
