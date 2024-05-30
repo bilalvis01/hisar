@@ -107,6 +107,64 @@ export async function createJournalProcedure(
     return journal;
 }
 
+export async function updateJournalAmountProcedure(
+    client: PrismaClient,
+    {
+        id,
+        amount,
+    }: {
+        id: number;
+        amount: bigint;
+    }
+) {
+    const journal = await client.journal.findUnique({
+        where: {
+            id,
+        },
+        include: {
+            entries: {
+                include: {
+                    ledger: true,
+                },
+            },
+        },
+    });
+
+    let updatedEntries;
+
+    if (
+        journal.entries.every(
+            (entry) => entry.ledger.open && !entry.ledger.deletedAt
+        )
+    ) {
+        updatedEntries = await Promise.all(journal.entries.map(async (entry) => {
+            const updatedEntry = await client.entry.update({
+                data: {
+                    amount,
+                },
+                where: {
+                    id: entry.id,
+                },
+            });
+
+            await balancingLedgerProcedure(client, { id: entry.ledger.id });
+
+            return updatedEntry;
+        }));
+    }
+
+    if (updatedEntries) {
+        return await client.journal.update({
+            data: {
+                updatedAt: updatedEntries[0].updatedAt,
+            },
+            where: {
+                id: journal.id,
+            },
+        });
+    }
+}
+
 export async function deleteJournalProcedure(
     client: PrismaClient,
     { id, delegateBalancingLedgers = false }: { id: number, delegateBalancingLedgers?: boolean }

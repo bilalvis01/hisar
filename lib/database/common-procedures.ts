@@ -66,12 +66,21 @@ export async function balancingLedgerProcedure(client: PrismaClient, { id }: { i
         entryIndex: ledger.entries.length - 1,
     });
 
-    await client.ledger.update({
+    const updatedLedger = await client.ledger.update({
         where: {
             id: ledger.id,
         },
         data: {
             balance: ledgerBalance,
+        },
+    });
+
+    await client.account.update({
+        data: {
+            updatedAt: updatedLedger.updatedAt,
+        },
+        where: {
+            id: ledger.account.id,
         },
     });
 };

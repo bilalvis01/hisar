@@ -1,6 +1,7 @@
 import { 
     PrismaClient,
     BudgetTransaction, 
+    Entry,
 } from "@prisma/client";
 import { 
     BUDGET_CASH_ACCOUNT,
@@ -8,6 +9,7 @@ import {
 } from "./budget-account-task";
 import { 
     createJournalProcedure,
+    updateJournalAmountProcedure,
     deleteJournalProcedure,
 } from "./journal-procedures";
 import { balancingLedgerProcedure } from "./common-procedures";
@@ -149,7 +151,7 @@ export async function changeBudgetTransactionHostProcedure(
         (accountAssignment) => accountAssignment.task.name === BUDGET_EXPENSE_ACCOUNT
     )[0]["account"];
 
-    await client.budgetTransaction.update({
+    const updatedBudgetTransaction = await client.budgetTransaction.update({
         data: {
             budget: { connect: { id: newBudgetHost.id } },
         },
@@ -185,6 +187,17 @@ export async function changeBudgetTransactionHostProcedure(
         await balancingLedgerProcedure(client, { id: entry.ledger.id });
         await balancingLedgerProcedure(client, { id: newLedgerId });
     }));
+
+    await client.budget.updateMany({
+        data: {
+            updatedAt: updatedBudgetTransaction.updatedAt,
+        },
+        where: {
+            id: {
+                in: [budgetTransaction.budgetId, newBudgetHost.id],
+            },
+        },
+    });
 }
 
 export async function changeBudgetTransactionAmountProcedure(
@@ -214,23 +227,33 @@ export async function changeBudgetTransactionAmountProcedure(
         },
     });
 
-    if (
-        budgetTransaction.journal.entries.every(
-            (entry) => entry.ledger.open && !entry.ledger.deletedAt
-        )
-    ) {
-        await Promise.all(budgetTransaction.journal.entries.map(async (entry) => {
-            await client.entry.update({
-                data: {
-                    amount,
-                },
-                where: {
-                    id: entry.id,
-                },
-            });
+    const journal = await updateJournalAmountProcedure(client, {
+        id: budgetTransaction.journalId,
+        amount,
+    });
 
-            await balancingLedgerProcedure(client, { id: entry.ledger.id });
-        }));
+    if (journal) {
+        await client.budgetTransaction.update({
+            data: {
+                updatedAt: journal.updatedAt,
+            },
+            where: {
+                id: budgetTransaction.id,
+            },
+        });
+
+        await client.budget.update({
+            data: {
+                updatedAt: journal.updatedAt,
+            },
+            where: {
+                id: budgetTransaction.budgetId,
+            },
+        });
+    }
+
+    if (journal) {
+        return budgetTransaction;
     }
 }
 
@@ -252,19 +275,36 @@ export async function changeBudgetTransactionDescriptionProcedure(
             id,
         },
         include: {
-            journal: true,
             budget: true,
         },
-    })
+    });
 
-    await client.journal.update({
+    const updatedJournal = await client.journal.update({
         data: {
             description: `${description} (${budgetTransaction.budget.name})`
         },
         where: {
-            id: budgetTransaction.journal.id,
+            id: budgetTransaction.journalId,
         },
-    })
+    });
+
+    await client.budgetTransaction.update({
+        data: {
+            updatedAt: updatedJournal.updatedAt,
+        },
+        where: {
+            id: budgetTransaction.id,
+        },
+    });
+
+    await client.budget.update({
+        data: {
+            updatedAt: updatedJournal.updatedAt,
+        },
+        where: {
+            id: budgetTransaction.budgetId,
+        },
+    });
 
     return budgetTransaction;
 }
