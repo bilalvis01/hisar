@@ -33,7 +33,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                             return existingBudgetRefs;
                         }
 
-                        return [...existingBudgetRefs, newBudget];
+                        return [newBudget, ...existingBudgetRefs];
                     },
                 }
             });

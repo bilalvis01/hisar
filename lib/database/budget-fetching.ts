@@ -25,7 +25,7 @@ export async function fetchBudgets(dataSources: PrismaClient) {
             active: true,
         },
         orderBy: {
-            createdAt: "desc",
+            id: "desc",
         },
         include: {
             accountAssignments: {
