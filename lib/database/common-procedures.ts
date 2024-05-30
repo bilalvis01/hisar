@@ -18,7 +18,7 @@ function countBalance({
     }, BigInt(0));
 }
 
-export async function balanceLedgerProcedure(client: PrismaClient, { id }: { id: number }) {
+export async function balancingLedgerProcedure(client: PrismaClient, { id }: { id: number }) {
     const ledger = await client.ledger.findUnique({
         where: {
             id,

@@ -21,7 +21,7 @@ import {
     changeBudgetTransactionAmountProcedure, 
     deleteBudgetTransactionManyProcedure,
 } from "./budget-transaction-procedures";
-import { balanceLedgerProcedure } from "./common-procedures";
+import { balancingLedgerProcedure } from "./common-procedures";
 
 export async function createBudgetProcedure(
     client: PrismaClient,
@@ -285,7 +285,7 @@ export async function deleteBudgetManyProcedure(
     }, []);
 
     await Promise.all(ledgerIds.map(
-        async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
+        async (ledgerId) => await balancingLedgerProcedure(client, { id: ledgerId })
     ));   
 }
 

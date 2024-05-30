@@ -1,6 +1,6 @@
 import { PrismaClient, Journal } from "@prisma/client";
 import { DEBIT, CREDIT } from "./direction";
-import { balanceLedgerProcedure } from "./common-procedures";
+import { balancingLedgerProcedure } from "./common-procedures";
 import { skip } from "node:test";
 
 export async function createJournalProcedure(
@@ -146,7 +146,7 @@ export async function deleteJournalProcedure(
 
     if (!delegateBalancingLedgers) {
         await Promise.all(ledgerIds.map(async (ledgerId) => {
-            await balanceLedgerProcedure(client, { id: ledgerId });
+            await balancingLedgerProcedure(client, { id: ledgerId });
         }));
 
         return { journal, ledgerIds: [] };
@@ -179,7 +179,7 @@ export async function deleteJournalManyProcedure(
 
     if (!delegateBalancingLedger) {
         await Promise.all(ledgerIds.map(
-            async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
+            async (ledgerId) => await balancingLedgerProcedure(client, { id: ledgerId })
         ));   
 
         return { journals, ledgerIds: [] };

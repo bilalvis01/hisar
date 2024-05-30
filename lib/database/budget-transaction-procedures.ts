@@ -10,7 +10,7 @@ import {
     createJournalProcedure,
     deleteJournalProcedure,
 } from "./journal-procedures";
-import { balanceLedgerProcedure } from "./common-procedures";
+import { balancingLedgerProcedure } from "./common-procedures";
 import * as accountCode from "../utils/accountCode";
 
 export async function createBudgetTransactionProcedure(
@@ -182,8 +182,8 @@ export async function changeBudgetTransactionHostProcedure(
             },
         });
 
-        await balanceLedgerProcedure(client, { id: entry.ledger.id });
-        await balanceLedgerProcedure(client, { id: newLedgerId });
+        await balancingLedgerProcedure(client, { id: entry.ledger.id });
+        await balancingLedgerProcedure(client, { id: newLedgerId });
     }));
 }
 
@@ -229,7 +229,7 @@ export async function changeBudgetTransactionAmountProcedure(
                 },
             });
 
-            await balanceLedgerProcedure(client, { id: entry.ledger.id });
+            await balancingLedgerProcedure(client, { id: entry.ledger.id });
         }));
     }
 }
@@ -329,7 +329,7 @@ export async function deleteBudgetTransactionManyProcedure(
 
     if (!delegateBalancingLedgers) {
         await Promise.all(ledgerIds.map(
-            async (ledgerId) => await balanceLedgerProcedure(client, { id: ledgerId })
+            async (ledgerId) => await balancingLedgerProcedure(client, { id: ledgerId })
         ));   
 
         return { budgetTransactions, ledgerIds: [] };
