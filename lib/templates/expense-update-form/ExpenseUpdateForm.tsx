@@ -55,7 +55,7 @@ export default function ExpenseUpdateForm({
         <FormDialog
             open={open}
             onOpenChange={setOpen}
-            headline="Tambah Expense"
+            headline="Edit Expense"
             inputFields={[
                 {
                     type: "text",
