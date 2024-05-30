@@ -35,16 +35,21 @@ import { IconButtonStandard } from "../../components/IconButtonStandard";
 import { useRouter } from "next/navigation";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 
-export default function ExpenseDetailCard() {
+export default function ExpenseDetailCard(
+    { disableBudgetSelectionWhenUpdate = false }: { disableBudgetSelectionWhenUpdate?: boolean }
+) {
     const { id } = useParams<{ id: string }>();
     const { loading, error, data } = useQuery(GET_BUDGET_TRANSACTION_BY_ID, {
         variables: { input: { id } }
     });
     const { 
-        toolbarRef, 
         windowSize,
         isWindowSizeExpanded,
         isWindowSizeSpanMedium,
+        setShowCompactWindowSizeAppBarSecondary,
+        addClickCloseAppBarSecondaryEventListener,
+        removeClickCloseAppBarSecondaryEventListener,
+        toolbarSecondaryRef,
     } = useTemplateContext();
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
     const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
@@ -87,6 +92,20 @@ export default function ExpenseDetailCard() {
     const isExpense = React.useCallback(() => {
         return transactionType === BUDGET_EXPENSE;
     }, [transactionType]);
+
+    React.useEffect(() => {
+        if (isWindowSizeSpanMedium()) {
+            setShowCompactWindowSizeAppBarSecondary(true);
+            addClickCloseAppBarSecondaryEventListener(() => {
+                setShowCompactWindowSizeAppBarSecondary(false);
+                handleBack();
+            });
+        } else {
+            setShowCompactWindowSizeAppBarSecondary(false);
+        }
+
+        () => removeClickCloseAppBarSecondaryEventListener();
+    }, [windowSize]);
 
     if (loading) return (
         <>
@@ -176,6 +195,7 @@ export default function ExpenseDetailCard() {
                         expense={budgetTransaction}
                         open={openExpenseUpdateForm}
                         onOpenChange={setOpenExpenseUpdateForm}
+                        disableBudgetSelection={disableBudgetSelectionWhenUpdate}
                     />
                 )}
                 {budgetTransaction && isExpense() && (
@@ -183,27 +203,18 @@ export default function ExpenseDetailCard() {
                         expense={budgetTransaction}
                         open={openExpenseDelete}
                         onOpenChange={setOpenExpenseDelete}
-                        onSuccess={() => router.push("/expense")}
+                        onSuccess={() => router.back()}
                     />
-                )}
-                {isWindowSizeSpanMedium() && !isExpense() && createPortal(
-                    <IconButtonFilled onClick={handleBack}>
-                        <IconArrowLeft />
-                    </IconButtonFilled>,
-                    toolbarRef.current
                 )}
                 {isWindowSizeSpanMedium() && isExpense() && createPortal(
                     <>
-                        <IconButtonFilled onClick={handleBack}>
-                            <IconArrowLeft />
-                        </IconButtonFilled>
-                        <IconButtonFilled onClick={handleOpenExpenseUpdateForm}>
+                        <IconButtonStandard onClick={handleOpenExpenseUpdateForm}>
                             <IconPencil />
-                        </IconButtonFilled>
+                        </IconButtonStandard>
                         <div>
-                            <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
+                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
                                 <IconThreeDotsVertial />
-                            </IconButtonFilled>
+                            </IconButtonStandard>
                             {openActionsMenu && (
                                 <Menu 
                                     {...getFloatingProps()} 
@@ -220,7 +231,7 @@ export default function ExpenseDetailCard() {
                             )}
                         </div>
                     </>,
-                    toolbarRef.current
+                    toolbarSecondaryRef.current
                 )}
             </div>
         </>
