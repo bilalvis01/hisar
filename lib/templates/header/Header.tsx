@@ -34,9 +34,6 @@ export default function Header({ className }) {
                     <Link href="/">
                         <Logo />
                     </Link>
-                    <Link href="/">
-                        <Headline>HISAR</Headline>
-                    </Link>
                 </Brand>
                 <Navigation className={style.navigation} />
             </TopAppBarSmall>
