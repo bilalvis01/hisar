@@ -97,6 +97,8 @@
             font-size: var(--supporting-text-size);
             letter-spacing: var(--supporting-text-tracking);
             font-weight: var(--supporting-text-weight);
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         & > .icon-action {
