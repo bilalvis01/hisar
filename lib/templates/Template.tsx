@@ -178,7 +178,7 @@ export default function Template({
                             {children}
                         </main>
                         <footer className={style.footer}>
-                            2024
+                            <span className="text-title-medium">HISAR SINAGA - 2024</span>
                         </footer>
                         <Header className={style.header} />
                     </div>
