@@ -105,6 +105,10 @@ export default function ExpenseDetailCard(
         () => removeClickCloseAppBarSecondaryEventListener();
     }, [windowSize]);
 
+    React.useEffect(() => {
+        setShowCompactWindowSizeAppBarSecondary(true);
+    }, []);
+
     if (loading) return (
         <>
             <div className={clsx(style.placeholder)}>
