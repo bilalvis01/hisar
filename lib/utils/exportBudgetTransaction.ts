@@ -51,7 +51,7 @@ export async function exportBudgetTransactions(
 
         const workbook = XLXS.utils.book_new();
 
-        XLXS.utils.book_append_sheet(workbook, worksheet, "Expenses");
+        XLXS.utils.book_append_sheet(workbook, worksheet, "Expense");
 
         XLXS.writeFile(workbook, `${budget.name}.xlsx`, { compression: true });
     }
@@ -84,10 +84,14 @@ export async function exportBudgetTransactionsMany(
     const workbook = XLXS.utils.book_new();
 
     worksheets.forEach(({ budgetName, worksheet }) => {
-        XLXS.utils.book_append_sheet(workbook, worksheet, `${budgetName}`);
+        if (budgetName.match(/[\?\\\*\[\]]/g)) {
+            throw Error("the budget name cannot contains ? \ * [ ]");
+        }
+
+        XLXS.utils.book_append_sheet(workbook, worksheet, `${budgetName.replaceAll(/\//g, "-")}`);
     });
 
-    XLXS.writeFile(workbook, `Budget Expenses.xlsx`, { compression: true });
+    XLXS.writeFile(workbook, `App Budget.xlsx`, { compression: true });
 }
 
 function createBudgetTransactionWorksheet(budget: Budget, rawBudgetTransactions: BudgetTransaction[]) {
