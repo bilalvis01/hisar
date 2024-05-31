@@ -37,9 +37,9 @@ type BudgetTransaction {
 type Query {
     excerptReport: ExcerptReport!
     budgets: [Budget!]!
-    budgetByCode(input: GetBudgetByCodeInput!): GetBudgetByCodePayload!
+    budgetByCode(input: GetBudgetByCodeInput!): Budget
     budgetTransactions(input: GetBudgetTransactionsInput!): [BudgetTransaction!]!
-    budgetTransactionById(input: GetBudgetTransactionByIdInput!): GetBudgetTransactionByIdPayload!
+    budgetTransactionById(input: GetBudgetTransactionByIdInput!): BudgetTransaction
 }
 
 type Mutation {
@@ -55,13 +55,6 @@ type Mutation {
 
 input GetBudgetByCodeInput {
     code: String!
-}
-
-type GetBudgetByCodePayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    budget: Budget
 }
 
 input CreateBudgetInput {
@@ -117,13 +110,6 @@ input GetBudgetTransactionsInput {
     sortOrder: SortOrder
 }
 
-type GetBudgetTransactionsPayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    budgetTransactions: [BudgetTransaction!]!
-}
-
 type CreateExpensePayload {
     code: Int!
     success: Boolean!
@@ -135,13 +121,6 @@ input CreateExpenseInput {
     budgetCode: String!
     description: String!
     amount: Money!
-}
-
-type GetBudgetTransactionByIdPayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    budgetTransaction: BudgetTransaction
 }
 
 input GetBudgetTransactionByIdInput {

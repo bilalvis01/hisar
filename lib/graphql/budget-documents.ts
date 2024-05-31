@@ -28,17 +28,12 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
     query GetBudgetByCode($input: GetBudgetByCodeInput!) {
         budgetByCode(input: $input) {
             code
-            success
-            message
-            budget {
-                code
-                name
-                amount
-                expense
-                balance
-                createdAt
-                updatedAt
-            }
+            name
+            amount
+            expense
+            balance
+            createdAt
+            updatedAt
         }
     }
 `);

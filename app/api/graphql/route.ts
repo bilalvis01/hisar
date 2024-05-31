@@ -59,22 +59,7 @@ const resolvers: Resolvers = {
         },
 
         async budgetByCode(_, { input: { code } }, context) {
-            const budget = await fetchBudgetByCode(context.dataSources, code);
-            
-            if (!budget) {
-                return {
-                    code: 404,
-                    success: false,
-                    message: `account budget dengan code ${code} tidak ada`,
-                }
-            }
-
-            return {
-                code: 200,
-                success: true,
-                message: "",
-                budget,
-            }
+            return await fetchBudgetByCode(context.dataSources, code);
         },
 
         async budgetTransactions(_, { input }, context) {
@@ -88,24 +73,9 @@ const resolvers: Resolvers = {
         },
 
         async budgetTransactionById(_, { input }, context) {
-            const budgetTransaction = await fetchBudgetTransactionById(context.dataSources, 
+            return await fetchBudgetTransactionById(context.dataSources, 
                 { ...input, ...{ id: parseInt(input.id) } }
             );
-
-            if (!budgetTransaction) {
-                return {
-                    code: 404,
-                    success: false,
-                    message: `expense dengan id ${input.id} tidak ada`,
-                }
-            }
-
-            return {
-                code: 200,
-                success: true,
-                message: "",
-                budgetTransaction,
-            }
         }
     },
 

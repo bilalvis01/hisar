@@ -209,11 +209,7 @@ export default function BudgetDetailCard() {
         dismissActionsMenu,
     ]);
 
-    if (budgetData && budgetData.budgetByCode.code === 404) {
-        notFound();
-    }
-
-    const budget = budgetData ? budgetData.budgetByCode.budget : null; 
+    const budget = budgetData ? budgetData.budgetByCode : null; 
     const budgetTransactions = budgetTransactionData 
         ? budgetTransactionData.budgetTransactions
         : [];
@@ -308,6 +304,10 @@ export default function BudgetDetailCard() {
             {budgetTransactionsError.message}
         </div>
     );
+
+    if (budgetData && !budgetData.budgetByCode) {
+        notFound();
+    }
 
     return (
         <>

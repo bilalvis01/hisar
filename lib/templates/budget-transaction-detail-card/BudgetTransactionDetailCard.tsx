@@ -72,11 +72,7 @@ export default function ExpenseDetailCard(
         dismissActionsMenu,
     ]);
 
-    if (data && data.budgetTransactionById.code === 404) {
-        notFound();
-    }
-
-    const budgetTransaction = data ? data.budgetTransactionById.budgetTransaction : null;
+    const budgetTransaction = data ? data.budgetTransactionById : null;
     const transactionType = budgetTransaction ? budgetTransaction.transactionType : null;
 
     const handleOpenExpenseUpdateForm = React.useCallback(() => {
@@ -122,6 +118,10 @@ export default function ExpenseDetailCard(
             {error.message}
         </div>
     );
+
+    if (data && !data.budgetTransactionById) {
+        notFound();
+    }
 
     return (
         <>
