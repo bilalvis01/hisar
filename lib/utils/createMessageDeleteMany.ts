@@ -2,7 +2,7 @@ export default function createMessageDeleteMany(values: string[], prefix?: strin
     const message = values.reduce((acc, value, index, array) => {
         let conjunction;
 
-        if (index === array.length - 1) {
+        if (index >= 2) {
             conjunction = " dan ";
         } else {
             conjunction = ", "
@@ -10,7 +10,7 @@ export default function createMessageDeleteMany(values: string[], prefix?: strin
 
         if (index === 0) return `"${value}"`;
         if (index === 1) return `${acc}${conjunction}"${value}"`;
-        if (index === 2) return `${acc}${conjunction}yang lainnya`;
+        if (index === 2) return `${acc}${conjunction}${array.length - 2} lainnya`;
 
         return acc;
     }, "");
