@@ -51,6 +51,7 @@ import IconEye from "../../icons/Eye";
 import date from "../../utils/date";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 import { exportBudgetTransactions } from "../../utils/exportBudgetTransaction";
+import { POLL_INTERVAL } from "../../utils/pollInterval";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -154,7 +155,8 @@ export default function BudgetDetailCard() {
         error: budgetError, 
         data: budgetData,
     } = useQuery(GET_BUDGET_BY_CODE, {
-        variables: { input: { code } }
+        variables: { input: { code } },
+        pollInterval: POLL_INTERVAL,
     });
     const { 
         loading: budgetTransactionsLoading, 
@@ -162,8 +164,11 @@ export default function BudgetDetailCard() {
         data: budgetTransactionData, 
     } = useQuery(GET_BUDGET_TRANSACTIONS, {
         variables: { input: { budgetCode: code } },
+        pollInterval: POLL_INTERVAL,
     });
-    const [getBudgetTransactions] = useLazyQuery(GET_BUDGET_TRANSACTIONS);
+    const [getBudgetTransactions] = useLazyQuery(GET_BUDGET_TRANSACTIONS, {
+        pollInterval: POLL_INTERVAL,
+    });
     const { 
         toolbarRef, 
         windowSize,

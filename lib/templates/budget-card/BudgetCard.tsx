@@ -49,6 +49,7 @@ import {
     offset,
 } from "@floating-ui/react";
 import IconDownload from "../../icons/Download";
+import { POLL_INTERVAL } from "../../utils/pollInterval";
 
 const columnHelper = createColumnHelper<Omit<Budget, "__typedef" | "transactions">>();
 
@@ -156,8 +157,12 @@ const columns = [
 ];
 
 export default function BudgetTable() {
-    const { loading, error, data } = useQuery(GET_BUDGETS);
-    const [getBudgetTransactions] = useLazyQuery(GET_BUDGET_TRANSACTIONS);
+    const { loading, error, data } = useQuery(GET_BUDGETS, {
+        pollInterval: POLL_INTERVAL,
+    });
+    const [getBudgetTransactions] = useLazyQuery(GET_BUDGET_TRANSACTIONS, {
+        pollInterval: POLL_INTERVAL,
+    });
     const [openFab, setOpenFab] = React.useState(false);
     const [openBudgetAddForm, setOpenBudgetAddForm] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);

@@ -44,6 +44,7 @@ import {
     useDismiss, 
     offset,
 } from "@floating-ui/react";
+import { POLL_INTERVAL } from "../../utils/pollInterval";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -148,7 +149,8 @@ const columns = [
 
 export default function ExpenseTable() {
     const { loading, error, data } = useQuery(GET_BUDGET_TRANSACTIONS, {
-        variables: { input: { transactionType: BUDGET_EXPENSE } }
+        variables: { input: { transactionType: BUDGET_EXPENSE } },
+        pollInterval: POLL_INTERVAL,
     });
     const [openExpenseAddForm, setOpenExpenseAddForm] = React.useState(false);
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);

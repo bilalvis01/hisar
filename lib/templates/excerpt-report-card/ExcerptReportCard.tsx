@@ -8,9 +8,12 @@ import { GET_EXCERPT_REPORT } from "../../graphql/budget-documents";
 import { useQuery } from "@apollo/client";
 import ProgressCircular from "../../../lib/components/ProgressCircular";
 import CardOutlined from "../../components/CardOutlined";
+import { POLL_INTERVAL } from "../../utils/pollInterval";
 
 export default function ExcerptReportCard({ report = "budget" }: { report: "budget" | "expense" | "balance" }) {
-    const { data, loading, error } = useQuery(GET_EXCERPT_REPORT);
+    const { data, loading, error } = useQuery(GET_EXCERPT_REPORT, {
+        pollInterval: POLL_INTERVAL,
+    });
 
     return (
         <CardOutlined className={style.card}>

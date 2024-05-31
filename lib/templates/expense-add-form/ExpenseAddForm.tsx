@@ -8,6 +8,7 @@ import { CREATE_EXPENSE } from "../../graphql/expense-documents";
 import { CreateExpenseMutation } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
+import { POLL_INTERVAL } from "../../utils/pollInterval";
 
 interface ExpenseAddFormProps {
     open: boolean,
@@ -66,7 +67,9 @@ export default function ExpenseAddForm({
         },
     });
 
-    const [getBudgets] = useLazyQuery(GET_BUDGETS);
+    const [getBudgets] = useLazyQuery(GET_BUDGETS, {
+        pollInterval: POLL_INTERVAL,
+    });
 
     return (
         <FormDialog

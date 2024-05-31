@@ -34,13 +34,15 @@ import {
 import { IconButtonStandard } from "../../components/IconButtonStandard";
 import { useRouter } from "next/navigation";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
+import { POLL_INTERVAL } from "../../utils/pollInterval";
 
 export default function ExpenseDetailCard(
     { disableBudgetSelectionWhenUpdate = false }: { disableBudgetSelectionWhenUpdate?: boolean }
 ) {
     const { id } = useParams<{ id: string }>();
     const { loading, error, data } = useQuery(GET_BUDGET_TRANSACTION_BY_ID, {
-        variables: { input: { id } }
+        variables: { input: { id } },
+        pollInterval: POLL_INTERVAL,
     });
     const { 
         windowSize,
