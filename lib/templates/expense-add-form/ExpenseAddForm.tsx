@@ -3,7 +3,7 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { GET_BUDGETS, NEW_BUDGET_TRANSACTION } from "../../graphql/budget-documents";
+import { GET_BUDGETS, GET_BUDGET_BY_CODE, NEW_BUDGET_TRANSACTION } from "../../graphql/budget-documents";
 import { CREATE_EXPENSE } from "../../graphql/expense-documents";
 import { CreateExpenseMutation } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
@@ -27,10 +27,19 @@ export default function ExpenseAddForm({
     const { setInfo } = useTemplateContext();
 
     const [createExpense] = useMutation(CREATE_EXPENSE, {
+        refetchQueries(result) {
+            const budgetCode = result.data && 
+                result.data.createExpense.expense && 
+                result.data.createExpense.expense.budgetCode;
+                
+            return [
+                { query: GET_BUDGET_BY_CODE, variables: { input: { code: budgetCode, } } },
+            ];
+        },
         update(cache, { data: { createExpense } }) {
             cache.modify({
                 fields: {
-                    expenses(existingExpenseRefs = [], { readField }) {
+                    budgetTransactions(existingExpenseRefs = [], { readField }) {
                         const newExpense = cache.writeFragment({
                             data: createExpense.expense,
                             fragment: NEW_BUDGET_TRANSACTION,
@@ -42,10 +51,13 @@ export default function ExpenseAddForm({
                             return existingExpenseRefs;
                         }
 
-                        return [...existingExpenseRefs, newExpense];
+                        return [newExpense, ...existingExpenseRefs];
                     }
                 }
             })
+        },
+        onQueryUpdated(observableQuery) {
+            return observableQuery.refetch();
         },
         onCompleted(data) {
             setInfo(data.createExpense.message);

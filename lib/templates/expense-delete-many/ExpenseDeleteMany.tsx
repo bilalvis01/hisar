@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { DeleteExpenseManyMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
 import createMessageDeleteMany from "../../utils/createMessageDeleteMany";
+import { GET_BUDGETS } from "../../graphql/budget-documents";
 
 interface ExpenseDeleteManyProps {
     expenses: BudgetTransaction[];
@@ -26,18 +27,18 @@ export default function ExpenseDeleteMany({
     const descriptions = expenses.map(expense => expense.description);
 
     const [deleteBudget] = useMutation(DELETE_EXPENSE_MANY, {
+        refetchQueries: [
+            { query: GET_BUDGETS },
+        ],
         update(cache, { data: { deleteExpenseMany } }) {
-            if (deleteExpenseMany.code === 200) {
-                cache.modify({
-                    fields: {
-                        expenses(existingExpenseRefs, { readField }) {
-                            return existingExpenseRefs.filter(
-                                expenseRef => !ids.includes(readField("id", expenseRef))
-                            );
-                        },
-                    }
+            deleteExpenseMany.expenses.forEach((expense) => {
+                cache.evict({
+                    id: cache.identify(expense)
                 });
-            }
+            });
+        },
+        onQueryUpdated(observableQuery) {
+            return observableQuery.refetch();
         },
         onCompleted(data) {
             setInfo(data.deleteExpenseMany.message);

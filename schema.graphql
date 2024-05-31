@@ -6,25 +6,6 @@ enum SortOrder {
     DESC
 }
 
-type Query {
-    excerptReport: ExcerptReport!
-    budgets: [Budget!]!
-    budgetByCode(input: BudgetByCodeInput!): BudgetByCodePayload!
-    budgetTransactions(input: GetBudgetTransactionsInput!): [BudgetTransaction!]!
-    budgetTransactionById(input: BudgetTransactionByIdInput!): BudgetTransactionByIdPayload!
-}
-
-type Mutation {
-    createBudget(input: CreateBudgetInput!): CreateBudgetPayload!
-    updateBudget(input: UpdateBudgetInput!): UpdateBudgetPayload!
-    deleteBudget(input: DeleteBudgetInput!): DeleteBudgetPayload!
-    deleteBudgetMany(input: DeleteBudgetManyInput!): DeleteBudgetManyPayload!
-    createExpense(input: CreateExpenseInput!): CreateExpensePayload!
-    updateExpense(input: UpdateExpenseInput!): UpdateExpensePayload!
-    deleteExpense(input: DeleteExpenseInput!): DeleteExpensePayload!
-    deleteExpenseMany(input: DeleteExpenseManyInput!): DeleteExpenseManyPayload!
-}
-
 type ExcerptReport {
     budget: Money!
     expense: Money!
@@ -41,11 +22,42 @@ type Budget {
     updatedAt: DateTime!
 }
 
-input BudgetByCodeInput {
+type BudgetTransaction {
+    id: String!
+    budgetCode: String!
+    budgetName: String!
+    description: String!
+    amount: Money!
+    balance: Money!
+    transactionType: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Query {
+    excerptReport: ExcerptReport!
+    budgets: [Budget!]!
+    budgetByCode(input: GetBudgetByCodeInput!): GetBudgetByCodePayload!
+    budgetTransactions(input: GetBudgetTransactionsInput!): [BudgetTransaction!]!
+    budgetTransactionById(input: GetBudgetTransactionByIdInput!): GetBudgetTransactionByIdPayload!
+}
+
+type Mutation {
+    createBudget(input: CreateBudgetInput!): CreateBudgetPayload!
+    updateBudget(input: UpdateBudgetInput!): UpdateBudgetPayload!
+    deleteBudget(input: DeleteBudgetInput!): DeleteBudgetPayload!
+    deleteBudgetMany(input: DeleteBudgetManyInput!): DeleteBudgetManyPayload!
+    createExpense(input: CreateExpenseInput!): CreateExpensePayload!
+    updateExpense(input: UpdateExpenseInput!): UpdateExpensePayload!
+    deleteExpense(input: DeleteExpenseInput!): DeleteExpensePayload!
+    deleteExpenseMany(input: DeleteExpenseManyInput!): DeleteExpenseManyPayload!
+}
+
+input GetBudgetByCodeInput {
     code: String!
 }
 
-type BudgetByCodePayload {
+type GetBudgetByCodePayload {
     code: Int!
     success: Boolean!
     message: String!
@@ -99,22 +111,17 @@ type DeleteBudgetManyPayload {
     budgets: [Budget!]
 }
 
-type BudgetTransaction {
-    id: String!
-    budgetCode: String!
-    budgetName: String!
-    description: String!
-    amount: Money!
-    balance: Money!
-    transactionType: String!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-}
-
 input GetBudgetTransactionsInput {
     budgetCode: String
     transactionType: String
     sortOrder: SortOrder
+}
+
+type GetBudgetTransactionsPayload {
+    code: Int!
+    success: Boolean!
+    message: String!
+    budgetTransactions: [BudgetTransaction!]!
 }
 
 type CreateExpensePayload {
@@ -130,14 +137,14 @@ input CreateExpenseInput {
     amount: Money!
 }
 
-type BudgetTransactionByIdPayload {
+type GetBudgetTransactionByIdPayload {
     code: Int!
     success: Boolean!
     message: String!
     budgetTransaction: BudgetTransaction
 }
 
-input BudgetTransactionByIdInput {
+input GetBudgetTransactionByIdInput {
     id: String!
     transactionType: String
 }

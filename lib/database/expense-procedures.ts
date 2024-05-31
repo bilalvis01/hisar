@@ -102,9 +102,9 @@ export async function deleteExpenseProcedure(
 
 export async function deleteExpenseManyProcedure(
     client: PrismaClient,
-    data: { transactions: { id: number; transactionType: string; }[] }, 
+    { expenses }: { expenses: { id: number; transactionType: string; }[] }, 
 ) {
-    return await deleteBudgetTransactionManyProcedure(client, data);
+    return await deleteBudgetTransactionManyProcedure(client, { transactions: expenses });
 }
 
 export async function changeExpenseAmountProcedure(

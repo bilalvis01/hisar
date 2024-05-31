@@ -3,6 +3,7 @@
 import React from "react";
 import DeleteDialog from "../delete-dialog/DeleteDialog";
 import { DELETE_BUDGET } from "../../graphql/budget-documents";
+import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { DeleteBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
@@ -24,23 +25,27 @@ export default function BudgetDelete({
 
     const [deleteBudget] = useMutation(DELETE_BUDGET, {
         update(cache, { data: { deleteBudget } }) {
-            if (deleteBudget.code === 200) {
-                cache.modify({
-                    fields: {
-                        budgets(existingBudgetRefs, { readField }) {
-                            return existingBudgetRefs.filter(
-                                budgetRef => budget.code !== readField("code", budgetRef)
-                            );
-                        },
-                        budgetByCode(_, { DELETE }) {
-                            return DELETE;
-                        },
-                    }
-                });
-            }
+            cache.modify({
+                fields: {
+                    budgetTransactions(existingBudgetTransactionRefs, { readField }) {
+                        const removedBudgetTransactions = existingBudgetTransactionRefs.filter(
+                            budgetTransactionRef => budget.code === readField("budgetCode", budgetTransactionRef)
+                        );
+
+                        removedBudgetTransactions.forEach((budgetTransaction) => {
+                            cache.evict({
+                                id: cache.identify(budgetTransaction)
+                            });
+                        });
+                    },
+                }
+            });
+            
+            cache.evict({
+                id: cache.identify(deleteBudget.budget),
+            });
         },
         onCompleted(data) {
-            console.error(data.deleteBudget.message);
             setInfo(data.deleteBudget.message);
             setOpen(false);
             if (onSuccess) onSuccess(data);

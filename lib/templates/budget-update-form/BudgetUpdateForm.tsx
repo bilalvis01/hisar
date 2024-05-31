@@ -4,6 +4,7 @@ import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation } from "@apollo/client";
 import { UPDATE_BUDGET, NEW_BUDGET } from "../../graphql/budget-documents";
+import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import { UpdateBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
@@ -24,20 +25,17 @@ export default function BudgetUpdateForm({
     const { setInfo } = useTemplateContext();
 
     const [updateBudget] = useMutation(UPDATE_BUDGET, {
+        refetchQueries: [
+            { query: GET_BUDGET_TRANSACTIONS, variables: { input: { budgetCode: budget.code } } },
+        ],
         update(cache, { data: { updateBudget } }) {
-            cache.modify({
-                fields: {
-                    budgets() {
-                        cache.writeFragment({
-                            data: updateBudget.budget,
-                            fragment: NEW_BUDGET,
-                        });
-                    },
-                },
+            cache.writeFragment({
+                data: updateBudget.budget,
+                fragment: NEW_BUDGET,
             });
         },
-        onError(err) {
-            console.log(err.message);
+        onQueryUpdated(observableQuery) {
+            return observableQuery.refetch();
         },
         onCompleted(data) {
             setInfo(data.updateBudget.message);

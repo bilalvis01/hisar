@@ -17,7 +17,7 @@ export const GET_BUDGET_TRANSACTIONS = gql(/* GraphQL */ `
 `);
 
 export const GET_BUDGET_TRANSACTION_BY_ID = gql(/* GraphQL */ `
-    query GetBudgetTransactionById($input: BudgetTransactionByIdInput!) {
+    query GetBudgetTransactionById($input: GetBudgetTransactionByIdInput!) {
         budgetTransactionById(input: $input) {
             code
             success

@@ -30,18 +30,6 @@ export type Budget = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
-export type BudgetByCodeInput = {
-  code: Scalars['String']['input'];
-};
-
-export type BudgetByCodePayload = {
-  __typename?: 'BudgetByCodePayload';
-  budget?: Maybe<Budget>;
-  code: Scalars['Int']['output'];
-  message: Scalars['String']['output'];
-  success: Scalars['Boolean']['output'];
-};
-
 export type BudgetTransaction = {
   __typename?: 'BudgetTransaction';
   amount: Scalars['Money']['output'];
@@ -53,19 +41,6 @@ export type BudgetTransaction = {
   id: Scalars['String']['output'];
   transactionType: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
-};
-
-export type BudgetTransactionByIdInput = {
-  id: Scalars['String']['input'];
-  transactionType?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type BudgetTransactionByIdPayload = {
-  __typename?: 'BudgetTransactionByIdPayload';
-  budgetTransaction?: Maybe<BudgetTransaction>;
-  code: Scalars['Int']['output'];
-  message: Scalars['String']['output'];
-  success: Scalars['Boolean']['output'];
 };
 
 export type CreateBudgetInput = {
@@ -150,10 +125,43 @@ export type ExcerptReport = {
   expense: Scalars['Money']['output'];
 };
 
+export type GetBudgetByCodeInput = {
+  code: Scalars['String']['input'];
+};
+
+export type GetBudgetByCodePayload = {
+  __typename?: 'GetBudgetByCodePayload';
+  budget?: Maybe<Budget>;
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
+export type GetBudgetTransactionByIdInput = {
+  id: Scalars['String']['input'];
+  transactionType?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GetBudgetTransactionByIdPayload = {
+  __typename?: 'GetBudgetTransactionByIdPayload';
+  budgetTransaction?: Maybe<BudgetTransaction>;
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type GetBudgetTransactionsInput = {
   budgetCode?: InputMaybe<Scalars['String']['input']>;
   sortOrder?: InputMaybe<SortOrder>;
   transactionType?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GetBudgetTransactionsPayload = {
+  __typename?: 'GetBudgetTransactionsPayload';
+  budgetTransactions: Array<BudgetTransaction>;
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
 };
 
 export type Mutation = {
@@ -210,8 +218,8 @@ export type MutationUpdateExpenseArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  budgetByCode: BudgetByCodePayload;
-  budgetTransactionById: BudgetTransactionByIdPayload;
+  budgetByCode: GetBudgetByCodePayload;
+  budgetTransactionById: GetBudgetTransactionByIdPayload;
   budgetTransactions: Array<BudgetTransaction>;
   budgets: Array<Budget>;
   excerptReport: ExcerptReport;
@@ -219,12 +227,12 @@ export type Query = {
 
 
 export type QueryBudgetByCodeArgs = {
-  input: BudgetByCodeInput;
+  input: GetBudgetByCodeInput;
 };
 
 
 export type QueryBudgetTransactionByIdArgs = {
-  input: BudgetTransactionByIdInput;
+  input: GetBudgetTransactionByIdInput;
 };
 
 
@@ -339,11 +347,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Budget: ResolverTypeWrapper<Budget>;
-  BudgetByCodeInput: BudgetByCodeInput;
-  BudgetByCodePayload: ResolverTypeWrapper<BudgetByCodePayload>;
   BudgetTransaction: ResolverTypeWrapper<BudgetTransaction>;
-  BudgetTransactionByIdInput: BudgetTransactionByIdInput;
-  BudgetTransactionByIdPayload: ResolverTypeWrapper<BudgetTransactionByIdPayload>;
   CreateBudgetInput: CreateBudgetInput;
   CreateBudgetPayload: ResolverTypeWrapper<CreateBudgetPayload>;
   CreateExpenseInput: CreateExpenseInput;
@@ -358,7 +362,12 @@ export type ResolversTypes = {
   DeleteExpenseManyPayload: ResolverTypeWrapper<DeleteExpenseManyPayload>;
   DeleteExpensePayload: ResolverTypeWrapper<DeleteExpensePayload>;
   ExcerptReport: ResolverTypeWrapper<ExcerptReport>;
+  GetBudgetByCodeInput: GetBudgetByCodeInput;
+  GetBudgetByCodePayload: ResolverTypeWrapper<GetBudgetByCodePayload>;
+  GetBudgetTransactionByIdInput: GetBudgetTransactionByIdInput;
+  GetBudgetTransactionByIdPayload: ResolverTypeWrapper<GetBudgetTransactionByIdPayload>;
   GetBudgetTransactionsInput: GetBudgetTransactionsInput;
+  GetBudgetTransactionsPayload: ResolverTypeWrapper<GetBudgetTransactionsPayload>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Money: ResolverTypeWrapper<Scalars['Money']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -375,11 +384,7 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Budget: Budget;
-  BudgetByCodeInput: BudgetByCodeInput;
-  BudgetByCodePayload: BudgetByCodePayload;
   BudgetTransaction: BudgetTransaction;
-  BudgetTransactionByIdInput: BudgetTransactionByIdInput;
-  BudgetTransactionByIdPayload: BudgetTransactionByIdPayload;
   CreateBudgetInput: CreateBudgetInput;
   CreateBudgetPayload: CreateBudgetPayload;
   CreateExpenseInput: CreateExpenseInput;
@@ -394,7 +399,12 @@ export type ResolversParentTypes = {
   DeleteExpenseManyPayload: DeleteExpenseManyPayload;
   DeleteExpensePayload: DeleteExpensePayload;
   ExcerptReport: ExcerptReport;
+  GetBudgetByCodeInput: GetBudgetByCodeInput;
+  GetBudgetByCodePayload: GetBudgetByCodePayload;
+  GetBudgetTransactionByIdInput: GetBudgetTransactionByIdInput;
+  GetBudgetTransactionByIdPayload: GetBudgetTransactionByIdPayload;
   GetBudgetTransactionsInput: GetBudgetTransactionsInput;
+  GetBudgetTransactionsPayload: GetBudgetTransactionsPayload;
   Int: Scalars['Int']['output'];
   Money: Scalars['Money']['output'];
   Mutation: {};
@@ -417,14 +427,6 @@ export type BudgetResolvers<ContextType = Context, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type BudgetByCodePayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BudgetByCodePayload'] = ResolversParentTypes['BudgetByCodePayload']> = {
-  budget?: Resolver<Maybe<ResolversTypes['Budget']>, ParentType, ContextType>;
-  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type BudgetTransactionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BudgetTransaction'] = ResolversParentTypes['BudgetTransaction']> = {
   amount?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
   balance?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
@@ -435,14 +437,6 @@ export type BudgetTransactionResolvers<ContextType = Context, ParentType extends
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   transactionType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type BudgetTransactionByIdPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BudgetTransactionByIdPayload'] = ResolversParentTypes['BudgetTransactionByIdPayload']> = {
-  budgetTransaction?: Resolver<Maybe<ResolversTypes['BudgetTransaction']>, ParentType, ContextType>;
-  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -505,6 +499,30 @@ export type ExcerptReportResolvers<ContextType = Context, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type GetBudgetByCodePayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['GetBudgetByCodePayload'] = ResolversParentTypes['GetBudgetByCodePayload']> = {
+  budget?: Resolver<Maybe<ResolversTypes['Budget']>, ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GetBudgetTransactionByIdPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['GetBudgetTransactionByIdPayload'] = ResolversParentTypes['GetBudgetTransactionByIdPayload']> = {
+  budgetTransaction?: Resolver<Maybe<ResolversTypes['BudgetTransaction']>, ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GetBudgetTransactionsPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['GetBudgetTransactionsPayload'] = ResolversParentTypes['GetBudgetTransactionsPayload']> = {
+  budgetTransactions?: Resolver<Array<ResolversTypes['BudgetTransaction']>, ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface MoneyScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Money'], any> {
   name: 'Money';
 }
@@ -521,8 +539,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  budgetByCode?: Resolver<ResolversTypes['BudgetByCodePayload'], ParentType, ContextType, RequireFields<QueryBudgetByCodeArgs, 'input'>>;
-  budgetTransactionById?: Resolver<ResolversTypes['BudgetTransactionByIdPayload'], ParentType, ContextType, RequireFields<QueryBudgetTransactionByIdArgs, 'input'>>;
+  budgetByCode?: Resolver<ResolversTypes['GetBudgetByCodePayload'], ParentType, ContextType, RequireFields<QueryBudgetByCodeArgs, 'input'>>;
+  budgetTransactionById?: Resolver<ResolversTypes['GetBudgetTransactionByIdPayload'], ParentType, ContextType, RequireFields<QueryBudgetTransactionByIdArgs, 'input'>>;
   budgetTransactions?: Resolver<Array<ResolversTypes['BudgetTransaction']>, ParentType, ContextType, RequireFields<QueryBudgetTransactionsArgs, 'input'>>;
   budgets?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType>;
   excerptReport?: Resolver<ResolversTypes['ExcerptReport'], ParentType, ContextType>;
@@ -546,9 +564,7 @@ export type UpdateExpensePayloadResolvers<ContextType = Context, ParentType exte
 
 export type Resolvers<ContextType = Context> = {
   Budget?: BudgetResolvers<ContextType>;
-  BudgetByCodePayload?: BudgetByCodePayloadResolvers<ContextType>;
   BudgetTransaction?: BudgetTransactionResolvers<ContextType>;
-  BudgetTransactionByIdPayload?: BudgetTransactionByIdPayloadResolvers<ContextType>;
   CreateBudgetPayload?: CreateBudgetPayloadResolvers<ContextType>;
   CreateExpensePayload?: CreateExpensePayloadResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
@@ -557,6 +573,9 @@ export type Resolvers<ContextType = Context> = {
   DeleteExpenseManyPayload?: DeleteExpenseManyPayloadResolvers<ContextType>;
   DeleteExpensePayload?: DeleteExpensePayloadResolvers<ContextType>;
   ExcerptReport?: ExcerptReportResolvers<ContextType>;
+  GetBudgetByCodePayload?: GetBudgetByCodePayloadResolvers<ContextType>;
+  GetBudgetTransactionByIdPayload?: GetBudgetTransactionByIdPayloadResolvers<ContextType>;
+  GetBudgetTransactionsPayload?: GetBudgetTransactionsPayloadResolvers<ContextType>;
   Money?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

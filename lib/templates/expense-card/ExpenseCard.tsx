@@ -187,7 +187,9 @@ export default function ExpenseTable() {
         dismissActionsMenu,
     ]);
 
-    const expenses = data ? data.budgetTransactions : [];
+    const expenses = data 
+        ? data.budgetTransactions
+        : [];
 
     const table = useReactTable({
         data: expenses,

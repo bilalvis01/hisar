@@ -6,6 +6,7 @@ import { DELETE_EXPENSE } from "../../graphql/expense-documents";
 import { useMutation } from "@apollo/client";
 import { DeleteExpenseMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
+import { GET_BUDGET_BY_CODE } from "../../graphql/budget-documents";
 
 interface ExpenseDeleteProps {
     expense: BudgetTransaction;
@@ -23,19 +24,22 @@ export default function ExpenseDelete({
     const { setInfo } = useTemplateContext();
 
     const [deleteBudget] = useMutation(DELETE_EXPENSE, {
-        update(cache) {
-            cache.modify({
-                fields: {
-                    expenses(existingExpenseRefs, { readField }) {
-                        return existingExpenseRefs.filter(
-                            expenseRef => expense.id !== readField("id", expenseRef)
-                        );
-                    },
-                    expenseById(_, { DELETE }) {
-                        return DELETE;
-                    },
-                }
+        refetchQueries(result) {
+            const budgetCode = result.data && 
+                result.data.deleteExpense.expense && 
+                result.data.deleteExpense.expense.budgetCode;
+                
+            return [
+                { query: GET_BUDGET_BY_CODE, variables: { input: { code: budgetCode, } } },
+            ];
+        },
+        update(cache, { data: { deleteExpense } }) {
+            cache.evict({
+                id: cache.identify(deleteExpense.expense)
             });
+        },
+        onQueryUpdated(observableQuery) {
+            return observableQuery.refetch();
         },
         onCompleted(data) {
             setInfo(data.deleteExpense.message);

@@ -27,17 +27,27 @@ export default function BudgetDeleteMany({
 
     const [deleteBudgetMany] = useMutation(DELETE_BUDGET_MANY, {
         update(cache, { data: { deleteBudgetMany } }) {
-            if (deleteBudgetMany.code === 200) {
-                cache.modify({
-                    fields: {
-                        budgets(existingBudgetRefs, { readField }) {
-                            return existingBudgetRefs.filter(
-                                budgetRef => !codes.includes(readField("code", budgetRef))
-                            );
-                        },
-                    }
+            cache.modify({
+                fields: {
+                    budgetTransactions(existingBudgetTransactionRefs = [], { readField }) {
+                        const removedBudgetTransactions = existingBudgetTransactionRefs.filter(
+                            budgetTransactionRef => codes.includes(readField("budgetCode", budgetTransactionRef))
+                        );
+
+                        removedBudgetTransactions.forEach((budgetTransaction) => {
+                            cache.evict({
+                                id: cache.identify(budgetTransaction)
+                            })
+                        });
+                    },
+                }
+            });
+
+            deleteBudgetMany.budgets.forEach((budget) => {
+                cache.evict({
+                    id: cache.identify(budget),
                 });
-            }
+            });
         },
         onCompleted(data) {
             setInfo(data.deleteBudgetMany.message);

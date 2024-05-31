@@ -78,7 +78,7 @@ const resolvers: Resolvers = {
         },
 
         async budgetTransactions(_, { input }, context) {
-            return fetchBudgetTransactions(
+            return await fetchBudgetTransactions(
                 context.dataSources, 
                 {
                     ...input,
@@ -167,12 +167,14 @@ const resolvers: Resolvers = {
                     name: input.name,
                     amount: input.amount,
                 });
+
+                const updatedBudget = await fetchBudgetByCode(context.dataSources, input.code);
                 
                 return {
                     code: 200,
                     success: true,
                     message: `${input.name} berhasil diperbarui`,
-                    budget,
+                    budget: updatedBudget,
                 };
             } catch (error) {
                 return {
@@ -313,7 +315,11 @@ const resolvers: Resolvers = {
             const descriptions = expenses.map(expense => expense.description);
 
             try {
-                await deleteExpenseMany(context.dataSources, { ids: input.ids.map(id => parseInt(id)) });
+                await deleteExpenseMany(context.dataSources, { 
+                    expenses: expenses.map(
+                        (expense) => ({ id: parseInt(expense.id), transactionType: expense.transactionType })
+                    )
+                });
 
                 return {
                     code: 200,
@@ -325,7 +331,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: createMessageDeleteMany(descriptions, "", " gagal dihapus"),
+                    message: createMessageDeleteMany(descriptions, "", ` gagal dihapus ${error.message}`),
                 }
             }
         }

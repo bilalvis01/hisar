@@ -11,7 +11,7 @@ export const GET_EXCERPT_REPORT = gql(/* GraphQL */ `
 `);
 
 export const GET_BUDGETS = gql(/* GraphQL */ `
-    query GetBudget {
+    query GetBudgets {
         budgets {
             code
             name
@@ -25,7 +25,7 @@ export const GET_BUDGETS = gql(/* GraphQL */ `
 `);
 
 export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
-    query GetBudgetByCode($input: BudgetByCodeInput!) {
+    query GetBudgetByCode($input: GetBudgetByCodeInput!) {
         budgetByCode(input: $input) {
             code
             success

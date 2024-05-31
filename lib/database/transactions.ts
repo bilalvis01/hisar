@@ -118,7 +118,7 @@ export async function deleteExpense(
 
 export async function deleteExpenseMany(
     client: PrismaClient, 
-    data: { ids: number[] }
+    data: { expenses: { id: number; transactionType: string; }[] },
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
         return await deleteExpenseManyProcedure(tx, data);

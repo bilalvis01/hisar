@@ -210,7 +210,7 @@ export default function BudgetDetailCard() {
 
     const budget = budgetData ? budgetData.budgetByCode.budget : null; 
     const budgetTransactions = budgetTransactionData 
-        ? budgetTransactionData.budgetTransactions 
+        ? budgetTransactionData.budgetTransactions
         : [];
 
     const table = useReactTable({
