@@ -8,7 +8,8 @@ import { UPDATE_EXPENSE } from "../../graphql/expense-documents";
 import { UpdateExpenseMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
-import { POLL_INTERVAL } from "../../utils/pollInterval";
+import { POLL_INTERVAL } from "../../graphql/pollInterval";
+import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 
 interface ExpenseUpdateFormProps {
     expense: BudgetTransaction,
@@ -35,18 +36,13 @@ export default function ExpenseUpdateForm({
                 
             return [
                 { query: GET_BUDGET_BY_CODE, variables: { input: { code: budgetCode, } } },
+                { query: GET_BUDGET_TRANSACTIONS, variables: { input: { budgetCode: budgetCode } } },
             ];
         },
         update(cache, { data: { updateExpense } }) {
-            cache.modify({
-                fields: {
-                    budgetTransactionById() {
-                        cache.writeFragment({
-                            data: updateExpense.expense,
-                            fragment: NEW_BUDGET_TRANSACTION,
-                        });
-                    },
-                },
+            cache.writeFragment({
+                data: updateExpense.expense,
+                fragment: NEW_BUDGET_TRANSACTION,
             });
         },
         onQueryUpdated(observableQuery) {

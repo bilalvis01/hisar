@@ -45,7 +45,7 @@ import {
     offset,
     autoUpdate,
 } from "@floating-ui/react";
-import { POLL_INTERVAL } from "../../utils/pollInterval";
+import { POLL_INTERVAL } from "../../graphql/pollInterval";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 

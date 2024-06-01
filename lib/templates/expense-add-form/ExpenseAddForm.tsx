@@ -8,7 +8,7 @@ import { CREATE_EXPENSE } from "../../graphql/expense-documents";
 import { CreateExpenseMutation } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
-import { POLL_INTERVAL } from "../../utils/pollInterval";
+import { POLL_INTERVAL } from "../../graphql/pollInterval";
 
 interface ExpenseAddFormProps {
     open: boolean,

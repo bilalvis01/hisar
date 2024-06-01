@@ -52,7 +52,7 @@ import IconEye from "../../icons/Eye";
 import date from "../../utils/date";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 import { exportBudgetTransactions } from "../../utils/exportBudgetTransaction";
-import { POLL_INTERVAL } from "../../utils/pollInterval";
+import { POLL_INTERVAL } from "../../graphql/pollInterval";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 

@@ -8,6 +8,7 @@ import { DeleteExpenseManyMutation, BudgetTransaction } from "../../graphql/gene
 import { useTemplateContext } from "../Template";
 import createInfo from "../../utils/createInfo";
 import { GET_BUDGETS } from "../../graphql/budget-documents";
+import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 
 interface ExpenseDeleteManyProps {
     expenses: BudgetTransaction[];
@@ -29,6 +30,7 @@ export default function ExpenseDeleteMany({
     const [deleteBudget] = useMutation(DELETE_EXPENSE_MANY, {
         refetchQueries: [
             { query: GET_BUDGETS },
+            { query: GET_BUDGET_TRANSACTIONS },
         ],
         update(cache, { data: { deleteExpenseMany } }) {
             deleteExpenseMany.expenses.forEach((expense) => {

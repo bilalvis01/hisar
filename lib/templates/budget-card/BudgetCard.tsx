@@ -50,7 +50,7 @@ import {
     autoUpdate,
 } from "@floating-ui/react";
 import IconDownload from "../../icons/Download";
-import { POLL_INTERVAL } from "../../utils/pollInterval";
+import { POLL_INTERVAL } from "../../graphql/pollInterval";
 import createInfo from "../../utils/createInfo";
 
 const columnHelper = createColumnHelper<Omit<Budget, "__typedef" | "transactions">>();

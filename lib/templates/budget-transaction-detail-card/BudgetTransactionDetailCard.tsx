@@ -35,7 +35,7 @@ import {
 import { IconButtonStandard } from "../../components/IconButtonStandard";
 import { useRouter } from "next/navigation";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
-import { POLL_INTERVAL } from "../../utils/pollInterval";
+import { POLL_INTERVAL } from "../../graphql/pollInterval";
 
 export default function ExpenseDetailCard(
     { disableBudgetSelectionWhenUpdate = false }: { disableBudgetSelectionWhenUpdate?: boolean }

@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { DeleteExpenseMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
 import { GET_BUDGET_BY_CODE } from "../../graphql/budget-documents";
+import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 
 interface ExpenseDeleteProps {
     expense: BudgetTransaction;
@@ -31,6 +32,7 @@ export default function ExpenseDelete({
                 
             return [
                 { query: GET_BUDGET_BY_CODE, variables: { input: { code: budgetCode, } } },
+                { query: GET_BUDGET_TRANSACTIONS, variables: { input: { budgetCode: budgetCode } } },
             ];
         },
         update(cache, { data: { deleteExpense } }) {
