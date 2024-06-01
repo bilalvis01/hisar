@@ -48,10 +48,7 @@ export default function ExpenseDetailCard(
         windowSize,
         isWindowSizeExpanded,
         isWindowSizeSpanMedium,
-        setShowCompactWindowSizeAppBarSecondary,
-        addClickCloseAppBarSecondaryEventListener,
-        removeClickCloseAppBarSecondaryEventListener,
-        toolbarSecondaryRef,
+        toolbarRef,
     } = useTemplateContext();
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
     const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
@@ -91,30 +88,10 @@ export default function ExpenseDetailCard(
         return transactionType === BUDGET_EXPENSE;
     }, [transactionType]);
 
-    React.useEffect(() => {
-        if (isWindowSizeSpanMedium()) {
-            setShowCompactWindowSizeAppBarSecondary(true);
-            addClickCloseAppBarSecondaryEventListener(() => {
-                setShowCompactWindowSizeAppBarSecondary(false);
-                handleBack();
-            });
-        } else {
-            setShowCompactWindowSizeAppBarSecondary(false);
-        }
-
-        () => removeClickCloseAppBarSecondaryEventListener();
-    }, [windowSize]);
-
-    React.useEffect(() => {
-        setShowCompactWindowSizeAppBarSecondary(true);
-    }, []);
-
     if (loading) return (
-        <>
-            <div className={clsx(style.placeholder)}>
-                <ProgressCircular />
-            </div>
-        </>
+        <div className={clsx(style.placeholder)}>
+            <ProgressCircular />
+        </div>
     );
 
     if (error) return (
@@ -128,95 +105,21 @@ export default function ExpenseDetailCard(
     }
 
     return (
-        <>
-            <div className={style.card}>
-                <header className={style.header}>
-                    <h2 className={clsx("text-title-large", style.headline)}>
-                        {budgetTransaction && budgetTransaction.description.toUpperCase()}
-                    </h2>
-                    {isWindowSizeExpanded() && (
-                        <ButtonText onClick={handleBack}>
-                            Kembali
-                        </ButtonText>
-                    )}
-                    {isExpense() && isWindowSizeExpanded() && (
-                        <>
-                            <ButtonText onClick={handleOpenExpenseUpdateForm}>
-                                Edit
-                            </ButtonText>
-                            <div>
-                                <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
-                                    <IconThreeDotsVertial />
-                                </IconButtonStandard>
-                                {openActionsMenu && (
-                                    <Menu 
-                                        {...getFloatingProps()} 
-                                        ref={refs.setFloating} 
-                                        style={floatingStyles} 
-                                        className={style.actionsMenu}
-                                    >
-                                        <ul>
-                                            <li>
-                                                <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                            </li>
-                                        </ul>
-                                    </Menu>
-                                )}
-                            </div>
-                        </>
-                    )}
-                </header>
-                <div className={style.body}>
-                    {budgetTransaction && (
-                        <ul className={style.description}>
-                            <li className={style.descriptionItem}>
-                                <div className="text-title-small">ID</div>
-                                <div className="text-body-small">{budgetTransaction.id}</div>
-                            </li>
-                            <li className={style.descriptionItem}>
-                                <div className="text-title-small">Deskripsi</div>
-                                <div className="text-body-small">{budgetTransaction.description}</div>
-                            </li>
-                            <li className={style.descriptionItem}>
-                                <div className="text-title-small">Nama Budget</div>
-                                <div className="text-body-small">{budgetTransaction.budgetName}</div>
-                            </li>
-                            <li>
-                                <div className="text-title-small">{isExpense() ? "Terpakai" : "Budget"}</div>
-                                <div className="text-body-small">{idr.format(budgetTransaction.amount)}</div>
-                            </li>
-                            <li className={style.descriptionItem}>
-                                <div className="text-title-small">Dibuat</div>
-                                <div className="text-body-small">{date.format(budgetTransaction.createdAt)}</div>
-                            </li>
-                            <li className={style.descriptionItem}>
-                                <div className="text-title-small">Diperbarui</div>
-                                <div className="text-body-small">{date.format(budgetTransaction.createdAt)}</div>
-                            </li>
-                        </ul>
-                    )}
-                </div>
-                {budgetTransaction && isExpense() && (
-                    <ExpenseUpdateForm
-                        expense={budgetTransaction}
-                        open={openExpenseUpdateForm}
-                        onOpenChange={setOpenExpenseUpdateForm}
-                        disableBudgetSelection={disableBudgetSelectionWhenUpdate}
-                    />
+        <div className={style.card}>
+            <header className={style.header}>
+                <h2 className={clsx("text-title-large", style.headline)}>
+                    {budgetTransaction && budgetTransaction.description.toUpperCase()}
+                </h2>
+                {isWindowSizeExpanded() && (
+                    <ButtonText onClick={handleBack}>
+                        Kembali
+                    </ButtonText>
                 )}
-                {budgetTransaction && isExpense() && (
-                    <ExpenseDelete
-                        expense={budgetTransaction}
-                        open={openExpenseDelete}
-                        onOpenChange={setOpenExpenseDelete}
-                        onSuccess={() => router.back()}
-                    />
-                )}
-                {isWindowSizeSpanMedium() && isExpense() && createPortal(
+                {isExpense() && isWindowSizeExpanded() && (
                     <>
-                        <IconButtonStandard onClick={handleOpenExpenseUpdateForm}>
-                            <IconPencil />
-                        </IconButtonStandard>
+                        <ButtonText onClick={handleOpenExpenseUpdateForm}>
+                            Edit
+                        </ButtonText>
                         <div>
                             <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
                                 <IconThreeDotsVertial />
@@ -236,10 +139,107 @@ export default function ExpenseDetailCard(
                                 </Menu>
                             )}
                         </div>
-                    </>,
-                    toolbarSecondaryRef.current
+                    </>
+                )}
+            </header>
+            <div className={style.body}>
+                {budgetTransaction && (
+                    <ul className={style.description}>
+                        <li className={style.descriptionItem}>
+                            <div className="text-title-small">ID</div>
+                            <div className="text-body-small">{budgetTransaction.id}</div>
+                        </li>
+                        <li className={style.descriptionItem}>
+                            <div className="text-title-small">Deskripsi</div>
+                            <div className="text-body-small">{budgetTransaction.description}</div>
+                        </li>
+                        <li className={style.descriptionItem}>
+                            <div className="text-title-small">Nama Budget</div>
+                            <div className="text-body-small">{budgetTransaction.budgetName}</div>
+                        </li>
+                        <li>
+                            <div className="text-title-small">{isExpense() ? "Terpakai" : "Budget"}</div>
+                            <div className="text-body-small">{idr.format(budgetTransaction.amount)}</div>
+                        </li>
+                        <li className={style.descriptionItem}>
+                            <div className="text-title-small">Dibuat</div>
+                            <div className="text-body-small">{date.format(budgetTransaction.createdAt)}</div>
+                        </li>
+                        <li className={style.descriptionItem}>
+                            <div className="text-title-small">Diperbarui</div>
+                            <div className="text-body-small">{date.format(budgetTransaction.createdAt)}</div>
+                        </li>
+                    </ul>
                 )}
             </div>
-        </>
+            {budgetTransaction && isExpense() && (
+                <ExpenseUpdateForm
+                    expense={budgetTransaction}
+                    open={openExpenseUpdateForm}
+                    onOpenChange={setOpenExpenseUpdateForm}
+                    disableBudgetSelection={disableBudgetSelectionWhenUpdate}
+                />
+            )}
+            {budgetTransaction && isExpense() && (
+                <ExpenseDelete
+                    expense={budgetTransaction}
+                    open={openExpenseDelete}
+                    onOpenChange={setOpenExpenseDelete}
+                    onSuccess={() => router.back()}
+                />
+            )}
+            {isWindowSizeSpanMedium() && isExpense() && createPortal(
+                <>
+                    <IconButtonFilled onClick={handleOpenExpenseUpdateForm}>
+                        <IconPencil />
+                    </IconButtonFilled>
+                    <div>
+                        <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
+                            <IconThreeDotsVertial />
+                        </IconButtonFilled>
+                        {openActionsMenu && (
+                            <Menu 
+                                {...getFloatingProps()} 
+                                ref={refs.setFloating} 
+                                style={floatingStyles} 
+                                className={style.actionsMenu}
+                            >
+                                <ul>
+                                    <li>
+                                        <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                    </li>
+                                    <li>
+                                        <MenuItem onClick={handleBack}>Kembali</MenuItem>
+                                    </li>
+                                </ul>
+                            </Menu>
+                        )}
+                    </div>
+                </>,
+                toolbarRef.current
+            )}
+            {isWindowSizeSpanMedium() && !isExpense() && createPortal(
+                <div>
+                    <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
+                        <IconThreeDotsVertial />
+                    </IconButtonFilled>
+                    {openActionsMenu && (
+                        <Menu 
+                            {...getFloatingProps()} 
+                            ref={refs.setFloating} 
+                            style={floatingStyles} 
+                            className={style.actionsMenu}
+                        >
+                            <ul>
+                                <li>
+                                    <MenuItem onClick={handleBack}>Kembali</MenuItem>
+                                </li>
+                            </ul>
+                        </Menu>
+                    )}
+                </div>,
+                toolbarRef.current
+            )}
+        </div>
     );
 }
