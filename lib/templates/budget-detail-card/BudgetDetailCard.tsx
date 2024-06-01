@@ -44,6 +44,7 @@ import {
     useInteractions, 
     useDismiss, 
     offset,
+    autoUpdate,
 } from "@floating-ui/react";
 import Fab from "../fab/Fab";
 import IconPlusLg from "../../icons/PlusLg";
@@ -198,6 +199,7 @@ export default function BudgetDetailCard() {
         onOpenChange: setOpenActionsMenu,
         placement: "bottom-end",
         middleware: [offset(4)],
+        whileElementsMounted: autoUpdate,
     });
     const fabRef = React.useRef(null);
 

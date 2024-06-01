@@ -43,6 +43,7 @@ import {
     useInteractions, 
     useDismiss, 
     offset,
+    autoUpdate,
 } from "@floating-ui/react";
 import { POLL_INTERVAL } from "../../utils/pollInterval";
 
@@ -179,6 +180,7 @@ export default function ExpenseTable() {
         onOpenChange: setOpenActionsMenu,
         placement: "bottom-end",
         middleware: [offset(4)],
+        whileElementsMounted: autoUpdate,
     });
 
     const clickActionsMenu = useClick(context);

@@ -30,6 +30,7 @@ import {
     useInteractions, 
     useDismiss, 
     offset,
+    autoUpdate,
 } from "@floating-ui/react";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
 import { useRouter } from "next/navigation";
@@ -58,6 +59,7 @@ export default function ExpenseDetailCard(
         onOpenChange: setOpenActionsMenu,
         placement: "bottom-end",
         middleware: [offset(4)],
+        whileElementsMounted: autoUpdate,
     });
     const router = useRouter();
 

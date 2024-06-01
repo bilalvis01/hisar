@@ -47,6 +47,7 @@ import {
     useInteractions, 
     useDismiss, 
     offset,
+    autoUpdate,
 } from "@floating-ui/react";
 import IconDownload from "../../icons/Download";
 import { POLL_INTERVAL } from "../../utils/pollInterval";
@@ -191,6 +192,7 @@ export default function BudgetTable() {
         onOpenChange: setOpenActionsMenu,
         placement: "bottom-end",
         middleware: [offset(4)],
+        whileElementsMounted: autoUpdate,
     });
 
     const clickActionsMenu = useClick(context);
