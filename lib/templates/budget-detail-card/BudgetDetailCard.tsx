@@ -183,6 +183,7 @@ export default function BudgetDetailCard() {
         showCompactWindowSizeAppBarSecondary,
         addClickCloseAppBarSecondaryEventListener,
         removeClickCloseAppBarSecondaryEventListener,
+        setInfo,
     } = useTemplateContext();
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
@@ -194,6 +195,7 @@ export default function BudgetDetailCard() {
     const [rowSelection, setRowSelection] = React.useState({});
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
     const [openFab, setOpenFab] = React.useState(false);
+    const [exporting, setExporting] = React.useState(false);
     const { refs, floatingStyles, context } = useFloating({
         open: openActionsMenu,
         onOpenChange: setOpenActionsMenu,
@@ -270,7 +272,20 @@ export default function BudgetDetailCard() {
     }, []);
 
     const handleExportBudgetTransactions = React.useCallback(() => {
-        exportBudgetTransactions({ budget, getBudgetTransactions });
+        setExporting(true);
+        exportBudgetTransactions({ 
+            budget, 
+            getBudgetTransactions,
+        })
+        .then(() => {
+            setInfo(`berhasil export ${budget.name}`);
+        })
+        .catch(() => {
+            setInfo(`gagal export ${budget.name}`);
+        })
+        .finally(() => {
+            setExporting(false);
+        });
     }, [budget, getBudgetTransactions]);
 
     const handleBack = React.useCallback(() => {
@@ -344,7 +359,7 @@ export default function BudgetDetailCard() {
                                                 <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
                                             </li>
                                             <li>
-                                                <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                                <MenuItem progress={exporting} onClick={handleExportBudgetTransactions}>Export</MenuItem>
                                             </li>
                                         </ul>
                                     </Menu>
@@ -527,7 +542,7 @@ export default function BudgetDetailCard() {
                                     <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
                                 </li>
                                 <li>
-                                    <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                    <MenuItem progress={exporting} onClick={handleExportBudgetTransactions}>Export</MenuItem>
                                 </li>
                                 <li>
                                     <MenuItem onClick={handleBack}>Kembali</MenuItem>

@@ -31,10 +31,7 @@ import {
     DateTimeTypeDefinition, 
     DateTimeResolver,
 } from "graphql-scalars";
-import createMessageDeleteMany from "../../../lib/utils/createMessageDeleteMany";
-import expenseID from "../../../lib/utils/expenseID";
-import { BUDGET_EXPENSE_ACCOUNT_CODE } from "../../../lib/database/account-code";
-import { BUDGET_FUNDING } from "../../../lib/database/budget-transaction-type";
+import createInfo from "../../../lib/utils/createInfo";
 
 const resolvers: Resolvers = {
     Query: {
@@ -186,7 +183,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 200,
                     success: true,
-                    message: createMessageDeleteMany(budgetNames, "", " berhasil dihapus"),
+                    message: createInfo(budgetNames, "", " berhasil dihapus"),
                     budgets,
                 };
             } catch (error) {
@@ -201,7 +198,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 500,
                     success: false,
-                    message: createMessageDeleteMany(budgetNames, "", ` gagal dihapus`)
+                    message: createInfo(budgetNames, "", ` gagal dihapus`)
                 }
             }
         },
@@ -294,14 +291,14 @@ const resolvers: Resolvers = {
                 return {
                     code: 200,
                     success: true,
-                    message: createMessageDeleteMany(descriptions, "", " berhasil dihapus"),
+                    message: createInfo(descriptions, "", " berhasil dihapus"),
                     expenses,
                 };
             } catch (error) {
                 return {
                     code: 500,
                     success: false,
-                    message: createMessageDeleteMany(descriptions, "", ` gagal dihapus ${error.message}`),
+                    message: createInfo(descriptions, "", ` gagal dihapus ${error.message}`),
                 }
             }
         }

@@ -51,6 +51,7 @@ import {
 } from "@floating-ui/react";
 import IconDownload from "../../icons/Download";
 import { POLL_INTERVAL } from "../../utils/pollInterval";
+import createInfo from "../../utils/createInfo";
 
 const columnHelper = createColumnHelper<Omit<Budget, "__typedef" | "transactions">>();
 
@@ -171,6 +172,7 @@ export default function BudgetTable() {
     const [openBudgetDeleteMany, setOpenBudgetDeleteMany] = React.useState(false);
     const fabRef = React.useRef(null);
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+    const [exporting, setExporting] = React.useState(false);
     const { 
         toolbarRef,
         toolbarSecondaryRef, 
@@ -183,6 +185,7 @@ export default function BudgetTable() {
         isWindowSizeSpanMedium,
         addClickCloseAppBarSecondaryEventListener,
         removeClickCloseAppBarSecondaryEventListener,
+        setInfo,
         windowSize,
     } = useTemplateContext();
     const router = useRouter();
@@ -251,21 +254,43 @@ export default function BudgetTable() {
 
     const handleExportBudgetTransactions = React.useCallback(() => {
         if (isSingleSelectedRow()) {
+            setExporting(true);
             exportBudgetTransactions({ 
                 budget: selectedRows[0], 
                 getBudgetTransactions,
             })
-            .then();
+            .then(() => {
+                table.resetRowSelection();
+                setInfo(`berhasil export ${selectedRows[0].name}`);
+            })
+            .catch(() => {
+                setInfo(`gagal export ${selectedRows[0].name}`);
+            })
+            .finally(() => {
+                setExporting(false);
+            });
         }
     }, [selectedRows.length]);
 
     const handleExportBudgetTransactionsMany = React.useCallback(() => {
         if (isManySelectedRow()) {
+            setExporting(true);
             exportBudgetTransactionsMany({ 
                 budgets: selectedRows, 
                 getBudgetTransactions,
             })
-            .then();
+            .then(() => {
+                table.resetRowSelection();
+                const budgetNames = selectedRows.map((row) => row.name);
+                setInfo(createInfo(budgetNames, "berhasil export "));
+            })
+            .catch(() => {
+                const budgetNames = selectedRows.map((row) => row.name);
+                setInfo(createInfo(budgetNames, "gagal export "));
+            })
+            .finally(() => {
+                setExporting(false);
+            });
         }
     }, [selectedRows.length]);
 
@@ -327,7 +352,7 @@ export default function BudgetTable() {
                                 >
                                     <ul>
                                         <li>
-                                            <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                            <MenuItem progress={exporting} onClick={handleExportBudgetTransactions}>Export</MenuItem>
                                         </li>
                                         <li>
                                             <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
@@ -353,7 +378,7 @@ export default function BudgetTable() {
                                 >
                                     <ul>
                                         <li>
-                                            <MenuItem onClick={handleExportBudgetTransactionsMany}>Export</MenuItem>
+                                            <MenuItem progress={exporting} onClick={handleExportBudgetTransactionsMany}>Export</MenuItem>
                                         </li>
                                         <li>
                                             <MenuItem onClick={handleOpenBudgetDeleteMany}>Hapus</MenuItem>
@@ -433,7 +458,7 @@ export default function BudgetTable() {
                                 >
                                     <ul>
                                         <li>
-                                            <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                            <MenuItem progress={exporting} onClick={handleExportBudgetTransactions}>Export</MenuItem>
                                         </li>
                                         <li>
                                             <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
@@ -460,7 +485,7 @@ export default function BudgetTable() {
                         >
                             <ul>
                                 <li>
-                                    <MenuItem onClick={handleExportBudgetTransactionsMany}>Export</MenuItem>
+                                    <MenuItem progress={exporting} onClick={handleExportBudgetTransactionsMany}>Export</MenuItem>
                                 </li>
                                 <li>
                                     <MenuItem onClick={handleOpenBudgetDeleteMany}>Hapus</MenuItem>

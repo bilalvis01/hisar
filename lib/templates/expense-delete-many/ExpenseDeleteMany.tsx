@@ -6,7 +6,7 @@ import { DELETE_EXPENSE_MANY } from "../../graphql/expense-documents";
 import { useMutation } from "@apollo/client";
 import { DeleteExpenseManyMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
-import createMessageDeleteMany from "../../utils/createMessageDeleteMany";
+import createInfo from "../../utils/createInfo";
 import { GET_BUDGETS } from "../../graphql/budget-documents";
 
 interface ExpenseDeleteManyProps {
@@ -50,7 +50,7 @@ export default function ExpenseDeleteMany({
     const data = {
         values: { ids },
         headline: "Hapus Expense?",
-        supportingText: createMessageDeleteMany(descriptions, "Apakah anda ingin menghapus ", " ?"),
+        supportingText: createInfo(descriptions, "Apakah anda ingin menghapus ", " ?"),
     };
 
     return (
