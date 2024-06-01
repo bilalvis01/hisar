@@ -2,8 +2,8 @@ import React from "react";
 import clsx from "clsx";
 
 interface SnackbarContext {
-    twoLine: boolean;
-    setTwoLine: React.Dispatch<React.SetStateAction<boolean>>;
+    twoLines: boolean;
+    setTwoLines: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SnackbarContext = React.createContext<SnackbarContext>(null);
@@ -19,12 +19,12 @@ function useSnackbarContext() {
 }
 
 function useSnackbar() {
-    const [twoLine, setTwoLine] = React.useState(false);
+    const [twoLines, setTwoLines] = React.useState(false);
 
     return React.useMemo(() => ({
-        twoLine,
-        setTwoLine,
-    }), [twoLine]);
+        twoLines,
+        setTwoLines,
+    }), [twoLines]);
 }
 
 export function Snackbar({ children, className, ...props }: React.HTMLProps<HTMLDivElement>) {
@@ -34,7 +34,7 @@ export function Snackbar({ children, className, ...props }: React.HTMLProps<HTML
         <SnackbarContext.Provider value={context}>
             <div 
                 {...props} 
-                className={clsx("snackbar", { "two-line": context.twoLine }, className)}
+                className={clsx("snackbar", { "two-lines": context.twoLines }, className)}
             >
                 <div className="container">
                     {children}
@@ -65,13 +65,13 @@ export function IconAction({ children, ...props }: React.HTMLProps<HTMLButtonEle
 }
 
 export function SupportingText({ children }: { children: React.ReactNode }) {
-    const { setTwoLine, twoLine } = useSnackbarContext();
+    const { setTwoLines } = useSnackbarContext();
     const ref = React.useRef(null);
 
     React.useEffect(() => {
         if (ref.current instanceof HTMLDivElement) {
             if (ref.current.clientWidth < ref.current.scrollWidth) {
-                setTwoLine(true);
+                setTwoLines(true);
             }
         }
     });
@@ -80,7 +80,6 @@ export function SupportingText({ children }: { children: React.ReactNode }) {
         <div 
             ref={ref} 
             className="supporting-text"
-            style={{ whiteSpace: twoLine ? "wrap" : "nowrap"  }}
         >
             {children}
         </div>
