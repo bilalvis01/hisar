@@ -294,7 +294,7 @@ function FormDialogMediumScreen() {
                     type="submit" 
                     form={formId} 
                     disabled={isSubmitting} 
-                    progress={isSubmitting ? <ProgressCircular size="sm" /> : null}
+                    progress={isSubmitting}
                 >
                     Simpan
                 </ButtonText>

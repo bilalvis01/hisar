@@ -2,6 +2,7 @@
 
 import React from "react";
 import clsx from "clsx";
+import ProgressCircular from "./ProgressCircular";
 
 type Variant = "elevated" | "filled" | "tonal" | "outlined" | "text" | "icon"; 
 
@@ -9,7 +10,7 @@ export interface CommonButtonProps {
     children: React.ReactNode;
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
-    progress?: React.ReactNode;
+    progress?: boolean;
     variant?: Variant;
 };
 
@@ -27,7 +28,7 @@ const ButtonContent = ({
                 </div>
             </div>
             {progress 
-                ? <span className="progress">{progress}</span>
+                ? <span className="progress"><ProgressCircular size="sm" /></span>
                 : startIcon
                 ? <span className="icon">{startIcon}</span>
                 : null}
