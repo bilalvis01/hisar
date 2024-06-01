@@ -271,6 +271,10 @@ export default function BudgetDetailCard() {
         exportBudgetTransactions({ budget, getBudgetTransactions });
     }, [budget, getBudgetTransactions]);
 
+    const handleBack = React.useCallback(() => {
+        router.back();
+    }, [router]);
+
     React.useEffect(() => {
         if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
             setShowCompactWindowSizeAppBarSecondary(true);
@@ -282,7 +286,7 @@ export default function BudgetDetailCard() {
             setShowCompactWindowSizeAppBarSecondary(false);
         }
 
-        () => removeClickCloseAppBarSecondaryEventListener();
+        return () => removeClickCloseAppBarSecondaryEventListener();
     }, [windowSize, selectedRows.length]);
 
     if (budgetLoading || budgetTransactionsLoading) return (
@@ -317,31 +321,34 @@ export default function BudgetDetailCard() {
                         {budget && budget.name.toUpperCase()}
                     </h2>
                     {isNoneSelectedRow() && isWindowSizeExpanded() && (
-                        <div>
-                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
-                                <IconThreeDotsVertial />
-                            </IconButtonStandard>
-                            {openActionsMenu && (
-                                <Menu 
-                                    {...getFloatingProps()} 
-                                    ref={refs.setFloating} 
-                                    style={floatingStyles} 
-                                    className={style.actionsMenu}
-                                >
-                                    <ul>
-                                        <li>
-                                            <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
-                                        </li>
-                                        <li>
-                                            <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
-                                        </li>
-                                        <li>
-                                            <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
-                                        </li>
-                                    </ul>
-                                </Menu>
-                            )}
-                        </div>
+                        <>
+                            <ButtonText onClick={handleBack}>Kembali</ButtonText>
+                            <div>
+                                <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
+                                    <IconThreeDotsVertial />
+                                </IconButtonStandard>
+                                {openActionsMenu && (
+                                    <Menu 
+                                        {...getFloatingProps()} 
+                                        ref={refs.setFloating} 
+                                        style={floatingStyles} 
+                                        className={style.actionsMenu}
+                                    >
+                                        <ul>
+                                            <li>
+                                                <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
+                                            </li>
+                                            <li>
+                                                <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
+                                            </li>
+                                            <li>
+                                                <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                            </li>
+                                        </ul>
+                                    </Menu>
+                                )}
+                            </div>
+                        </>
                     )}
                 </header>
                 <div className={style.body}>
@@ -519,6 +526,9 @@ export default function BudgetDetailCard() {
                                 </li>
                                 <li>
                                     <MenuItem onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                </li>
+                                <li>
+                                    <MenuItem onClick={handleBack}>Kembali</MenuItem>
                                 </li>
                             </ul>
                         </Menu>
