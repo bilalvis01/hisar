@@ -3,6 +3,7 @@
 import React from "react";
 import IconX from "../icons/X";
 import useMergeRefs from "../hooks/useMergeRefs";
+import ProgressCircular from "./ProgressCircular";
 
 interface DialogOptions {
     initialOpen?: boolean,
@@ -160,23 +161,29 @@ export const DialogTrigger = React.forwardRef<
 
 export const DialogAction = React.forwardRef<
     HTMLButtonElement,
-    { progress?: React.ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>
->(function DialogAction({ children, progress, ...props}, ref) {
+    { progress?: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>
+>(function DialogAction({ children, progress = false, ...props}, ref) {
     return (
         <button
             ref={ref}
             {...props}
             className="action"
         >
-            <div className="decorator">
-                <div className="base">
-                    <div className="state-layer" />
+            <div className="container">
+                <div className="decorator">
+                    <div className="base">
+                        <div className="state-layer" />
+                    </div>
                 </div>
+                {progress && (
+                    <span className="progress">
+                        <ProgressCircular size="sm" />
+                    </span>
+                )}
+                <span className="label">
+                    {children}
+                </span>
             </div>
-            {progress && <span className="progress">{progress}</span>}
-            <span className="label">
-                {children}
-            </span>
         </button>
     )
 });

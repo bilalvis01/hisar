@@ -255,7 +255,7 @@ function FormDialogCompactScreen() {
                 <DialogFullscreenAction 
                     form={formId} 
                     disabled={isSubmitting}
-                    progress={isSubmitting ? <ProgressCircular size="sm" /> : null}
+                    progress={isSubmitting}
                 >
                     Simpan
                 </DialogFullscreenAction>
