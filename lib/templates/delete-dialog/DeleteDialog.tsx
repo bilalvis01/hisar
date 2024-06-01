@@ -92,7 +92,7 @@ export default function DeleteDialog<Values>({
                 <ButtonText 
                     type="submit"
                     disabled={isSubmitting} 
-                    progress={isSubmitting ? <ProgressCircular size="sm" /> : null}
+                    progress={isSubmitting}
                     onClick={handleSubmit}
                 >
                     Ya
