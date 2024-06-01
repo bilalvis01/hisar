@@ -46,7 +46,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
     });
 
     return (
-        <FormDialog
+        <FormDialog<{ name: string; description: string; amount: number; }>
             open={open}
             onOpenChange={setOpen}
             headline="Buat Budget"
@@ -57,6 +57,11 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                     label: "Nama",
                 },
                 {
+                    type: "textarea",
+                    name: "description",
+                    label: "Deskripsi",
+                },
+                {
                     type: "number",
                     name: "amount",
                     label: "Nilai",
@@ -65,10 +70,12 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
             initialValues={{
                 name: null,
                 amount: null,
+                description: null,
             }}
             validationSchema={Yup.object({
                 name: Yup.string().required("Mohon diisi"),
                 amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
+                description: Yup.string(),
             })}
             onSubmit={async (input) => {
                 await createBudget({

@@ -25,6 +25,7 @@ export type Budget = {
   balance: Scalars['Money']['output'];
   code: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
   expense: Scalars['Money']['output'];
   name: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
@@ -45,6 +46,7 @@ export type BudgetTransaction = {
 
 export type CreateBudgetInput = {
   amount: Scalars['Money']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
 };
 
@@ -391,6 +393,7 @@ export type BudgetResolvers<ContextType = Context, ParentType extends ResolversP
   balance?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   expense?: Resolver<ResolversTypes['Money'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;

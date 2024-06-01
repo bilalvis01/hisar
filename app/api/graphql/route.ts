@@ -79,10 +79,7 @@ const resolvers: Resolvers = {
     Mutation: {
         async createBudget(_, { input }, context) {
             try {
-                const budget = await createBudget(context.dataSources, { 
-                    name: input.name,
-                    amount: input.amount,
-                });
+                const budget = await createBudget(context.dataSources, input);
 
                 const budgetCashAccount = await context.dataSources.account.findFirst({
                     where: {
@@ -104,7 +101,7 @@ const resolvers: Resolvers = {
                 return {
                     code: 200,
                     success: true,
-                    message: `akun ${input.name} berhasil dibuat`,
+                    message: `budget ${input.name} berhasil dibuat`,
                     budget: {
                         code: budget.code,
                         name: budget.name,

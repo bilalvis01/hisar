@@ -28,13 +28,16 @@ import { Option as SelectOption, OpenMenuHandler as SelectOpenMenuHandler } from
 import Select from "../select/Select";
 import { useTemplateContext, WindowSize } from "../Template";
 import clsx from "clsx";
+import TextareaOutlined from "../textarea-outlined/TextareaOutlined";
 
 interface Error {
     message: string;
 }
 
+type InputFieldType = "text" | "textarea" | "number" | "select"; 
+
 interface InputField {
-    type: string;
+    type: InputFieldType;
     name: string;
     label: string;
     disabled?: boolean;
@@ -214,7 +217,18 @@ function Form({ id, open, inputSize }: FormProps) {
                                     />
                                 );
                             }
-                        
+
+                            if (type === "textarea") {
+                                return (
+                                    <TextareaOutlined
+                                        key={name} 
+                                        name={name} 
+                                        label={label} 
+                                        disabled={disabled}
+                                        autoFocus={autoFocus}
+                                    />
+                                );
+                            }
 
                             return (
                                 <TextField 

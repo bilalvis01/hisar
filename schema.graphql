@@ -15,6 +15,7 @@ type ExcerptReport {
 type Budget {
     code: String!
     name: String!
+    description: String
     amount: Money!
     expense: Money!
     balance: Money!
@@ -59,6 +60,7 @@ input GetBudgetByCodeInput {
 
 input CreateBudgetInput {
     name: String!
+    description: String
     amount: Money!
 }
 

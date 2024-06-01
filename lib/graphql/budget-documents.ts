@@ -15,6 +15,7 @@ export const GET_BUDGETS = gql(/* GraphQL */ `
         budgets {
             code
             name
+            description
             amount
             expense
             balance
@@ -29,6 +30,7 @@ export const GET_BUDGET_BY_CODE = gql(/* GraphQL */ `
         budgetByCode(input: $input) {
             code
             name
+            description
             amount
             expense
             balance
@@ -42,6 +44,7 @@ export const NEW_BUDGET = gql(/* GraphQL */ `
     fragment NewBudget on Budget {
         code
         name
+        description
         amount
         expense
         balance
@@ -59,6 +62,7 @@ export const CREATE_BUDGET = gql(/* GraphQL */`
             budget {
                 code
                 name
+                description
                 amount
                 expense
                 balance
@@ -78,6 +82,7 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
             budget {
                 code
                 name
+                description
                 amount
                 expense
                 balance
@@ -97,6 +102,7 @@ export const DELETE_BUDGET = gql(/* GraphQL */`
             budget {
                 code
                 name
+                description
                 amount
                 expense
                 balance
@@ -116,6 +122,7 @@ export const DELETE_BUDGET_MANY = gql(/* GraphQL */`
             budgets {
                 code
                 name
+                description
                 amount
                 expense
                 balance

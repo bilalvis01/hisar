@@ -127,6 +127,7 @@ export function mapRawBudgetData(
         id: rawBudget.id,
         code: rawBudget.code,
         name: rawBudget.name,
+        description: rawBudget.description,
         amount,
         expense,
         balance,

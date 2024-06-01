@@ -82,17 +82,17 @@ const columns = [
             <span className={clsx("description", "text-title-small")}>ID</span>
         ),
         cell: info => (
-            <span className={clsx("description", "text-body-small")}>
+            <span className={clsx("description", "text-body-medium")}>
                 {info.getValue()}
             </span>
         ),
     }),
     columnHelper.accessor("description", {
         header: () => (
-            <span className={clsx("description", "text-title-small")}>DESKIPSI </span>
+            <span className={clsx("description", "text-title-small")}>DESKRIPSI </span>
         ),
         cell: info => (
-            <span className={clsx("description", "text-body-small")}>
+            <span className={clsx("description", "text-body-medium")}>
                  <Link href={`/budget/${info.row.original.budgetCode}/${info.row.original.id}`} passHref legacyBehavior>
                     <LinkText>
                         {info.getValue()}
@@ -108,7 +108,7 @@ const columns = [
             </span>
         ),
         cell: info => (
-            <span className={clsx("currency", "text-body-small")}>
+            <span className={clsx("currency", "text-body-medium")}>
                 {info.row.original.transactionType === BUDGET_EXPENSE && (
                     idr.format(info.getValue())
                 )}
@@ -122,7 +122,7 @@ const columns = [
             </span>
         ),
         cell: info => (
-            <span className={clsx("currency", "text-body-small")}>
+            <span className={clsx("currency", "text-body-medium")}>
                 {idr.format(info.getValue())}
             </span>
         ),
@@ -132,7 +132,7 @@ const columns = [
             <span className={clsx("description", "text-title-small")}>DIBUAT</span>
         ),
         cell: info => (
-            <span className={clsx("description", "text-body-small")}>
+            <span className={clsx("description", "text-body-medium")}>
                 {date.format(info.getValue())}
             </span>
         ),
@@ -142,7 +142,7 @@ const columns = [
             <span className={clsx("description", "text-title-small")}>DIPERBARUI</span>
         ),
         cell: info => (
-            <span className={clsx("description", "text-body-small")}>
+            <span className={clsx("description", "text-body-medium")}>
                 {date.format(info.getValue())}
             </span>
         ),
@@ -371,39 +371,44 @@ export default function BudgetDetailCard() {
                 <div className={style.body}>
                     {budget && (
                         <>
-                            <h3 className={clsx("text-title-medium")}>Informasi umum</h3>
+                            <h3 className={clsx("text-title-medium")}>Informasi Umum</h3>
                             <ul className={style.description}>
                                 <li className={style.descriptionItem}>
                                     <div className="text-title-small">Kode</div>
-                                    <div className="text-body-small">{budget.code}</div>
+                                    <div className="text-body-medium">{budget.code}</div>
                                 </li>
                                 <li className={style.descriptionItem}>
                                     <div className="text-title-small">Nama</div>
-                                    <div className="text-body-small">{budget.name}</div>
+                                    <div className="text-body-medium">{budget.name}</div>
                                 </li>
                                 <li>
                                     <div className="text-title-small">Dibuat</div>
-                                    <div className="text-body-small">{date.format(budget.createdAt)}</div>
+                                    <div className="text-body-medium">{date.format(budget.createdAt)}</div>
                                 </li>
                                 <li>
                                     <div className="text-title-small">Diperbarui</div>
-                                    <div className="text-body-small">{date.format(budget.updatedAt)}</div>
+                                    <div className="text-body-medium">{date.format(budget.updatedAt)}</div>
                                 </li>
                             </ul>
                             <hr className={style.divider} />
-                            <h3 className={clsx("text-title-medium")}>Informasi saldo</h3>
+                            <h3 className={clsx("text-title-medium")}>Deskripsi</h3>
+                            <div className={style.budgetDescription}>
+                                <p className="text-body-medium">{budget.description}</p>
+                            </div>
+                            <hr className={style.divider} />
+                            <h3 className={clsx("text-title-medium")}>Informasi Saldo</h3>
                             <ul className={style.description}>
                                 <li>
                                     <div className="text-title-small">Budget</div>
-                                    <div className="text-body-small">{idr.format(budget.amount)}</div>
+                                    <div className="text-body-medium">{idr.format(budget.amount)}</div>
                                 </li>
                                 <li>
                                     <div className="text-title-small">Expense</div>
-                                    <div className="text-body-small">{idr.format(budget.expense)}</div>
+                                    <div className="text-body-medium">{idr.format(budget.expense)}</div>
                                 </li>
                                 <li>
                                     <div className="text-title-small">Saldo</div>
-                                    <div className="text-body-small">{idr.format(budget.balance)}</div>
+                                    <div className="text-body-medium">{idr.format(budget.balance)}</div>
                                 </li>
                             </ul>
                         </>

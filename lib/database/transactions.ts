@@ -2,10 +2,6 @@ import {
     PrismaClient,
 } from "@prisma/client";
 import { 
-    BUDGET_EXPENSE_ACCOUNT_CODE,
-    CASH_ACCOUNT_CODE,
-} from "./account-code";
-import { 
     createBudgetProcedure,
     deleteBudgetProcedure,
     deleteBudgetManyProcedure,
@@ -18,9 +14,6 @@ import {
     deleteExpenseManyProcedure,
 } from "./expense-procedures";
 import { createJournalProcedure } from "./journal-procedures";
-
-const DEBIT = 1;
-const CREDIT = -1;
 
 export async function journalize(
     client: PrismaClient,
@@ -48,10 +41,22 @@ export async function journalize(
 
 export async function createBudget(
     client: PrismaClient, 
-    { name, amount }: { name: string; amount: bigint }
+    { 
+        name, 
+        description,
+        amount,
+    }: { 
+        name: string; 
+        description?: string;
+        amount: bigint;
+    }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
-        return await createBudgetProcedure(tx, { name, amount });
+        return await createBudgetProcedure(tx, { 
+            name,
+            amount,
+            description,
+        });
     });
 }
 

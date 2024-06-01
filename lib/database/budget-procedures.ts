@@ -25,7 +25,15 @@ import { balancingLedgerProcedure } from "./common-procedures";
 
 export async function createBudgetProcedure(
     client: PrismaClient,
-    { name, amount }: { name: string; amount: bigint }
+    { 
+        name, 
+        description,
+        amount,
+    }: { 
+        name: string; 
+        description?: string;
+        amount: bigint;
+    }
 ) {
     const ownerCapitalAccountCode = await client.accountCode.findUnique({
         where: {
@@ -55,6 +63,7 @@ export async function createBudgetProcedure(
         data: {
             code: budgetCashAccount.code,
             name,
+            description,
         },
     });
 
@@ -98,10 +107,12 @@ export async function updateBudgetProcedure(
     {
         id, 
         name, 
+        description,
         amount
     }: { 
         id: number; 
         name: string; 
+        description?: string;
         amount: bigint; 
     }
 ) {
