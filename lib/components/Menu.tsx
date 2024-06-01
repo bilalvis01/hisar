@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import ProgressCircular from "./ProgressCircular";
 
 interface MenuContext {
     value: string;
@@ -33,7 +34,7 @@ export const Menu = React.forwardRef<
     className, 
     initialValue, 
     value: controlledValue,
-    onChange, 
+    onChange,
     ...props
 }, ref) {
     const [uncontrolledValue, setValue] = React.useState(initialValue);
@@ -60,6 +61,7 @@ interface MenuItemProps {
     startIcon?: React.ReactNode,
     endIcon?: React.ReactNode,
     value?: string,
+    progress?: boolean,
 }
 
 export function MenuItem({ 
@@ -68,6 +70,7 @@ export function MenuItem({
     endIcon,
     value: thisValue,
     onClick: handleClick_,
+    progress = false,
     ...props
 }: MenuItemProps & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
     const { value, setValue, onChange } = useMenuContext();
@@ -88,11 +91,20 @@ export function MenuItem({
             <div className="decorator">
                 <div className="state-layer" />
             </div>
-            {startIcon && (
-                <span className="leading-icon">
-                    {startIcon}
-                </span>
-            )}
+            {progress
+                ? (
+                    <span className="progress">
+                        <ProgressCircular size="sm" />
+                    </span>
+                )
+                : startIcon
+                ? (
+                    <span className="leading-icon">
+                        {startIcon}
+                    </span>
+                )
+                : null
+            }
             <span className="label">
                 {children}
             </span>

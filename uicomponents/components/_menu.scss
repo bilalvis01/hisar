@@ -87,6 +87,8 @@
 
                 & > .list-item {
                     position: relative;
+                    display: flex;
+                    align-items: center;
                     width: 100%;
                     height: var(--list-item-container-height);
                     padding: {
@@ -115,6 +117,13 @@
                         font-size: var(--list-item-label-size);
                         font-weight: var(--list-item-label-weight);
                         letter-spacing: var(--list-item-label-tracking);
+                    }
+
+                    & > .progress {
+                        position: relative;
+                        display: grid;
+                        place-items: center;
+                        padding-right: 0.75rem;
                     }
 
                     & > .leading-icon {
