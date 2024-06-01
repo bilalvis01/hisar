@@ -1,0 +1,260 @@
+.textarea-outlined {
+    --container-height: var(--component-textarea-outlined-container-height);
+    --container-shape: var(--component-textarea-outlined-container-shape);
+    --focus-indicator-style: none;
+    --focus-indicator-color: var(--component-textarea-outlined-focus-indicator-color);
+    --focus-indicator-thickness: var(--component-textarea-outlined-focus-indicator-thickness);
+    --outline-width: var(--component-textarea-outlined-outline-width);
+    --outline-color: var(--component-textarea-outlined-outline-color);
+    --label-top: unset;
+    --label-margin-left: 0;
+    --label-padding-left: 1rem;
+    --label-padding-right: 1rem;
+    --label-color: var(--component-textarea-outlined-label-color);
+    --label-font: var(--component-textarea-outlined-label-font);
+    --label-line-height: var(--component-textarea-outlined-label-line-height);
+    --label-size: var(--component-textarea-outlined-label-size);
+    --label-weight: var(--component-textarea-outliend-label-weight);
+    --label-tracking: var(--component-textarea-outlined-label-tracking);
+    --label-populated-line-height: var(--component-textarea-outlined-label-populated-line-height);
+    --label-populated-size: var(--component-textarea-outlined-label-populated-size);
+    --leading-icon-color: var(--component-textarea-outlined-leading-icon-color);
+    --leading-icon-size: var(--component-textarea-outlined-leading-icon-size);
+    --trailing-icon-color: var(--component-textarea-outlined-trailing-icon-color);
+    --trailing-icon-size: var(--component-textarea-outlined-trailing-icon-size);
+    --supporting-text-color: var(--component-textarea-outlined-supporting-text-color);
+    --supporting-text-font: var(--component-textarea-outlined-supporting-text-font);
+    --supporting-text-line-height: var(--component-textarea-outlined-supporting-text-line-height);
+    --supporting-text-size: var(--component-textarea-outlined-supporting-text-size);
+    --supporting-text-weight: var(--component-textarea-outliend-supporting-text-weight);
+    --supporting-text-tracking: var(--component-textarea-outlined-supporting-text-tracking);
+    --input-container-inner-position: relative;
+    --input-text-color: var(--component-textarea-outlined-input-text-color);
+    --input-text-font: var(--component-textarea-outlined-input-text-font);
+    --input-text-line-height: var(--component-textarea-outlined-input-text-line-height);
+    --input-text-size: var(--component-textarea-outlined-input-text-size);
+    --input-text-weight: var(--component-textarea-outliend-input-text-weight);
+    --input-text-tracking: var(--component-textarea-outlined-input-text-tracking);
+    --caret-color: var(--component-textarea-outlined-caret-color);
+    --input-z-index: auto;
+
+    &.populated {
+        --label-top: -0.625rem;
+        --label-margin-left: 0.75rem;
+        --label-padding-left: 0.25rem;
+        --label-padding-right: 0.25rem;
+        --label-line-height: var(--component-textarea-outlined-label-populated-line-height);
+        --label-size: var(--component-textarea-outlined-label-populated-size);
+        --input-container-inner-position: static;
+        --input-z-index: 1;
+    }  
+
+    &:disabled {
+        --label-color: rgba(var(--component-textarea-outlined-disabled-label-color-rgb), var(--component-textarea-outlined-disabled-label-opacity));
+        --leading-icon-color: rgba(var(--component-textarea-outlined-disabled-leading-icon-color-rgb), var(--component-textarea-outlined-disabled-leading-icon-opacity));
+        --trailing-icon-color: rgba(var(--component-textarea-outlined-disabled-trailing-icon-color-rgb), var(--component-textarea-outlined-disabled-trailing-icon-opacity));
+        --outline-width: var(--component-textarea-outlined-disabled-outline-width);
+        --outline-color: rgba(var(--component-textarea-outlined-disabled-outline-color-rgb), var(--component-textarea-outlined-disabled-outline-opacity));
+        --supporting-text-color: rgba(var(--component-textarea-outlined-disabled-supporting-text-color-rgb), var(--component-textarea-outlined-disabled-supporting-text-opacity));
+        --input-text-color: rgba(var(--component-textarea-outlined-disabled-input-text-color-rgb), var(--component-textarea-outlined-disabled-input-text-opacity));
+    }
+
+    &:hover {
+        --label-color: var(--component-textarea-outlined-hover-label-color);
+        --leading-icon-color: var(--component-textarea-outlined-hover-leading-icon-color);
+        --trailing-icon-color: var(--component-textarea-outlined-hover-trailing-icon-color);
+        --outline-width: var(--component-textarea-outlined-hover-outline-width);
+        --outline-color: var(--component-textarea-outlined-hover-outline-color);
+        --supporting-text-color: var(--component-textarea-outlined-hover-supporting-text-color);
+        --input-text-color: var(--component-textarea-outlined-hover-input-text-color);
+    }
+
+    &:focus-within {
+        --label-color: var(--component-textarea-outlined-focus-label-color);
+        --leading-icon-color: var(--component-textarea-outlined-focus-leading-icon-color);
+        --trailing-icon-color: var(--component-textarea-outlined-focus-trailing-icon-color);
+        --outline-width: var(--component-textarea-outlined-focus-outline-width);
+        --outline-color: var(--component-textarea-outlined-focus-outline-color);
+        --supporting-text-color: var(--component-textarea-outlined-focus-supporting-text-color);
+        --input-text-color: var(--component-textarea-outlined-focus-input-text-color);
+        --focus-indicator-style: solid;
+
+        &.error {
+            --focus-indicator-color: var(--component-textarea-outlined-focus-indicator-color-error);
+        }
+    }
+
+    &.error {
+        --outline-color: var(--component-textarea-outlined-error-outline-color);
+        --label-color: var(--component-textarea-outlined-error-label-color);
+        --input-text-color: var(--component-textarea-outlined-error-input-text-color);
+        --supporting-text-color: var(--component-textarea-outlined-error-supporting-text-color);
+        --leading-icon-color: var(--component-textarea-outlined-error-leading-icon-color);
+        --trailing-icon-color: var(--component-textarea-outlined-error-trailing-icon-color);
+
+        &:hover {
+            --outline-color: var(--component-textarea-outlined-error-hover-outline-color);
+            --label-color: var(--component-textarea-outlined-error-hover-label-color);
+            --input-text-color: var(--component-textarea-outlined-error-hover-input-text-color);
+            --supporting-text-color: var(--component-textarea-outlined-error-hover-supporting-text-color);
+            --leading-icon-color: var(--component-textarea-outlined-error-hover-leading-icon-color);
+            --trailing-icon-color: var(--component-textarea-outlined-error-hover-trailing-icon-color);
+        }
+
+        &:focus {
+            --outline-color: var(--component-textarea-outlined-error-focus-outline-color);
+            --label-color: var(--component-textarea-outlined-error-focus-label-color);
+            --input-text-color: var(--component-textarea-outlined-error-focus-input-text-color);
+            --supporting-text-color: var(--component-textarea-outlined-error-focus-supporting-text-color);
+            --leading-icon-color: var(--component-textarea-outlined-error-focus-leading-icon-color);
+            --trailing-icon-color: var(--component-textarea-outlined-error-focus-trailing-icon-color);
+            --caret-color: var(--component-textarea-outlined-error-focus-caret-color);
+        }
+    }
+
+    display: block;
+    background: none;
+    border: none;
+    outline: none;
+
+    & > .container {
+        padding-top: 0.625rem;
+        
+        & > .textarea-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+    
+            & > .textarea-container-inner {
+                display: flex;
+                flex-grow: 1;
+                position: var(--input-container-inner-position);
+                padding-top: 0.5rem;
+    
+                & > .textarea {
+                    color: var(--input-text-color);
+                    background-color: transparent;
+                    border: none;
+                    font-family: var(--input-text-font);
+                    line-height: var(--input-text-line-height);
+                    font-size: var(--input-text-size);
+                    font-weight: var(--input-text-weight);
+                    letter-spacing: var(--input-text-tracking);
+                    caret-color: var(--caret-color);
+                    padding: {
+                        left: 1rem;
+                        right: 1rem;
+                    };
+                    flex-grow: 1;
+                    z-index: var(--input-z-index);
+                    appearance: textfield;
+    
+                    &:focus {
+                        outline: none;
+                    }
+                }
+    
+                & > .label {
+                    position: absolute;
+                    top: var(--label-top);
+                    left: 0;
+                    padding: {
+                        left: var(--label-padding-left);
+                        right: var(--label-padding-right);
+                    };
+                    margin-left: var(--label-margin-left);
+                    color: var(--label-color);
+                    font-family: var(--label-font);
+                    line-height: var(--label-line-height);
+                    font-size: var(--label-size);
+                    font-weight: var(--label-weight);
+                    letter-spacing: var(--label-tracking);
+                }
+    
+                & > .prefix {
+                    color: var(--input-text-color);
+                    font-family: var(--input-text-font);
+                    line-height: var(--input-text-line-height);
+                    font-size: var(--input-text-size);
+                    font-weight: var(--input-text-weight);
+                    letter-spacing: var(--input-text-tracking);
+                    padding-left: 1rem;
+                }
+        
+                & > .suffix {
+                    color: var(--input-text-color);
+                    font-family: var(--input-text-font);
+                    line-height: var(--input-text-line-height);
+                    font-size: var(--input-text-size);
+                    font-weight: var(--input-text-weight);
+                    letter-spacing: var(--input-text-tracking);
+                    padding-right: 1rem;
+                }
+    
+                & > .trailing-icon {
+                    position: relative;
+                    display: grid;
+                    align-items: center;
+                    padding-right: 0.75rem;
+    
+                    & > svg {
+                        color: var(--trailing-icon-color);
+                        width: var(--trailing-icon-size);
+                        height: var(--trailing-icon-size);
+                    }
+                }
+            }
+    
+            & > .leading-icon {
+                display: grid;
+                align-items: center;
+                padding-left: 0.75rem;
+    
+                & > svg {
+                    color: var(--leading-icon-color);
+                    width: var(--leading-icon-size);
+                    height: var(--leading-icon-size);
+                }
+            }
+    
+            & > .decorator {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: var(--container-shape);
+                border: var(--outline-width) solid var(--outline-color);
+                outline-style: var(--focus-indicator-style);
+                outline-width: var(--focus-indicator-thickness);
+                outline-color: var(--focus-indicator-color);
+            }
+        }
+    
+        & > .supporting-text-container {
+            display: flex;
+            align-items: center;
+            padding-top: 0.25rem;
+            color: var(--supporting-text-color);
+            font-family: var(--supporting-text-font);
+            line-height: var(--supporting-text-line-height);
+            font-size: var(--supporting-text-size);
+            font-weight: var(--supporting-text-weight);
+            letter-spacing: var(--supporting-text-tracking);
+    
+            & > .supporting-text {
+                flex-grow: 1;
+                padding: {
+                    left: 1rem;
+                    right: 1rem;
+                };
+            }
+    
+            & > .counter {
+                padding: {
+                    right: 1rem;
+                };
+            }
+        }
+    }
+}

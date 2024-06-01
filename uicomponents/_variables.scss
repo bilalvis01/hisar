@@ -332,6 +332,26 @@
         --component-#{$token}: #{$value};
     }
 
+    @each $token, $value in comp.$textarea-outlined {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$textarea-outlined-disabled {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$textarea-outlined-hover {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$textarea-outlined-focus {
+        --component-#{$token}: #{$value};
+    }
+
+    @each $token, $value in comp.$textarea-outlined-error {
+        --component-#{$token}: #{$value};
+    }
+
     @each $token, $value in comp.$top-app-bar-small {
         --component-#{$token}: #{$value};
     }

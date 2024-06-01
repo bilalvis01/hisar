@@ -1,0 +1,193 @@
+$textarea-outlined-container-height: 3.5rem;
+$textarea-outlined-container-shape: var(--system-shape-corner-extra-small);
+$textarea-outlined-outline-width: 0.0625rem;
+$textarea-outlined-outline-color: var(--system-color-outline);
+$textarea-outlined-label-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-label-font: var(--system-typescale-body-large-font) !default;
+$textarea-outlined-label-line-height: var(--system-typescale-body-large-line-height) !default;
+$textarea-outlined-label-size: var(--system-typescale-body-large-size) !default;
+$textarea-outlined-label-weight: var(--system-typescale-body-large-weight) !default;
+$textarea-outlined-label-tracking: var(--system-typescale-body-large-tracking) !default;
+$textarea-outlined-label-populated-line-height: var(--system-typescale-body-small-line-height) !default;
+$textarea-outlined-label-populated-size: var(--system-typescale-body-small-size) !default;
+$textarea-outlined-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-leading-icon-size: 1.5rem !default;
+$textarea-outlined-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-trailing-icon-size: 1.5rem !default;
+$textarea-outlined-supporting-text-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-supporting-text-font: var(--system-typescale-body-small-font) !default;
+$textarea-outlined-supporting-text-line-height: var(--system-typescale-body-small-line-height) !default;
+$textarea-outlined-supporting-text-size: var(--system-typescale-body-small-size) !default;
+$textarea-outlined-supporting-text-weight: var(--system-typescale-body-small-weight) !default;
+$textarea-outlined-supporting-text-tracking: var(--system-typescale-body-small-tracking) !default;
+$textarea-outlined-input-text-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-input-text-font: var(--system-typescale-body-large-font) !default;
+$textarea-outlined-input-text-line-height: var(--system-typescale-body-large-line-height) !default;
+$textarea-outlined-input-text-size: var(--system-typescale-body-large-size) !default;
+$textarea-outlined-input-text-weight: var(--system-typescale-body-large-weight) !default;
+$textarea-outlined-input-text-tracking: var(--system-typescale-body-large-tracking) !default;
+$textarea-outlined-input-text-suffix-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-input-text-prefix-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-input-text-placeholder-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-caret-color: var(--system-color-primary) !default;
+
+$textarea-outlined-disabled-label-color: var(--system-color-on-surface) !default;
+$textarea-outlined-disabled-label-color-rgb: var(--system-color-on-surface-rgb) !default;
+$textarea-outlined-disabled-label-opacity: 0.38 !default;
+$textarea-outlined-disabled-leading-icon-color: var(--system-color-on-surface) !default;
+$textarea-outlined-disabled-leading-icon-color-rgb: var(--system-color-on-surface-rgb) !default;
+$textarea-outlined-disabled-leading-icon-opacity: 0.38 !default;
+$textarea-outlined-disabled-trailing-icon-color: var(--system-color-on-surface) !default;
+$textarea-outlined-disabled-trailing-icon-color-rgb: var(--system-color-on-surface-rgb) !default;
+$textarea-outlined-disabled-trailing-icon-opacity: 0.38 !default;
+$textarea-outlined-disabled-outline-width: 0.0625rem !default;
+$textarea-outlined-disabled-outline-color: var(--system-color-on-surface) !default;
+$textarea-outlined-disabled-outline-color-rgb: var(--system-color-on-surface-rgb) !default;
+$textarea-outlined-disabled-outline-opacity: 0.12 !default;
+$textarea-outlined-disabled-supporting-text-color: var(--system-color-on-surface) !default;
+$textarea-outlined-disabled-supporting-text-color-rgb: var(--system-color-on-surface-rgb) !default;
+$textarea-outlined-disabled-supporting-text-opacity: 0.38 !default;
+$textarea-outlined-disabled-input-text-color: var(--system-color-on-surface) !default;
+$textarea-outlined-disabled-input-text-color-rgb: var(--system-color-on-surface-rgb) !default;
+$textarea-outlined-disabled-input-text-opacity: 0.38 !default;
+
+$textarea-outlined-hover-label-color: var(--system-color-on-surface) !default;
+$textarea-outlined-hover-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-hover-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-hover-outline-width: 0.0625rem !default;
+$textarea-outlined-hover-outline-color: var(--system-color-on-surface) !default;
+$textarea-outlined-hover-input-text-color: var(--system-color-on-surface) !default;
+$textarea-outlined-hover-supporting-text-color: var(--system-color-on-surface) !default;
+
+$textarea-outlined-focus-label-color: var(--system-color-primary) !default;
+$textarea-outlined-focus-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-focus-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-focus-outline-width: 0.125rem !default;
+$textarea-outlined-focus-outline-color: var(--system-color-primary) !default;
+$textarea-outlined-focus-input-text-color: var(--system-color-on-surface) !default;
+$textarea-outlined-focus-supporting-text-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-focus-indicator-color: var(--system-color-secondary) !default;
+$textarea-outlined-focus-indicator-color-error: var(--system-color-error) !default;
+$textarea-outlined-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
+
+$textarea-outlined-error-outline-color: var(--system-color-error) !default;
+$textarea-outlined-error-label-color: var(--system-color-error) !default;
+$textarea-outlined-error-input-text-color: var(--system-color-on-surface) !default;
+$textarea-outlined-error-supporting-text-color: var(--system-color-error) !default;
+$textarea-outlined-error-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-error-trailing-icon-color: var(--system-color-error) !default;
+$textarea-outlined-error-focus-outline-color: var(--system-color-error) !default;
+$textarea-outlined-error-focus-label-color: var(--system-color-error) !default;
+$textarea-outlined-error-focus-input-text-color: var(--system-color-on-surface) !default;
+$textarea-outlined-error-focus-supporting-text-color: var(--system-color-error) !default;
+$textarea-outlined-error-focus-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-error-focus-trailing-icon-color: var(--system-color-error) !default;
+$textarea-outlined-error-focus-caret-color: var(--system-color-error) !default;
+$textarea-outlined-error-hover-outline-color: var(--system-color-error) !default;
+$textarea-outlined-error-hover-label-color: var(--system-color-error) !default;
+$textarea-outlined-error-hover-input-text-color: var(--system-color-on-surface) !default;
+$textarea-outlined-error-hover-supporting-text-color: var(--system-color-error) !default;
+$textarea-outlined-error-hover-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$textarea-outlined-error-hover-trailing-icon-color: var(--system-color-error) !default;
+
+$textarea-outlined: (
+    "textarea-outlined-container-height": $textarea-outlined-container-height,
+    "textarea-outlined-container-shape": $textarea-outlined-container-shape,
+    "textarea-outlined-outline-width": $textarea-outlined-outline-width,
+    "textarea-outlined-outline-color": $textarea-outlined-outline-color,
+    "textarea-outlined-label-color": $textarea-outlined-label-color,
+    "textarea-outlined-label-font": $textarea-outlined-label-font,
+    "textarea-outlined-label-line-height": $textarea-outlined-label-line-height,
+    "textarea-outlined-label-size": $textarea-outlined-label-size,
+    "textarea-outlined-label-weight": $textarea-outlined-label-weight,
+    "textarea-outlined-label-tracking": $textarea-outlined-label-tracking,
+    "textarea-outlined-label-populated-line-height": $textarea-outlined-label-populated-line-height,
+    "textarea-outlined-label-populated-size": $textarea-outlined-label-populated-size,
+    "textarea-outlined-leading-icon-color": $textarea-outlined-leading-icon-color,
+    "textarea-outlined-leading-icon-size": $textarea-outlined-leading-icon-size,
+    "textarea-outlined-trailing-icon-color": $textarea-outlined-trailing-icon-color,
+    "textarea-outlined-trailing-icon-size": $textarea-outlined-trailing-icon-size,
+    "textarea-outlined-supporting-text-color": $textarea-outlined-supporting-text-color,
+    "textarea-outlined-supporting-text-font": $textarea-outlined-supporting-text-font,
+    "textarea-outlined-supporting-text-line-height": $textarea-outlined-supporting-text-line-height,
+    "textarea-outlined-supporting-text-size": $textarea-outlined-supporting-text-size,
+    "textarea-outlined-supporting-text-weight": $textarea-outlined-supporting-text-weight,
+    "textarea-outlined-supporting-text-tracking": $textarea-outlined-supporting-text-tracking,
+    "textarea-outlined-input-text-color": $textarea-outlined-input-text-color,
+    "textarea-outlined-input-text-font": $textarea-outlined-input-text-font,
+    "textarea-outlined-input-text-line-height": $textarea-outlined-input-text-line-height,
+    "textarea-outlined-input-text-size": $textarea-outlined-input-text-size,
+    "textarea-outlined-input-text-weight": $textarea-outlined-input-text-weight,
+    "textarea-outlined-input-text-tracking": $textarea-outlined-input-text-tracking,
+    "textarea-outlined-input-text-suffix-color": $textarea-outlined-input-text-suffix-color,
+    "textarea-outlined-input-text-prefix-color": $textarea-outlined-input-text-prefix-color,
+    "textarea-outlined-input-text-placeholder-color": $textarea-outlined-input-text-placeholder-color,
+    "textarea-outlined-caret-color": $textarea-outlined-caret-color,
+) !default;
+
+$textarea-outlined-disabled: (
+    "textarea-outlined-disabled-label-color": $textarea-outlined-disabled-label-color,
+    "textarea-outlined-disabled-label-color-rgb": $textarea-outlined-disabled-label-color-rgb,
+    "textarea-outlined-disabled-label-opacity": $textarea-outlined-disabled-label-opacity,
+    "textarea-outlined-disabled-leading-icon-color": $textarea-outlined-disabled-leading-icon-color,
+    "textarea-outlined-disabled-leading-icon-color-rgb": $textarea-outlined-disabled-leading-icon-color-rgb,
+    "textarea-outlined-disabled-leading-icon-opacity": $textarea-outlined-disabled-leading-icon-opacity,
+    "textarea-outlined-disabled-trailing-icon-color": $textarea-outlined-disabled-trailing-icon-color,
+    "textarea-outlined-disabled-trailing-icon-color-rgb": $textarea-outlined-disabled-trailing-icon-color-rgb,
+    "textarea-outlined-disabled-trailing-icon-opacity": $textarea-outlined-disabled-trailing-icon-opacity,
+    "textarea-outlined-disabled-outline-width": $textarea-outlined-disabled-outline-width,
+    "textarea-outlined-disabled-outline-color": $textarea-outlined-disabled-outline-color,
+    "textarea-outlined-disabled-outline-color-rgb": $textarea-outlined-disabled-outline-color-rgb,
+    "textarea-outlined-disabled-outline-opacity": $textarea-outlined-disabled-outline-opacity,
+    "textarea-outlined-disabled-supporting-text-color": $textarea-outlined-disabled-supporting-text-color,
+    "textarea-outlined-disabled-supporting-text-color-rgb": $textarea-outlined-disabled-supporting-text-color-rgb,
+    "textarea-outlined-disabled-supporting-text-opacity": $textarea-outlined-disabled-supporting-text-opacity,
+    "textarea-outlined-disabled-input-text-color": $textarea-outlined-disabled-input-text-color,
+    "textarea-outlined-disabled-input-text-color-rgb": $textarea-outlined-disabled-input-text-color-rgb,
+    "textarea-outlined-disabled-input-text-opacity": $textarea-outlined-disabled-input-text-opacity,
+) !default;
+
+$textarea-outlined-hover: (
+    "textarea-outlined-hover-label-color": $textarea-outlined-hover-label-color,
+    "textarea-outlined-hover-leading-icon-color": $textarea-outlined-hover-leading-icon-color,
+    "textarea-outlined-hover-trailing-icon-color": $textarea-outlined-hover-trailing-icon-color,
+    "textarea-outlined-hover-outline-width": $textarea-outlined-hover-outline-width,
+    "textarea-outlined-hover-outline-color": $textarea-outlined-hover-outline-color,
+    "textarea-outlined-hover-input-text-color": $textarea-outlined-hover-input-text-color,
+    "textarea-outlined-hover-supporting-text-color": $textarea-outlined-hover-supporting-text-color,
+) !default;
+
+$textarea-outlined-focus: (
+    "textarea-outlined-focus-label-color": $textarea-outlined-focus-label-color,
+    "textarea-outlined-focus-leading-icon-color": $textarea-outlined-focus-leading-icon-color,
+    "textarea-outlined-focus-trailing-icon-color": $textarea-outlined-focus-trailing-icon-color,
+    "textarea-outlined-focus-outline-width": $textarea-outlined-focus-outline-width,
+    "textarea-outlined-focus-outline-color": $textarea-outlined-focus-outline-color,
+    "textarea-outlined-focus-input-text-color": $textarea-outlined-focus-input-text-color,
+    "textarea-outlined-focus-supporting-text-color": $textarea-outlined-focus-supporting-text-color,
+    "textarea-outlined-focus-indicator-color": $textarea-outlined-focus-indicator-color,
+    "textarea-outlined-focus-indicator-color-error": $textarea-outlined-focus-indicator-color-error,
+    "textarea-outlined-focus-indicator-thickness": $textarea-outlined-focus-indicator-thickness,
+) !default;
+
+$textarea-outlined-error: (
+    "textarea-outlined-error-outline-color": $textarea-outlined-error-outline-color,
+    "textarea-outlined-error-label-color": $textarea-outlined-error-label-color,
+    "textarea-outlined-error-input-text-color": $textarea-outlined-error-input-text-color,
+    "textarea-outlined-error-supporting-text-color": $textarea-outlined-error-supporting-text-color,
+    "textarea-outlined-error-leading-icon-color": $textarea-outlined-error-leading-icon-color,
+    "textarea-outlined-error-trailing-icon-color": $textarea-outlined-error-trailing-icon-color,
+    "textarea-outlined-error-focus-outline-color": $textarea-outlined-error-focus-outline-color,
+    "textarea-outlined-error-focus-label-color": $textarea-outlined-error-focus-label-color,
+    "textarea-outlined-error-focus-input-text-color": $textarea-outlined-error-focus-input-text-color,
+    "textarea-outlined-error-focus-supporting-text-color": $textarea-outlined-error-focus-supporting-text-color,
+    "textarea-outlined-error-focus-leading-icon-color": $textarea-outlined-error-focus-leading-icon-color,
+    "textarea-outlined-error-focus-trailing-icon-color": $textarea-outlined-error-focus-trailing-icon-color,
+    "textarea-outlined-error-focus-caret-color": $textarea-outlined-error-focus-caret-color,
+    "textarea-outlined-error-hover-outline-color": $textarea-outlined-error-hover-outline-color,
+    "textarea-outlined-error-hover-label-color": $textarea-outlined-error-hover-label-color,
+    "textarea-outlined-error-hover-input-text-color": $textarea-outlined-error-hover-input-text-color,
+    "textarea-outlined-error-hover-supporting-text-color": $textarea-outlined-error-hover-supporting-text-color,
+    "textarea-outlined-error-hover-leading-icon-color": $textarea-outlined-error-hover-leading-icon-color,
+    "textarea-outlined-error-hover-trailing-icon-color": $textarea-outlined-error-hover-trailing-icon-color,
+) !default;
