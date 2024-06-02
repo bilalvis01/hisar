@@ -46,7 +46,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
     });
 
     return (
-        <FormDialog<{ name: string; description: string; amount: number; }>
+        <FormDialog<{ name: string; description?: string; amount: number; }>
             open={open}
             onOpenChange={setOpen}
             headline="Buat Budget"

@@ -15,7 +15,7 @@ import {
 } from "./expense-procedures";
 import { createJournalProcedure } from "./journal-procedures";
 
-export async function journalize(
+export async function createJournal(
     client: PrismaClient,
     {
         debitAccountId,
@@ -62,7 +62,7 @@ export async function createBudget(
 
 export async function updateBudget(
     client: PrismaClient, 
-    data: { id: number; name: string; amount: bigint; }
+    data: { id: number; name: string; description?: string; amount: bigint; }
 ) {
     return await client.$transaction(async (tx: PrismaClient) => {
         return updateBudgetProcedure(tx, data);

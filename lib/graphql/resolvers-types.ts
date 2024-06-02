@@ -226,6 +226,7 @@ export enum SortOrder {
 export type UpdateBudgetInput = {
   amount: Scalars['Money']['input'];
   code: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
 };
 

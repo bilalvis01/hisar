@@ -129,6 +129,7 @@ const resolvers: Resolvers = {
                 await updateBudget(context.dataSources, {
                     id: budget.id,
                     name: input.name,
+                    description: input.description,
                     amount: input.amount,
                 });
 

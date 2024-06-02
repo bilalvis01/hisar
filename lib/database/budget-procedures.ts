@@ -150,6 +150,13 @@ export async function updateBudgetProcedure(
 
     const currentBudgetAmount = budgetTransaction.journal.entries[0].amount;
 
+    if (budget.description !== description) {
+        await changeBudgetDescriptionProcedure(client, {
+            id,
+            description,
+        });
+    }
+
     if (budget.name !== name) {
         await changeBudgetNameProcedure(client, {
             id,
@@ -388,4 +395,24 @@ export async function changeBudgetNameProcedure(
             },
         });
     }));
+}
+
+export async function changeBudgetDescriptionProcedure(
+    client: PrismaClient,
+    {
+        id,
+        description,
+    }: {
+        id: number,
+        description?: string,
+    }
+) {
+    const budget = await client.budget.update({
+        data: {
+            description,
+        },
+        where: {
+            id,
+        },
+    });
 }

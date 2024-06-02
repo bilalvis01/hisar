@@ -74,6 +74,7 @@ type CreateBudgetPayload {
 input UpdateBudgetInput {
     code: String!
     name: String!
+    description: String
     amount: Money!
 }
 

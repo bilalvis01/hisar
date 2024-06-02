@@ -47,11 +47,12 @@ export default function BudgetUpdateForm({
     const initialValues = {
             code: budget.code,
             name: budget.name,
+            description: budget.description,
             amount: budget.amount,
     };
 
     return (
-        <FormDialog
+        <FormDialog<{ code: string; name: string; description?: string; amount: number; }>
             open={open}
             onOpenChange={setOpen}
             headline="Edit Budget"
@@ -68,6 +69,11 @@ export default function BudgetUpdateForm({
                     label: "Nama",
                 },
                 {
+                    type: "textarea",
+                    name: "description",
+                    label: "Deskripsi",
+                },
+                {
                     type: "number",
                     name: "amount",
                     label: "Budget",
@@ -77,6 +83,7 @@ export default function BudgetUpdateForm({
             validationSchema={Yup.object({
                 code: Yup.string().required("Mohon diisi"),
                 name: Yup.string().required("Mohon diisi"),
+                description: Yup.string().nullable(),
                 amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
             })}
             onSubmit={async (input) => {
