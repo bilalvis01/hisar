@@ -61,20 +61,18 @@ export default function BudgetExportForm({
                     .matches(/^[^\/\\\?\*\[\]]+$/g, "Nama Sheet tidak boleh berisi / \ ? * [ ]"),
             })}
             onSubmit={async ({ fileName, sheetName }) => {
-                await exportBudget({ 
+                try {
+                    await exportBudget({ 
                         fileName: fileName, 
                         sheetName: sheetName,
                         budget, 
                         getBudgetTransactions,
-                    })
-                    .then(() => {
-                        if (onSuccess) onSuccess();
-                        setInfo("Berhasil melakukan export");
-                    })
-                    .catch(() => {
-                        if (onError) onError();
-                        setInfo("Gagal melakukan export");
                     });
+
+                    setInfo("Berhasil melakukan export budget");
+                } catch(error) {
+                    setInfo(error.message);
+                }
             }}
         />
     );

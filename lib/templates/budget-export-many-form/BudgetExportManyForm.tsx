@@ -79,15 +79,13 @@ export default function BudgetExportManyForm({
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={async (names) => {
-                await exportBudgetMany({ names, budgets, getBudgetTransactions })
-                    .then(() => {
-                        if (onSuccess) onSuccess();
-                        setInfo("Berhasil melakukan export");
-                    })
-                    .catch(() => {
-                        if (onError) onError();
-                        setInfo("Gagal melakukan export");
-                    });
+                try {
+                    await exportBudgetMany({ names, budgets, getBudgetTransactions });
+
+                    setInfo("Berhasil melakukan export budget");
+                } catch(error) {
+                    setInfo(error.message);
+                }
             }}
         />
     );

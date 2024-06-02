@@ -28,6 +28,10 @@ export async function exportBudget(
         variables: { input: { budgetCode: budget.code, sortOrder: SortOrder.Asc } }
     });
 
+    if (error) {
+        throw Error("Error ketika mencoba mengambil data dari server.");
+    }
+
     const rawBudgetTransactions = data?.budgetTransactions;
 
     if (rawBudgetTransactions) {
@@ -39,8 +43,6 @@ export async function exportBudget(
 
         XLXS.writeFile(workbook, `${fileName}.xlsx`, { compression: true });
     }
-
-    return { error }
 }
 
 export async function exportBudgetMany(
@@ -56,26 +58,34 @@ export async function exportBudgetMany(
     }
 ) {
     if (budgets.length === 0) {
-        return;
+        throw Error("Tidak ada data yang bisa diexport");
     }
 
-    const worksheets = await Promise.all(budgets.map(async (budget) => {
-        const { data } = await getRawBudgetTransactions({ 
-            variables: { 
-                input: { budgetCode: budget.code, sortOrder: SortOrder.Asc },
-            },
+    try {
+        const worksheets = await Promise.all(budgets.map(async (budget) => {
+            const { data, error } = await getRawBudgetTransactions({ 
+                variables: { 
+                    input: { budgetCode: budget.code, sortOrder: SortOrder.Asc },
+                },
+            });
+
+            if (error) {
+                throw Error(`Error ketika mencoba mengambil data dari server.`);
+            }
+
+            return createBudgetTransactionWorksheet(budget, data.budgetTransactions);
+        }));
+
+        const workbook = XLXS.utils.book_new();
+
+        worksheets.forEach((worksheet, index) => {
+            XLXS.utils.book_append_sheet(workbook, worksheet, `${names[`sheet${index + 1}`]}`);
         });
 
-        return createBudgetTransactionWorksheet(budget, data.budgetTransactions);
-    }));
-
-    const workbook = XLXS.utils.book_new();
-
-    worksheets.forEach((worksheet, index) => {
-        XLXS.utils.book_append_sheet(workbook, worksheet, `${names[`sheet${index + 1}`]}`);
-    });
-
-    XLXS.writeFile(workbook, `${names.fileName}.xlsx`, { compression: true });
+        XLXS.writeFile(workbook, `${names.fileName}.xlsx`, { compression: true });
+    } catch(error) {
+        throw Error(error.message);
+    }
 }
 
 function createBudgetTransactionWorksheet(
