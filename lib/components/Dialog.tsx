@@ -66,7 +66,7 @@ export const useDialogContext = () => {
 export const Dialog = React.forwardRef<
     HTMLDialogElement,
     React.HTMLProps<HTMLDialogElement> & DialogOptions
->(function Dialog({ initialOpen, open, onOpenChange, ...props }, propRef) {
+>(function Dialog({ initialOpen, className, open, onOpenChange, ...props }, propRef) {
     const context = useDialog({ initialOpen, open, onOpenChange });
     const dialogRef = useMergeRefs([context.dialogRef, propRef]);
 
@@ -84,7 +84,7 @@ export const Dialog = React.forwardRef<
                     <div className="decorator">
                         <div className="state-layer" />
                     </div>
-                    <div className="content">
+                    <div className={clsx("content", className)}>
                         {props.children}
                     </div>
                 </div>

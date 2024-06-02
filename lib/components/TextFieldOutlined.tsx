@@ -58,12 +58,16 @@ const TextFieldOulined = React.forwardRef<
     });
 
     function handleFocus(event) {
-        externalHandleFocus && externalHandleFocus(event);
+        if (externalHandleFocus && typeof externalHandleFocus === "function") {
+            externalHandleFocus(event);
+        }
         setPopulated(true);
     }
 
     function handleBlur(event) {
-        externalHandleBlur && externalHandleBlur(event);
+        if (externalHandleBlur && typeof externalHandleBlur === "function") {
+            externalHandleBlur(event);
+        }
         setPopulated(hasValue);
     }
 

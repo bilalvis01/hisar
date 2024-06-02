@@ -34,9 +34,9 @@ interface Error {
     message: string;
 }
 
-type InputFieldType = "text" | "textarea" | "number" | "select"; 
+export type InputFieldType = "text" | "textarea" | "number" | "select"; 
 
-interface InputField {
+export interface InputField {
     type: InputFieldType;
     name: string;
     label: string;
@@ -54,6 +54,7 @@ interface FormDialogOptions<Values> {
     initialValues: Values | (() => Promise<{ error?: Error; values?: Values; }>);
     validationSchema: any;
     onSubmit: (values: Values, helpers: FormikHelpers<Values>) => Promise<void>;
+    actionLabel?: string;
 }
 
 interface FormDialogContext<Values> extends FormDialogOptions<Values> {
@@ -86,6 +87,7 @@ function useFormDialog<Values>({
     initialValues,
     validationSchema,
     onSubmit,
+    actionLabel = "Simpan",
 }: FormDialogOptions<Values>): FormDialogContext<Values> {
     const [values, setValues] = React.useState<Values | null>(null);
     const { windowSize } = useTemplateContext();
@@ -124,6 +126,7 @@ function useFormDialog<Values>({
         setIsSubmitting,
         error,
         loading,
+        actionLabel
     }), [
         windowSize,
         open,
@@ -137,6 +140,7 @@ function useFormDialog<Values>({
         isSubmitting,
         error,
         loading,
+        actionLabel,
     ]);
 };
 
@@ -258,6 +262,7 @@ function FormDialogCompactScreen() {
         open, 
         onOpenChange: setOpen,
         isSubmitting,
+        actionLabel,
     } = useFormDialogContext();
     const openThisForm = open && windowSize === "compact";
 
@@ -271,7 +276,7 @@ function FormDialogCompactScreen() {
                     disabled={isSubmitting}
                     progress={isSubmitting}
                 >
-                    Simpan
+                    {actionLabel}
                 </DialogFullscreenAction>
             </DialogFullscreenHeader>
             <DialogFullscreenBody>
@@ -289,6 +294,7 @@ function FormDialogMediumScreen() {
         open, 
         onOpenChange: setOpen,
         isSubmitting,
+        actionLabel,
     } = useFormDialogContext();
     const openThisForm = open && (windowSize === "medium" || windowSize === "expanded");
 
@@ -299,7 +305,7 @@ function FormDialogMediumScreen() {
     return (
         <Dialog open={openThisForm} onOpenChange={setOpen}>
             <DialogHeadline>{headline}</DialogHeadline>
-            <DialogBody>
+            <DialogBody className={style.formDialogMediumScreenBody}>
                 <Form id={formId} open={openThisForm} />
             </DialogBody>
             <DialogFooter>
@@ -310,7 +316,7 @@ function FormDialogMediumScreen() {
                     disabled={isSubmitting} 
                     progress={isSubmitting}
                 >
-                    Simpan
+                    {actionLabel}
                 </ButtonText>
             </DialogFooter>
         </Dialog>

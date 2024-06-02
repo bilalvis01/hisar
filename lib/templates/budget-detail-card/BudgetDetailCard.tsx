@@ -51,8 +51,8 @@ import IconPlusLg from "../../icons/PlusLg";
 import IconEye from "../../icons/Eye";
 import date from "../../utils/date";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
-import { exportBudgetTransactions } from "../../utils/exportBudgetTransaction";
 import { POLL_INTERVAL } from "../../graphql/pollInterval";
+import BudgetExportForm from "../budget-export-form/BudgetExportForm";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -191,6 +191,7 @@ export default function BudgetDetailCard() {
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
     const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
     const [openExpenseDeleteMany, setOpenExpenseDeleteMany] = React.useState(false);
+    const [openBudgetExportForm, setOpenBudgetExportForm] = React.useState(false);
     const router = useRouter();
     const [rowSelection, setRowSelection] = React.useState({});
     const [openActionsMenu, setOpenActionsMenu] = React.useState(false);
@@ -271,22 +272,9 @@ export default function BudgetDetailCard() {
         setOpenExpenseDeleteMany(true);
     }, []);
 
-    const handleExportBudgetTransactions = React.useCallback(() => {
-        setExporting(true);
-        exportBudgetTransactions({ 
-            budget, 
-            getBudgetTransactions,
-        })
-        .then(() => {
-            setInfo(`berhasil export ${budget.name}`);
-        })
-        .catch(() => {
-            setInfo(`gagal export ${budget.name}`);
-        })
-        .finally(() => {
-            setExporting(false);
-        });
-    }, [budget, getBudgetTransactions]);
+    const handleOpenBudgetExportForm = React.useCallback(() => {
+        setOpenBudgetExportForm(true);
+    }, []);
 
     const handleBack = React.useCallback(() => {
         router.back();
@@ -359,7 +347,7 @@ export default function BudgetDetailCard() {
                                                 <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
                                             </li>
                                             <li>
-                                                <MenuItem progress={exporting} onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                                <MenuItem progress={exporting} onClick={handleOpenBudgetExportForm}>Export</MenuItem>
                                             </li>
                                         </ul>
                                     </Menu>
@@ -527,6 +515,13 @@ export default function BudgetDetailCard() {
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
+            {budget && (
+                <BudgetExportForm 
+                    budget={budget}
+                    open={openBudgetExportForm}
+                    onOpenChange={setOpenBudgetExportForm}
+                />
+            )}
             {isWindowSizeSpanMedium() && createPortal(
                 <div>
                     <IconButtonFilled {...getReferenceProps()} ref={refs.setReference}>
@@ -547,7 +542,7 @@ export default function BudgetDetailCard() {
                                     <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
                                 </li>
                                 <li>
-                                    <MenuItem progress={exporting} onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                    <MenuItem progress={exporting} onClick={handleOpenBudgetExportForm}>Export</MenuItem>
                                 </li>
                                 <li>
                                     <MenuItem onClick={handleBack}>Kembali</MenuItem>

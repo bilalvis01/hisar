@@ -13,7 +13,6 @@ import idr from "../../utils/idr";
 import Checkbox from "../../components/Checkbox";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { GET_BUDGETS } from "../../graphql/budget-documents";
-import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import Table from "../table/Table";
 import { LinkText } from "../../components/ButtonText";
 import Link from "next/link";
@@ -28,17 +27,12 @@ import BudgetUpdateForm from "../budget-update-form/BudgetUpdateForm";
 import { Budget } from "../../graphql/generated/graphql";
 import { ButtonText } from "../../components/ButtonText";
 import { useTemplateContext } from "../Template";
-import IconTrash from "../../icons/Trash";
 import IconPencil from "../../icons/Pencil";
 import IconEye from "../../icons/Eye";
 import { useRouter } from "next/navigation";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
 import BudgetDeleteMany from "../budget-delete-many/BudgetDeleteMany";
 import date from "../../utils/date";
-import { 
-    exportBudgetTransactions, 
-    exportBudgetTransactionsMany, 
-} from "../../utils/exportBudgetTransaction";
 import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
 import { Menu, MenuItem } from "../../components/Menu";
 import { 
@@ -49,9 +43,9 @@ import {
     offset,
     autoUpdate,
 } from "@floating-ui/react";
-import IconDownload from "../../icons/Download";
 import { POLL_INTERVAL } from "../../graphql/pollInterval";
-import createInfo from "../../utils/createInfo";
+import BudgetExportManyForm from "../budget-export-many-form/BudgetExportManyForm";
+import BudgetExportForm from "../budget-export-form/BudgetExportForm";
 
 const columnHelper = createColumnHelper<Omit<Budget, "__typedef" | "transactions">>();
 
@@ -162,17 +156,15 @@ export default function BudgetTable() {
     const { loading, error, data } = useQuery(GET_BUDGETS, {
         pollInterval: POLL_INTERVAL,
     });
-    const [getBudgetTransactions] = useLazyQuery(GET_BUDGET_TRANSACTIONS, {
-        pollInterval: POLL_INTERVAL,
-    });
     const [openFab, setOpenFab] = React.useState(false);
     const [openBudgetAddForm, setOpenBudgetAddForm] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
     const [openBudgetDeleteMany, setOpenBudgetDeleteMany] = React.useState(false);
+    const [openBudgetExportForm, setOpenBudgetExportForm] = React.useState(false);
+    const [openBudgetExportManyForm, setOpenBudgetExportManyForm] = React.useState(false);
     const fabRef = React.useRef(null);
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
-    const [exporting, setExporting] = React.useState(false);
     const { 
         toolbarRef,
         toolbarSecondaryRef, 
@@ -252,47 +244,13 @@ export default function BudgetTable() {
         setOpenBudgetDeleteMany(true);
     }, []);
 
-    const handleExportBudgetTransactions = React.useCallback(() => {
-        if (isSingleSelectedRow()) {
-            setExporting(true);
-            exportBudgetTransactions({ 
-                budget: selectedRows[0], 
-                getBudgetTransactions,
-            })
-            .then(() => {
-                table.resetRowSelection();
-                setInfo(`berhasil export ${selectedRows[0].name}`);
-            })
-            .catch(() => {
-                setInfo(`gagal export ${selectedRows[0].name}`);
-            })
-            .finally(() => {
-                setExporting(false);
-            });
-        }
-    }, [selectedRows.length]);
+    const handleOpenBudgetExportForm = React.useCallback(() => {
+        setOpenBudgetExportForm(true);
+    }, []);
 
-    const handleExportBudgetTransactionsMany = React.useCallback(() => {
-        if (isManySelectedRow()) {
-            setExporting(true);
-            exportBudgetTransactionsMany({ 
-                budgets: selectedRows, 
-                getBudgetTransactions,
-            })
-            .then(() => {
-                table.resetRowSelection();
-                const budgetNames = selectedRows.map((row) => row.name);
-                setInfo(createInfo(budgetNames, "berhasil export "));
-            })
-            .catch(() => {
-                const budgetNames = selectedRows.map((row) => row.name);
-                setInfo(createInfo(budgetNames, "gagal export "));
-            })
-            .finally(() => {
-                setExporting(false);
-            });
-        }
-    }, [selectedRows.length]);
+    const handleOpenBudgetExportManyForm = React.useCallback(() => {
+        setOpenBudgetExportManyForm(true);
+    }, []);
 
     React.useEffect(() => {
         if (!isNoneSelectedRow() && isWindowSizeSpanMedium()) {
@@ -352,7 +310,7 @@ export default function BudgetTable() {
                                 >
                                     <ul>
                                         <li>
-                                            <MenuItem progress={exporting} onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                            <MenuItem onClick={handleOpenBudgetExportForm}>Export</MenuItem>
                                         </li>
                                         <li>
                                             <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
@@ -378,7 +336,7 @@ export default function BudgetTable() {
                                 >
                                     <ul>
                                         <li>
-                                            <MenuItem progress={exporting} onClick={handleExportBudgetTransactionsMany}>Export</MenuItem>
+                                            <MenuItem onClick={handleOpenBudgetExportManyForm}>Export</MenuItem>
                                         </li>
                                         <li>
                                             <MenuItem onClick={handleOpenBudgetDeleteMany}>Hapus</MenuItem>
@@ -458,7 +416,7 @@ export default function BudgetTable() {
                                 >
                                     <ul>
                                         <li>
-                                            <MenuItem progress={exporting} onClick={handleExportBudgetTransactions}>Export</MenuItem>
+                                            <MenuItem onClick={handleOpenBudgetExportForm}>Export</MenuItem>
                                         </li>
                                         <li>
                                             <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
@@ -485,7 +443,7 @@ export default function BudgetTable() {
                         >
                             <ul>
                                 <li>
-                                    <MenuItem progress={exporting} onClick={handleExportBudgetTransactionsMany}>Export</MenuItem>
+                                    <MenuItem onClick={handleOpenBudgetExportManyForm}>Export</MenuItem>
                                 </li>
                                 <li>
                                     <MenuItem onClick={handleOpenBudgetDeleteMany}>Hapus</MenuItem>
@@ -501,6 +459,22 @@ export default function BudgetTable() {
                     selectedRows.length,
                     headlineSecondaryRef.current
                 )
+            )}
+            {isManySelectedRow() && (
+                <BudgetExportManyForm 
+                    budgets={selectedRows}
+                    open={openBudgetExportManyForm}
+                    onOpenChange={setOpenBudgetExportManyForm}
+                    onSuccess={() => table.resetRowSelection()}
+                />
+            )}
+            {isSingleSelectedRow() && (
+                <BudgetExportForm 
+                    budget={selectedRows[0]}
+                    open={openBudgetExportForm}
+                    onOpenChange={setOpenBudgetExportForm}
+                    onSuccess={() => table.resetRowSelection()}
+                />
             )}
         </div>
     );

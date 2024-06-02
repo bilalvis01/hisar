@@ -8,67 +8,57 @@ import { SortOrder } from "../graphql/generated/graphql";
 const CURRENCY_FORMAT = '"Rp."#,##0.00_);\\("$"#,##0.00\\)';
 const DATE_FORMAT = "dd/mm/yyyy hh:mm:ss";
 
-type GetBudgetTransactionsQueryExecFn = LazyQueryExecFunction<GetBudgetTransactionsQuery, GetBudgetTransactionsQueryVariables>;
+export type GetBudgetTransactionsQueryExecFn = LazyQueryExecFunction<GetBudgetTransactionsQuery, GetBudgetTransactionsQueryVariables>;
 
-export async function exportBudgetTransactions(
+export async function exportBudget(
     {
+        fileName,
+        sheetName,
         budget: budget,
-        budgetTransactions: rawBudgetTransactionsParam,
         getBudgetTransactions: getRawBudgetTransactions,
     }:
     {
+        fileName: string,
+        sheetName: string,
         budget: Budget, 
-        budgetTransactions?: BudgetTransaction[],
-        getBudgetTransactions?: GetBudgetTransactionsQueryExecFn,
+        getBudgetTransactions: GetBudgetTransactionsQueryExecFn,
     }
 ) {
-    if (!rawBudgetTransactionsParam && !getRawBudgetTransactions) {
-        return;
-    }
+    const { data, error } = await getRawBudgetTransactions({
+        variables: { input: { budgetCode: budget.code, sortOrder: SortOrder.Asc } }
+    });
 
-    let rawBudgetTransactions;
-    let error;
-    let loading;
-
-    if (!rawBudgetTransactionsParam) {
-        const { data, error: getRawBudgetTransactionsError } = await getRawBudgetTransactions({
-            variables: { input: { budgetCode: budget.code, sortOrder: SortOrder.Asc } }
-        });
-
-        if (data) {
-            rawBudgetTransactions = data.budgetTransactions; 
-        }
-
-        if (error) {
-            error = getRawBudgetTransactionsError;
-        }
-    } else {
-        rawBudgetTransactions = rawBudgetTransactionsParam;
-    }
+    const rawBudgetTransactions = data?.budgetTransactions;
 
     if (rawBudgetTransactions) {
         const worksheet = createBudgetTransactionWorksheet(budget, rawBudgetTransactions);
 
         const workbook = XLXS.utils.book_new();
 
-        XLXS.utils.book_append_sheet(workbook, worksheet, "Expense");
+        XLXS.utils.book_append_sheet(workbook, worksheet, sheetName);
 
-        XLXS.writeFile(workbook, `${budget.name}.xlsx`, { compression: true });
+        XLXS.writeFile(workbook, `${fileName}.xlsx`, { compression: true });
     }
 
     return { error }
 }
 
-export async function exportBudgetTransactionsMany(
-    {
+export async function exportBudgetMany(
+    {   
+        names,
         budgets,
         getBudgetTransactions: getRawBudgetTransactions
     }:
     {
+        names: { fileName: string; [index: string]: string; };
         budgets: Budget[];
         getBudgetTransactions: GetBudgetTransactionsQueryExecFn;
     }
 ) {
+    if (budgets.length === 0) {
+        return;
+    }
+
     const worksheets = await Promise.all(budgets.map(async (budget) => {
         const { data } = await getRawBudgetTransactions({ 
             variables: { 
@@ -76,25 +66,22 @@ export async function exportBudgetTransactionsMany(
             },
         });
 
-        const worksheet = createBudgetTransactionWorksheet(budget, data.budgetTransactions);
-
-        return { budgetName: budget.name, worksheet };
+        return createBudgetTransactionWorksheet(budget, data.budgetTransactions);
     }));
 
     const workbook = XLXS.utils.book_new();
 
-    worksheets.forEach(({ budgetName, worksheet }) => {
-        if (budgetName.match(/[\?\\\*\[\]]/g)) {
-            throw Error("the budget name cannot contains ? \ * [ ]");
-        }
-
-        XLXS.utils.book_append_sheet(workbook, worksheet, `${budgetName.replaceAll(/\//g, "-")}`);
+    worksheets.forEach((worksheet, index) => {
+        XLXS.utils.book_append_sheet(workbook, worksheet, `${names[`sheet${index + 1}`]}`);
     });
 
-    XLXS.writeFile(workbook, `App Budget.xlsx`, { compression: true });
+    XLXS.writeFile(workbook, `${names.fileName}.xlsx`, { compression: true });
 }
 
-function createBudgetTransactionWorksheet(budget: Budget, rawBudgetTransactions: BudgetTransaction[]) {
+function createBudgetTransactionWorksheet(
+    budget: Budget, 
+    rawBudgetTransactions: BudgetTransaction[]
+) {
     const budgetTransactionRows = rawBudgetTransactions.map(
         (rawBudgetTransaction) => reshapeBudgetTransaction(rawBudgetTransaction)
     );
