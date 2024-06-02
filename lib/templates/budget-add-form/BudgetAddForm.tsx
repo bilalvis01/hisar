@@ -75,7 +75,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
             validationSchema={Yup.object({
                 name: Yup.string().required("Mohon diisi"),
                 amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
-                description: Yup.string(),
+                description: Yup.string().nullable(),
             })}
             onSubmit={async (input) => {
                 await createBudget({
