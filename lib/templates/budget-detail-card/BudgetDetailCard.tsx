@@ -53,6 +53,7 @@ import date from "../../utils/date";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 import { POLL_INTERVAL } from "../../graphql/pollInterval";
 import BudgetExportForm from "../budget-export-form/BudgetExportForm";
+import { RECORD_NOT_FOUND } from "../../graphql/error-code";
 
 const columnHelper = createColumnHelper<BudgetTransaction>();
 
@@ -165,9 +166,6 @@ export default function BudgetDetailCard() {
         data: budgetTransactionData, 
     } = useQuery(GET_BUDGET_TRANSACTIONS, {
         variables: { input: { budgetCode: code } },
-        pollInterval: POLL_INTERVAL,
-    });
-    const [getBudgetTransactions] = useLazyQuery(GET_BUDGET_TRANSACTIONS, {
         pollInterval: POLL_INTERVAL,
     });
     const { 
@@ -302,6 +300,10 @@ export default function BudgetDetailCard() {
         </>
     );
 
+    if (budgetError && budgetError.graphQLErrors[0].extensions.code === RECORD_NOT_FOUND) {
+        notFound();
+    }
+
     if (budgetError) return (
         <div className={clsx(style.placeholder)}>
             {budgetError.message}
@@ -313,10 +315,6 @@ export default function BudgetDetailCard() {
             {budgetTransactionsError.message}
         </div>
     );
-
-    if (budgetData && !budgetData.budgetByCode) {
-        notFound();
-    }
 
     return (
         <>

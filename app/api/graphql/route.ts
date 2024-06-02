@@ -1,5 +1,5 @@
 import { ApolloServer } from "@apollo/server";
-import { GraphQLScalarType, Kind } from "graphql";
+import { GraphQLError, GraphQLScalarType, Kind } from "graphql";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { Resolvers, SortOrder } from "../../../lib/graphql/resolvers-types";
 import { readFileSync } from 'fs';
@@ -32,6 +32,9 @@ import {
     DateTimeResolver,
 } from "graphql-scalars";
 import createInfo from "../../../lib/utils/createInfo";
+import { RECORD_NOT_FOUND, DATABASE_ERROR } from "../../../lib/graphql/error-code";
+import { RecordNotFoundError, DatabaseError } from "../../../lib/graphql/error";
+import { unwrapResolverError } from "@apollo/server/errors";
 
 const resolvers: Resolvers = {
     Query: {
@@ -56,17 +59,33 @@ const resolvers: Resolvers = {
         },
 
         async budgetByCode(_, { input: { code } }, context) {
-            return await fetchBudgetByCode(context.dataSources, code);
+            try {
+                return await fetchBudgetByCode(context.dataSources, code);
+            } catch(error) {
+                if (error instanceof RecordNotFoundError) {
+                    throw error;
+                }
+
+                throw new DatabaseError("Database Error");
+            }
         },
 
         async budgetTransactions(_, { input }, context) {
-            return await fetchBudgetTransactions(
-                context.dataSources, 
-                {
-                    ...input,
-                    ...{ sortOrder: input.sortOrder && input.sortOrder === SortOrder.Asc ? "asc" : "desc" },
+            try {
+                return await fetchBudgetTransactions(
+                    context.dataSources, 
+                    {
+                        ...input,
+                        ...{ sortOrder: input.sortOrder && input.sortOrder === SortOrder.Asc ? "asc" : "desc" },
+                    }
+                );
+            } catch(error) {
+                if (error instanceof RecordNotFoundError) {
+                    throw error;
                 }
-            );
+
+                throw new DatabaseError("Database Error");
+            }
         },
 
         async budgetTransactionById(_, { input }, context) {
@@ -124,7 +143,11 @@ const resolvers: Resolvers = {
 
         async updateBudget(_, { input }, context) {
             try {
-                const budget = await fetchBudgetByCode(context.dataSources, input.code);
+                const budget = await context.dataSources.budget.findUnique({
+                    where: {
+                        code: input.code,
+                    },
+                });
 
                 await updateBudget(context.dataSources, {
                     id: budget.id,
@@ -151,15 +174,22 @@ const resolvers: Resolvers = {
         },
 
         async deleteBudget(_, { input }, context) {
-            const budget = await fetchBudgetByCode(context.dataSources, input.code);
+            const budget = await context.dataSources.budget.findUnique({
+                where: {
+                    code: input.code,
+                },
+            });
 
             try {
                 await deleteBudget(context.dataSources, { id: budget.id });
+
+                const deletedBudget = await fetchBudgetByCode(context.dataSources, input.code);
+                
                 return {
                     code: 200,
                     success: true,
                     message: `${budget.name} berhasil dihapus`,
-                    budget,
+                    budget: deletedBudget,
                 };
             } catch (error) {
                 return {
@@ -171,18 +201,26 @@ const resolvers: Resolvers = {
         },
 
         async deleteBudgetMany(_, { input: { codes } }, context) {
-            const budgets = await fetchBudgetsByCodes(context.dataSources, codes);
+            const budgets = await context.dataSources.budget.findMany({
+                where: {
+                    code: {
+                        in: codes,
+                    },
+                },
+            });
             const budgetNames = budgets.map((budget) => budget.name);
             const budgetIds = budgets.map((budget) => budget.id);
 
             try {                
                 await deleteBudgetMany(context.dataSources, { ids: budgetIds });
 
+                const deletedBudgets = await fetchBudgetsByCodes(context.dataSources, codes);
+
                 return {
                     code: 200,
                     success: true,
                     message: createInfo(budgetNames, "", " berhasil dihapus"),
-                    budgets,
+                    budgets: deletedBudgets,
                 };
             } catch (error) {
                 const accounts = context.dataSources.account.findMany({
@@ -203,7 +241,11 @@ const resolvers: Resolvers = {
 
         async createExpense(_, { input }, context) {
             try {
-                const budget = await fetchBudgetByCode(context.dataSources, input.budgetCode);
+                const budget = await context.dataSources.budget.findUnique({
+                    where: {
+                        code: input.budgetCode,
+                    },
+                });
 
                 const { id: expenseId } = await createExpense(context.dataSources, { 
                     ...input,
@@ -341,6 +383,29 @@ const server = new ApolloServer({
         DateTimeTypeDefinition,
         typeDefs,
     ],
+    formatError(formattedError, error) {
+        const originalError = unwrapResolverError(error);
+
+        if (originalError instanceof RecordNotFoundError) {
+            return {
+                ...formattedError,
+                message: originalError.message,
+                extensions: {
+                    code: RECORD_NOT_FOUND,
+                }
+            };
+        }
+
+        if (originalError instanceof DatabaseError) {
+            return {
+                ...formattedError,
+                message: originalError.message,
+                extensions: {
+                    code: DATABASE_ERROR,
+                }
+            };
+        }
+    },
 });
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };

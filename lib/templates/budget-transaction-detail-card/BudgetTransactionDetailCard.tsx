@@ -36,6 +36,7 @@ import { IconButtonStandard } from "../../components/IconButtonStandard";
 import { useRouter } from "next/navigation";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 import { POLL_INTERVAL } from "../../graphql/pollInterval";
+import { RECORD_NOT_FOUND } from "../../graphql/error-code";
 
 export default function ExpenseDetailCard(
     { disableBudgetSelectionWhenUpdate = false }: { disableBudgetSelectionWhenUpdate?: boolean }
@@ -96,15 +97,15 @@ export default function ExpenseDetailCard(
         </div>
     );
 
+    if (error && error.graphQLErrors[0].extensions.code === RECORD_NOT_FOUND) {
+        notFound();
+    }
+
     if (error) return (
         <div className={clsx(style.placeholder)}>
             {error.message}
         </div>
     );
-
-    if (data && !data.budgetTransactionById) {
-        notFound();
-    }
 
     return (
         <div className={style.card}>

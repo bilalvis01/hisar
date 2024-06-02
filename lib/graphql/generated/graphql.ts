@@ -195,8 +195,8 @@ export type MutationUpdateExpenseArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  budgetByCode?: Maybe<Budget>;
-  budgetTransactionById?: Maybe<BudgetTransaction>;
+  budgetByCode: Budget;
+  budgetTransactionById: BudgetTransaction;
   budgetTransactions: Array<BudgetTransaction>;
   budgets: Array<Budget>;
   excerptReport: ExcerptReport;
@@ -267,7 +267,7 @@ export type GetBudgetByCodeQueryVariables = Exact<{
 }>;
 
 
-export type GetBudgetByCodeQuery = { __typename?: 'Query', budgetByCode?: { __typename?: 'Budget', code: string, name: string, description?: string | null, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string } | null };
+export type GetBudgetByCodeQuery = { __typename?: 'Query', budgetByCode: { __typename?: 'Budget', code: string, name: string, description?: string | null, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string } };
 
 export type NewBudgetFragment = { __typename?: 'Budget', code: string, name: string, description?: string | null, amount: number, expense: number, balance: number, createdAt: string, updatedAt: string } & { ' $fragmentName'?: 'NewBudgetFragment' };
 
@@ -313,7 +313,7 @@ export type GetBudgetTransactionByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetBudgetTransactionByIdQuery = { __typename?: 'Query', budgetTransactionById?: { __typename?: 'BudgetTransaction', id: string, budgetCode: string, budgetName: string, description: string, amount: number, balance: number, transactionType: string, createdAt: string, updatedAt: string } | null };
+export type GetBudgetTransactionByIdQuery = { __typename?: 'Query', budgetTransactionById: { __typename?: 'BudgetTransaction', id: string, budgetCode: string, budgetName: string, description: string, amount: number, balance: number, transactionType: string, createdAt: string, updatedAt: string } };
 
 export type CreateExpenseMutationVariables = Exact<{
   input: CreateExpenseInput;

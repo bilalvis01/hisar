@@ -38,9 +38,9 @@ type BudgetTransaction {
 type Query {
     excerptReport: ExcerptReport!
     budgets: [Budget!]!
-    budgetByCode(input: GetBudgetByCodeInput!): Budget
+    budgetByCode(input: GetBudgetByCodeInput!): Budget!
     budgetTransactions(input: GetBudgetTransactionsInput!): [BudgetTransaction!]!
-    budgetTransactionById(input: GetBudgetTransactionByIdInput!): BudgetTransaction
+    budgetTransactionById(input: GetBudgetTransactionByIdInput!): BudgetTransaction!
 }
 
 type Mutation {

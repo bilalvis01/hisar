@@ -8,11 +8,13 @@ import {
 } from "@prisma/client";
 import expenseID from "../utils/expenseID";
 import { BUDGET_CASH_ACCOUNT_CODE } from "../database/account-code";
+import { BudgetTransaction as ResolverBudgetTransaction } from "../graphql/resolvers-types";
+import { RecordNotFoundError } from "../graphql/error";
 
 export async function fetchBudgetTransactionById(
     client: PrismaClient, 
     { id, transactionType }: { id: number, transactionType?: string }
-) {
+): Promise<ResolverBudgetTransaction> {
     const rawBudgetTransaction = await client.budgetTransaction.findUnique({
         where: {
             id,
@@ -45,7 +47,7 @@ export async function fetchBudgetTransactionById(
     });
 
     if (!rawBudgetTransaction) {
-        return;
+        throw new RecordNotFoundError(`Transaksi dengan id ${id} tidak ditemukan`);
     }
 
     return mapRawBudgetTransaction(rawBudgetTransaction);

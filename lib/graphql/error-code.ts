@@ -1,0 +1,2 @@
+export const RECORD_NOT_FOUND = "RECORD_NOT_FOUND";
+export const DATABASE_ERROR = "DATABASE_ERROR";

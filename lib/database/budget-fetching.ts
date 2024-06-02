@@ -10,14 +10,15 @@ import {
     Entry,
     Ledger,
 } from "@prisma/client";
-import * as accountCode from "../utils/accountCode";
 import { 
     BUDGET_CASH_ACCOUNT, 
     BUDGET_EXPENSE_ACCOUNT,
 } from "../database/budget-account-task";
 import { 
     BUDGET_FUNDING,
-} from "../database/budget-transaction-type"
+} from "../database/budget-transaction-type";
+import { Budget as ResolverBudget } from "../graphql/resolvers-types";
+import { RecordNotFoundError } from "../graphql/error";
 
 export async function fetchBudgets(dataSources: PrismaClient) {    
     const rawBudgets = await dataSources.budget.findMany({ 
@@ -56,7 +57,10 @@ export async function fetchBudgets(dataSources: PrismaClient) {
     );
 };
 
-export async function fetchBudgetByCode(dataSources: PrismaClient, code: string) {
+export async function fetchBudgetByCode(
+    dataSources: PrismaClient, 
+    code: string
+): Promise<ResolverBudget> {
     const rawBudget = await dataSources.budget.findFirst({
         where: {
             code,
@@ -87,7 +91,7 @@ export async function fetchBudgetByCode(dataSources: PrismaClient, code: string)
     });
 
     if (!rawBudget) {
-        return;
+        throw new RecordNotFoundError(`Budget dengan kode ${code} tidak ditemukan`);
     }
 
     return mapRawBudgetData(rawBudget);
@@ -110,7 +114,7 @@ export function mapRawBudgetData(
             journal: Journal & { entries: Entry[] };
         })[];
     }
-) {
+): ResolverBudget {
     const amount = rawBudget.budgetTransactions.filter(
         (rawBudgetTransaction) => rawBudgetTransaction.transactionType.name === BUDGET_FUNDING
     )[0].journal.entries[0].amount;
@@ -124,7 +128,6 @@ export function mapRawBudgetData(
     )[0].account.ledgers[0].balance;
 
     return {
-        id: rawBudget.id,
         code: rawBudget.code,
         name: rawBudget.name,
         description: rawBudget.description,

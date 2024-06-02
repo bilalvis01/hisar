@@ -196,8 +196,8 @@ export type MutationUpdateExpenseArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  budgetByCode?: Maybe<Budget>;
-  budgetTransactionById?: Maybe<BudgetTransaction>;
+  budgetByCode: Budget;
+  budgetTransactionById: BudgetTransaction;
   budgetTransactions: Array<BudgetTransaction>;
   budgets: Array<Budget>;
   excerptReport: ExcerptReport;
@@ -489,8 +489,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  budgetByCode?: Resolver<Maybe<ResolversTypes['Budget']>, ParentType, ContextType, RequireFields<QueryBudgetByCodeArgs, 'input'>>;
-  budgetTransactionById?: Resolver<Maybe<ResolversTypes['BudgetTransaction']>, ParentType, ContextType, RequireFields<QueryBudgetTransactionByIdArgs, 'input'>>;
+  budgetByCode?: Resolver<ResolversTypes['Budget'], ParentType, ContextType, RequireFields<QueryBudgetByCodeArgs, 'input'>>;
+  budgetTransactionById?: Resolver<ResolversTypes['BudgetTransaction'], ParentType, ContextType, RequireFields<QueryBudgetTransactionByIdArgs, 'input'>>;
   budgetTransactions?: Resolver<Array<ResolversTypes['BudgetTransaction']>, ParentType, ContextType, RequireFields<QueryBudgetTransactionsArgs, 'input'>>;
   budgets?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType>;
   excerptReport?: Resolver<ResolversTypes['ExcerptReport'], ParentType, ContextType>;
