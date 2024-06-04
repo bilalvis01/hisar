@@ -21,8 +21,8 @@ export interface Option {
 export interface SelectOutlinedProps extends Omit<TextFieldOutlinedProps, "onChange"> {
     options?: Option[];
     onOpenMenu?: OpenMenuHandler;
-    value: string;
-    onChange: (value: string) => void;
+    value?: string;
+    onChange?: (value: string) => void;
 }
 
 function Placeholder({ children }: { children: React.ReactNode; }) {

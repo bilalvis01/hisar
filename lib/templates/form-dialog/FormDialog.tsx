@@ -24,7 +24,7 @@ import {
 } from "../../components/Dialog";
 import { ButtonText } from "../../components/ButtonText";
 import ProgressCircular from "../../components/ProgressCircular";
-import { Option as SelectOption, OpenMenuHandler as SelectOpenMenuHandler } from "../select/Select";
+import { Option as SelectOption, OpenMenuHandler as SelectOpenMenuHandler } from "../../components/SelectOutlined";
 import Select from "../select/Select";
 import { useTemplateContext, WindowSize } from "../Template";
 import clsx from "clsx";

@@ -53,7 +53,7 @@ const server = new ApolloServer({
         ) {
             return {
                 ...formattedError,
-                message: originalError.message,
+                message: "Internal Server Error",
                 extensions: {
                     code: INTERNAL_SERVER_ERROR,
                 }
@@ -66,7 +66,7 @@ const server = new ApolloServer({
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
-export const prisma = globalForPrisma.prisma || new PrismaClient();
+const prisma = globalForPrisma.prisma || new PrismaClient();
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
