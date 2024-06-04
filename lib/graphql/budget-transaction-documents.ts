@@ -31,3 +31,17 @@ export const GET_BUDGET_TRANSACTION_BY_ID = gql(/* GraphQL */ `
         }
     }
 `);
+
+export const NEW_BUDGET_TRANSACTION = gql(/* GraphQL */`
+    fragment NewBudgetTransaction on BudgetTransaction {
+        id
+        budgetCode
+        budgetName
+        description
+        amount
+        balance
+        transactionType
+        createdAt
+        updatedAt
+    }
+`);

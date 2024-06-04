@@ -43,14 +43,17 @@ export default function BudgetDeleteMany({
                 }
             });
 
-            deleteBudgetMany.budgets.forEach((budget) => {
+            deleteBudgetMany.forEach((budget) => {
                 cache.evict({
                     id: cache.identify(budget),
                 });
             });
         },
+        onError() {
+            setInfo(createInfo(budgetNames, "gagal menghapus "));
+        },
         onCompleted(data) {
-            setInfo(data.deleteBudgetMany.message);
+            setInfo(createInfo(budgetNames, "berhasil menghapus "));
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },

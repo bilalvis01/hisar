@@ -3,7 +3,8 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { GET_BUDGETS, GET_BUDGET_BY_CODE, NEW_BUDGET_TRANSACTION } from "../../graphql/budget-documents";
+import { GET_BUDGETS, GET_BUDGET_BY_CODE } from "../../graphql/budget-documents";
+import { NEW_BUDGET_TRANSACTION } from "../../graphql/budget-transaction-documents";
 import { UPDATE_EXPENSE } from "../../graphql/expense-documents";
 import { UpdateExpenseMutation, BudgetTransaction } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
@@ -31,8 +32,8 @@ export default function ExpenseUpdateForm({
     const [updateExpense] = useMutation(UPDATE_EXPENSE, {
         refetchQueries(result) {
             const budgetCode = result.data && 
-                result.data.updateExpense.expense && 
-                result.data.updateExpense.expense.budgetCode;
+                result.data.updateExpense && 
+                result.data.updateExpense.budgetCode;
                 
             return [
                 { query: GET_BUDGET_BY_CODE, variables: { input: { code: budgetCode, } } },
@@ -41,15 +42,18 @@ export default function ExpenseUpdateForm({
         },
         update(cache, { data: { updateExpense } }) {
             cache.writeFragment({
-                data: updateExpense.expense,
+                data: updateExpense,
                 fragment: NEW_BUDGET_TRANSACTION,
             });
         },
         onQueryUpdated(observableQuery) {
             return observableQuery.refetch();
         },
+        onError(error, { variables: { input } }) {
+            setInfo(`"${input.description}" gagal diperbarui`);
+        },
         onCompleted(data) {
-            setInfo(data.updateExpense.message);
+            setInfo(`"${data.updateExpense.description}" berhasil diperbarui`);
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },

@@ -42,11 +42,14 @@ export default function BudgetDelete({
             });
             
             cache.evict({
-                id: cache.identify(deleteBudget.budget),
+                id: cache.identify(deleteBudget),
             });
         },
+        onError(error, { variables: { input } }) {
+            setInfo(`"${budget.name}" gagal dihapus`);
+        },
         onCompleted(data) {
-            setInfo(data.deleteBudget.message);
+            setInfo(`${budget.name} berhasil dihapus`);
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },

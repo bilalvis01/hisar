@@ -46,6 +46,10 @@ export interface InputField {
     onOpenMenu?: SelectOpenMenuHandler;
 }
 
+interface Classes {
+    dialogFormBodyMediumSizeScreen?: string;
+}
+
 interface FormDialogOptions<Values> {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -55,6 +59,7 @@ interface FormDialogOptions<Values> {
     validationSchema: any;
     onSubmit: (values: Values, helpers: FormikHelpers<Values>) => Promise<void>;
     actionLabel?: string;
+    classes?: Classes;
 }
 
 interface FormDialogContext<Values> extends FormDialogOptions<Values> {
@@ -88,6 +93,7 @@ function useFormDialog<Values>({
     validationSchema,
     onSubmit,
     actionLabel = "Simpan",
+    classes = {},
 }: FormDialogOptions<Values>): FormDialogContext<Values> {
     const [values, setValues] = React.useState<Values | null>(null);
     const { windowSize } = useTemplateContext();
@@ -126,7 +132,8 @@ function useFormDialog<Values>({
         setIsSubmitting,
         error,
         loading,
-        actionLabel
+        actionLabel,
+        classes,
     }), [
         windowSize,
         open,
@@ -141,6 +148,7 @@ function useFormDialog<Values>({
         error,
         loading,
         actionLabel,
+        classes,
     ]);
 };
 
@@ -295,6 +303,7 @@ function FormDialogMediumScreen() {
         onOpenChange: setOpen,
         isSubmitting,
         actionLabel,
+        classes,
     } = useFormDialogContext();
     const openThisForm = open && (windowSize === "medium" || windowSize === "expanded");
 
@@ -305,7 +314,7 @@ function FormDialogMediumScreen() {
     return (
         <Dialog open={openThisForm} onOpenChange={setOpen}>
             <DialogHeadline>{headline}</DialogHeadline>
-            <DialogBody className={style.formDialogMediumScreenBody}>
+            <DialogBody className={classes.dialogFormBodyMediumSizeScreen}>
                 <Form id={formId} open={openThisForm} />
             </DialogBody>
             <DialogFooter>

@@ -27,8 +27,8 @@ export default function ExpenseDelete({
     const [deleteBudget] = useMutation(DELETE_EXPENSE, {
         refetchQueries(result) {
             const budgetCode = result.data && 
-                result.data.deleteExpense.expense && 
-                result.data.deleteExpense.expense.budgetCode;
+                result.data.deleteExpense && 
+                result.data.deleteExpense.budgetCode;
                 
             return [
                 { query: GET_BUDGET_BY_CODE, variables: { input: { code: budgetCode, } } },
@@ -37,14 +37,17 @@ export default function ExpenseDelete({
         },
         update(cache, { data: { deleteExpense } }) {
             cache.evict({
-                id: cache.identify(deleteExpense.expense)
+                id: cache.identify(deleteExpense)
             });
         },
         onQueryUpdated(observableQuery) {
             return observableQuery.refetch();
         },
+        onError() {
+            setInfo(`"${expense.description}" gagal dihapus`);
+        },
         onCompleted(data) {
-            setInfo(data.deleteExpense.message);
+            setInfo(`"${data.deleteExpense.description}" berhasil dihapus`);
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },

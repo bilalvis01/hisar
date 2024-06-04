@@ -300,7 +300,12 @@ export default function BudgetDetailCard() {
         </>
     );
 
-    if (budgetError && budgetError.graphQLErrors[0].extensions.code === RECORD_NOT_FOUND) {
+    if (
+        budgetError && 
+        budgetError.graphQLErrors.some(
+            (error) => error.extensions.code === RECORD_NOT_FOUND
+        )
+    ) {
         notFound();
     }
 

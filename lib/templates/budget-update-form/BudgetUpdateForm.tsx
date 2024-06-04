@@ -8,6 +8,7 @@ import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-docume
 import { UpdateBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
+import { INTERNAL_SERVER_ERROR } from "../../graphql/error-code";
 
 interface BudgetUpdateFormProps {
     budget: Budget
@@ -30,15 +31,18 @@ export default function BudgetUpdateForm({
         ],
         update(cache, { data: { updateBudget } }) {
             cache.writeFragment({
-                data: updateBudget.budget,
+                data: updateBudget,
                 fragment: NEW_BUDGET,
             });
         },
         onQueryUpdated(observableQuery) {
             return observableQuery.refetch();
         },
+        onError(error) {
+            setInfo(`"${budget.name}" gagal diperbarui`);
+        },
         onCompleted(data) {
-            setInfo(data.updateBudget.message);
+            setInfo(`${data.updateBudget.name} berhasil diperbarui`);
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },

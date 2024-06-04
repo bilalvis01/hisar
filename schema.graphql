@@ -44,14 +44,14 @@ type Query {
 }
 
 type Mutation {
-    createBudget(input: CreateBudgetInput!): CreateBudgetPayload!
-    updateBudget(input: UpdateBudgetInput!): UpdateBudgetPayload!
-    deleteBudget(input: DeleteBudgetInput!): DeleteBudgetPayload!
-    deleteBudgetMany(input: DeleteBudgetManyInput!): DeleteBudgetManyPayload!
-    createExpense(input: CreateExpenseInput!): CreateExpensePayload!
-    updateExpense(input: UpdateExpenseInput!): UpdateExpensePayload!
-    deleteExpense(input: DeleteExpenseInput!): DeleteExpensePayload!
-    deleteExpenseMany(input: DeleteExpenseManyInput!): DeleteExpenseManyPayload!
+    createBudget(input: CreateBudgetInput!): Budget!
+    updateBudget(input: UpdateBudgetInput!): Budget!
+    deleteBudget(input: DeleteBudgetInput!): Budget!
+    deleteBudgetMany(input: DeleteBudgetManyInput!): [Budget!]!
+    createExpense(input: CreateExpenseInput!): BudgetTransaction!
+    updateExpense(input: UpdateExpenseInput!): BudgetTransaction!
+    deleteExpense(input: DeleteExpenseInput!): BudgetTransaction!
+    deleteExpenseMany(input: DeleteExpenseManyInput!): [BudgetTransaction!]!
 }
 
 input GetBudgetByCodeInput {
@@ -64,13 +64,6 @@ input CreateBudgetInput {
     amount: Money!
 }
 
-type CreateBudgetPayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    budget: Budget
-}
-
 input UpdateBudgetInput {
     code: String!
     name: String!
@@ -78,46 +71,18 @@ input UpdateBudgetInput {
     amount: Money!
 }
 
-type UpdateBudgetPayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    budget: Budget
-}
-
 input DeleteBudgetInput {
     code: String!
-}
-
-type DeleteBudgetPayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    budget: Budget
 }
 
 input DeleteBudgetManyInput {
     codes: [String!]!
 }
 
-type DeleteBudgetManyPayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    budgets: [Budget!]
-}
-
 input GetBudgetTransactionsInput {
     budgetCode: String
     transactionType: String
     sortOrder: SortOrder
-}
-
-type CreateExpensePayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    expense: BudgetTransaction
 }
 
 input CreateExpenseInput {
@@ -138,31 +103,10 @@ input UpdateExpenseInput {
     amount: Money!
 }
 
-type UpdateExpensePayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    expense: BudgetTransaction
-}
-
 input DeleteExpenseInput {
     id: String!
 }
 
-type DeleteExpensePayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    expense: BudgetTransaction
-}
-
 input DeleteExpenseManyInput {
     ids: [String!]!
-}
-
-type DeleteExpenseManyPayload {
-    code: Int!
-    success: Boolean!
-    message: String!
-    expenses: [BudgetTransaction!]
 }

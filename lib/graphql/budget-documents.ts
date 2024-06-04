@@ -57,18 +57,13 @@ export const CREATE_BUDGET = gql(/* GraphQL */`
     mutation CreateBudget($input: CreateBudgetInput!) {
         createBudget(input: $input) {
             code
-            success
-            message
-            budget {
-                code
-                name
-                description
-                amount
-                expense
-                balance
-                createdAt
-                updatedAt
-            }
+            name
+            description
+            amount
+            expense
+            balance
+            createdAt
+            updatedAt
         }
     }
 `);
@@ -77,18 +72,13 @@ export const UPDATE_BUDGET = gql(/* GraphQL */`
     mutation UpdateBudget($input: UpdateBudgetInput!) {
         updateBudget(input: $input) {
             code
-            success
-            message
-            budget {
-                code
-                name
-                description
-                amount
-                expense
-                balance
-                createdAt
-                updatedAt
-            }
+            name
+            description
+            amount
+            expense
+            balance
+            createdAt
+            updatedAt
         }
     }
 `);
@@ -97,18 +87,13 @@ export const DELETE_BUDGET = gql(/* GraphQL */`
     mutation DeleteBudget($input: DeleteBudgetInput!) {
         deleteBudget(input: $input) {
             code
-            success
-            message
-            budget {
-                code
-                name
-                description
-                amount
-                expense
-                balance
-                createdAt
-                updatedAt
-            }
+            name
+            description
+            amount
+            expense
+            balance
+            createdAt
+            updatedAt
         }
     }
 `);
@@ -117,32 +102,13 @@ export const DELETE_BUDGET_MANY = gql(/* GraphQL */`
     mutation DeleteBudgetMany($input: DeleteBudgetManyInput!) {
         deleteBudgetMany(input: $input) {
             code
-            success
-            message
-            budgets {
-                code
-                name
-                description
-                amount
-                expense
-                balance
-                createdAt
-                updatedAt
-            }
+            name
+            description
+            amount
+            expense
+            balance
+            createdAt
+            updatedAt
         }
-    }
-`);
-
-export const NEW_BUDGET_TRANSACTION = gql(/* GraphQL */`
-    fragment NewBudgetTransaction on BudgetTransaction {
-        id
-        budgetCode
-        budgetName
-        description
-        amount
-        balance
-        transactionType
-        createdAt
-        updatedAt
     }
 `);

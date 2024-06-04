@@ -2,8 +2,15 @@ import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { readFileSync } from 'fs';
 import { PrismaClient } from "@prisma/client";
-import { RECORD_NOT_FOUND, DATABASE_ERROR } from "../../../lib/graphql/error-code";
-import { RecordNotFoundError, DatabaseError } from "../../../lib/graphql/error";
+import { 
+    PrismaClientKnownRequestError,
+    PrismaClientUnknownRequestError,
+    PrismaClientRustPanicError,
+    PrismaClientInitializationError,
+    PrismaClientValidationError,
+} from "@prisma/client/runtime/library";
+import { RECORD_NOT_FOUND, INTERNAL_SERVER_ERROR } from "../../../lib/graphql/error-code";
+import { RecordNotFoundError } from "../../../lib/graphql/error";
 import { unwrapResolverError } from "@apollo/server/errors";
 import { resolvers } from "../../../lib/graphql/resolvers";
 import { 
@@ -37,15 +44,23 @@ const server = new ApolloServer({
             };
         }
 
-        if (originalError instanceof DatabaseError) {
+        if (
+            originalError instanceof PrismaClientKnownRequestError ||
+            originalError instanceof PrismaClientUnknownRequestError ||
+            originalError instanceof PrismaClientRustPanicError ||
+            originalError instanceof PrismaClientInitializationError ||
+            originalError instanceof PrismaClientValidationError
+        ) {
             return {
                 ...formattedError,
                 message: originalError.message,
                 extensions: {
-                    code: DATABASE_ERROR,
+                    code: INTERNAL_SERVER_ERROR,
                 }
             };
         }
+
+        return formattedError
     },
 });
 

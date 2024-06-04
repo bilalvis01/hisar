@@ -29,8 +29,8 @@ export default function ExpenseDeleteMany({
 
     const [deleteExpenseMany] = useMutation(DELETE_EXPENSE_MANY, {
         refetchQueries(result) {
-            const deletedExpenses = result.data && result.data.deleteExpenseMany.expenses
-                ? result.data.deleteExpenseMany.expenses
+            const deletedExpenses = result.data && result.data.deleteExpenseMany
+                ? result.data.deleteExpenseMany
                 : [];
 
             const budgetCodes = deletedExpenses.reduce<string[]>((acc, deletedExpense) => {
@@ -61,7 +61,7 @@ export default function ExpenseDeleteMany({
             ];
         },
         update(cache, { data: { deleteExpenseMany } }) {
-            deleteExpenseMany.expenses.forEach((expense) => {
+            deleteExpenseMany.forEach((expense) => {
                 cache.evict({
                     id: cache.identify(expense)
                 });
@@ -70,8 +70,11 @@ export default function ExpenseDeleteMany({
         onQueryUpdated(observableQuery) {
             return observableQuery.refetch();
         },
+        onError() {
+            setInfo(createInfo(descriptions, "gagal menghapus "));
+        },
         onCompleted(data) {
-            setInfo(data.deleteExpenseMany.message);
+            setInfo(createInfo(descriptions, "berhasil menghapus "));
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },

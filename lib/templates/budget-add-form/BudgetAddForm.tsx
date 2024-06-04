@@ -7,6 +7,7 @@ import { CREATE_BUDGET, GET_BUDGETS, NEW_BUDGET } from "../../graphql/budget-doc
 import { CreateBudgetMutation } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
+import { INTERNAL_SERVER_ERROR } from "../../graphql/error-code";
 
 interface BudgetAddFormProps {
     open: boolean,
@@ -23,12 +24,12 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                 fields: {
                     budgets(existingBudgetRefs = [], { readField }) {
                         const newBudget = cache.writeFragment({
-                            data: createBudget.budget,
+                            data: createBudget,
                             fragment: NEW_BUDGET,
                         });
 
                         if (existingBudgetRefs.some(
-                            ref => readField("code", ref) === createBudget.budget.code
+                            ref => readField("code", ref) === createBudget.code
                         )) {
                             return existingBudgetRefs;
                         }
@@ -38,8 +39,11 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                 }
             });
         },
-        onCompleted: (data) => {
-            setInfo(data.createBudget.message);
+        onError(error, { variables: { input } }) {
+            setInfo(`"${input.name}" gagal dibuat`);
+        },
+        onCompleted(data) {
+            setInfo(`"${data.createBudget.name}" berhasil dibuat`);
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },

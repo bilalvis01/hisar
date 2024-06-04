@@ -97,7 +97,12 @@ export default function ExpenseDetailCard(
         </div>
     );
 
-    if (error && error.graphQLErrors[0].extensions.code === RECORD_NOT_FOUND) {
+    if (
+        error && 
+        error.graphQLErrors.some(
+            (error) => error.extensions.code === RECORD_NOT_FOUND
+        )
+    ) {
         notFound();
     }
 
