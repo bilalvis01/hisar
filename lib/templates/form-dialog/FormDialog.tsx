@@ -40,6 +40,8 @@ export interface InputField {
     type: InputFieldType;
     name: string;
     label: string;
+    supportingText?: string;
+    counter?: boolean | number;
     disabled?: boolean;
     autoFocus?: boolean;
     options?: SelectOption[];
@@ -188,10 +190,11 @@ function Form({ id, open, inputSize }: FormProps) {
             enableReinitialize={true}
             onSubmit={onSubmit}
         >
-            {({ values, isSubmitting }) => {
+            {({ values, isSubmitting, resetForm }) => {
                 React.useEffect(() => {
                     if (!open) {
                         setValues(values);
+                        resetForm();
                     }
                 }, [open]);
 
@@ -206,6 +209,8 @@ function Form({ id, open, inputSize }: FormProps) {
                                 type,
                                 name,
                                 label,
+                                supportingText,
+                                counter,
                                 disabled,
                                 autoFocus,
                                 options,
@@ -221,6 +226,7 @@ function Form({ id, open, inputSize }: FormProps) {
                                         key={name} 
                                         name={name} 
                                         label={label} 
+                                        supportingText={supportingText}
                                         disabled={disabled}
                                         autoFocus={autoFocus}
                                         options={options} 
@@ -236,6 +242,8 @@ function Form({ id, open, inputSize }: FormProps) {
                                         key={name} 
                                         name={name} 
                                         label={label} 
+                                        supportingText={supportingText}
+                                        counter={counter}
                                         disabled={disabled}
                                         autoFocus={autoFocus}
                                     />
@@ -248,6 +256,8 @@ function Form({ id, open, inputSize }: FormProps) {
                                     className={style.field} 
                                     type={type} 
                                     label={label}
+                                    supportingText={supportingText}
+                                    counter={counter}
                                     name={name}
                                     disabled={disabled}
                                     autoFocus={autoFocus}

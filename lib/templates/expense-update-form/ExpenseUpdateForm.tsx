@@ -84,6 +84,7 @@ export default function ExpenseUpdateForm({
                     type: "select",
                     name: "budgetCode",
                     label: "Budget",
+                    supportingText: "*Wajib pilih salah satu",
                     disabled: disableBudgetSelection,
                     onOpenMenu: async () => {
                         const { data: { budgets }, loading, error } = await getBudgets();
@@ -102,11 +103,14 @@ export default function ExpenseUpdateForm({
                     type: "text",
                     name: "description",
                     label: "Deskripsi",
+                    supportingText: "*Wajib diisi",
+                    counter: 255,
                 },
                 {
                     type: "number",
                     name: "amount",
                     label: "Nilai",
+                    supportingText: "*Wajib diisi",
                 },
             ]}
             initialValues={{
@@ -116,10 +120,16 @@ export default function ExpenseUpdateForm({
                 amount: expense.amount,
             }}
             validationSchema={Yup.object({
-                id: Yup.string().required("Mohon diisi"),
-                budgetCode: Yup.string().required("Mohon pilih salah satu"),
-                description: Yup.string().required("Mohon diisi"),
-                amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
+                id: Yup.string()
+                    .required("Mohon diisi"),
+                budgetCode: Yup.string()
+                    .required("Mohon pilih salah satu"),
+                description: Yup.string()
+                    .required("Mohon diisi")
+                    .max(255, "Mohon tidak melebihi 255 karakter"),
+                amount: Yup.number()
+                    .typeError("Mohon masukan angka")
+                    .required("Mohon diisi"),
             })}
             onSubmit={async (input) => {
                 await updateExpense({

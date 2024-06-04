@@ -64,16 +64,20 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                     type: "text",
                     name: "name",
                     label: "Nama",
+                    supportingText: "*Wajib diisi",
+                    counter: 255,
                 },
                 {
                     type: "textarea",
                     name: "description",
                     label: "Deskripsi",
+                    counter: 255,
                 },
                 {
                     type: "number",
                     name: "amount",
                     label: "Nilai",
+                    supportingText: "*Wajib diisi",
                 },
             ]}
             initialValues={{
@@ -82,9 +86,15 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                 description: null,
             }}
             validationSchema={Yup.object({
-                name: Yup.string().required("Mohon diisi"),
-                amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
-                description: Yup.string().nullable(),
+                name: Yup.string()
+                    .required("Mohon diisi")
+                    .max(255, "Mohon tidak melebihi 255 karakter"),
+                description: Yup.string()
+                    .nullable()
+                    .max(255, "Mohon tidak melebihi 255 karakter"),
+                amount: Yup.number()
+                    .typeError("Mohon masukan angka")
+                    .required("Mohon diisi"),
             })}
             onSubmit={async (input) => {
                 await createBudget({

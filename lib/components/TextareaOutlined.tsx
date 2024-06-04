@@ -48,7 +48,7 @@ const TextareaOutlined = React.forwardRef<
 
     const hasValue = !!value || !!placeholder;
 
-    const supportingText = error ?? supportingText_;
+    const supportingText = error ? error : supportingText_;
 
     const endIcon = !!error ? <ExclamationCircleFill /> : endIcon_;
 

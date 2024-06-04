@@ -76,24 +76,34 @@ export default function BudgetUpdateForm({
                     type: "text",
                     name: "name",
                     label: "Nama",
+                    supportingText: "*Wajib diisi",
+                    counter: 255,
                 },
                 {
                     type: "textarea",
                     name: "description",
                     label: "Deskripsi",
+                    counter: 255,
                 },
                 {
                     type: "number",
                     name: "amount",
                     label: "Budget",
+                    supportingText: "*Wajib diisi",
                 },
             ]}
             initialValues={initialValues}
             validationSchema={Yup.object({
                 code: Yup.string().required("Mohon diisi"),
-                name: Yup.string().required("Mohon diisi"),
-                description: Yup.string().nullable(),
-                amount: Yup.number().typeError("Mohon masukan angka").required("Mohon diisi"),
+                name: Yup.string()
+                    .required("Mohon diisi")
+                    .max(255, "Mohon tidak melebihi 255 karakter"),
+                description: Yup.string()
+                    .nullable()
+                    .max(255, "Mohon tidak melebihi 255 karakter"),
+                amount: Yup.number()
+                    .typeError("Mohon masukan angka")
+                    .required("Mohon diisi"),
             })}
             onSubmit={async (input) => {
                 await updateBudget({
