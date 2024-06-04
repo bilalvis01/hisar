@@ -20,7 +20,7 @@ const useMenuContext = () => {
     return context;
 }
 
-type MenuProps = {
+export type MenuProps = {
     initialValue?: string;
     value?: string;
     onChange?: (value: string) => void | React.Dispatch<React.SetStateAction<string>>;
@@ -59,7 +59,7 @@ export const Menu = React.forwardRef<
     );
 })
 
-interface MenuItemProps {
+export interface MenuItemProps {
     startIcon?: React.ReactNode,
     endIcon?: React.ReactNode,
     value?: string,
