@@ -3,7 +3,11 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation } from "@apollo/client";
-import { UPDATE_BUDGET, NEW_BUDGET } from "../../graphql/budget-documents";
+import { 
+    UPDATE_BUDGET, 
+    NEW_BUDGET, 
+    GET_EXCERPT_REPORT, 
+} from "../../graphql/budget-documents";
 import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import { UpdateBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
@@ -28,6 +32,7 @@ export default function BudgetUpdateForm({
     const [updateBudget] = useMutation(UPDATE_BUDGET, {
         refetchQueries: [
             { query: GET_BUDGET_TRANSACTIONS, variables: { input: { budgetCode: budget.code } } },
+            { query: GET_EXCERPT_REPORT },
         ],
         update(cache, { data: { updateBudget } }) {
             cache.writeFragment({

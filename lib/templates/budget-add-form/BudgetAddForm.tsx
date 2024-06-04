@@ -3,11 +3,10 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation } from "@apollo/client";
-import { CREATE_BUDGET, GET_BUDGETS, NEW_BUDGET } from "../../graphql/budget-documents";
+import { CREATE_BUDGET, NEW_BUDGET, GET_EXCERPT_REPORT } from "../../graphql/budget-documents";
 import { CreateBudgetMutation } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
-import { INTERNAL_SERVER_ERROR } from "../../graphql/error-code";
 
 interface BudgetAddFormProps {
     open: boolean,
@@ -19,6 +18,9 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
     const { setInfo } = useTemplateContext();
 
     const [createBudget] = useMutation(CREATE_BUDGET, {
+        refetchQueries: [
+            { query: GET_EXCERPT_REPORT },
+        ],
         update(cache, { data: { createBudget } }) {
             cache.modify({
                 fields: {
@@ -38,6 +40,9 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                     },
                 }
             });
+        },
+        onQueryUpdated(observableQuery) {
+            return observableQuery.refetch();
         },
         onError(error, { variables: { input } }) {
             setInfo(`"${input.name}" gagal dibuat`);

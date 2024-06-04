@@ -2,7 +2,7 @@
 
 import React from "react";
 import DeleteDialog from "../delete-dialog/DeleteDialog";
-import { DELETE_BUDGET } from "../../graphql/budget-documents";
+import { DELETE_BUDGET, GET_EXCERPT_REPORT } from "../../graphql/budget-documents";
 import { useMutation } from "@apollo/client";
 import { DeleteBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
@@ -26,6 +26,9 @@ export default function BudgetDelete({
     const budgetNames = budgets.map((budget) => budget.name);
 
     const [deleteBudgetMany] = useMutation(DELETE_BUDGET, {
+        refetchQueries: [
+            { query: GET_EXCERPT_REPORT },
+        ],
         update(cache, { data: { deleteBudget } }) {
             cache.modify({
                 fields: {
@@ -48,6 +51,9 @@ export default function BudgetDelete({
                     id: cache.identify(budget),
                 });
             });
+        },
+        onQueryUpdated(observableQuery) {
+            return observableQuery.refetch();
         },
         onError() {
             setInfo(createInfo(budgetNames, "gagal menghapus "));

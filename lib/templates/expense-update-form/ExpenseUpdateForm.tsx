@@ -3,7 +3,11 @@
 import React from "react";
 import FormDialog from "../form-dialog/FormDialog";
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { GET_BUDGETS, GET_BUDGET_BY_CODE } from "../../graphql/budget-documents";
+import { 
+    GET_BUDGETS, 
+    GET_BUDGET_BY_CODE,
+    GET_EXCERPT_REPORT,
+} from "../../graphql/budget-documents";
 import { NEW_BUDGET_TRANSACTION } from "../../graphql/budget-transaction-documents";
 import { UPDATE_EXPENSE } from "../../graphql/expense-documents";
 import { UpdateExpenseMutation, BudgetTransaction } from "../../graphql/generated/graphql";
@@ -38,6 +42,7 @@ export default function ExpenseUpdateForm({
             return [
                 { query: GET_BUDGET_BY_CODE, variables: { input: { code: budgetCode, } } },
                 { query: GET_BUDGET_TRANSACTIONS, variables: { input: { budgetCode: budgetCode } } },
+                { query: GET_EXCERPT_REPORT },
             ];
         },
         update(cache, { data: { updateExpense } }) {
