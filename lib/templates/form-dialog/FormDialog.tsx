@@ -47,7 +47,7 @@ export interface InputField {
 }
 
 interface Classes {
-    dialogFormBodyMediumSizeScreen?: string;
+    formDialogBodyMediumSizeScreen?: string;
 }
 
 interface FormDialogOptions<Values> {
@@ -314,7 +314,7 @@ function FormDialogMediumScreen() {
     return (
         <Dialog open={openThisForm} onOpenChange={setOpen}>
             <DialogHeadline>{headline}</DialogHeadline>
-            <DialogBody className={classes.dialogFormBodyMediumSizeScreen}>
+            <DialogBody className={classes.formDialogBodyMediumSizeScreen}>
                 <Form id={formId} open={openThisForm} />
             </DialogBody>
             <DialogFooter>

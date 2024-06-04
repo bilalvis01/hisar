@@ -10,6 +10,7 @@ import { exportBudgetMany } from "../../utils/exportBudget";
 import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
 import { POLL_INTERVAL } from "../../graphql/pollInterval";
 import { useLazyQuery } from "@apollo/client";
+import style from "./BudgetExportManyForm.module.scss";
 
 interface BudgetExportManyFormProps {
     budgets: Budget[];
@@ -87,6 +88,7 @@ export default function BudgetExportManyForm({
                     setInfo(error.message);
                 }
             }}
+            classes={{ formDialogBodyMediumSizeScreen: style.formDialogBodyMediumSizeScreen }}
         />
     );
 }
