@@ -31,7 +31,6 @@ import IconPencil from "../../icons/Pencil";
 import IconEye from "../../icons/Eye";
 import { useRouter } from "next/navigation";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
-import BudgetDeleteMany from "../budget-delete-many/BudgetDeleteMany";
 import date from "../../utils/date";
 import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
 import { Menu, MenuItem } from "../../components/Menu";
@@ -44,7 +43,6 @@ import {
     autoUpdate,
 } from "@floating-ui/react";
 import { POLL_INTERVAL } from "../../graphql/pollInterval";
-import BudgetExportManyForm from "../budget-export-many-form/BudgetExportManyForm";
 import BudgetExportForm from "../budget-export-form/BudgetExportForm";
 
 const columnHelper = createColumnHelper<Omit<Budget, "__typedef" | "transactions">>();
@@ -160,9 +158,7 @@ export default function BudgetTable() {
     const [openBudgetAddForm, setOpenBudgetAddForm] = React.useState(false);
     const [openBudgetUpdateForm, setOpenBudgetUpdateForm] = React.useState(false);
     const [openBudgetDelete, setOpenBudgetDelete] = React.useState(false);
-    const [openBudgetDeleteMany, setOpenBudgetDeleteMany] = React.useState(false);
     const [openBudgetExportForm, setOpenBudgetExportForm] = React.useState(false);
-    const [openBudgetExportManyForm, setOpenBudgetExportManyForm] = React.useState(false);
     const fabRef = React.useRef(null);
     const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
     const { 
@@ -240,16 +236,8 @@ export default function BudgetTable() {
         setOpenBudgetDelete(true);
     }, []);
 
-    const handleOpenBudgetDeleteMany = React.useCallback(() => {
-        setOpenBudgetDeleteMany(true);
-    }, []);
-
     const handleOpenBudgetExportForm = React.useCallback(() => {
         setOpenBudgetExportForm(true);
-    }, []);
-
-    const handleOpenBudgetExportManyForm = React.useCallback(() => {
-        setOpenBudgetExportManyForm(true);
     }, []);
 
     React.useEffect(() => {
@@ -287,16 +275,20 @@ export default function BudgetTable() {
                         Buat Budget
                     </ButtonFilled>
                 )}
-                {isSingleSelectedRow() && isWindowSizeExpanded() && (
+                {!isNoneSelectedRow() && isWindowSizeExpanded() && (
                     <>
-                        <Link href={`/budget/${selectedRows[0].code}`} passHref legacyBehavior>
-                            <LinkText>
-                                Lihat
-                            </LinkText>
-                        </Link>
-                        <ButtonText onClick={handleOpenBudgetUpdateForm}>
-                            Edit
-                        </ButtonText>
+                        {isSingleSelectedRow() && (
+                            <>
+                                <Link href={`/budget/${selectedRows[0].code}`} passHref legacyBehavior>
+                                    <LinkText>
+                                        Lihat
+                                    </LinkText>
+                                </Link>
+                                <ButtonText onClick={handleOpenBudgetUpdateForm}>
+                                    Edit
+                                </ButtonText>
+                            </>
+                        )}
                         <div>
                             <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
                                 <IconThreeDotsVertial />
@@ -321,32 +313,6 @@ export default function BudgetTable() {
                         </div>
                     </>
                 )}
-                {isManySelectedRow() && isWindowSizeExpanded() && (
-                    <>
-                        <div>
-                            <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
-                                <IconThreeDotsVertial />
-                            </IconButtonStandard>
-                            {openActionsMenu && (
-                                <Menu 
-                                    {...getFloatingProps()} 
-                                    ref={refs.setFloating} 
-                                    style={floatingStyles} 
-                                    className={style.actionsMenu}
-                                >
-                                    <ul>
-                                        <li>
-                                            <MenuItem onClick={handleOpenBudgetExportManyForm}>Export</MenuItem>
-                                        </li>
-                                        <li>
-                                            <MenuItem onClick={handleOpenBudgetDeleteMany}>Hapus</MenuItem>
-                                        </li>
-                                    </ul>
-                                </Menu>
-                            )}
-                        </div>
-                    </>
-                )}
             </header>
             <div className={style.body}>
                 <Table table={table} />
@@ -363,19 +329,11 @@ export default function BudgetTable() {
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
-            {isSingleSelectedRow() && (
+            {!isNoneSelectedRow() && (
                 <BudgetDelete
-                    budget={selectedRows[0] as Budget}
+                    budgets={selectedRows}
                     open={openBudgetDelete}
                     onOpenChange={setOpenBudgetDelete}
-                    onSuccess={(data) => table.resetRowSelection()}
-                />
-            )}
-            {isManySelectedRow() && (
-                <BudgetDeleteMany
-                    budgets={selectedRows as Budget[]}
-                    open={openBudgetDeleteMany}
-                    onOpenChange={setOpenBudgetDeleteMany}
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
@@ -394,15 +352,19 @@ export default function BudgetTable() {
             >
                 <IconPlusLg />
             </Fab>
-            {isSingleSelectedRow() && isWindowSizeSpanMedium() && (
+            {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
                 createPortal(
                     <>
-                        <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
-                            <IconEye />
-                        </IconButtonStandard>
-                        <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
-                            <IconPencil />
-                        </IconButtonStandard>
+                        {isSingleSelectedRow() && (
+                            <>
+                                <IconButtonStandard onClick={() => router.push(`/budget/${selectedRows[0].code}`)}>
+                                    <IconEye />
+                                </IconButtonStandard>
+                                <IconButtonStandard onClick={handleOpenBudgetUpdateForm}>
+                                    <IconPencil />
+                                </IconButtonStandard>  
+                            </>
+                        )}
                         <div>
                             <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
                                 <IconThreeDotsVertial />
@@ -429,48 +391,15 @@ export default function BudgetTable() {
                     toolbarSecondaryRef.current
                 )
             )}
-            {isManySelectedRow() && isWindowSizeSpanMedium() && createPortal(
-                <div>
-                    <IconButtonStandard {...getReferenceProps()} ref={refs.setReference}>
-                        <IconThreeDotsVertial />
-                    </IconButtonStandard>
-                    {openActionsMenu && (
-                        <Menu 
-                            {...getFloatingProps()} 
-                            ref={refs.setFloating} 
-                            style={floatingStyles} 
-                            className={style.actionsMenu}
-                        >
-                            <ul>
-                                <li>
-                                    <MenuItem onClick={handleOpenBudgetExportManyForm}>Export</MenuItem>
-                                </li>
-                                <li>
-                                    <MenuItem onClick={handleOpenBudgetDeleteMany}>Hapus</MenuItem>
-                                </li>
-                            </ul>
-                        </Menu>
-                    )}
-                </div>,
-                toolbarSecondaryRef.current
-            )}
             {!isNoneSelectedRow() && isWindowSizeSpanMedium() && (
                 createPortal(
                     selectedRows.length,
                     headlineSecondaryRef.current
                 )
             )}
-            {isManySelectedRow() && (
-                <BudgetExportManyForm 
-                    budgets={selectedRows}
-                    open={openBudgetExportManyForm}
-                    onOpenChange={setOpenBudgetExportManyForm}
-                    onSuccess={() => table.resetRowSelection()}
-                />
-            )}
-            {isSingleSelectedRow() && (
+            {!isNoneSelectedRow() && (
                 <BudgetExportForm 
-                    budget={selectedRows[0]}
+                    budgets={selectedRows}
                     open={openBudgetExportForm}
                     onOpenChange={setOpenBudgetExportForm}
                     onSuccess={() => table.resetRowSelection()}

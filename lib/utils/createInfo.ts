@@ -9,9 +9,8 @@ export default function createInfo(values: string[], prefix?: string, suffix?: s
         }
 
         if (index === 0) return `"${value}"`;
-        if (index === 1) return `${acc}${conjunction}"${value}"`;
-        if (index === 2 && index === values.length - 1) return `${acc}${conjunction}"${value}"`;
-        if (index === 3) return `${acc}${conjunction}${array.length - 2} lainnya`;
+        if (index === 1 && index === values.length - 1) return `${acc}${conjunction}"${value}"`;
+        if (index === 2) return `${acc}${conjunction}${array.length - 1} lainnya`;
 
         return acc;
     }, "");

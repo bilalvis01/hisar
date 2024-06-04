@@ -46,12 +46,10 @@ type Query {
 type Mutation {
     createBudget(input: CreateBudgetInput!): Budget!
     updateBudget(input: UpdateBudgetInput!): Budget!
-    deleteBudget(input: DeleteBudgetInput!): Budget!
-    deleteBudgetMany(input: DeleteBudgetManyInput!): [Budget!]!
+    deleteBudget(input: DeleteBudgetInput!): [Budget!]!
     createExpense(input: CreateExpenseInput!): BudgetTransaction!
     updateExpense(input: UpdateExpenseInput!): BudgetTransaction!
-    deleteExpense(input: DeleteExpenseInput!): BudgetTransaction!
-    deleteExpenseMany(input: DeleteExpenseManyInput!): [BudgetTransaction!]!
+    deleteExpense(input: DeleteExpenseInput!): [BudgetTransaction!]!
 }
 
 input GetBudgetByCodeInput {
@@ -72,10 +70,6 @@ input UpdateBudgetInput {
 }
 
 input DeleteBudgetInput {
-    code: String!
-}
-
-input DeleteBudgetManyInput {
     codes: [String!]!
 }
 
@@ -104,9 +98,5 @@ input UpdateExpenseInput {
 }
 
 input DeleteExpenseInput {
-    id: String!
-}
-
-input DeleteExpenseManyInput {
     ids: [String!]!
 }

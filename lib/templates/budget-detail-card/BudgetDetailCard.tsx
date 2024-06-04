@@ -22,16 +22,12 @@ import BudgetDelete from "../budget-delete/BudgetDelete";
 import { useTemplateContext } from "../Template";
 import { useRouter, notFound } from "next/navigation";
 import { ButtonText } from "../../components/ButtonText";
-import { IconLinkFilled } from "../../components/IconButtonFilled";
 import { IconButtonFilled } from "../../components/IconButtonFilled";
-import IconArrowLeft from "../../icons/ArrowLeft";
 import IconPencil from "../../icons/Pencil";
-import IconTrash from "../../icons/Trash";
 import Link from "next/link";
 import { LinkText } from "../../components/ButtonText";
 import { BudgetTransaction } from "../../graphql/generated/graphql";
 import ExpenseDelete from "../expense-delete/ExpenseDelete";
-import ExpenseDeleteMany from "../expense-delete-many/ExpenseDeleteMany";
 import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
 import ExpenseAddForm from "../expense-add-form/ExpenseAddForm";
 import ButtonFilled from "../../components/ButtonFIlled";
@@ -188,7 +184,6 @@ export default function BudgetDetailCard() {
     const [openExpenseAddForm, setOpenExpenseAddForm] = React.useState(false);
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
     const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
-    const [openExpenseDeleteMany, setOpenExpenseDeleteMany] = React.useState(false);
     const [openBudgetExportForm, setOpenBudgetExportForm] = React.useState(false);
     const router = useRouter();
     const [rowSelection, setRowSelection] = React.useState({});
@@ -264,10 +259,6 @@ export default function BudgetDetailCard() {
 
     const handleOpenExpenseDelete = React.useCallback(() => {
         setOpenExpenseDelete(true);
-    }, []);
-
-    const handleOpenExpenseDeleteMany = React.useCallback(() => {
-        setOpenExpenseDeleteMany(true);
     }, []);
 
     const handleOpenBudgetExportForm = React.useCallback(() => {
@@ -458,7 +449,7 @@ export default function BudgetDetailCard() {
                                         >
                                             <ul>
                                                 <li>
-                                                    <MenuItem onClick={handleOpenExpenseDeleteMany}>Hapus</MenuItem>
+                                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                                 </li>
                                             </ul>
                                         </Menu>
@@ -481,7 +472,7 @@ export default function BudgetDetailCard() {
             )}
             {budget && (
                 <BudgetDelete
-                    budget={budget}
+                    budgets={[budget]}
                     open={openBudgetDelete}
                     onOpenChange={setOpenBudgetDelete}
                     onSuccess={() => router.push("/budget")}
@@ -502,25 +493,17 @@ export default function BudgetDetailCard() {
                     disableBudgetSelection={true}
                 />
             )}
-            {isSingleSelectedRow() && (
+            {!isNoneSelectedRow() && (
                 <ExpenseDelete
-                    expense={selectedRows[0]}
+                    expenses={selectedRows}
                     open={openExpenseDelete}
                     onOpenChange={setOpenExpenseDelete}
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
-            {isManySelectedRow() && (
-                <ExpenseDeleteMany
-                    expenses={selectedRows}
-                    open={openExpenseDeleteMany}
-                    onOpenChange={setOpenExpenseDeleteMany}
-                    onSuccess={(data) => table.resetRowSelection()}
-                />
-            )}
             {budget && (
                 <BudgetExportForm 
-                    budget={budget}
+                    budgets={[budget]}
                     open={openBudgetExportForm}
                     onOpenChange={setOpenBudgetExportForm}
                 />
@@ -602,7 +585,7 @@ export default function BudgetDetailCard() {
                         >
                             <ul>
                                 <li>
-                                    <MenuItem onClick={handleOpenExpenseDeleteMany}>Hapus</MenuItem>
+                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                 </li>
                             </ul>
                         </Menu>

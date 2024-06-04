@@ -28,11 +28,9 @@ import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
 import { BudgetTransaction } from "../../graphql/generated/graphql";
 import { ButtonText } from "../../components/ButtonText";
 import ExpenseDelete from "../expense-delete/ExpenseDelete";
-import ExpenseDeleteMany from "../expense-delete-many/ExpenseDeleteMany";
 import { IconButtonStandard } from "../../components/IconButtonStandard";
 import IconEye from "../../icons/Eye";
 import IconPencil from "../../icons/Pencil";
-import IconTrash from "../../icons/Trash";
 import { useRouter } from "next/navigation";
 import { BUDGET_EXPENSE } from "../../database/budget-transaction-type";
 import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
@@ -156,7 +154,6 @@ export default function ExpenseTable() {
     const [openExpenseAddForm, setOpenExpenseAddForm] = React.useState(false);
     const [openExpenseUpdateForm, setOpenExpenseUpdateForm] = React.useState(false);
     const [openExpenseDelete, setOpenExpenseDelete] = React.useState(false);
-    const [openExpenseDeleteMany, setOpenExpenseDeleteMany] = React.useState(false);
     const fabRef = React.useRef(null);
     const { 
         setSnackbarStyle, 
@@ -232,10 +229,6 @@ export default function ExpenseTable() {
 
     const handleOpenExpenseDelete = React.useCallback(() => {
         setOpenExpenseDelete(true);
-    }, []);
-
-    const handleOpenExpenseDeleteMany = React.useCallback(() => {
-        setOpenExpenseDeleteMany(true);
     }, []);
 
     React.useEffect(() => {
@@ -319,7 +312,7 @@ export default function ExpenseTable() {
                             >
                                 <ul>
                                     <li>
-                                        <MenuItem onClick={handleOpenExpenseDeleteMany}>Hapus</MenuItem>
+                                        <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                     </li>
                                 </ul>
                             </Menu>
@@ -342,19 +335,11 @@ export default function ExpenseTable() {
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
-            {isSingleSelectedRow() && (
+            {!isNoneSelectedRow() && (
                 <ExpenseDelete
-                    expense={selectedRows[0]}
+                    expenses={selectedRows}
                     open={openExpenseDelete}
                     onOpenChange={setOpenExpenseDelete}
-                    onSuccess={(data) => table.resetRowSelection()}
-                />
-            )}
-            {isManySelectedRow() && (
-                <ExpenseDeleteMany
-                    expenses={selectedRows}
-                    open={openExpenseDeleteMany}
-                    onOpenChange={setOpenExpenseDeleteMany}
                     onSuccess={(data) => table.resetRowSelection()}
                 />
             )}
@@ -419,7 +404,7 @@ export default function ExpenseTable() {
                         >
                             <ul>
                                 <li>
-                                    <MenuItem onClick={handleOpenExpenseDeleteMany}>Hapus</MenuItem>
+                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                 </li>
                             </ul>
                         </Menu>

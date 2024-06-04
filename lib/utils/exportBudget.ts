@@ -10,6 +10,7 @@ const DATE_FORMAT = "dd/mm/yyyy hh:mm:ss";
 
 export type GetBudgetTransactionsQueryExecFn = LazyQueryExecFunction<GetBudgetTransactionsQuery, GetBudgetTransactionsQueryVariables>;
 
+/*
 export async function exportBudget(
     {
         fileName,
@@ -44,8 +45,9 @@ export async function exportBudget(
         XLXS.writeFile(workbook, `${fileName}.xlsx`, { compression: true });
     }
 }
+*/
 
-export async function exportBudgetMany(
+export async function exportBudget(
     {   
         names,
         budgets,

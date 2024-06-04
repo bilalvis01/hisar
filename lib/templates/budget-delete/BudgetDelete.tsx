@@ -3,62 +3,66 @@
 import React from "react";
 import DeleteDialog from "../delete-dialog/DeleteDialog";
 import { DELETE_BUDGET } from "../../graphql/budget-documents";
-import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-documents";
-import { useMutation, useLazyQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { DeleteBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import { useTemplateContext } from "../Template";
+import createInfo from "../../utils/createInfo";
 
 interface BudgetDeleteProps {
-    budget: Budget;
+    budgets: Budget[];
     open: boolean;
     onOpenChange: (open: boolean) => void;
     onSuccess?: (data: DeleteBudgetMutation) => void;
 }
 
 export default function BudgetDelete({
-    budget,
+    budgets,
     open,
     onOpenChange: setOpen,
     onSuccess,
 }: BudgetDeleteProps) {
     const { setInfo } = useTemplateContext();
+    const codes = budgets.map((budget) => budget.code);
+    const budgetNames = budgets.map((budget) => budget.name);
 
-    const [deleteBudget] = useMutation(DELETE_BUDGET, {
+    const [deleteBudgetMany] = useMutation(DELETE_BUDGET, {
         update(cache, { data: { deleteBudget } }) {
             cache.modify({
                 fields: {
-                    budgetTransactions(existingBudgetTransactionRefs, { readField }) {
+                    budgetTransactions(existingBudgetTransactionRefs = [], { readField }) {
                         const removedBudgetTransactions = existingBudgetTransactionRefs.filter(
-                            budgetTransactionRef => budget.code === readField("budgetCode", budgetTransactionRef)
+                            budgetTransactionRef => codes.includes(readField("budgetCode", budgetTransactionRef))
                         );
 
                         removedBudgetTransactions.forEach((budgetTransaction) => {
                             cache.evict({
                                 id: cache.identify(budgetTransaction)
-                            });
+                            })
                         });
                     },
                 }
             });
-            
-            cache.evict({
-                id: cache.identify(deleteBudget),
+
+            deleteBudget.forEach((budget) => {
+                cache.evict({
+                    id: cache.identify(budget),
+                });
             });
         },
-        onError(error, { variables: { input } }) {
-            setInfo(`"${budget.name}" gagal dihapus`);
+        onError() {
+            setInfo(createInfo(budgetNames, "gagal menghapus "));
         },
         onCompleted(data) {
-            setInfo(`${budget.name} berhasil dihapus`);
+            setInfo(createInfo(budgetNames, "berhasil menghapus "));
             setOpen(false);
             if (onSuccess) onSuccess(data);
         },
     });
 
     const data = {
-        values: { code: budget.code },
+        values: { codes },
         headline: "Hapus Budget?",
-        supportingText: `Apakah anda ingin menghapus "${budget.name}"?`,
+        supportingText: createInfo(budgetNames, "Apakah anda ingin menghapus ", " ?"),
     };
 
     return (
@@ -67,9 +71,9 @@ export default function BudgetDelete({
             open={open}
             onOpenChange={setOpen}
             onSubmit={async (input) => {
-                await deleteBudget({
+                await deleteBudgetMany({
                     variables: { input }
-                })
+                });
             }}
         />
     );

@@ -12,16 +12,11 @@ import ProgressCircular from "../../components/ProgressCircular";
 import { useTemplateContext } from "../Template";
 import { notFound } from "next/navigation";
 import date from "../../utils/date";
-import Link from "next/link";
-import { LinkText } from "../../components/ButtonText";
 import { ButtonText } from "../../components/ButtonText";
 import ExpenseDelete from "../expense-delete/ExpenseDelete";
 import ExpenseUpdateForm from "../expense-update-form/ExpenseUpdateForm";
-import { IconLinkFilled } from "../../components/IconButtonFilled";
 import { IconButtonFilled } from "../../components/IconButtonFilled";
-import IconArrowLeft from "../../icons/ArrowLeft";
 import IconPencil from "../../icons/Pencil";
-import IconTrash from "../../icons/Trash";
 import IconThreeDotsVertial from "../../icons/ThreeDotsVertical";
 import { Menu, MenuItem } from "../../components/Menu";
 import { 
@@ -190,7 +185,7 @@ export default function ExpenseDetailCard(
             )}
             {budgetTransaction && isExpense() && (
                 <ExpenseDelete
-                    expense={budgetTransaction}
+                    expenses={[budgetTransaction]}
                     open={openExpenseDelete}
                     onOpenChange={setOpenExpenseDelete}
                     onSuccess={() => router.back()}

@@ -101,21 +101,7 @@ export const resolvers: Resolvers = {
             return await fetchBudgetByCode(context.dataSources, input.code);
         },
 
-        async deleteBudget(_, { input }, context) {
-            const deletedBudget = fetchBudgetByCode(context.dataSources, input.code);
-
-            const budget = await context.dataSources.budget.findUnique({
-                where: {
-                    code: input.code,
-                },
-            });
-
-            await deleteBudget(context.dataSources, { id: budget.id });
-
-            return deletedBudget;
-        },
-
-        async deleteBudgetMany(_, { input: { codes } }, context) {
+        async deleteBudget(_, { input: { codes } }, context) {
             const deletedBudgets = await fetchBudgetsByCodes(context.dataSources, codes);
 
             const budgets = await context.dataSources.budget.findMany({
@@ -158,14 +144,6 @@ export const resolvers: Resolvers = {
         },
 
         async deleteExpense(_, { input }, context) {
-            const deletedExpense = await fetchExpenseById(context.dataSources, { id: parseInt(input.id) });
-
-            await deleteExpense(context.dataSources, { ...input, ...{ id: parseInt(input.id) } });
-
-            return deletedExpense;
-        },
-
-        async deleteExpenseMany(_, { input }, context) {
             const ids = input.ids.map((id) => parseInt(id));
 
             const deletedExpenses = await fetchExpensesByIds(context.dataSources, { ids });

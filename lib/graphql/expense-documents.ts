@@ -47,19 +47,3 @@ export const DELETE_EXPENSE = gql(/* GraphQL */`
         }
     }
 `);
-
-export const DELETE_EXPENSE_MANY = gql(/* GraphQL */`
-    mutation DeleteExpenseMany($input: DeleteExpenseManyInput!) {
-        deleteExpenseMany(input: $input) {
-            id
-            budgetCode,
-            budgetName,
-            description
-            amount
-            balance
-            transactionType
-            createdAt
-            updatedAt
-        }
-    }
-`);

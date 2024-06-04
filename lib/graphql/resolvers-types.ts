@@ -57,18 +57,10 @@ export type CreateExpenseInput = {
 };
 
 export type DeleteBudgetInput = {
-  code: Scalars['String']['input'];
-};
-
-export type DeleteBudgetManyInput = {
   codes: Array<Scalars['String']['input']>;
 };
 
 export type DeleteExpenseInput = {
-  id: Scalars['String']['input'];
-};
-
-export type DeleteExpenseManyInput = {
   ids: Array<Scalars['String']['input']>;
 };
 
@@ -98,10 +90,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createBudget: Budget;
   createExpense: BudgetTransaction;
-  deleteBudget: Budget;
-  deleteBudgetMany: Array<Budget>;
-  deleteExpense: BudgetTransaction;
-  deleteExpenseMany: Array<BudgetTransaction>;
+  deleteBudget: Array<Budget>;
+  deleteExpense: Array<BudgetTransaction>;
   updateBudget: Budget;
   updateExpense: BudgetTransaction;
 };
@@ -122,18 +112,8 @@ export type MutationDeleteBudgetArgs = {
 };
 
 
-export type MutationDeleteBudgetManyArgs = {
-  input: DeleteBudgetManyInput;
-};
-
-
 export type MutationDeleteExpenseArgs = {
   input: DeleteExpenseInput;
-};
-
-
-export type MutationDeleteExpenseManyArgs = {
-  input: DeleteExpenseManyInput;
 };
 
 
@@ -267,9 +247,7 @@ export type ResolversTypes = {
   CreateExpenseInput: CreateExpenseInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   DeleteBudgetInput: DeleteBudgetInput;
-  DeleteBudgetManyInput: DeleteBudgetManyInput;
   DeleteExpenseInput: DeleteExpenseInput;
-  DeleteExpenseManyInput: DeleteExpenseManyInput;
   ExcerptReport: ResolverTypeWrapper<ExcerptReport>;
   GetBudgetByCodeInput: GetBudgetByCodeInput;
   GetBudgetTransactionByIdInput: GetBudgetTransactionByIdInput;
@@ -292,9 +270,7 @@ export type ResolversParentTypes = {
   CreateExpenseInput: CreateExpenseInput;
   DateTime: Scalars['DateTime']['output'];
   DeleteBudgetInput: DeleteBudgetInput;
-  DeleteBudgetManyInput: DeleteBudgetManyInput;
   DeleteExpenseInput: DeleteExpenseInput;
-  DeleteExpenseManyInput: DeleteExpenseManyInput;
   ExcerptReport: ExcerptReport;
   GetBudgetByCodeInput: GetBudgetByCodeInput;
   GetBudgetTransactionByIdInput: GetBudgetTransactionByIdInput;
@@ -350,10 +326,8 @@ export interface MoneyScalarConfig extends GraphQLScalarTypeConfig<ResolversType
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createBudget?: Resolver<ResolversTypes['Budget'], ParentType, ContextType, RequireFields<MutationCreateBudgetArgs, 'input'>>;
   createExpense?: Resolver<ResolversTypes['BudgetTransaction'], ParentType, ContextType, RequireFields<MutationCreateExpenseArgs, 'input'>>;
-  deleteBudget?: Resolver<ResolversTypes['Budget'], ParentType, ContextType, RequireFields<MutationDeleteBudgetArgs, 'input'>>;
-  deleteBudgetMany?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType, RequireFields<MutationDeleteBudgetManyArgs, 'input'>>;
-  deleteExpense?: Resolver<ResolversTypes['BudgetTransaction'], ParentType, ContextType, RequireFields<MutationDeleteExpenseArgs, 'input'>>;
-  deleteExpenseMany?: Resolver<Array<ResolversTypes['BudgetTransaction']>, ParentType, ContextType, RequireFields<MutationDeleteExpenseManyArgs, 'input'>>;
+  deleteBudget?: Resolver<Array<ResolversTypes['Budget']>, ParentType, ContextType, RequireFields<MutationDeleteBudgetArgs, 'input'>>;
+  deleteExpense?: Resolver<Array<ResolversTypes['BudgetTransaction']>, ParentType, ContextType, RequireFields<MutationDeleteExpenseArgs, 'input'>>;
   updateBudget?: Resolver<ResolversTypes['Budget'], ParentType, ContextType, RequireFields<MutationUpdateBudgetArgs, 'input'>>;
   updateExpense?: Resolver<ResolversTypes['BudgetTransaction'], ParentType, ContextType, RequireFields<MutationUpdateExpenseArgs, 'input'>>;
 };

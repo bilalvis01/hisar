@@ -97,18 +97,3 @@ export const DELETE_BUDGET = gql(/* GraphQL */`
         }
     }
 `);
-
-export const DELETE_BUDGET_MANY = gql(/* GraphQL */`
-    mutation DeleteBudgetMany($input: DeleteBudgetManyInput!) {
-        deleteBudgetMany(input: $input) {
-            code
-            name
-            description
-            amount
-            expense
-            balance
-            createdAt
-            updatedAt
-        }
-    }
-`);
