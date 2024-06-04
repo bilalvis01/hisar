@@ -87,6 +87,7 @@ export default function BudgetExportForm({
                     await exportBudget({ names, budgets, getBudgetTransactions });
 
                     if (onSuccess) onSuccess();
+                    setOpen(false);
                     setInfo(createInfo(budgetNames, "berhasil export "));
                 } catch(error) {
                     setInfo(error.message);
