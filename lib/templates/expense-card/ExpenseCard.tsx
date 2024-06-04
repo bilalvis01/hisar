@@ -288,11 +288,7 @@ export default function ExpenseTable() {
                                     style={floatingStyles} 
                                     className={style.actionsMenu}
                                 >
-                                    <ul>
-                                        <li>
-                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                        </li>
-                                    </ul>
+                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                 </Menu>
                             )}
                         </div>
@@ -310,11 +306,7 @@ export default function ExpenseTable() {
                                 style={floatingStyles} 
                                 className={style.actionsMenu}
                             >
-                                <ul>
-                                    <li>
-                                        <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                    </li>
-                                </ul>
+                                <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                             </Menu>
                         )}
                     </div>
@@ -378,11 +370,7 @@ export default function ExpenseTable() {
                                     style={floatingStyles} 
                                     className={style.actionsMenu}
                                 >
-                                    <ul>
-                                        <li>
-                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                        </li>
-                                    </ul>
+                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                 </Menu>
                             )}
                         </div>
@@ -402,11 +390,7 @@ export default function ExpenseTable() {
                             style={floatingStyles} 
                             className={style.actionsMenu}
                         >
-                            <ul>
-                                <li>
-                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                </li>
-                            </ul>
+                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                         </Menu>
                     )}
                 </div>,

@@ -50,7 +50,9 @@ export const Menu = React.forwardRef<
         <MenuContext.Provider value={context}>
             <div {...props} ref={ref} className={clsx("menu", className)}>
                 <div className="container">
-                    {children}
+                    <ul>
+                        {children}
+                    </ul>
                 </div>
             </div>
         </MenuContext.Provider>
@@ -82,37 +84,39 @@ export function MenuItem({
     }
 
     return (
-        <button 
-            {...props}
-            type="button" 
-            className={clsx("list-item", { select: thisValue && value === thisValue })}
-            onClick={handleClick}
-        >
-            <div className="decorator">
-                <div className="state-layer" />
-            </div>
-            {progress
-                ? (
-                    <span className="progress">
-                        <ProgressCircular size="sm" />
-                    </span>
-                )
-                : startIcon
-                ? (
-                    <span className="leading-icon">
-                        {startIcon}
-                    </span>
-                )
-                : null
-            }
-            <span className="label">
-                {children}
-            </span>
-            {endIcon && (
-                <span className="leading-icon">
-                    {endIcon}
+        <li>
+            <button 
+                {...props}
+                type="button" 
+                className={clsx("list-item", { select: thisValue && value === thisValue })}
+                onClick={handleClick}
+            >
+                <div className="decorator">
+                    <div className="state-layer" />
+                </div>
+                {progress
+                    ? (
+                        <span className="progress">
+                            <ProgressCircular size="sm" />
+                        </span>
+                    )
+                    : startIcon
+                    ? (
+                        <span className="leading-icon">
+                            {startIcon}
+                        </span>
+                    )
+                    : null
+                }
+                <span className="label">
+                    {children}
                 </span>
-            )}
-        </button>
+                {endIcon && (
+                    <span className="leading-icon">
+                        {endIcon}
+                    </span>
+                )}
+            </button>
+        </li>
     );
 }

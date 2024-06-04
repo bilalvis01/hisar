@@ -134,11 +134,7 @@ export default function ExpenseDetailCard(
                                     style={floatingStyles} 
                                     className={style.actionsMenu}
                                 >
-                                    <ul>
-                                        <li>
-                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                        </li>
-                                    </ul>
+                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                 </Menu>
                             )}
                         </div>
@@ -207,14 +203,8 @@ export default function ExpenseDetailCard(
                                 style={floatingStyles} 
                                 className={style.actionsMenu}
                             >
-                                <ul>
-                                    <li>
-                                        <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                    </li>
-                                    <li>
-                                        <MenuItem onClick={handleBack}>Kembali</MenuItem>
-                                    </li>
-                                </ul>
+                                <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
+                                <MenuItem onClick={handleBack}>Kembali</MenuItem>
                             </Menu>
                         )}
                     </div>
@@ -233,11 +223,7 @@ export default function ExpenseDetailCard(
                             style={floatingStyles} 
                             className={style.actionsMenu}
                         >
-                            <ul>
-                                <li>
-                                    <MenuItem onClick={handleBack}>Kembali</MenuItem>
-                                </li>
-                            </ul>
+                            <MenuItem onClick={handleBack}>Kembali</MenuItem>
                         </Menu>
                     )}
                 </div>,

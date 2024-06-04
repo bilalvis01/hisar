@@ -333,17 +333,9 @@ export default function BudgetDetailCard() {
                                         style={floatingStyles} 
                                         className={style.actionsMenu}
                                     >
-                                        <ul>
-                                            <li>
-                                                <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
-                                            </li>
-                                            <li>
-                                                <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
-                                            </li>
-                                            <li>
-                                                <MenuItem progress={exporting} onClick={handleOpenBudgetExportForm}>Export</MenuItem>
-                                            </li>
-                                        </ul>
+                                        <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
+                                        <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
+                                        <MenuItem progress={exporting} onClick={handleOpenBudgetExportForm}>Export</MenuItem>
                                     </Menu>
                                 )}
                             </div>
@@ -425,11 +417,7 @@ export default function BudgetDetailCard() {
                                                 style={floatingStyles} 
                                                 className={style.actionsMenu}
                                             >
-                                                <ul>
-                                                    <li>
-                                                        <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                                    </li>
-                                                </ul>
+                                                <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                             </Menu>
                                         )}
                                     </div>
@@ -447,11 +435,7 @@ export default function BudgetDetailCard() {
                                             style={floatingStyles} 
                                             className={style.actionsMenu}
                                         >
-                                            <ul>
-                                                <li>
-                                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                                </li>
-                                            </ul>
+                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                         </Menu>
                                     )}
                                 </div>
@@ -520,20 +504,10 @@ export default function BudgetDetailCard() {
                             style={floatingStyles} 
                             className={style.actionsMenu}
                         >
-                            <ul>
-                                <li>
-                                    <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
-                                </li>
-                                <li>
-                                    <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
-                                </li>
-                                <li>
-                                    <MenuItem progress={exporting} onClick={handleOpenBudgetExportForm}>Export</MenuItem>
-                                </li>
-                                <li>
-                                    <MenuItem onClick={handleBack}>Kembali</MenuItem>
-                                </li>
-                            </ul>
+                            <MenuItem onClick={handleOpenBudgetUpdateForm}>Edit Budget</MenuItem>
+                            <MenuItem onClick={handleOpenBudgetDelete}>Hapus Budget</MenuItem>
+                            <MenuItem progress={exporting} onClick={handleOpenBudgetExportForm}>Export</MenuItem>
+                            <MenuItem onClick={handleBack}>Kembali</MenuItem>
                         </Menu>
                     )}
                 </div>,
@@ -559,11 +533,7 @@ export default function BudgetDetailCard() {
                                     style={floatingStyles} 
                                     className={style.actionsMenu}
                                 >
-                                    <ul>
-                                        <li>
-                                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                        </li>
-                                    </ul>
+                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                                 </Menu>
                             )}
                         </div>
@@ -583,11 +553,7 @@ export default function BudgetDetailCard() {
                             style={floatingStyles} 
                             className={style.actionsMenu}
                         >
-                            <ul>
-                                <li>
-                                    <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
-                                </li>
-                            </ul>
+                            <MenuItem onClick={handleOpenExpenseDelete}>Hapus</MenuItem>
                         </Menu>
                     )}
                 </div>,

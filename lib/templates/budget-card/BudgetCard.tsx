@@ -300,14 +300,8 @@ export default function BudgetTable() {
                                     style={floatingStyles} 
                                     className={style.actionsMenu}
                                 >
-                                    <ul>
-                                        <li>
-                                            <MenuItem onClick={handleOpenBudgetExportForm}>Export</MenuItem>
-                                        </li>
-                                        <li>
-                                            <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
-                                        </li>
-                                    </ul>
+                                    <MenuItem onClick={handleOpenBudgetExportForm}>Export</MenuItem>
+                                    <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
                                 </Menu>
                             )}
                         </div>
@@ -376,14 +370,8 @@ export default function BudgetTable() {
                                     style={floatingStyles} 
                                     className={style.actionsMenu}
                                 >
-                                    <ul>
-                                        <li>
-                                            <MenuItem onClick={handleOpenBudgetExportForm}>Export</MenuItem>
-                                        </li>
-                                        <li>
-                                            <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
-                                        </li>
-                                    </ul>
+                                    <MenuItem onClick={handleOpenBudgetExportForm}>Export</MenuItem>
+                                    <MenuItem onClick={handleOpenBudgetDelete}>Hapus</MenuItem>
                                 </Menu>
                             )}
                         </div>
