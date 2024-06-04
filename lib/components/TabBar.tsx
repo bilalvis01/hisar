@@ -31,7 +31,16 @@ export default function TabBar({ children, select }: TabBarProps) {
 
     return (
         <TabBarContext.Provider value={context}>
-            {children}
+            <ul 
+                style={{
+                    display: "flex",
+                    listStyleType: "none",
+                    margin: 0,
+                    padding: 0,
+                }}
+            >
+                {children}
+            </ul>
         </TabBarContext.Provider>
     )
 }

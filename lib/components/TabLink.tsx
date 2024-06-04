@@ -16,21 +16,23 @@ const TabLink = React.forwardRef<
     const { select } = useTabBarContext();
 
     return (
-        <a
-            {...props}
-            ref={ref}
-            href={href}
-            className={clsx("tab-link-navigation", { active: href === select }, className)} 
-        >
-            <span className="container">
-                <div className="decorator">
-                    <div className="active-indicator">
-                        <div className="state-layer" />
+        <li>
+            <a
+                {...props}
+                ref={ref}
+                href={href}
+                className={clsx("tab-link-navigation", { active: href === select }, className)} 
+            >
+                <span className="container">
+                    <div className="decorator">
+                        <div className="active-indicator">
+                            <div className="state-layer" />
+                        </div>
                     </div>
-                </div>
-                <span className="label">{children}</span>
-            </span>
-        </a>
+                    <span className="label">{children}</span>
+                </span>
+            </a>
+        </li>
     );
 });
 

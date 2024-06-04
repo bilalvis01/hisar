@@ -22,19 +22,21 @@ export default function TabBase({
     const { select } = useTabBarContext();
 
     return (
-        <button 
-            className={clsx(`tab-${variant}-navigation`, className)} 
-            {...props}
-        >
-            <div className="container">
-                <div className="state-layer">
-                    <div className="content">
-                        <span className="label">{children}</span>
-                        <hr />
+        <li>
+            <button 
+                className={clsx(`tab-${variant}-navigation`, className)} 
+                {...props}
+            >
+                <div className="container">
+                    <div className="state-layer">
+                        <div className="content">
+                            <span className="label">{children}</span>
+                            <hr />
+                        </div>
                     </div>
+                    <hr />
                 </div>
-                <hr />
-            </div>
-        </button>
+            </button>
+        </li>
     );
 }

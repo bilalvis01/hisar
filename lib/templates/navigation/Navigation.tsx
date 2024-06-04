@@ -15,23 +15,15 @@ export default function Navigation({ className }: NavigationProps) {
     return (
         <nav className={className} aria-label="Main Navigation">
             <TabBar select={pathname}>
-                <ul className={style.list} role="navigation" aria-label="Main Navigation">
-                    <li role="none">
-                        <Link href="/" passHref legacyBehavior>
-                            <TabLink className={style.tab}>Home</TabLink>
-                        </Link>
-                    </li>
-                    <li role="none">
-                        <Link href="/budget" passHref legacyBehavior>
-                            <TabLink className={style.tab}>Budget</TabLink>
-                        </Link>
-                    </li>
-                    <li role="none">
-                        <Link href="/expense" passHref legacyBehavior>
-                            <TabLink className={style.tab}>Expense</TabLink>
-                        </Link>
-                    </li>
-                </ul>
+                <Link href="/" passHref legacyBehavior>
+                    <TabLink className={style.tab}>Home</TabLink>
+                </Link>
+                <Link href="/budget" passHref legacyBehavior>
+                    <TabLink className={style.tab}>Budget</TabLink>
+                </Link>
+                <Link href="/expense" passHref legacyBehavior>
+                    <TabLink className={style.tab}>Expense</TabLink>
+                </Link>
             </TabBar>
         </nav>
     );
