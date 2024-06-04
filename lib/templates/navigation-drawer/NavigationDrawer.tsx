@@ -65,23 +65,15 @@ export default function NavigationDrawer({ className, iconButtonStandard = false
                     </IconButtonStandard>
                 </NavigationHeader>
                 <NavigationBody>
-                    <ul>
-                        <li>
-                            <NextLink href={"/"} passHref legacyBehavior>
-                                <NavigationLink>Home</NavigationLink>
-                            </NextLink>
-                        </li>
-                        <li>
-                            <NextLink href={"/budget"} passHref legacyBehavior>
-                                <NavigationLink>Budget</NavigationLink>
-                            </NextLink>
-                        </li>
-                        <li>
-                            <NextLink href={"/expense"} passHref legacyBehavior>
-                                <NavigationLink>Expense</NavigationLink>
-                            </NextLink>
-                        </li>
-                    </ul>
+                    <NextLink href={"/"} passHref legacyBehavior>
+                        <NavigationLink>Home</NavigationLink>
+                    </NextLink>
+                    <NextLink href={"/budget"} passHref legacyBehavior>
+                        <NavigationLink>Budget</NavigationLink>
+                    </NextLink>
+                    <NextLink href={"/expense"} passHref legacyBehavior>
+                        <NavigationLink>Expense</NavigationLink>
+                    </NextLink>
                 </NavigationBody>
             </NavigationDrawerBase>
         </nav>

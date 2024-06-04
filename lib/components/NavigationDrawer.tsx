@@ -119,23 +119,25 @@ export const NavigationLink = React.forwardRef<
     const { select } = useNavigationDrawerContext();
 
     return (
-        <a {...props} href={href} className={clsx("navigation-button", { active: select == href })}>
-            <div className="decorator">
-                <div className="base">
-                    <div className="active-indicator">
-                        <div className="state-layer" />
+        <li>
+            <a {...props} href={href} className={clsx("navigation-button", { active: select == href })}>
+                <div className="decorator">
+                    <div className="base">
+                        <div className="active-indicator">
+                            <div className="state-layer" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <span className="content">
-                {startIcon}
-                <span className="label">{children}</span>
-                {notification > 0 && (
-                    <span className="badge">{notification}</span>
-                )}
-                {endIcon}
-            </span>
-        </a>
+                <span className="content">
+                    {startIcon}
+                    <span className="label">{children}</span>
+                    {notification > 0 && (
+                        <span className="badge">{notification}</span>
+                    )}
+                    {endIcon}
+                </span>
+            </a>
+        </li>
     )
 })
 
@@ -175,9 +177,11 @@ export const NavigationSubhead = React.forwardRef<
     React.HTMLProps<HTMLHeadingElement>
 >(function NavigationSubhead({ children, ...props }, ref) {
     return (
-        <h3 {...props} className="headline" ref={ref}>
-            {children}
-        </h3>
+        <li>
+            <h3 {...props} className="headline" ref={ref}>
+                {children}
+            </h3>
+        </li>
     );
 });
 
@@ -195,7 +199,9 @@ export const NavigationBody = React.forwardRef<
 
     return (
         <div {...props} className="body" ref={ref} id={id}>
-            {children}
+            <ul>
+                {children}
+            </ul>
         </div>
     );
 });
