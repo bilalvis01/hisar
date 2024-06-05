@@ -4,6 +4,7 @@
     --focus-indicator-style: none;
     --focus-indicator-color: var(--component-text-field-outlined-focus-indicator-color);
     --focus-indicator-thickness: var(--component-text-field-outlined-focus-indicator-thickness);
+    --focus-indicator-offset: var(--component-text-field-outlined-focus-indicator-offset);
     --outline-width: var(--component-text-field-outlined-outline-width);
     --outline-color: var(--component-text-field-outlined-outline-color);
     --label-top: unset;
@@ -196,7 +197,15 @@
                     position: relative;
                     display: grid;
                     align-items: center;
-                    padding-right: 0.75rem;
+                    background: none;
+                    border: none;
+                    margin: 0;
+                    padding: {
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0.75rem;
+                    };
     
                     & > svg {
                         color: var(--trailing-icon-color);
@@ -209,7 +218,15 @@
             & > .leading-icon {
                 display: grid;
                 align-items: center;
-                padding-left: 0.75rem;
+                background: none;
+                border: none;
+                margin: 0;
+                padding: {
+                    top: 0;
+                    bottom: 0;
+                    left: 0.75rem;
+                    bottom: 0;
+                };
     
                 & > svg {
                     color: var(--leading-icon-color);
@@ -229,6 +246,7 @@
                 outline-style: var(--focus-indicator-style);
                 outline-width: var(--focus-indicator-thickness);
                 outline-color: var(--focus-indicator-color);
+                outline-offset: var(--focus-indicator-offset);
             }
         }
     

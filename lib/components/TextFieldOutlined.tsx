@@ -6,14 +6,22 @@ import ExclamationCircleFill from "../icons/ExclamationCircleFill";
 
 export interface TextFieldOutlinedProps extends React.HTMLProps<HTMLInputElement> {
     label?: string;
-    startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
+    leadingIcon?: React.ReactNode;
+    trailingIcon?: React.ReactNode;
     prefix?: string;
     suffix?: string; 
     supportingText?: string;
     suffixSupportingText?: string;
     error?: string;
     counter?: boolean | number;
+    onClickLeadingIcon: React.MouseEventHandler<HTMLButtonElement>;
+    onDoubleClickLeadingIcon: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseDownLeadingIcon: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseUpLeadingIcon: React.MouseEventHandler<HTMLButtonElement>;
+    onClickTrailingIcon: React.MouseEventHandler<HTMLButtonElement>;
+    onDoubleClickTrailingIcon: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseDownTrailingIcon: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseUpTrailingIcon: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const TextFieldOulined = React.forwardRef<
@@ -21,8 +29,8 @@ const TextFieldOulined = React.forwardRef<
     TextFieldOutlinedProps
 >(function TextFieldOutlined({
     label,
-    startIcon,
-    endIcon: endIcon_,
+    leadingIcon,
+    trailingIcon: trailingIcon_,
     prefix,
     suffix,
     supportingText: supportingText_,
@@ -33,6 +41,14 @@ const TextFieldOulined = React.forwardRef<
     type,
     placeholder,
     value: controlledValue,
+    onClickLeadingIcon: handleClickLeadingIcon,
+    onDoubleClickLeadingIcon: handleDoubleClickLeadingIcon,
+    onMouseDownLeadingIcon: handleMouseDownLeadingIcon,
+    onMouseUpLeadingIcon: handleMouseUpLeadingIcon,
+    onClickTrailingIcon: handleClickTrailingIcon,
+    onDoubleClickTrailingIcon: handleDoubleClickTrailingIcon,
+    onMouseDownTrailingIcon: handleMouseDownTrailingIcon,
+    onMouseUpTrailingIcon: handleMouseUpTralingIcon,
     onFocus: externalHandleFocus,
     onChange: externalHandleChange,
     onBlur: externalHandleBlur,
@@ -51,7 +67,7 @@ const TextFieldOulined = React.forwardRef<
 
     const supportingText = error ? error : supportingText_;
 
-    const endIcon = !!error ? <ExclamationCircleFill /> : endIcon_;
+    const trailingIcon = !!error ? <ExclamationCircleFill /> : trailingIcon_;
 
     const handleChange = externalHandleChange ?? ((event: ChangeEvent<HTMLInputElement>) => {
         setUncontrolledValue(event.target.value);
@@ -134,10 +150,17 @@ const TextFieldOulined = React.forwardRef<
             <div className="container">
                 <div ref={inputContainerRef} className="input-container">
                     <div className="decorator" style={{ clipPath: outlineClipPath }} />
-                    {startIcon && (
-                        <span className="leading-icon">
-                            {startIcon}
-                        </span>
+                    {leadingIcon && (
+                        <button 
+                            type="button" 
+                            className="leading-icon"
+                            onClick={handleClickLeadingIcon}
+                            onDoubleClick={handleDoubleClickLeadingIcon}
+                            onMouseDown={handleMouseDownLeadingIcon}
+                            onMouseUp={handleMouseUpLeadingIcon}
+                        >
+                            {leadingIcon}
+                        </button>
                     )}
                     <span className="input-container-inner">
                         {label && (
@@ -171,10 +194,17 @@ const TextFieldOulined = React.forwardRef<
                                 {suffix}
                             </span>
                         )}
-                        {endIcon && (
-                            <span className="trailing-icon">
-                                {endIcon}
-                            </span>
+                        {trailingIcon && (
+                            <button 
+                                type="button" 
+                                className="trailing-icon"
+                                onClick={handleClickTrailingIcon}
+                                onDoubleClick={handleDoubleClickTrailingIcon}
+                                onMouseDown={handleMouseDownTrailingIcon}
+                                onMouseUp={handleMouseUpTralingIcon}
+                            >
+                                {trailingIcon}
+                            </button>
                         )}
                     </span>
                 </div>

@@ -32,12 +32,13 @@ function Placeholder({ children }: { children: React.ReactNode; }) {
                 display: "grid",
                 placeItems: "center",
                 position: "absolute",
+                top: "calc(var(--component-text-field-outlined-container-height) + 0.625rem)",
                 width: "100%",
                 maxWidth: "100%",
                 height: "7rem",
                 backgroundColor: "var(--component-menu-container-color)",
                 borderRadius: "var(--component-menu-container-shape)",
-                boxShadow: "var(-component-menu-container-elevation)",
+                boxShadow: "var(--component-menu-container-elevation)",
                 zIndex: 2,
             }}
         >
@@ -58,7 +59,6 @@ export default function SelectOutlined({
 }: SelectOutlinedProps) {
     const menuRef = React.useRef(null);
     const inputRef = React.useRef(null);
-    const caretRef = React.useRef(null);
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState(options_);
     const [filteredOptions, setFilteredOptions] = React.useState(options_);
@@ -66,6 +66,8 @@ export default function SelectOutlined({
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [inputValue, setInputValue] = React.useState("");
+    
+    const inputValueRegExp = new RegExp(`(${inputValue})`, "i");
 
     const handleMenuChange = (selectedValue) => {
         setValue(selectedValue);
@@ -78,26 +80,25 @@ export default function SelectOutlined({
 
     const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
         if (
-            (menuRef.current && menuRef.current.contains(event.relatedTarget)) || 
-            event.relatedTarget == menuRef.current ||
-            event.relatedTarget == caretRef.current 
+            event.relatedTarget === menuRef.current ||
+            (menuRef.current && menuRef.current.contains(event.relatedTarget))
         ) {
             return;
         }
         setOpen(false);
         setFiltering(false);
+        setFilteredOptions([]);
     }
 
     const handleFocus = () => {
         setOpen(true);
-        setFilteredOptions([]);
     }
 
-    const handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
+    const handleMouseDown = React.useCallback((event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
-    }
+    }, []);
 
-    const handleClickCaret = React.useCallback(() => {
+    const handleClickTrailingIcon = React.useCallback(() => {
         if (inputRef.current instanceof HTMLInputElement) {
             if (open) inputRef.current.blur();
             else inputRef.current.focus();
@@ -107,16 +108,12 @@ export default function SelectOutlined({
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = event.target.value;
         setInputValue(inputValue);
-        const filteredOptions = options.filter((option) => {
-            return option.label.toLowerCase().includes(inputValue.toLowerCase());
-        });
-        setFilteredOptions(filteredOptions);
-        setFiltering(true);
+        setFiltering(inputValue.length > 0);
     }
 
     const handleSetInputValue = (options: Option[]) => {
         const selectedOption = options.filter((option) => option.value === value)[0];
-        if (selectedOption) setInputValue(selectedOption.label);
+        setInputValue(selectedOption ? selectedOption.label : "");
     };
 
     React.useEffect(() => {
@@ -141,44 +138,49 @@ export default function SelectOutlined({
     }, []);
 
     React.useEffect(() => {
+        if (filtering) {
+            const filteredOptions = options.filter((option) => {
+                if (!inputValue) {
+                    return false;
+                }
+    
+                return option.label.match(inputValueRegExp);
+            });
+            setFilteredOptions(filteredOptions);
+        }
+    }, [inputValue]);
+
+    React.useEffect(() => {
         if (!open) {
             handleSetInputValue(options);
         }
     }, [open]);
 
-    const caret = !disabled  
-        ? (
-            <button 
-                ref={caretRef}
-                type="button"
-                onClick={handleClickCaret}
-                onMouseDown={handleMouseDown}
-                style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    background: "none",
-                    border: "none",
-                    padding: 0,
-                }}
-            >
-                <IconCaretDownFill />
-            </button>
-        )
-        : null;
+    React.useEffect(() => {
+        if (!value) {
+            setInputValue("");
+        }
+    }, [value]);
 
-    let menuHeight_;
-    
-    if (filteredOptions.length != 0 && filteredOptions.length > 4) menuHeight_ = 4;
-    else if (filteredOptions.length != 0) menuHeight_ = filteredOptions.length;
-    else if (filteredOptions.length == 0 && filtering) menuHeight_ = 1;
-    else if (options.length > 4) menuHeight_ = 4
-    else menuHeight_ = options.length;
+    function calcMenuHeight() {
+        let menuHeight;
 
-    const menuHeight = `${menuHeight_ * 3 + 0.5 * 2}rem`;
+        if (filtering && filteredOptions.length > 4) menuHeight = 4;
+        else if (filtering && filteredOptions.length > 0) menuHeight = filteredOptions.length;
+        else if (filtering && filteredOptions.length === 0) menuHeight = 1;
+        else if (options.length > 4) menuHeight = 4
+        else if (options.length > 0) menuHeight = options.length;
 
-    const menuItems = filteredOptions.length > 0
+        if (!menuHeight) {
+            return;
+        }
+
+        return `${menuHeight * 3 + 0.5 * 2}rem`;
+    }
+
+    const menuItems = filtering
         ? filteredOptions.map((option) => {
-            const highlightIndexStart = option.label.search(inputValue);
+            const highlightIndexStart = option.label.search(inputValueRegExp);
             const highlightIndexEnd = highlightIndexStart + inputValue.length;
             const highlight = option.label.slice(highlightIndexStart, highlightIndexEnd);
             const first = option.label.slice(0, highlightIndexStart);
@@ -212,7 +214,7 @@ export default function SelectOutlined({
                 <span className="text-label-medium">Gagal mengambil data</span>
             </Placeholder>
         )
-        : filteredOptions.length == 0 && filtering
+        : filtering && filteredOptions.length === 0
         ? (
             <Placeholder>
                 <span className="text-label-medium">Pencarian tidak ada</span>
@@ -221,16 +223,16 @@ export default function SelectOutlined({
         : (
             <Menu 
                 ref={menuRef}
-                initialValue={value}
                 value={value}
                 onChange={handleMenuChange} 
                 onMouseDown={handleMouseDown}
                 style={{ 
                     position: "absolute",
+                    top: "calc(var(--component-text-field-outlined-container-height) + 0.625rem)",
                     width: "100%",
                     maxWidth: "100%",
                     zIndex: 2,
-                    height: menuHeight 
+                    height: calcMenuHeight(),
                 }}
             >
                 {menuItems}
@@ -246,7 +248,9 @@ export default function SelectOutlined({
                 value={inputValue}
                 name={name} 
                 label={label} 
-                endIcon={caret}
+                trailingIcon={!disabled && <IconCaretDownFill />}
+                onClickTrailingIcon={handleClickTrailingIcon}
+                onMouseDownTrailingIcon={handleMouseDown}
                 onBlur={handleBlur}
                 onFocus={handleFocus}
                 onChange={handleInputChange}

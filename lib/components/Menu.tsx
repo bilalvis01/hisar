@@ -4,8 +4,7 @@ import ProgressCircular from "./ProgressCircular";
 
 interface MenuContext {
     value: string;
-    setValue: React.Dispatch<React.SetStateAction<string>>,
-    onChange?: (value: string) => void;
+    setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const MenuContext = React.createContext<MenuContext>(null);
@@ -21,7 +20,6 @@ const useMenuContext = () => {
 }
 
 export type MenuProps = {
-    initialValue?: string;
     value?: string;
     onChange?: (value: string) => void | React.Dispatch<React.SetStateAction<string>>;
 } & React.HTMLProps<HTMLDivElement>;
@@ -31,20 +29,15 @@ export const Menu = React.forwardRef<
     MenuProps
 >(function Menu({ 
     children, 
-    className, 
-    initialValue, 
-    value: controlledValue,
-    onChange,
+    className,
+    value,
+    onChange: setValue,
     ...props
 }, ref) {
-    const [uncontrolledValue, setValue] = React.useState(initialValue);
-    const value = controlledValue ?? uncontrolledValue;
-
     const context = React.useMemo(() => ({
         value,
         setValue,
-        onChange,
-    }), [value, onChange]);
+    }), [value, setValue]);
 
     return (
         <MenuContext.Provider value={context}>
@@ -70,17 +63,16 @@ export function MenuItem({
     children, 
     startIcon, 
     endIcon,
-    value: thisValue,
-    onClick: handleClick_,
+    value: propValue,
+    onClick: propHandleClick,
     progress = false,
     ...props
 }: MenuItemProps & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
-    const { value, setValue, onChange } = useMenuContext();
+    const { value, setValue } = useMenuContext();
 
     const handleClick = (event) => {
-        setValue(thisValue);
-        if (onChange) onChange(thisValue);
-        if (handleClick_) handleClick_(event); 
+        if (setValue) setValue(propValue);
+        if (propHandleClick) propHandleClick(event); 
     }
 
     return (
@@ -88,7 +80,7 @@ export function MenuItem({
             <button 
                 {...props}
                 type="button" 
-                className={clsx("list-item", { select: thisValue && value === thisValue })}
+                className={clsx("list-item", { select: propValue && value === propValue })}
                 onClick={handleClick}
             >
                 <div className="decorator">

@@ -69,6 +69,7 @@ $text-field-outlined-focus-supporting-text-color: var(--system-color-on-surface-
 $text-field-outlined-focus-indicator-color: var(--system-color-secondary) !default;
 $text-field-outlined-focus-indicator-color-error: var(--system-color-error) !default;
 $text-field-outlined-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
+$text-field-outlined-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
 
 $text-field-outlined-error-outline-color: var(--system-color-error) !default;
 $text-field-outlined-error-label-color: var(--system-color-error) !default;
@@ -168,6 +169,7 @@ $text-field-outlined-focus: (
     "text-field-outlined-focus-indicator-color": $text-field-outlined-focus-indicator-color,
     "text-field-outlined-focus-indicator-color-error": $text-field-outlined-focus-indicator-color-error,
     "text-field-outlined-focus-indicator-thickness": $text-field-outlined-focus-indicator-thickness,
+    "text-field-outlined-focus-indicator-offset": $text-field-outlined-focus-indicator-offset,
 ) !default;
 
 $text-field-outlined-error: (
