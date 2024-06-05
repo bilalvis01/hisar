@@ -52,6 +52,7 @@ export default function BudgetExportForm({
             type: "text",
             name: `sheet${index + 1}`,
             label: `Nama Sheet${index + 1}`,
+            supportingText: "*Wajib Diisi",
         });      
 
         return acc;
@@ -60,6 +61,7 @@ export default function BudgetExportForm({
             type: "text",
             name: "fileName",
             label: "Nama File",
+            supportingText: "*Wajib Diisi",
         }
     ]);
 
