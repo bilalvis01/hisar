@@ -14,14 +14,14 @@ export interface TextFieldOutlinedProps extends React.HTMLProps<HTMLInputElement
     suffixSupportingText?: string;
     error?: string;
     counter?: boolean | number;
-    onClickLeadingIcon: React.MouseEventHandler<HTMLButtonElement>;
-    onDoubleClickLeadingIcon: React.MouseEventHandler<HTMLButtonElement>;
-    onMouseDownLeadingIcon: React.MouseEventHandler<HTMLButtonElement>;
-    onMouseUpLeadingIcon: React.MouseEventHandler<HTMLButtonElement>;
-    onClickTrailingIcon: React.MouseEventHandler<HTMLButtonElement>;
-    onDoubleClickTrailingIcon: React.MouseEventHandler<HTMLButtonElement>;
-    onMouseDownTrailingIcon: React.MouseEventHandler<HTMLButtonElement>;
-    onMouseUpTrailingIcon: React.MouseEventHandler<HTMLButtonElement>;
+    onClickLeadingIcon?: React.MouseEventHandler<HTMLButtonElement>;
+    onDoubleClickLeadingIcon?: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseDownLeadingIcon?: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseUpLeadingIcon?: React.MouseEventHandler<HTMLButtonElement>;
+    onClickTrailingIcon?: React.MouseEventHandler<HTMLButtonElement>;
+    onDoubleClickTrailingIcon?: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseDownTrailingIcon?: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseUpTrailingIcon?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const TextFieldOulined = React.forwardRef<

@@ -1,7 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { readFileSync } from 'fs';
-import { PrismaClient } from "@prisma/client";
 import { 
     PrismaClientKnownRequestError,
     PrismaClientUnknownRequestError,
@@ -18,6 +17,7 @@ import {
     DateTimeResolver, 
     DateTimeTypeDefinition, 
 } from "../../../lib/graphql/custom-scalars";
+import { prisma } from "../../../lib/database/client";
 
 const typeDefs = readFileSync(process.cwd() + '/schema.graphql', 'utf8');
 
@@ -64,15 +64,9 @@ const server = new ApolloServer({
     },
 });
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
-
-const prisma = globalForPrisma.prisma || new PrismaClient();
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
-
 const handler = startServerAndCreateNextHandler(server, {
     context: async () => ({
-        dataSources: new PrismaClient()
+        dataSources: prisma,
     })
 });
 
