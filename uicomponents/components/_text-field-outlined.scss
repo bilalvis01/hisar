@@ -192,27 +192,6 @@
                     letter-spacing: var(--input-text-tracking);
                     padding-right: 1rem;
                 }
-    
-                & > .trailing-icon {
-                    position: relative;
-                    display: grid;
-                    align-items: center;
-                    background: none;
-                    border: none;
-                    margin: 0;
-                    padding: {
-                        top: 0;
-                        bottom: 0;
-                        left: 0;
-                        right: 0.75rem;
-                    };
-    
-                    & > svg {
-                        color: var(--trailing-icon-color);
-                        width: var(--trailing-icon-size);
-                        height: var(--trailing-icon-size);
-                    }
-                }
             }
     
             & > .leading-icon {
@@ -232,6 +211,27 @@
                     color: var(--leading-icon-color);
                     width: var(--leading-icon-size);
                     height: var(--leading-icon-size);
+                }
+            }
+
+            & > .trailing-icon {
+                position: relative;
+                display: grid;
+                align-items: center;
+                background: none;
+                border: none;
+                margin: 0;
+                padding: {
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0.75rem;
+                };
+
+                & > svg {
+                    color: var(--trailing-icon-color);
+                    width: var(--trailing-icon-size);
+                    height: var(--trailing-icon-size);
                 }
             }
     

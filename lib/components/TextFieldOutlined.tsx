@@ -179,19 +179,19 @@ const TextFieldOulined = React.forwardRef<
                                 {suffix}
                             </span>
                         )}
-                        {trailingIcon && (
-                            <button 
-                                type="button" 
-                                className="trailing-icon"
-                                onClick={handleClickTrailingIcon}
-                                onDoubleClick={handleDoubleClickTrailingIcon}
-                                onMouseDown={handleMouseDownTrailingIcon}
-                                onMouseUp={handleMouseUpTralingIcon}
-                            >
-                                {trailingIcon}
-                            </button>
-                        )}
                     </span>
+                    {trailingIcon && (
+                        <button 
+                            type="button" 
+                            className="trailing-icon"
+                            onClick={handleClickTrailingIcon}
+                            onDoubleClick={handleDoubleClickTrailingIcon}
+                            onMouseDown={handleMouseDownTrailingIcon}
+                            onMouseUp={handleMouseUpTralingIcon}
+                        >
+                            {trailingIcon}
+                        </button>
+                    )}
                 </div>
                 <div className="supporting-text-container">
                     <span className="supporting-text">
