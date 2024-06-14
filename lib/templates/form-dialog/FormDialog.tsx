@@ -224,6 +224,7 @@ function Form({ id, open, inputSize }: FormProps) {
                                 return (
                                     <Select 
                                         key={name} 
+                                        className={style.field}
                                         name={name} 
                                         label={label} 
                                         supportingText={supportingText}
@@ -240,6 +241,7 @@ function Form({ id, open, inputSize }: FormProps) {
                                 return (
                                     <TextareaOutlined
                                         key={name} 
+                                        className={style.field}
                                         name={name} 
                                         label={label} 
                                         supportingText={supportingText}
