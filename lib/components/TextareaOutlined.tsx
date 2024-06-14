@@ -3,17 +3,20 @@
 import React, { ChangeEvent } from "react";
 import clsx from "clsx";
 import ExclamationCircleFill from "../icons/ExclamationCircleFill";
+import { getLabelClipPathTextFieldOutlined } from "./utils";
+import useMergeRefs from "../hooks/useMergeRefs";
 
 export interface TextareaOutlinedProps extends React.HTMLProps<HTMLTextAreaElement> {
     label?: string;
     startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
+    trailingIcon?: React.ReactNode;
     prefix?: string;
     suffix?: string; 
     supportingText?: string;
     suffixSupportingText?: string;
     error?: string;
     counter?: boolean | number;
+    autoResize?: boolean;
 }
 
 const TextareaOutlined = React.forwardRef<
@@ -22,78 +25,77 @@ const TextareaOutlined = React.forwardRef<
 >(function TextareaOutlined({
     label,
     startIcon,
-    endIcon: endIcon_,
+    trailingIcon: propTrailingIcon,
     prefix,
     suffix,
-    supportingText: supportingText_,
-    suffixSupportingText: suffixSupportingText_,
+    supportingText: propSupportingText,
+    suffixSupportingText: propSuffixSupportingText,
     error,
     counter,
     className,
     placeholder,
     value: controlledValue,
-    onFocus: externalHandleFocus,
-    onChange: externalHandleChange,
-    onBlur: externalHandleBlur,
+    onFocus: propHandleFocus,
+    onChange: propHandleChange,
+    onBlur: propHandleBlur,
+    autoResize = false,
     ...props
-}, inputRef) {
+}, propTextareaRef) {
     const id = React.useId();
-    const inputContainerRef = React.useRef(null);
+    const textareaContainerRef = React.useRef(null);
     const labelRef = React.useRef(null);
+    const textareaRef = React.useRef(null);
+    const setTextareaRef = useMergeRefs([propTextareaRef, textareaRef]);
     const [uncontrolledValue, setUncontrolledValue] = React.useState("");
     const [populated, setPopulated] = React.useState(false);
     const [outlineClipPath, setOutlineClipPath] = React.useState<string | null>(null);
+    const [textareaHeight, setTextareaHeight] = React.useState<string | null>(null);
 
     const value = !!controlledValue ? controlledValue : uncontrolledValue;
 
     const hasValue = !!value || !!placeholder;
 
-    const supportingText = error ? error : supportingText_;
+    const supportingText = error ? error : propSupportingText;
 
-    const endIcon = !!error ? <ExclamationCircleFill /> : endIcon_;
+    const trailingIcon = !!error ? <ExclamationCircleFill /> : propTrailingIcon;
 
-    const handleChange = externalHandleChange ?? ((event: ChangeEvent<HTMLTextAreaElement>) => {
-        setUncontrolledValue(event.target.value);
-    });
+    const handleChange = React.useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+        if (propHandleChange) {
+            propHandleChange(event);
+        } else {
+            setUncontrolledValue(event.target.value);
+        }
 
-    function handleFocus(event) {
-        externalHandleFocus && externalHandleFocus(event);
+        if (autoResize && textareaRef.current instanceof HTMLTextAreaElement) {
+            const textarea = textareaRef.current;
+            const offset = textarea.offsetHeight - textarea.clientHeight;
+            const textareaHeight = `${textarea.scrollHeight + offset}px`;
+            setTextareaHeight(textareaHeight);
+        }
+    }, [autoResize]);
+
+    const handleFocus = React.useCallback((event) => {
+        propHandleFocus && propHandleFocus(event);
         setPopulated(true);
-    }
+    }, [propHandleFocus])
 
-    function handleBlur(event) {
-        externalHandleBlur && externalHandleBlur(event);
+    const handleBlur = React.useCallback((event) => {
+        propHandleBlur && propHandleBlur(event);
         setPopulated(hasValue);
-    }
+    }, [propHandleBlur]);
 
     const handleOutlineStyle = React.useCallback(() => {
-        if (populated && inputContainerRef.current instanceof HTMLElement && labelRef.current instanceof HTMLElement) {
-            const inputContainer = inputContainerRef.current;
-            const label = labelRef.current;
-            const inputContainerRect = inputContainer.getBoundingClientRect();
-            const labelRect = label.getBoundingClientRect();
-            const focusIndicatorThickness = window.getComputedStyle(inputContainer).getPropertyValue("--focus-indicator-thickness");
-            const inputContainerWidth = inputContainer.offsetWidth;  
-            const inputContainerHeight = inputContainer.offsetHeight; 
-            const labelWidth = label.offsetWidth;
-            const labelMargin = labelRect.left - inputContainerRect.left;
-            const labelSeatDepth = labelRect.bottom - inputContainerRect.top;
-            const clipPath = `polygon(
-                -${focusIndicatorThickness} -${focusIndicatorThickness}, 
-                ${labelMargin}px -${focusIndicatorThickness}, 
-                ${labelMargin}px ${labelSeatDepth}px, 
-                ${labelMargin + labelWidth}px ${labelSeatDepth}px, 
-                ${labelMargin + labelWidth}px -${focusIndicatorThickness}, 
-                calc(${inputContainerWidth}px + ${focusIndicatorThickness}) -${focusIndicatorThickness}, 
-                calc(${inputContainerWidth}px + ${focusIndicatorThickness}) calc(${inputContainerHeight}px + ${focusIndicatorThickness}), 
-                -${focusIndicatorThickness} calc(${inputContainerHeight}px + ${focusIndicatorThickness}), 
-                -${focusIndicatorThickness} -${focusIndicatorThickness}
-            )`;
+        if (
+            populated && 
+            textareaContainerRef.current instanceof HTMLDivElement && 
+            labelRef.current instanceof HTMLLabelElement
+        ) {
+            const clipPath = getLabelClipPathTextFieldOutlined(textareaContainerRef.current, labelRef.current);
             setOutlineClipPath(clipPath);
         } else {
             setOutlineClipPath(null);
         }
-    }, [populated, inputContainerRef, labelRef]);
+    }, [populated, textareaContainerRef, labelRef]);
 
     const handleResize = React.useCallback(() => {
         handleOutlineStyle();
@@ -104,11 +106,11 @@ const TextareaOutlined = React.forwardRef<
     }, [handleOutlineStyle]);
 
     React.useEffect(() => {
-        if (!(inputContainerRef.current instanceof HTMLElement)) return null;
+        if (!(textareaContainerRef.current instanceof HTMLElement)) return null;
         
         const observer = new ResizeObserver(handleResize);
 
-        observer.observe(inputContainerRef.current);
+        observer.observe(textareaContainerRef.current);
 
         return () => observer.disconnect();
     }, [handleResize]);
@@ -127,7 +129,7 @@ const TextareaOutlined = React.forwardRef<
             )}
         >
             <div className="container">
-                <div ref={inputContainerRef} className="textarea-container">
+                <div ref={textareaContainerRef} className="textarea-container">
                     <div className="decorator" style={{ clipPath: outlineClipPath }} />
                     {startIcon && (
                         <span className="leading-icon">
@@ -151,10 +153,11 @@ const TextareaOutlined = React.forwardRef<
                         )}
                         <textarea
                             {...props} 
-                            ref={inputRef}
+                            ref={setTextareaRef}
+                            style={{ height: textareaHeight }}
                             id={id}
                             className="textarea"
-                            value={value} 
+                            value={value}
                             placeholder={placeholder}
                             onChange={handleChange} 
                             onFocus={handleFocus} 
@@ -165,9 +168,9 @@ const TextareaOutlined = React.forwardRef<
                                 {suffix}
                             </span>
                         )}
-                        {endIcon && (
+                        {trailingIcon && (
                             <span className="trailing-icon">
-                                {endIcon}
+                                {trailingIcon}
                             </span>
                         )}
                     </span>
