@@ -1,6 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { readFileSync } from 'fs';
+// import { readFileSync } from 'fs';
 import { 
     PrismaClientKnownRequestError,
     PrismaClientUnknownRequestError,
@@ -18,8 +18,9 @@ import {
     DateTimeTypeDefinition, 
 } from "../../../lib/graphql/custom-scalars";
 import { prisma } from "../../../lib/database/client";
+import typeDefs from "../../../schema.graphql"; 
 
-const typeDefs = readFileSync(process.cwd() + '/schema.graphql', 'utf8');
+// const typeDefs = readFileSync(process.cwd() + '/schema.graphql', 'utf8');
 
 const server = new ApolloServer({ 
     resolvers: {

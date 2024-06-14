@@ -49,6 +49,7 @@
     "@types/node": "20.11.30",
     "@types/react": "18.2.71",
     "prisma": "^5.13.0",
+    "raw-loader": "^4.0.2",
     "sass": "^1.72.0",
     "typescript": "5.4.3"
   }
