@@ -69,6 +69,7 @@ $textarea-outlined-focus-supporting-text-color: var(--system-color-on-surface-va
 $textarea-outlined-focus-indicator-color: var(--system-color-secondary) !default;
 $textarea-outlined-focus-indicator-color-error: var(--system-color-error) !default;
 $textarea-outlined-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
+$textarea-outlined-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
 
 $textarea-outlined-error-outline-color: var(--system-color-error) !default;
 $textarea-outlined-error-label-color: var(--system-color-error) !default;
@@ -168,6 +169,7 @@ $textarea-outlined-focus: (
     "textarea-outlined-focus-indicator-color": $textarea-outlined-focus-indicator-color,
     "textarea-outlined-focus-indicator-color-error": $textarea-outlined-focus-indicator-color-error,
     "textarea-outlined-focus-indicator-thickness": $textarea-outlined-focus-indicator-thickness,
+    "textarea-outlined-focus-indicator-offset": $textarea-outlined-focus-indicator-offset,
 ) !default;
 
 $textarea-outlined-error: (

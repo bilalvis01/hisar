@@ -4,6 +4,7 @@
     --focus-indicator-style: none;
     --focus-indicator-color: var(--component-textarea-outlined-focus-indicator-color);
     --focus-indicator-thickness: var(--component-textarea-outlined-focus-indicator-thickness);
+    --focus-indicator-offset: var(--component-textarea-outlined-focus-indicator-offset);
     --outline-width: var(--component-textarea-outlined-outline-width);
     --outline-color: var(--component-textarea-outlined-outline-color);
     --label-top: unset;
@@ -228,6 +229,7 @@
                 outline-style: var(--focus-indicator-style);
                 outline-width: var(--focus-indicator-thickness);
                 outline-color: var(--focus-indicator-color);
+                outline-offset: var(--focus-indicator-offset);
             }
         }
     
