@@ -3,6 +3,7 @@
 import React, { ChangeEvent } from "react";
 import clsx from "clsx";
 import ExclamationCircleFill from "../icons/ExclamationCircleFill";
+import { getLabelClipPathTextFieldOutlined } from "./utils";
 
 export interface TextFieldOutlinedProps extends React.HTMLProps<HTMLInputElement> {
     label?: string;
@@ -30,11 +31,11 @@ const TextFieldOulined = React.forwardRef<
 >(function TextFieldOutlined({
     label,
     leadingIcon,
-    trailingIcon: trailingIcon_,
+    trailingIcon: propTrailingIcon,
     prefix,
     suffix,
-    supportingText: supportingText_,
-    suffixSupportingText: suffixSupportingText_,
+    supportingText: propSupportingText,
+    suffixSupportingText: propSuffixSupportingText,
     error,
     counter,
     className,
@@ -49,9 +50,9 @@ const TextFieldOulined = React.forwardRef<
     onDoubleClickTrailingIcon: handleDoubleClickTrailingIcon,
     onMouseDownTrailingIcon: handleMouseDownTrailingIcon,
     onMouseUpTrailingIcon: handleMouseUpTralingIcon,
-    onFocus: externalHandleFocus,
-    onChange: externalHandleChange,
-    onBlur: externalHandleBlur,
+    onFocus: propHandleFocus,
+    onChange: propHandleChange,
+    onBlur: propHandleBlur,
     ...props
 }, inputRef) {
     const id = React.useId();
@@ -65,51 +66,35 @@ const TextFieldOulined = React.forwardRef<
 
     const hasValue = !!value || !!placeholder;
 
-    const supportingText = error ? error : supportingText_;
+    const supportingText = error ? error : propSupportingText;
 
-    const trailingIcon = !!error ? <ExclamationCircleFill /> : trailingIcon_;
+    const trailingIcon = !!error ? <ExclamationCircleFill /> : propTrailingIcon;
 
-    const handleChange = externalHandleChange ?? ((event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = propHandleChange ?? ((event: ChangeEvent<HTMLInputElement>) => {
         setUncontrolledValue(event.target.value);
     });
 
     function handleFocus(event) {
-        if (externalHandleFocus && typeof externalHandleFocus === "function") {
-            externalHandleFocus(event);
+        if (propHandleFocus && typeof propHandleFocus === "function") {
+            propHandleFocus(event);
         }
         setPopulated(true);
     }
 
     function handleBlur(event) {
-        if (externalHandleBlur && typeof externalHandleBlur === "function") {
-            externalHandleBlur(event);
+        if (propHandleBlur && typeof propHandleBlur === "function") {
+            propHandleBlur(event);
         }
         setPopulated(hasValue);
     }
 
     const handleOutlineStyle = React.useCallback(() => {
-        if (populated && inputContainerRef.current instanceof HTMLElement && labelRef.current instanceof HTMLElement) {
-            const inputContainer = inputContainerRef.current;
-            const label = labelRef.current;
-            const inputContainerRect = inputContainer.getBoundingClientRect();
-            const labelRect = label.getBoundingClientRect();
-            const focusIndicatorThickness = window.getComputedStyle(inputContainer).getPropertyValue("--focus-indicator-thickness");
-            const inputContainerWidth = inputContainer.offsetWidth;  
-            const inputContainerHeight = inputContainer.offsetHeight; 
-            const labelWidth = label.offsetWidth;
-            const labelMargin = labelRect.left - inputContainerRect.left;
-            const labelSeatDepth = labelRect.bottom - inputContainerRect.top;
-            const clipPath = `polygon(
-                -${focusIndicatorThickness} -${focusIndicatorThickness}, 
-                ${labelMargin}px -${focusIndicatorThickness}, 
-                ${labelMargin}px ${labelSeatDepth}px, 
-                ${labelMargin + labelWidth}px ${labelSeatDepth}px, 
-                ${labelMargin + labelWidth}px -${focusIndicatorThickness}, 
-                calc(${inputContainerWidth}px + ${focusIndicatorThickness}) -${focusIndicatorThickness}, 
-                calc(${inputContainerWidth}px + ${focusIndicatorThickness}) calc(${inputContainerHeight}px + ${focusIndicatorThickness}), 
-                -${focusIndicatorThickness} calc(${inputContainerHeight}px + ${focusIndicatorThickness}), 
-                -${focusIndicatorThickness} -${focusIndicatorThickness}
-            )`;
+        if (
+            populated && 
+            inputContainerRef.current instanceof HTMLDivElement && 
+            labelRef.current instanceof HTMLLabelElement
+        ) {
+            const clipPath = getLabelClipPathTextFieldOutlined(inputContainerRef.current, labelRef.current);
             setOutlineClipPath(clipPath);
         } else {
             setOutlineClipPath(null);
