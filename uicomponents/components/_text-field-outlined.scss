@@ -130,6 +130,7 @@
             & > .input-container-inner {
                 display: flex;
                 align-items: center;
+                min-width: 0;
                 flex-grow: 1;
                 position: var(--input-container-inner-position);
     
@@ -143,6 +144,7 @@
                     font-weight: var(--input-text-weight);
                     letter-spacing: var(--input-text-tracking);
                     caret-color: var(--caret-color);
+                    min-width: 0;
                     padding: {
                         left: 1rem;
                         right: 1rem;
