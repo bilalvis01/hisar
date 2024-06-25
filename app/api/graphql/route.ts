@@ -18,7 +18,8 @@ import {
     DateTimeTypeDefinition, 
 } from "../../../lib/graphql/custom-scalars";
 import { prisma } from "../../../lib/database/client";
-import typeDefs from "../../../schema.graphql"; 
+// @ts-ignore
+import typeDefs from "../../../schema.graphql";
 
 // const typeDefs = readFileSync(process.cwd() + '/schema.graphql', 'utf8');
 

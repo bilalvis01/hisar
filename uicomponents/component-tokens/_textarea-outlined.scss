@@ -1,4 +1,4 @@
-$textarea-outlined-container-height: 3.5rem;
+$textarea-outlined-container-min-height: 3.5rem;
 $textarea-outlined-container-shape: var(--system-shape-corner-extra-small);
 $textarea-outlined-outline-width: 0.0625rem;
 $textarea-outlined-outline-color: var(--system-color-outline);
@@ -92,7 +92,7 @@ $textarea-outlined-error-hover-leading-icon-color: var(--system-color-on-surface
 $textarea-outlined-error-hover-trailing-icon-color: var(--system-color-error) !default;
 
 $textarea-outlined: (
-    "textarea-outlined-container-height": $textarea-outlined-container-height,
+    "textarea-outlined-container-min-height": $textarea-outlined-container-min-height,
     "textarea-outlined-container-shape": $textarea-outlined-container-shape,
     "textarea-outlined-outline-width": $textarea-outlined-outline-width,
     "textarea-outlined-outline-color": $textarea-outlined-outline-color,

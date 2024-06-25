@@ -1,5 +1,87 @@
+%container {
+    padding-top: 0.625rem;
+}
+
+%textarea-container {
+    display: flex;
+    align-items: center;
+}
+
+%textarea-container-inner {
+    display: flex;
+    min-width: 0;
+    flex-grow: 1;
+}
+
+%textarea-text {
+    font-family: var(--textarea-text-font);
+    line-height: var(--textarea-text-line-height);
+    font-size: var(--textarea-text-size);
+    font-weight: var(--textarea-text-weight);
+    letter-spacing: var(--textarea-text-tracking);
+}
+
+%textarea-size {
+    flex-grow: 1;
+    min-width: 0;
+    min-height: var(--container-min-height);
+    padding: {
+        top: 0.75rem;
+        bottom: 0.125rem;
+        left: 1rem;
+        right: var(--textarea-padding-right);
+    };
+}
+
+%textarea-reset {
+    background-color: transparent;
+    border: none;
+}
+
+%prefix {
+    font-family: var(--textarea-text-font);
+    line-height: var(--textarea-text-line-height);
+    font-size: var(--textarea-text-size);
+    font-weight: var(--textarea-text-weight);
+    letter-spacing: var(--textarea-text-tracking);
+    padding-left: 1rem;
+}
+
+%suffix {
+    font-family: var(--textarea-text-font);
+    line-height: var(--textarea-text-line-height);
+    font-size: var(--textarea-text-size);
+    font-weight: var(--textarea-text-weight);
+    letter-spacing: var(--textarea-text-tracking);
+    padding-right: 1rem;
+}
+
+%leading-icon {
+    display: grid;
+    align-items: center;
+    padding-left: 0.75rem;
+
+    & > svg {
+        width: var(--leading-icon-size);
+        height: var(--leading-icon-size);
+    }
+}
+
+%trailing-icon {
+    position: absolute;
+    right: 0;
+    display: grid;
+    align-items: center;
+    padding-right: 0.75rem;
+
+    & > svg {
+        width: var(--trailing-icon-size);
+        height: var(--trailing-icon-size);
+    }
+}
+
 .textarea-outlined {
-    --container-height: var(--component-textarea-outlined-container-height);
+    --container-min-height: var(--component-textarea-outlined-container-min-height);
     --container-shape: var(--component-textarea-outlined-container-shape);
     --focus-indicator-style: none;
     --focus-indicator-color: var(--component-textarea-outlined-focus-indicator-color);
@@ -8,6 +90,7 @@
     --outline-width: var(--component-textarea-outlined-outline-width);
     --outline-color: var(--component-textarea-outlined-outline-color);
     --label-top: unset;
+    --label-height: var(--container-min-height);
     --label-margin-left: 0;
     --label-padding-left: 1rem;
     --label-padding-right: 1rem;
@@ -38,6 +121,14 @@
     --textarea-text-tracking: var(--component-textarea-outlined-textarea-text-tracking);
     --caret-color: var(--component-textarea-outlined-caret-color);
     --textarea-z-index: auto;
+    --textarea-padding-right: 1rem;
+
+    &.trailing-icon > .container {
+        & > .textarea-container > .textarea-container-inner > .textarea,
+        & > .shadow-textarea-container > .shadow-textarea-container-inner > .shadow-textarea {
+            --textarea-padding-right: calc(1rem + var(--component-textarea-outlined-trailing-icon-size))
+        }
+    }
 
     &.populated {
         --label-top: -0.625rem;
@@ -48,6 +139,7 @@
         --label-size: var(--component-textarea-outlined-label-populated-size);
         --textarea-container-inner-position: static;
         --textarea-z-index: 1;
+        --label-height: unset;
     }  
 
     &:disabled {
@@ -119,34 +211,23 @@
     outline: none;
 
     & > .container {
-        padding-top: 0.625rem;
+        @extend %container;
+        position: relative;
         
         & > .textarea-container {
+            @extend %textarea-container;
             position: relative;
-            display: flex;
-            align-items: center;
     
             & > .textarea-container-inner {
-                display: flex;
-                flex-grow: 1;
+                @extend %textarea-container-inner;
                 position: var(--textarea-container-inner-position);
-                padding-top: 0.5rem;
     
                 & > .textarea {
+                    @extend %textarea-text;
+                    @extend %textarea-size;
+                    @extend %textarea-reset;
                     color: var(--textarea-text-color);
-                    background-color: transparent;
-                    border: none;
-                    font-family: var(--textarea-text-font);
-                    line-height: var(--textarea-text-line-height);
-                    font-size: var(--textarea-text-size);
-                    font-weight: var(--textarea-text-weight);
-                    letter-spacing: var(--textarea-text-tracking);
                     caret-color: var(--caret-color);
-                    padding: {
-                        left: 1rem;
-                        right: 1rem;
-                    };
-                    flex-grow: 1;
                     z-index: var(--textarea-z-index);
                     appearance: textfield;
                     overflow: hidden;
@@ -157,9 +238,12 @@
                 }
     
                 & > .label {
+                    display: grid;
+                    align-items: center;
                     position: absolute;
                     top: var(--label-top);
                     left: 0;
+                    height: var(--label-height);
                     padding: {
                         left: var(--label-padding-left);
                         right: var(--label-padding-right);
@@ -174,48 +258,29 @@
                 }
     
                 & > .prefix {
+                    @extend %prefix;
                     color: var(--textarea-text-color);
-                    font-family: var(--textarea-text-font);
-                    line-height: var(--textarea-text-line-height);
-                    font-size: var(--textarea-text-size);
-                    font-weight: var(--textarea-text-weight);
-                    letter-spacing: var(--textarea-text-tracking);
-                    padding-left: 1rem;
                 }
         
                 & > .suffix {
+                    @extend %suffix;
                     color: var(--textarea-text-color);
-                    font-family: var(--textarea-text-font);
-                    line-height: var(--textarea-text-line-height);
-                    font-size: var(--textarea-text-size);
-                    font-weight: var(--textarea-text-weight);
-                    letter-spacing: var(--textarea-text-tracking);
-                    padding-right: 1rem;
-                }
-    
-                & > .trailing-icon {
-                    position: relative;
-                    display: grid;
-                    align-items: center;
-                    padding-right: 0.75rem;
-    
-                    & > svg {
-                        color: var(--trailing-icon-color);
-                        width: var(--trailing-icon-size);
-                        height: var(--trailing-icon-size);
-                    }
                 }
             }
     
             & > .leading-icon {
-                display: grid;
-                align-items: center;
-                padding-left: 0.75rem;
-    
+                @extend %leading-icon;
+
                 & > svg {
                     color: var(--leading-icon-color);
-                    width: var(--leading-icon-size);
-                    height: var(--leading-icon-size);
+                }
+            }
+
+            & > .trailing-icon {
+                @extend %trailing-icon;
+
+                & > svg {
+                    color: var(--trailing-icon-color);
                 }
             }
     
@@ -257,6 +322,53 @@
                 padding: {
                     right: 1rem;
                 };
+            }
+        }
+
+        & > .shadow-textarea-container {
+            @extend %container;
+            @extend %textarea-container;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            & > .shadow-textarea-container-inner {
+                @extend %textarea-container-inner;
+
+                & > .shadow-textarea {
+                    @extend %textarea-text;
+                    @extend %textarea-size;
+                    @extend %textarea-reset;
+                    overflow-wrap: break-word;
+                    color: transparent;
+                }
+
+                & > .shadow-prefix {
+                    @extend %prefix;
+                    color: transparent;
+                }
+
+                & > .shadow-suffix {
+                    @extend %suffix;
+                    color: transparent;
+                }
+            }
+
+            & > .shadow-leading-icon {
+                @extend %leading-icon;
+
+                & > svg {
+                    color: transparent;
+                }
+            }
+
+            & > .shadow-trailing-icon {
+                @extend %trailing-icon;
+
+                & > svg {
+                    color: transparent;
+                }
             }
         }
     }

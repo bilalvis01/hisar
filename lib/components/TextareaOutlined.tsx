@@ -7,6 +7,7 @@ import { getLabelClipPathTextFieldOutlined } from "./utils";
 import useMergeRefs from "../hooks/useMergeRefs";
 
 export interface TextareaOutlinedProps extends React.HTMLProps<HTMLTextAreaElement> {
+    value?: string;
     label?: string;
     startIcon?: React.ReactNode;
     trailingIcon?: React.ReactNode;
@@ -16,7 +17,9 @@ export interface TextareaOutlinedProps extends React.HTMLProps<HTMLTextAreaEleme
     suffixSupportingText?: string;
     error?: string;
     counter?: boolean | number;
-    autoResize?: boolean;
+    autosize?: boolean;
+    minRows?: number;
+    maxRows?: number;
 }
 
 const TextareaOutlined = React.forwardRef<
@@ -34,24 +37,53 @@ const TextareaOutlined = React.forwardRef<
     counter,
     className,
     placeholder,
-    value: controlledValue,
+    value: controlledValue = "",
     onFocus: propHandleFocus,
     onChange: propHandleChange,
     onBlur: propHandleBlur,
-    autoResize = false,
+    autosize = true,
+    minRows = 2,
+    maxRows,
+    rows: propRows,
+    cols,
     ...props
 }, propTextareaRef) {
     const id = React.useId();
+    const [uncontrolledValue, setUncontrolledValue] = React.useState("");
+    const value = !!controlledValue ? controlledValue : uncontrolledValue;
     const textareaContainerRef = React.useRef(null);
     const labelRef = React.useRef(null);
     const textareaRef = React.useRef(null);
+    const shadowTextareaRef = React.useRef(null);
     const setTextareaRef = useMergeRefs([propTextareaRef, textareaRef]);
-    const [uncontrolledValue, setUncontrolledValue] = React.useState("");
     const [populated, setPopulated] = React.useState(false);
     const [outlineClipPath, setOutlineClipPath] = React.useState<string | null>(null);
-    const [textareaHeight, setTextareaHeight] = React.useState<string | null>(null);
+    const [rowsDict, setRowsDict] = React.useState<
+        { [index: number]: number }
+    >(() => {
+        if (value.length > 0) {
+            return {
+                0: minRows,
+                [value.length]: minRows,
+            }
+        }
 
-    const value = !!controlledValue ? controlledValue : uncontrolledValue;
+        return {
+            0: minRows
+        };
+    });
+
+    const lookupRows = rowsDict[value.length];
+    /*
+    const rows = propRows
+        ? propRows
+        : (lookupRows && lookupRows < minRows) || !lookupRows 
+        ? minRows
+        : lookupRows && ((maxRows && lookupRows >= minRows && lookupRows < maxRows) || !maxRows)
+        ? lookupRows
+        : maxRows;
+    */
+    const rows = propRows ? propRows : lookupRows;
 
     const hasValue = !!value || !!placeholder;
 
@@ -59,20 +91,96 @@ const TextareaOutlined = React.forwardRef<
 
     const trailingIcon = !!error ? <ExclamationCircleFill /> : propTrailingIcon;
 
+    const handleAutosize = React.useCallback((newValue: string) => {
+        if (
+            autosize
+            && !propRows
+            && newValue.length > 0
+            && textareaRef.current instanceof HTMLTextAreaElement
+            && shadowTextareaRef.current instanceof HTMLSpanElement
+            && textareaRef.current.clientHeight > 0
+            && shadowTextareaRef.current.clientHeight > 0
+        ) {
+            const shadowTextareaClientHeight = shadowTextareaRef.current.clientHeight;
+            const textareaClientHeight = textareaRef.current.clientHeight;
+
+            if (newValue.length > value.length) {
+                const lowerRowsEntriesRelativeToNewValueLength = Object.entries(rowsDict)
+                    .filter((entry) => parseInt(entry[0]) < value.length);
+                const maxLowerRowsRelativeToNewValueLength = Math.max(
+                    ...lowerRowsEntriesRelativeToNewValueLength.map((entry) => entry[1])
+                );
+                const rows = Number.isInteger(maxLowerRowsRelativeToNewValueLength)
+                    ? maxLowerRowsRelativeToNewValueLength
+                    : minRows;
+
+                console.log(rows);
+
+                setRowsDict({
+                    ...rowsDict,
+                    [newValue.length]: rows,
+                });
+            }
+
+            if (
+                newValue.length < value.length
+                && !rowsDict[newValue.length]
+            )  {
+                const uppderRowsEntriesRelativeToNewValueLength = Object.entries(rowsDict)
+                    .filter((entry) => parseInt(entry[0]) > newValue.length);
+            
+                const minUpperRowsRelativeToNewValueLength = Math.min(
+                    ...uppderRowsEntriesRelativeToNewValueLength.map((entry) => entry[1])
+                );
+
+                const rows = Number.isInteger(minUpperRowsRelativeToNewValueLength)
+                    ? minUpperRowsRelativeToNewValueLength
+                    : minRows;
+
+                setRowsDict({
+                    ...rowsDict,
+                    [newValue.length]: rows,
+                });
+            }
+
+            if (rowsDict[newValue.length]) {
+                if ( 
+                    textareaClientHeight < shadowTextareaClientHeight
+                    && (
+                        (maxRows && rowsDict[newValue.length] < maxRows) || !maxRows
+                    )
+                ) {
+                    setRowsDict({
+                        ...rowsDict,
+                        [newValue.length]: rowsDict[newValue.length] + 1
+                    });
+                }
+    
+                if (
+                    textareaClientHeight > shadowTextareaClientHeight
+                    && rowsDict[newValue.length] > minRows
+                ) {
+                    console.log("test");
+                    setRowsDict({
+                        ...rowsDict,
+                        [newValue.length]: rowsDict[newValue.length] - 1
+                    });
+                }
+            }
+        }
+    }, [autosize, value, rowsDict, propRows, minRows, maxRows]);
+
     const handleChange = React.useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+        const value = event.target.value;
+
         if (propHandleChange) {
             propHandleChange(event);
         } else {
-            setUncontrolledValue(event.target.value);
-        }
+            setUncontrolledValue(value);
+        } 
 
-        if (autoResize && textareaRef.current instanceof HTMLTextAreaElement) {
-            const textarea = textareaRef.current;
-            const offset = textarea.offsetHeight - textarea.clientHeight;
-            const textareaHeight = `${textarea.scrollHeight + offset}px`;
-            setTextareaHeight(textareaHeight);
-        }
-    }, [autoResize]);
+        handleAutosize(value);
+    }, [propHandleChange, handleAutosize]);
 
     const handleFocus = React.useCallback((event) => {
         propHandleFocus && propHandleFocus(event);
@@ -82,7 +190,7 @@ const TextareaOutlined = React.forwardRef<
     const handleBlur = React.useCallback((event) => {
         propHandleBlur && propHandleBlur(event);
         setPopulated(hasValue);
-    }, [propHandleBlur]);
+    }, [propHandleBlur, hasValue]);
 
     const handleOutlineStyle = React.useCallback(() => {
         if (
@@ -119,16 +227,48 @@ const TextareaOutlined = React.forwardRef<
         setPopulated(hasValue);
     }, [hasValue]);
 
+    React.useEffect(() => {
+        handleAutosize(value);
+    }, [handleAutosize, value]);
+
     return (
         <div 
             className={clsx(
                 "textarea-outlined", 
                 { "populated": populated },
                 { "error": !!error },
+                { "trailing-icon": !!trailingIcon },
                 className,
             )}
         >
             <div className="container">
+                <div className="shadow-textarea-container">
+                    {startIcon && (
+                        <span className="shadow-leading-icon">
+                            {startIcon}
+                        </span>
+                    )}
+                    <span className="shadow-textarea-container-inner">
+                        {prefix && (
+                            <span className="shadow-prefix">
+                                {prefix}
+                            </span>
+                        )}
+                        <span ref={shadowTextareaRef} className="shadow-textarea">
+                            {value}
+                        </span>
+                        {suffix && (
+                            <span className="shadow-suffix">
+                                {suffix}
+                            </span>
+                        )}
+                    </span>
+                    {trailingIcon && (
+                        <span className="shadow-trailing-icon">
+                            {trailingIcon}
+                        </span>
+                    )}
+                </div>
                 <div ref={textareaContainerRef} className="textarea-container">
                     <div className="decorator" style={{ clipPath: outlineClipPath }} />
                     {startIcon && (
@@ -154,10 +294,11 @@ const TextareaOutlined = React.forwardRef<
                         <textarea
                             {...props} 
                             ref={setTextareaRef}
-                            style={{ height: textareaHeight }}
                             id={id}
                             className="textarea"
                             value={value}
+                            cols={cols}
+                            rows={rows}
                             placeholder={placeholder}
                             onChange={handleChange} 
                             onFocus={handleFocus} 
@@ -168,12 +309,12 @@ const TextareaOutlined = React.forwardRef<
                                 {suffix}
                             </span>
                         )}
-                        {trailingIcon && (
-                            <span className="trailing-icon">
-                                {trailingIcon}
-                            </span>
-                        )}
                     </span>
+                    {trailingIcon && (
+                        <span className="trailing-icon">
+                            {trailingIcon}
+                        </span>
+                    )}
                 </div>
                 <div className="supporting-text-container">
                     <span className="supporting-text">

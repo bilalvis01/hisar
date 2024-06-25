@@ -7,6 +7,7 @@ import { CREATE_BUDGET, NEW_BUDGET, GET_EXCERPT_REPORT } from "../../graphql/bud
 import { CreateBudgetMutation } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
+import style from "./BudgetAddForm.module.scss";
 
 interface BudgetAddFormProps {
     open: boolean,
@@ -101,6 +102,7 @@ export default function BudgetAddForm({ open, onOpenChange: setOpen, onSuccess }
                     variables: { input }
                 });
             }}
+            classes={{ formDialogBodyMediumSizeScreen: style.formDialogBodyMediumSizeScreen }}
         />
     );
 }

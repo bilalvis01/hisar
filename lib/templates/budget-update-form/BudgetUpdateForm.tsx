@@ -12,7 +12,7 @@ import { GET_BUDGET_TRANSACTIONS } from "../../graphql/budget-transaction-docume
 import { UpdateBudgetMutation, Budget } from "../../graphql/generated/graphql";
 import * as Yup from "yup";
 import { useTemplateContext } from "../Template";
-import { INTERNAL_SERVER_ERROR } from "../../graphql/error-code";
+import style from "./BudgetUpdateForm.module.scss";
 
 interface BudgetUpdateFormProps {
     budget: Budget
@@ -110,6 +110,7 @@ export default function BudgetUpdateForm({
                     variables: { input }
                 });
             }}
+            classes={{ formDialogBodyMediumSizeScreen: style.formDialogBodyMediumSizeScreen }}
         />
     );
 }
