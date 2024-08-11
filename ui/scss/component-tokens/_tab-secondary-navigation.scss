@@ -1,0 +1,89 @@
+$tab-secondary-navigation-container-color: var(--system-color-surface) !default;
+$tab-secondary-navigation-container-shape: var(--system-shape-corner-none) !default;
+$tab-secondary-navigation-container-height: 3rem !default;
+$tab-secondary-navigation-container-elevation: var(--system-elevation-level0) !default;
+$tab-secondary-navigation-label-font: var(--system-typescale-title-small-font) !default;
+$tab-secondary-navigation-label-line-height: var(--system-typescale-title-small-line-height) !default;
+$tab-secondary-navigation-label-size: var(--system-typescale-title-small-size) !default;
+$tab-secondary-navigation-label-weight: var(--system-typescale-title-small-weight) !default;
+$tab-secondary-navigation-label-tracking: var(--system-typescale-title-small-tracking) !default;
+$tab-secondary-navigation-active-label-color: var(--system-color-on-surface) !default;
+$tab-secondary-navigation-inactive-label-color: var(--system-color-on-surface-variant) !default;
+$tab-secondary-navigation-icon-size: 1.5rem !default;
+$tab-secondary-navigation-active-icon-color: var(--system-color-on-surface) !default;
+$tab-secondary-navigation-inactive-icon-color: var(--system-color-on-surface-variant) !default;
+$tab-secondary-navigation-divider-color: var(--system-color-surface-variant) !default;
+$tab-secondary-navigation-divider-height: 0.0625rem !default;
+$tab-secondary-navigation-active-indicator-color: var(--system-color-primary) !default;
+$tab-secondary-navigation-active-indicator-height: 0.125rem !default;
+$tab-secondary-navigation-active-indicator-shape: var(--system-shape-corner-none);
+
+$tab-secondary-navigation-hover-label-color: var(--system-color-on-surface) !default;
+$tab-secondary-navigation-hover-state-layer-color: var(--system-color-on-surface) !default;
+$tab-secondary-navigation-hover-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$tab-secondary-navigation-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$tab-secondary-navigation-hover-icon-color: var(--system-color-on-surface) !default;
+
+$tab-secondary-navigation-focus-indicator-color: var(--system-color-secondary) !default;
+$tab-secondary-navigation-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
+$tab-secondary-navigation-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
+$tab-secondary-navigation-focus-label-color: var(--system-color-on-surface) !default;
+$tab-secondary-navigation-focus-state-layer-color: var(--system-color-on-surface) !default;
+$tab-secondary-navigation-focus-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$tab-secondary-navigation-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+$tab-secondary-navigation-focus-icon-color: var(--system-color-on-surface) !default;
+
+$tab-secondary-navigation-pressed-label-color: var(--system-color-secondary) !default;
+$tab-secondary-navigation-pressed-state-layer-color: var(--system-color-on-surface) !default;
+$tab-secondary-navigation-pressed-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$tab-secondary-navigation-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+$tab-secondary-navigation-pressed-icon-color: var(--system-color-on-surface) !default;
+
+$tab-secondary-navigation: (
+    "tab-secondary-navigation-container-color": $tab-secondary-navigation-container-color,
+    "tab-secondary-navigation-container-shape": $tab-secondary-navigation-container-shape,
+    "tab-secondary-navigation-container-height": $tab-secondary-navigation-container-height,
+    "tab-secondary-navigation-container-elevation": $tab-secondary-navigation-container-elevation,
+    "tab-secondary-navigation-label-font": $tab-secondary-navigation-label-font,
+    "tab-secondary-navigation-label-line-height": $tab-secondary-navigation-label-line-height,
+    "tab-secondary-navigation-label-size": $tab-secondary-navigation-label-size,
+    "tab-secondary-navigation-label-weight": $tab-secondary-navigation-label-weight,
+    "tab-secondary-navigation-label-tracking": $tab-secondary-navigation-label-tracking,
+    "tab-secondary-navigation-active-label-color": $tab-secondary-navigation-active-label-color,
+    "tab-secondary-navigation-inactive-label-color": $tab-secondary-navigation-inactive-label-color,
+    "tab-secondary-navigation-icon-size": $tab-secondary-navigation-icon-size,
+    "tab-secondary-navigation-active-icon-color": $tab-secondary-navigation-active-icon-color,
+    "tab-secondary-navigation-inactive-icon-color": $tab-secondary-navigation-inactive-icon-color,
+    "tab-secondary-navigation-divider-color": $tab-secondary-navigation-divider-color,
+    "tab-secondary-navigation-divider-height": $tab-secondary-navigation-divider-height,
+    "tab-secondary-navigation-active-indicator-color": $tab-secondary-navigation-active-indicator-color,
+    "tab-secondary-navigation-active-indicator-height": $tab-secondary-navigation-active-indicator-height,
+    "tab-secondary-navigation-active-indicator-shape": $tab-secondary-navigation-active-indicator-shape,
+) !default;
+
+$tab-secondary-navigation-hover: (
+    "tab-secondary-navigation-hover-label-color": $tab-secondary-navigation-hover-label-color,
+    "tab-secondary-navigation-hover-state-layer-color": $tab-secondary-navigation-hover-state-layer-color,
+    "tab-secondary-navigation-hover-state-layer-color-rgb": $tab-secondary-navigation-hover-state-layer-color-rgb,
+    "tab-secondary-navigation-hover-state-layer-opacity": $tab-secondary-navigation-hover-state-layer-opacity,
+    "tab-secondary-navigation-hover-icon-color": $tab-secondary-navigation-hover-icon-color,
+) !default;
+
+$tab-secondary-navigation-focus: (
+    "tab-secondary-navigation-focus-indicator-color": $tab-secondary-navigation-focus-indicator-color,
+    "tab-secondary-navigation-focus-indicator-thickness": $tab-secondary-navigation-focus-indicator-thickness,
+    "tab-secondary-navigation-focus-indicator-offset": $tab-secondary-navigation-focus-indicator-offset,
+    "tab-secondary-navigation-focus-label-color": $tab-secondary-navigation-focus-label-color,
+    "tab-secondary-navigation-focus-state-layer-color": $tab-secondary-navigation-focus-state-layer-color,
+    "tab-secondary-navigation-focus-state-layer-color-rgb": $tab-secondary-navigation-focus-state-layer-color-rgb,
+    "tab-secondary-navigation-focus-state-layer-opacity": $tab-secondary-navigation-focus-state-layer-opacity,
+    "tab-secondary-navigation-focus-icon-color": $tab-secondary-navigation-focus-icon-color,
+) !default;
+
+$tab-secondary-navigation-pressed: (
+    "tab-secondary-navigation-pressed-label-color": $tab-secondary-navigation-pressed-label-color,
+    "tab-secondary-navigation-pressed-state-layer-color": $tab-secondary-navigation-pressed-state-layer-color,
+    "tab-secondary-navigation-pressed-state-layer-color-rgb": $tab-secondary-navigation-pressed-state-layer-color-rgb,
+    "tab-secondary-navigation-pressed-state-layer-opacity": $tab-secondary-navigation-pressed-state-layer-opacity,
+    "tab-secondary-navigation-pressed-icon-color": $tab-secondary-navigation-pressed-icon-color,
+) !default;

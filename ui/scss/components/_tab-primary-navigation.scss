@@ -1,0 +1,80 @@
+@use "../mixins";
+
+.tab-primary-navigation {
+    --container-color: var(--component-tab-primary-navigation-container-color);
+    --container-height: var(--component-tab-primary-navigation-container-height);
+    --container-shape: var(--component-tab-primary-navigation-container-shape);
+    --container-elevation: var(--component-tab-primary-navigation-container-elevation);
+    --label-font: var(--component-tab-primary-navigation-label-font);
+    --label-line-height: var(--component-tab-primary-navigation-label-line-height);
+    --label-size: var(--component-tab-primary-navigation-label-size);
+    --label-weight: var(--component-tab-primary-navigation-label-weight);
+    --label-tracking: var(--component-tab-primary-navigation-label-tracking);
+    --label-color: var(--component-tab-primary-navigation-inactive-label-color);
+    --icon-width: var(--component-tab-primary-navigation-icon-size);
+    --icon-height: var(--component-tab-primary-navigation-icon-size);
+    --icon-color: var(--component-tab-primary-navigation-inactive-icon-color);
+    --divider-color: var(--component-tab-primary-navigation-divider-color);
+    --divider-height: var(--component-tab-primary-navigation-divider-height);
+    --active-indicator-display: none;
+    --active-indicator-height: var(--component-tab-primary-navigation-active-indicator-height);
+    --active-indicator-color: var(--component-tab-primary-navigation-active-indicator-color);
+    --active-indicator-shape: var(--component-tab-primary-navigation-active-indicator-shape);
+    --active-indicator-bottom: calc(var(--component-tab-primary-navigation-divider-height) * -1);
+    --state-layer-width: 100%;
+    --state-layer-height: 100%;
+    --state-layer-color: rgba(var(--component-tab-primary-navigation-inactive-state-layer-color-rgb), var(--component-tab-primary-navigation-inactive-state-layer-opacity));
+    --state-layer-shape: var(--component-tab-primary-navigation-container-shape);
+    --content-position: relative;
+    --content-height: 100%;
+    --content-shape: var(--component-tab-primary-navigation-container-shape);
+
+    &.inline {
+        --container-height: var(--component-tab-primary-navigation-inline-container-height);
+    }
+
+    &.active {
+        --label-color: var(--component-tab-primary-navigation-active-label-color);
+        --icon-color: var(--component-tab-primary-navigation-active-icon-color);
+        --state-layer-color: rgba(var(--component-tab-primary-navigation-active-state-layer-color-rgb), var(--component-tab-primary-navigation-active-state-layer-opacity));
+        --active-indicator-display: block;
+    }
+
+    &:hover {
+        --label-color: var(--component-tab-primary-navigation-inactive-hover-label-color);
+        --state-layer-color: rgba(var(--component-tab-primary-navigation-inactive-hover-state-layer-color-rgb), var(--component-tab-primary-navigation-inactive-hover-state-layer-opacity));
+        --icon-color: var(--component-tab-primary-navigation-inactive-hover-icon-color);
+        
+        &.active {
+            --label-color: var(--component-tab-primary-navigation-active-hover-label-color);
+            --state-layer-color: rgba(var(--component-tab-primary-navigation-active-hover-state-layer-color-rgb), var(--component-tab-primary-navigation-active-hover-state-layer-opacity));
+            --icon-color: var(--component-tab-primary-navigation-active-hover-icon-color);
+        }
+    }
+
+    &:focus {
+        --label-color: var(--component-tab-primary-navigation-inactive-hover-label-color);
+        --state-layer-color: rgba(var(--component-tab-primary-navigation-inactive-focus-state-layer-color-rgb), var(--component-tab-primary-navigation-inactive-focus-state-layer-opacity));
+        --icon-color: var(--component-tab-primary-navigation-inactive-focus-icon-color);
+        
+        &.active {
+            --label-color: var(--component-tab-primary-navigation-active-focus-label-color);
+            --state-layer-color: rgba(var(--component-tab-primary-navigation-active-focus-state-layer-color-rgb), var(--component-tab-primary-navigation-active-focus-state-layer-opacity));
+            --icon-color: var(--component-tab-primary-navigation-active-focus-icon-color);
+        }  
+    }
+
+    &:active {
+        --label-color: var(--component-tab-primary-navigation-inactive-pressed-label-color);
+        --state-layer-color: rgba(var(--component-tab-primary-navigation-inactive-pressed-state-layer-color-rgb), var(--component-tab-primary-navigation-inactive-pressed-state-layer-opacity));
+        --icon-color: var(--component-tab-primary-navigation-inactive-pressed-icon-color);
+        
+        &.active {
+            --label-color: var(--component-tab-primary-navigation-active-pressed-label-color);
+            --state-layer-color: rgba(var(--component-tab-primary-navigation-active-pressed-state-layer-color-rgb), var(--component-tab-primary-navigation-active-pressed-state-layer-opacity));
+            --icon-color: var(--component-tab-primary-navigation-active-pressed-icon-color);
+        }   
+    }
+
+    @include mixins.tab;
+}

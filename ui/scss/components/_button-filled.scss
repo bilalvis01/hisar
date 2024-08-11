@@ -1,0 +1,53 @@
+@use "../mixins";
+
+.button-filled {
+    --container-shape: var(--component-button-filled-container-shape);
+    --container-height: var(--component-button-filled-container-height);
+    --container-elevation: var(--component-button-filled-container-elevation);
+    --container-color: var(--component-button-filled-container-color);
+    --label-font: var(--component-button-filled-label-font);
+    --label-line-height: var(--component-button-filled-label-line-height);
+    --label-size: var(--component-button-filled-label-size);
+    --label-weight: var(--component-button-filled-label-weight);
+    --label-tracking: var(--component-button-filled-label-tracking);
+    --label-color: var(--component-button-filled-label-color);
+    --state-layer-color: transparent;
+    --icon-width: var(--component-button-filled-icon-size);
+    --icon-height: var(--component-button-filled-icon-size);
+    --icon-color: var(--component-button-filled-icon-color);
+    
+    &:hover {
+        --container-elevation: var(--component-button-filled-hover-container-elevation);
+        --label-color: var(--component-button-filled-hover-label-color);
+        --state-layer-color: rgba(var(--component-button-filled-hover-state-layer-color-rgb), var(--component-button-filled-hover-state-layer-opacity));
+        --icon-color: var(--component-button-filled-hover-icon-color);
+    }
+    
+    &:focus {
+        --focus-indicator-style: solid;
+        --focus-indicator-color: var(--component-button-filled-focus-indicator-color);
+        --focus-indicator-width: var(--component-button-filled-focus-indicator-thickness);
+        --focus-indicator-offset: var(--component-button-filled-focus-indicator-offset);
+        --container-elevation: var(--component-button-filled-focus-container-elevation);
+        --label-color: var(--component-button-filled-focus-label-color);
+        --state-layer-color: rgba(var(--component-button-filled-focus-state-layer-color-rgb), var(--component-button-filled-focus-state-layer-opacity));
+        --icon-color: var(--component-button-filled-focus-icon-color);
+    }
+    
+    &:active {
+        --container-elevation: var(--component-button-filled-pressed-container-elevation);
+        --label-color: var(--component-button-filled-pressed-label-color);
+        --state-layer-color: rgba(var(--component-button-filled-pressed-state-layer-color-rgb), var(--component-button-filled-pressed-state-layer-opacity));
+        --icon-color: var(--component-button-filled-pressed-focus-icon-color);
+    }
+    
+    &:disabled {
+        --container-elevation: var(--component-button-filled-disabled-container-elevation);
+        --container-color: rgba(var(--component-button-filled-disabled-container-color-rgb), var(--component-button-filled-disabled-container-opacity));
+        --label-color: rgba(var(--component-button-filled-disabled-label-color-rgb), var(--component-button-filled-disabled-label-opacity));
+        --icon-color: rgba(var(--component-button-filled-disabled-icon-color-rgb), var(--component-button-filled-disabled-icon-opacity));
+        --stater-layer-color: transparent;
+    }
+
+    @include mixins.button;
+}

@@ -1,0 +1,243 @@
+.dialog-fullscreen {
+    --on-scroll-container-color: var(--component-dialog-fullscreen-on-scroll-container-color);
+    --container-color: var(--component-dialog-fullscreen-container-color);
+    --container-elevation: var(--component-dialog-fullscreen-container-elevation);
+    --container-shape: var(--component-dialog-fullscreen-container-shape);
+    --header-container-height: var(--component-dialog-fullscreen-header-container-height);
+    --header-container-color: var(--component-dialog-fullscreen-header-container-color);
+    --header-container-elevation: var(--component-dialog-fullscreen-header-container-elevation);
+    --action-bar-container-height: var(--component-dialog-fullscreen-action-bar-container-height);
+    --action-bar-container-color: var(--component-dialog-fullscreen-action-bar-container-color);
+    --action-bar-container-elevation: var(--component-dialog-fullscreen-action-bar-container-elevation);
+    --header-action-label-font: var(--component-dialog-fullscreen-header-action-label-font);
+    --header-action-label-line-height: var(--component-dialog-fullscreen-header-action-label-line-height);
+    --header-action-label-size: var(--component-dialog-fullscreen-header-action-label-size);
+    --header-action-label-weight: var(--component-dialog-fullscreen-header-action-label-weight);
+    --header-action-label-tracking: var(--component-dialog-fullscreen-header-action-label-tracking);
+    --header-action-label-color: var(--component-dialog-fullscreen-header-action-label-color);
+    --action-bar-label-font: var(--component-dialog-fullscreen-action-bar-label-font);
+    --action-bar-label-line-height: var(--component-dialog-fullscreen-action-bar-label-line-height);
+    --action-bar-label-size: var(--component-dialog-fullscreen-action-bar-label-size);
+    --action-bar-label-weight: var(--component-dialog-fullscreen-action-bar-label-weight);
+    --action-bar-label-tracking: var(--component-dialog-fullscreen-action-bar-label-tracking);
+    --action-bar-label-color: var(--component-dialog-fullscreen-action-bar-label-color);
+    --headline-font: var(--component-dialog-fullscreen-headline-font);
+    --headline-line-height: var(--component-dialog-fullscreen-headline-line-height);
+    --headline-size: var(--component-dialog-fullscreen-headline-size);
+    --headline-weight: var(--component-dialog-fullscreen-headline-weight);
+    --headline-tracking: var(--component-dialog-fullscreen-headline-tracking);
+    --headline-color: var(--component-dialog-fullscreen-headline-color);
+    --icon-width: var(--component-dialog-fullscreen-icon-size);
+    --icon-height: var(--component-dialog-fullscreen-icon-size);
+    --icon-color: var(--component-dialog-fullscreen-icon-color);
+    --divider-height: var(--component-dialog-fullscreen-divider-height);
+    --divider-color: var(--component-dialog-fullscreen-divider-color);
+    --header-action-state-layer-color: transparent;
+    --action-bar-state-layer-color: transparent;
+
+    &.on-scroll {
+        --header-container-color: var(--component-dialog-fullscreen-on-scroll-header-container-color);
+        --action-bar-container-color: var(--component-dialog-fullscreen-on-scroll-action-bar-container-color);
+    }
+
+    & > .container > .header > .action, .close {
+        &:hover {
+            --header-action-label-color: var(--component-dialog-fullscreen-header-action-hover-label-color);
+            --header-action-state-layer-color: rgba(var(--component-dialog-fullscreen-header-action-hover-state-layer-color-rgb), var(--component-dialog-fullscreen-header-action-hover-state-layer-opacity));
+        }
+
+        &:focus {
+            --header-action-label-color: var(--component-dialog-fullscreen-header-action-focus-label-color);
+            --header-action-state-layer-color: rgba(var(--component-dialog-fullscreen-header-action-focus-state-layer-color-rgb), var(--component-dialog-fullscreen-header-action-focus-state-layer-opacity));
+        }
+
+        &:active {
+            --header-action-label-color: var(--component-dialog-fullscreen-header-action-pressed-label-color);
+            --header-action-state-layer-color: rgba(var(--component-dialog-fullscreen-header-action-pressed-state-layer-color-rgb), var(--component-dialog-fullscreen-header-action-pressed-state-layer-opacity));
+        }
+    }
+    
+    & > .action-bar {
+        &:hover {
+            --action-bar-label-color: var(--component-dialog-fullscreen-action-bar-hover-label-color);
+            --action-bar-state-layer-color: rgba(var(--component-dialog-fullscreen-action-bar-hover-state-layer-color-rgb), var(--component-dialog-fullscreen-action-bar-hover-state-layer-opacity));
+        }
+
+        &:focus {
+            --action-bar-label-color: var(--component-dialog-fullscreen-action-bar-focus-label-color);
+            --action-bar-state-layer-color: rgba(var(--component-dialog-fullscreen-action-bar-focus-state-layer-color-rgb), var(--component-dialog-fullscreen-action-bar-focus-state-layer-opacity));
+        }
+    
+        &:active {
+            --action-bar-label-color: var(--component-dialog-fullscreen-action-bar-pressed-label-color);
+            --action-bar-state-layer-color: rgba(var(--component-dialog-fullscreen-action-bar-pressed-state-layer-color-rgb), var(--component-dialog-fullscreen-action-bar-pressed-state-layer-opacity));
+        }
+    }
+
+    top: 0;
+    left: 0;
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    outline: none;
+
+    & > .container {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: var(--container-color);
+        box-shadow: var(--container-elevation);
+        border-radius: var(--container-shape);
+
+        & > .header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: var(--header-container-height);
+            box-shadow: var(--header-container-elevation);
+            background-color: var(--header-container-color);
+    
+            & > .close {
+                position: relative;
+                display: grid;
+                place-items: center;
+                background: none;
+                border: none;
+                outline: none;
+                box-shadow: none;
+                padding: 0;
+                min-width: var(--system-spacer2);
+                min-height: var(--system-spacer2);
+    
+                & > svg {
+                    width: var(--icon-width);
+                    height: var(--icon-height);
+                    color: var(--icon-color);
+                }
+    
+                & > .decorator {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: grid;
+                    place-items: center;
+    
+                    & > .base {
+                        height: 2.5rem;
+                        width: 2.5rem;
+                        border-radius: var(--system-shape-corner-full);
+    
+                        & > .state-layer {
+                            background-color: var(--header-action-state-layer-color);
+                            border-radius: var(--system-shape-corner-full);
+                            height: 100%;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+    
+            & > .headline {
+                flex-grow: 1;
+                font-family: var(--headline-font);
+                line-height: var(--headline-line-height);
+                font-size: var(--headline-size);
+                font-weight: var(--headline-weight);
+                letter-spacing: var(--headline-tracking);
+                color: var(--headline-color);
+                text-align: left;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin: 0;
+            }
+    
+            & > .action {
+                background: none;
+                border: none;
+                outline: none;
+                box-shadow: none;
+                padding: 0;
+                margin: {
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0.25rem;
+                }
+
+                & > .container {
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+                    padding: {
+                        top: 0;
+                        bottom: 0;
+                        left: var(--system-padding4);
+                        right: var(--system-padding4);
+                    };
+                    min-width: var(--system-spacer2);
+                    min-height: var(--system-spacer2);
+
+                    & > .progress {
+                        position: relative;
+                        display: grid;
+                        place-items: center;
+                    }
+        
+                    & > .label {
+                        position: relative;
+                        font-family: var(--header-action-label-font);
+                        line-height: var(--header-action-label-line-height);
+                        font-size: var(--header-action-label-size);
+                        font-weight: var(--header-action-label-weight);
+                        letter-spacing: var(--header-action-label-tracking);
+                        color: var(--header-action-label-color);
+                        padding: {
+                            left: var(--system-padding2);
+                            right: var(--system-padding2);
+                        }
+                    }
+        
+                    & > .decorator { 
+                        display: grid;
+                        place-items: center;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+        
+                        & > .base {
+                            height: 2.5rem;
+                            width: 100%;
+                            border-radius: var(--system-shape-corner-full);
+            
+                            & > .state-layer {
+                                background-color: var(--header-action-state-layer-color);
+                                border-radius: var(--system-shape-corner-full);
+                                height: 100%;
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    
+        & > .body {
+            padding: {
+                left: 1.5rem;
+                right: 1.5rem;
+            };
+        }
+    }
+}

@@ -1,0 +1,44 @@
+@use "../mixins";
+
+.card-outlined {
+    --container-color: var(--component-card-outlined-container-color);
+    --container-shape: var(--component-card-outlined-container-shape);
+    --container-elevation: var(--component-card-outlined-container-elevation);
+    --outline-width: var(--component-card-outlined-outline-width);
+    --outline-color: var(--component-card-outlined-outline-color);
+    --icon-color: var(--component-card-outlined-icon-color);
+    --icon-width: var(--component-card-outlined-icon-size);
+    --icon-height: var(--component-card-outlined-icon-size);
+    --state-layer-color: transparent;
+    --state-layer-shape: var(--component-card-outlined-container-shape);
+    --content-shape: var(--component-card-outlined-container-shape);
+
+    &:hover {
+        --container-elevation: var(--component-card-outlined-hover-container-elevation);
+        --outline-color: var(--component-card-outlined-hover-outline-color);
+        --state-layer-color: rgba(var(--component-card-outlined-hover-state-layer-color-rgb), var(--component-card-outlined-hover-state-layer-opacity));
+    }
+
+    &:focus {
+        --container-elevation: var(--component-card-outlined-focus-container-elevation);
+        --outline-color: var(--component-card-outlined-focus-outline-color);
+        --focus-indicator-style: solid;
+        --focus-indicator-color: var(--component-card-outlined-focus-indicator-color);
+        --focus-indicator-width: var(--component-card-outlined-focus-indicator-thickness);
+        --focus-indicator-offset: var(--component-card-outlined-focus-indicator-offset);
+        --state-layer-color: rgba(var(--component-card-outlined-focus-state-layer-color-rgb), var(--component-card-outlined-focus-state-layer-opacity));
+    }
+
+    &:active {
+        --outline-color: var(--component-card-outlined-pressed-outline-color);
+        --container-elevation: var(--component-card-outlined-pressed-container-elevation);
+        --state-layer-color: rgba(var(--component-card-outlined-pressed-state-layer-color-rgb), var(--component-card-outlined-pressed-state-layer-opacity));
+    }
+
+    &:disabled {
+        --container-elevation: var(--component-card-outlined-disabled-container-elevation);
+        --outline-color: rgba(var(--component-card-outlined-disabled-outline-color), var(--component-card-outlined-disabled-outline-opacity));
+    }
+
+    @include mixins.card;
+}

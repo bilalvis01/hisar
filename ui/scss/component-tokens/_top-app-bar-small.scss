@@ -1,0 +1,35 @@
+$top-app-bar-small-container-color: var(--system-color-surface) !default;
+$top-app-bar-small-container-shape: var(--system-shape-corner-none) !default;
+$top-app-bar-small-container-height: 4rem !default;
+$top-app-bar-small-container-elevation: var(--system-elevation-level0) !default;
+$top-app-bar-small-leading-icon-size: 1.5rem;
+$top-app-bar-small-leading-icon-color: var(--system-color-on-surface) !default;
+$top-app-bar-small-trailing-icon-size: 1.5rem;
+$top-app-bar-small-trailing-icon-color: var(--system-color-on-surface) !default;
+$top-app-bar-small-headline-font: var(--system-typescale-title-large-font) !default;
+$top-app-bar-small-headline-line-height: var(--system-typescale-title-large-line-height) !default;
+$top-app-bar-small-headline-size: var(--system-typescale-title-large-size) !default;
+$top-app-bar-small-headline-tracking: var(--system-typescale-title-large-tracking) !default;
+$top-app-bar-small-headline-weight: var(--system-typescale-title-large-weight) !default;
+$top-app-bar-small-headline-color: var(--system-color-on-surface) !default;
+$top-app-bar-small-on-scroll-container-color: var(--system-color-surface-container) !default;
+$top-app-bar-small-on-scroll-container-elevation: var(--system-elevation-level2) !default;
+
+$top-app-bar-small: (
+    "top-app-bar-small-container-color": $top-app-bar-small-container-color,
+    "top-app-bar-small-container-shape": $top-app-bar-small-container-shape,
+    "top-app-bar-small-container-height": $top-app-bar-small-container-height,
+    "top-app-bar-small-container-elevation": $top-app-bar-small-container-elevation,
+    "top-app-bar-small-leading-icon-size": $top-app-bar-small-leading-icon-size,
+    "top-app-bar-small-leading-icon-color": $top-app-bar-small-leading-icon-color,
+    "top-app-bar-small-trailing-icon-size": $top-app-bar-small-trailing-icon-size,
+    "top-app-bar-small-trailing-icon-color": $top-app-bar-small-trailing-icon-color,
+    "top-app-bar-small-headline-font": $top-app-bar-small-headline-font,
+    "top-app-bar-small-headline-line-height": $top-app-bar-small-headline-line-height,
+    "top-app-bar-small-headline-size": $top-app-bar-small-headline-size,
+    "top-app-bar-small-headline-tracking": $top-app-bar-small-headline-tracking,
+    "top-app-bar-small-headline-weight": $top-app-bar-small-headline-weight,
+    "top-app-bar-small-headline-color": $top-app-bar-small-headline-color,
+    "top-app-bar-small-on-scroll-container-color": $top-app-bar-small-on-scroll-container-color,
+    "top-app-bar-small-on-scroll-container-elevation": $top-app-bar-small-on-scroll-container-elevation,
+) !default;

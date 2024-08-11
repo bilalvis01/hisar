@@ -1,0 +1,123 @@
+$menu-list-item-selected-label-color: var(--system-color-on-secondary-container) !default;
+$menu-list-item-selected-leading-icon-color: var(--system-color-on-secondary-container) !default;
+$menu-list-item-selected-trailing-icon-color: var(--system-color-on-secondary-container) !default;
+$menu-container-color: var(--system-color-surface-container) !default;
+$menu-container-elevation: var(--system-elevation-level2) !default;
+$menu-container-shape: var(--system-shape-corner-extra-small) !default;
+$menu-list-item-container-height: 3rem !default;
+$menu-list-item-selected-container-color: var(--system-color-secondary-container) !default;
+$menu-list-item-label-color: var(--system-color-on-surface) !default;
+$menu-list-item-label-font: var(--system-typescale-label-large-font) !default;
+$menu-list-item-label-line-height: var(--system-typescale-label-large-line-height) !default;
+$menu-list-item-label-size: var(--system-typescale-label-large-size) !default;
+$menu-list-item-label-tracking: var(--system-typescale-label-large-tracking) !default;
+$menu-list-item-label-weight: var(--system-typescale-label-large-weight) !default;
+$menu-icon-color: var(--system-color-on-surface-variant) !default;
+$menu-icon-size: 1.5rem !default;
+$menu-list-item-leading-icon-size: 1.5rem !default;
+$menu-list-item-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$menu-list-item-trailing-icon-size: 1.5rem !default;
+$menu-list-item-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+$menu-list-divider-color: var(--system-color-surface-variant) !default;
+$menu-list-divider-height: 0.0625rem !default;
+
+$menu-list-item-disabled-label-color: var(--system-color-on-surface) !default;
+$menu-list-item-disabled-label-color-rgb: var(--system-color-on-surface-rgb) !default;
+$menu-list-item-disabled-label-opacity: 0.38 !default;
+$menu-list-item-disabled-leading-icon-color: var(--system-color-on-surface) !default;
+$menu-list-item-disabled-leading-icon-color-rgb: var(--system-color-on-surface-rgb) !default;
+$menu-list-item-disabled-leading-icon-opacity: 0.38 !default;
+$menu-list-item-disabled-trailing-icon-color: var(--system-color-on-surface) !default;
+$menu-list-item-disabled-trailing-icon-color-rgb: var(--system-color-on-surface-rgb) !default;
+$menu-list-item-disabled-trailing-icon-opacity: 0.38 !default;
+
+$menu-list-item-hover-label-color: var(--system-color-on-surface) !default;
+$menu-list-item-hover-state-layer-color: var(--system-color-on-surface) !default;
+$menu-list-item-hover-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$menu-list-item-hover-state-layer-opacity: var(--system-state-hover-state-layer-opacity) !default;
+$menu-list-item-hover-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$menu-list-item-hover-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+
+$menu-focus-indicator-color: var(--system-color-secondary) !default;
+$menu-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
+$menu-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
+$menu-list-item-focus-label-color: var(--system-color-on-surface) !default;
+$menu-list-item-focus-state-layer-color: var(--system-color-on-surface) !default;
+$menu-list-item-focus-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$menu-list-item-focus-state-layer-opacity: var(--system-state-focus-state-layer-opacity) !default;
+$menu-list-item-focus-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$menu-list-item-focus-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+
+$menu-list-item-pressed-label-color: var(--system-color-on-surface) !default;
+$menu-list-item-pressed-state-layer-color: var(--system-color-on-surface) !default;
+$menu-list-item-pressed-state-layer-color-rgb: var(--system-color-on-surface-rgb) !default;
+$menu-list-item-pressed-state-layer-opacity: var(--system-state-pressed-state-layer-opacity) !default;
+$menu-list-item-pressed-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$menu-list-item-pressed-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+
+$menu: (
+    "menu-list-item-selected-label-color": $menu-list-item-selected-label-color,
+    "menu-list-item-selected-leading-icon-color": $menu-list-item-selected-leading-icon-color,
+    "menu-list-item-selected-trailing-icon-color": $menu-list-item-selected-trailing-icon-color,
+    "menu-container-color": $menu-container-color,
+    "menu-container-elevation": $menu-container-elevation,
+    "menu-container-shape": $menu-container-shape,
+    "menu-list-item-container-height": $menu-list-item-container-height,
+    "menu-list-item-selected-container-color": $menu-list-item-selected-container-color,
+    "menu-list-item-label-color": $menu-list-item-label-color,
+    "menu-list-item-label-font": $menu-list-item-label-font,
+    "menu-list-item-label-line-height": $menu-list-item-label-line-height,
+    "menu-list-item-label-size": $menu-list-item-label-size,
+    "menu-list-item-label-tracking": $menu-list-item-label-tracking,
+    "menu-list-item-label-weight": $menu-list-item-label-weight,
+    "menu-icon-color": $menu-icon-color,
+    "menu-icon-size": $menu-icon-size,
+    "menu-list-item-leading-icon-size": $menu-list-item-leading-icon-size,
+    "menu-list-item-leading-icon-color": $menu-list-item-leading-icon-color,
+    "menu-list-item-trailing-icon-size": $menu-list-item-trailing-icon-size,
+    "menu-list-item-trailing-icon-color": $menu-list-item-trailing-icon-color,
+    "menu-list-divider-color": $menu-list-divider-color,
+    "menu-list-divider-height": $menu-list-divider-height,
+) !default;
+
+$menu-disabled: (
+    "menu-list-item-disabled-label-color": $menu-list-item-disabled-label-color,
+    "menu-list-item-disabled-label-color-rgb": $menu-list-item-disabled-label-color-rgb,
+    "menu-list-item-disabled-label-opacity": $menu-list-item-disabled-label-opacity,
+    "menu-list-item-disabled-leading-icon-color": $menu-list-item-disabled-leading-icon-color,
+    "menu-list-item-disabled-leading-icon-color-rgb": $menu-list-item-disabled-leading-icon-color-rgb,
+    "menu-list-item-disabled-leading-icon-opacity": $menu-list-item-disabled-leading-icon-opacity,
+    "menu-list-item-disabled-trailing-icon-color": $menu-list-item-disabled-trailing-icon-color,
+    "menu-list-item-disabled-trailing-icon-color-rgb": $menu-list-item-disabled-trailing-icon-color-rgb,
+    "menu-list-item-disabled-trailing-icon-opacity": $menu-list-item-disabled-trailing-icon-opacity,
+) !default;
+
+$menu-hover: (
+    "menu-list-item-hover-label-color": $menu-list-item-hover-label-color,
+    "menu-list-item-hover-state-layer-color": $menu-list-item-hover-state-layer-color,
+    "menu-list-item-hover-state-layer-color-rgb": $menu-list-item-hover-state-layer-color-rgb,
+    "menu-list-item-hover-state-layer-opacity": $menu-list-item-hover-state-layer-opacity,
+    "menu-list-item-hover-leading-icon-color": $menu-list-item-hover-leading-icon-color,
+    "menu-list-item-hover-trailing-icon-color": $menu-list-item-hover-trailing-icon-color,
+) !default;
+
+$menu-focus: (
+    "menu-focus-indicator-color": $menu-focus-indicator-color,
+    "menu-focus-indicator-thickness": $menu-focus-indicator-thickness,
+    "menu-focus-indicator-offset": $menu-focus-indicator-offset,
+    "menu-list-item-focus-label-color": $menu-list-item-focus-label-color,
+    "menu-list-item-focus-state-layer-color": $menu-list-item-focus-state-layer-color,
+    "menu-list-item-focus-state-layer-color-rgb": $menu-list-item-focus-state-layer-color-rgb,
+    "menu-list-item-focus-state-layer-opacity": $menu-list-item-focus-state-layer-opacity,
+    "menu-list-item-focus-leading-icon-color": $menu-list-item-focus-leading-icon-color,
+    "menu-list-item-focus-trailing-icon-color": $menu-list-item-focus-trailing-icon-color,
+) !default;
+
+$menu-pressed: (
+    "menu-list-item-pressed-label-color": $menu-list-item-pressed-label-color,
+    "menu-list-item-pressed-state-layer-color": $menu-list-item-pressed-state-layer-color,
+    "menu-list-item-pressed-state-layer-color-rgb": $menu-list-item-pressed-state-layer-color-rgb,
+    "menu-list-item-pressed-state-layer-opacity": $menu-list-item-pressed-state-layer-opacity,
+    "menu-list-item-pressed-leading-icon-color": $menu-list-item-pressed-leading-icon-color,
+    "menu-list-item-pressed-trailing-icon-color": $menu-list-item-pressed-trailing-icon-color,
+) !default;

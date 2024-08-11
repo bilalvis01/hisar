@@ -1,0 +1,40 @@
+@use "../style/variables" as v;
+@use "../style/mixins" as m;
+
+.app {
+    min-height: 100vh;
+    max-width: 100%;
+    background: v.$app-background-expanded;
+    padding-top: 10rem;
+}
+
+.card {
+    @include m.card-outlined;
+    margin: 0 auto;
+    padding: {
+        top: 1rem;
+        bottom: 2rem;
+    };
+    width: 24rem;
+    display: grid;
+    grid-template-areas: 
+        "header"
+        "body";
+    grid-template-columns: 1fr;
+    grid-template-rows: 3rem auto;
+}
+
+.header {
+    grid-area: header;
+    place-self: center;
+}
+
+.body {
+    grid-area: body;
+}
+
+.button {
+    margin: 0 auto;
+    width: 100%;
+    display: block;
+}

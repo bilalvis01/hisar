@@ -134,3 +134,83 @@ model BudgetTransactionType {
   name                String                @db.VarChar(20) @unique
   budgetTransactions  BudgetTransaction[]
 }
+
+model User {
+  id              String            @id @default(cuid())
+  name            String?           
+  username        String?           @unique
+  email           String?           @unique
+  emailVerified   DateTime?         @map(name: "email_verified")
+  password        String?
+  image           String?
+  sessions        Session[]
+  accounts        UserAccount[]
+  authenticators  Authenticator[]
+  createdAt       DateTime          @default(now()) @map(name: "created_at")
+  updatedAt       DateTime          @updatedAt @map(name: "updated_at")
+}
+
+model UserAccount {
+  id                        Int           @id @default(autoincrement())
+  userId                    String        @map(name: "user_id")
+  type                      String
+  provider                  String
+  providerAccountId         String        @map(name: "provider_account_id")
+  refresh_token             String?       @db.Text
+  access_token              String?       @db.Text    
+  expires_at                Int?        
+  token_type                String?     
+  scope                     String?
+  id_token                  String?       @db.Text
+  session_state             String?       
+  refresh_token_expires_in  Int?          
+  createdAt                 DateTime      @default(now()) @map(name: "created_at")
+  updatedAt                 DateTime      @updatedAt @map(name: "updated_at")
+
+  user                      User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+
+  @@map(name: "user_account")
+}
+
+model Session {
+  id            Int       @id @default(autoincrement())
+  sessionToken  String    @unique @map("session_token")
+  userId        String    @map(name: "user_id")
+  expires       DateTime  
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at") 
+
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  id            Int         @id @default(autoincrement())
+  identifier    String
+  token         String
+  expires       DateTime
+
+  @@unique([identifier, token])
+  
+  @@map(name: "verification_token")
+}
+
+model Authenticator {
+  id                    Int         @id @default(autoincrement())
+  credentialID          String      @unique @map(name: "credential_id")
+  userId                String      @map(name: "user_id")
+  providerAccountId     String      @map(name: "provider_account_id")
+  credentialPublicKey   String      @map(name: "credential_public_key")
+  counter               Int
+  credentialDeviceType  String      @map(name: "credential_device_type")
+  credentialBackedUp    Boolean     @map(name: "credential_backed_up")  
+  transports            String?
+
+  user                  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, credentialID])
+}

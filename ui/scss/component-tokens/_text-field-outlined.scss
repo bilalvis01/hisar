@@ -1,0 +1,195 @@
+$text-field-outlined-container-height: 3.5rem;
+$text-field-outlined-container-shape: var(--system-shape-corner-extra-small);
+$text-field-outlined-outline-width: 0.0625rem;
+$text-field-outlined-outline-color: var(--system-color-outline);
+$text-field-outlined-label-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-label-font: var(--system-typescale-body-large-font) !default;
+$text-field-outlined-label-line-height: var(--system-typescale-body-large-line-height) !default;
+$text-field-outlined-label-size: var(--system-typescale-body-large-size) !default;
+$text-field-outlined-label-weight: var(--system-typescale-body-large-weight) !default;
+$text-field-outlined-label-tracking: var(--system-typescale-body-large-tracking) !default;
+$text-field-outlined-label-populated-line-height: var(--system-typescale-body-small-line-height) !default;
+$text-field-outlined-label-populated-size: var(--system-typescale-body-small-size) !default;
+$text-field-outlined-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-leading-icon-size: 1.5rem !default;
+$text-field-outlined-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-trailing-icon-size: 1.5rem !default;
+$text-field-outlined-supporting-text-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-supporting-text-font: var(--system-typescale-body-small-font) !default;
+$text-field-outlined-supporting-text-line-height: var(--system-typescale-body-small-line-height) !default;
+$text-field-outlined-supporting-text-size: var(--system-typescale-body-small-size) !default;
+$text-field-outlined-supporting-text-weight: var(--system-typescale-body-small-weight) !default;
+$text-field-outlined-supporting-text-tracking: var(--system-typescale-body-small-tracking) !default;
+$text-field-outlined-input-text-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-input-text-font: var(--system-typescale-body-large-font) !default;
+$text-field-outlined-input-text-line-height: var(--system-typescale-body-large-line-height) !default;
+$text-field-outlined-input-text-size: var(--system-typescale-body-large-size) !default;
+$text-field-outlined-input-text-weight: var(--system-typescale-body-large-weight) !default;
+$text-field-outlined-input-text-tracking: var(--system-typescale-body-large-tracking) !default;
+$text-field-outlined-input-text-suffix-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-input-text-prefix-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-input-text-placeholder-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-caret-color: var(--system-color-primary) !default;
+
+$text-field-outlined-disabled-label-color: var(--system-color-on-surface) !default;
+$text-field-outlined-disabled-label-color-rgb: var(--system-color-on-surface-rgb) !default;
+$text-field-outlined-disabled-label-opacity: 0.38 !default;
+$text-field-outlined-disabled-leading-icon-color: var(--system-color-on-surface) !default;
+$text-field-outlined-disabled-leading-icon-color-rgb: var(--system-color-on-surface-rgb) !default;
+$text-field-outlined-disabled-leading-icon-opacity: 0.38 !default;
+$text-field-outlined-disabled-trailing-icon-color: var(--system-color-on-surface) !default;
+$text-field-outlined-disabled-trailing-icon-color-rgb: var(--system-color-on-surface-rgb) !default;
+$text-field-outlined-disabled-trailing-icon-opacity: 0.38 !default;
+$text-field-outlined-disabled-outline-width: 0.0625rem !default;
+$text-field-outlined-disabled-outline-color: var(--system-color-on-surface) !default;
+$text-field-outlined-disabled-outline-color-rgb: var(--system-color-on-surface-rgb) !default;
+$text-field-outlined-disabled-outline-opacity: 0.12 !default;
+$text-field-outlined-disabled-supporting-text-color: var(--system-color-on-surface) !default;
+$text-field-outlined-disabled-supporting-text-color-rgb: var(--system-color-on-surface-rgb) !default;
+$text-field-outlined-disabled-supporting-text-opacity: 0.38 !default;
+$text-field-outlined-disabled-input-text-color: var(--system-color-on-surface) !default;
+$text-field-outlined-disabled-input-text-color-rgb: var(--system-color-on-surface-rgb) !default;
+$text-field-outlined-disabled-input-text-opacity: 0.38 !default;
+
+$text-field-outlined-hover-label-color: var(--system-color-on-surface) !default;
+$text-field-outlined-hover-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-hover-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-hover-outline-width: 0.0625rem !default;
+$text-field-outlined-hover-outline-color: var(--system-color-on-surface) !default;
+$text-field-outlined-hover-input-text-color: var(--system-color-on-surface) !default;
+$text-field-outlined-hover-supporting-text-color: var(--system-color-on-surface) !default;
+
+$text-field-outlined-focus-label-color: var(--system-color-primary) !default;
+$text-field-outlined-focus-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-focus-trailing-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-focus-outline-width: 0.125rem !default;
+$text-field-outlined-focus-outline-color: var(--system-color-primary) !default;
+$text-field-outlined-focus-input-text-color: var(--system-color-on-surface) !default;
+$text-field-outlined-focus-supporting-text-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-focus-indicator-color: var(--system-color-secondary) !default;
+$text-field-outlined-focus-indicator-color-error: var(--system-color-error) !default;
+$text-field-outlined-focus-indicator-thickness: var(--system-state-focus-indicator-thickness) !default;
+$text-field-outlined-focus-indicator-offset: var(--system-state-focus-indicator-offset) !default;
+
+$text-field-outlined-error-outline-color: var(--system-color-error) !default;
+$text-field-outlined-error-label-color: var(--system-color-error) !default;
+$text-field-outlined-error-input-text-color: var(--system-color-on-surface) !default;
+$text-field-outlined-error-supporting-text-color: var(--system-color-error) !default;
+$text-field-outlined-error-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-error-trailing-icon-color: var(--system-color-error) !default;
+$text-field-outlined-error-focus-outline-color: var(--system-color-error) !default;
+$text-field-outlined-error-focus-label-color: var(--system-color-error) !default;
+$text-field-outlined-error-focus-input-text-color: var(--system-color-on-surface) !default;
+$text-field-outlined-error-focus-supporting-text-color: var(--system-color-error) !default;
+$text-field-outlined-error-focus-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-error-focus-trailing-icon-color: var(--system-color-error) !default;
+$text-field-outlined-error-focus-caret-color: var(--system-color-error) !default;
+$text-field-outlined-error-hover-outline-color: var(--system-color-error) !default;
+$text-field-outlined-error-hover-label-color: var(--system-color-error) !default;
+$text-field-outlined-error-hover-input-text-color: var(--system-color-on-surface) !default;
+$text-field-outlined-error-hover-supporting-text-color: var(--system-color-error) !default;
+$text-field-outlined-error-hover-leading-icon-color: var(--system-color-on-surface-variant) !default;
+$text-field-outlined-error-hover-trailing-icon-color: var(--system-color-error) !default;
+
+$text-field-outlined: (
+    "text-field-outlined-container-height": $text-field-outlined-container-height,
+    "text-field-outlined-container-shape": $text-field-outlined-container-shape,
+    "text-field-outlined-outline-width": $text-field-outlined-outline-width,
+    "text-field-outlined-outline-color": $text-field-outlined-outline-color,
+    "text-field-outlined-label-color": $text-field-outlined-label-color,
+    "text-field-outlined-label-font": $text-field-outlined-label-font,
+    "text-field-outlined-label-line-height": $text-field-outlined-label-line-height,
+    "text-field-outlined-label-size": $text-field-outlined-label-size,
+    "text-field-outlined-label-weight": $text-field-outlined-label-weight,
+    "text-field-outlined-label-tracking": $text-field-outlined-label-tracking,
+    "text-field-outlined-label-populated-line-height": $text-field-outlined-label-populated-line-height,
+    "text-field-outlined-label-populated-size": $text-field-outlined-label-populated-size,
+    "text-field-outlined-leading-icon-color": $text-field-outlined-leading-icon-color,
+    "text-field-outlined-leading-icon-size": $text-field-outlined-leading-icon-size,
+    "text-field-outlined-trailing-icon-color": $text-field-outlined-trailing-icon-color,
+    "text-field-outlined-trailing-icon-size": $text-field-outlined-trailing-icon-size,
+    "text-field-outlined-supporting-text-color": $text-field-outlined-supporting-text-color,
+    "text-field-outlined-supporting-text-font": $text-field-outlined-supporting-text-font,
+    "text-field-outlined-supporting-text-line-height": $text-field-outlined-supporting-text-line-height,
+    "text-field-outlined-supporting-text-size": $text-field-outlined-supporting-text-size,
+    "text-field-outlined-supporting-text-weight": $text-field-outlined-supporting-text-weight,
+    "text-field-outlined-supporting-text-tracking": $text-field-outlined-supporting-text-tracking,
+    "text-field-outlined-input-text-color": $text-field-outlined-input-text-color,
+    "text-field-outlined-input-text-font": $text-field-outlined-input-text-font,
+    "text-field-outlined-input-text-line-height": $text-field-outlined-input-text-line-height,
+    "text-field-outlined-input-text-size": $text-field-outlined-input-text-size,
+    "text-field-outlined-input-text-weight": $text-field-outlined-input-text-weight,
+    "text-field-outlined-input-text-tracking": $text-field-outlined-input-text-tracking,
+    "text-field-outlined-input-text-suffix-color": $text-field-outlined-input-text-suffix-color,
+    "text-field-outlined-input-text-prefix-color": $text-field-outlined-input-text-prefix-color,
+    "text-field-outlined-input-text-placeholder-color": $text-field-outlined-input-text-placeholder-color,
+    "text-field-outlined-caret-color": $text-field-outlined-caret-color,
+) !default;
+
+$text-field-outlined-disabled: (
+    "text-field-outlined-disabled-label-color": $text-field-outlined-disabled-label-color,
+    "text-field-outlined-disabled-label-color-rgb": $text-field-outlined-disabled-label-color-rgb,
+    "text-field-outlined-disabled-label-opacity": $text-field-outlined-disabled-label-opacity,
+    "text-field-outlined-disabled-leading-icon-color": $text-field-outlined-disabled-leading-icon-color,
+    "text-field-outlined-disabled-leading-icon-color-rgb": $text-field-outlined-disabled-leading-icon-color-rgb,
+    "text-field-outlined-disabled-leading-icon-opacity": $text-field-outlined-disabled-leading-icon-opacity,
+    "text-field-outlined-disabled-trailing-icon-color": $text-field-outlined-disabled-trailing-icon-color,
+    "text-field-outlined-disabled-trailing-icon-color-rgb": $text-field-outlined-disabled-trailing-icon-color-rgb,
+    "text-field-outlined-disabled-trailing-icon-opacity": $text-field-outlined-disabled-trailing-icon-opacity,
+    "text-field-outlined-disabled-outline-width": $text-field-outlined-disabled-outline-width,
+    "text-field-outlined-disabled-outline-color": $text-field-outlined-disabled-outline-color,
+    "text-field-outlined-disabled-outline-color-rgb": $text-field-outlined-disabled-outline-color-rgb,
+    "text-field-outlined-disabled-outline-opacity": $text-field-outlined-disabled-outline-opacity,
+    "text-field-outlined-disabled-supporting-text-color": $text-field-outlined-disabled-supporting-text-color,
+    "text-field-outlined-disabled-supporting-text-color-rgb": $text-field-outlined-disabled-supporting-text-color-rgb,
+    "text-field-outlined-disabled-supporting-text-opacity": $text-field-outlined-disabled-supporting-text-opacity,
+    "text-field-outlined-disabled-input-text-color": $text-field-outlined-disabled-input-text-color,
+    "text-field-outlined-disabled-input-text-color-rgb": $text-field-outlined-disabled-input-text-color-rgb,
+    "text-field-outlined-disabled-input-text-opacity": $text-field-outlined-disabled-input-text-opacity,
+) !default;
+
+$text-field-outlined-hover: (
+    "text-field-outlined-hover-label-color": $text-field-outlined-hover-label-color,
+    "text-field-outlined-hover-leading-icon-color": $text-field-outlined-hover-leading-icon-color,
+    "text-field-outlined-hover-trailing-icon-color": $text-field-outlined-hover-trailing-icon-color,
+    "text-field-outlined-hover-outline-width": $text-field-outlined-hover-outline-width,
+    "text-field-outlined-hover-outline-color": $text-field-outlined-hover-outline-color,
+    "text-field-outlined-hover-input-text-color": $text-field-outlined-hover-input-text-color,
+    "text-field-outlined-hover-supporting-text-color": $text-field-outlined-hover-supporting-text-color,
+) !default;
+
+$text-field-outlined-focus: (
+    "text-field-outlined-focus-label-color": $text-field-outlined-focus-label-color,
+    "text-field-outlined-focus-leading-icon-color": $text-field-outlined-focus-leading-icon-color,
+    "text-field-outlined-focus-trailing-icon-color": $text-field-outlined-focus-trailing-icon-color,
+    "text-field-outlined-focus-outline-width": $text-field-outlined-focus-outline-width,
+    "text-field-outlined-focus-outline-color": $text-field-outlined-focus-outline-color,
+    "text-field-outlined-focus-input-text-color": $text-field-outlined-focus-input-text-color,
+    "text-field-outlined-focus-supporting-text-color": $text-field-outlined-focus-supporting-text-color,
+    "text-field-outlined-focus-indicator-color": $text-field-outlined-focus-indicator-color,
+    "text-field-outlined-focus-indicator-color-error": $text-field-outlined-focus-indicator-color-error,
+    "text-field-outlined-focus-indicator-thickness": $text-field-outlined-focus-indicator-thickness,
+    "text-field-outlined-focus-indicator-offset": $text-field-outlined-focus-indicator-offset,
+) !default;
+
+$text-field-outlined-error: (
+    "text-field-outlined-error-outline-color": $text-field-outlined-error-outline-color,
+    "text-field-outlined-error-label-color": $text-field-outlined-error-label-color,
+    "text-field-outlined-error-input-text-color": $text-field-outlined-error-input-text-color,
+    "text-field-outlined-error-supporting-text-color": $text-field-outlined-error-supporting-text-color,
+    "text-field-outlined-error-leading-icon-color": $text-field-outlined-error-leading-icon-color,
+    "text-field-outlined-error-trailing-icon-color": $text-field-outlined-error-trailing-icon-color,
+    "text-field-outlined-error-focus-outline-color": $text-field-outlined-error-focus-outline-color,
+    "text-field-outlined-error-focus-label-color": $text-field-outlined-error-focus-label-color,
+    "text-field-outlined-error-focus-input-text-color": $text-field-outlined-error-focus-input-text-color,
+    "text-field-outlined-error-focus-supporting-text-color": $text-field-outlined-error-focus-supporting-text-color,
+    "text-field-outlined-error-focus-leading-icon-color": $text-field-outlined-error-focus-leading-icon-color,
+    "text-field-outlined-error-focus-trailing-icon-color": $text-field-outlined-error-focus-trailing-icon-color,
+    "text-field-outlined-error-focus-caret-color": $text-field-outlined-error-focus-caret-color,
+    "text-field-outlined-error-hover-outline-color": $text-field-outlined-error-hover-outline-color,
+    "text-field-outlined-error-hover-label-color": $text-field-outlined-error-hover-label-color,
+    "text-field-outlined-error-hover-input-text-color": $text-field-outlined-error-hover-input-text-color,
+    "text-field-outlined-error-hover-supporting-text-color": $text-field-outlined-error-hover-supporting-text-color,
+    "text-field-outlined-error-hover-leading-icon-color": $text-field-outlined-error-hover-leading-icon-color,
+    "text-field-outlined-error-hover-trailing-icon-color": $text-field-outlined-error-hover-trailing-icon-color,
+) !default;

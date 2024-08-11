@@ -1,0 +1,97 @@
+.progress-circular {
+    --spacing: 0.5rem;
+    --size: 3rem;
+    --half-size: calc(var(--size) / 2);
+    --active-indicator-thickness: 0.25rem;
+    --active-indicator-shape: round;
+    --active-indicator-color: var(--system-color-primary);
+    --active-indicator-radius: calc((var(--size) - var(--active-indicator-thickness)) / 2);
+    --active-indicator-circumference: calc(var(--active-indicator-radius) * 2 * pi);
+    --active-indicator-progress: 25;
+    --active-indicator-dash: calc(var(--active-indicator-circumference) * var(--active-indicator-progress) / 100);
+    --track-thickness: 0.25rem;
+    --track-shape: round;
+    --track-color: var(--system-color-secondary-container);
+    --track-radius: calc((var(--size) - var(--track-thickness)) / 2);
+    --track-circumference: calc(var(--track-radius) * 2 * pi);
+    --track-progress: 75;
+    --track-dash: calc(var(--track-circumference) * var(--track-progress) / 100 - var(--spacing) * 2);
+
+    &.small {
+      --size: 1.5rem;
+    }
+
+    width: var(--size);
+    height: var(--size);
+    position: relative;
+    transform-origin: center;
+    animation-name: progress-circular-spin;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+    & > .track {
+        cx: var(--half-size);
+        cy: var(--half-size);
+        r: var(--track-radius);
+        stroke-width: var(--track-thickness);
+        stroke-linecap: var(--track-shape); 
+        stroke-dasharray: var(--track-dash) calc(var(--track-circumference) - var(--track-dash));
+        stroke-dashoffset: calc(var(--spacing) * -1);
+        stroke: var(--track-color);   
+        fill: none;
+        transform-origin: center;
+        transform: rotate(270deg);
+        animation-name: track-progress;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: linear;
+    }
+
+    & > .active-indicator {
+        cx: var(--half-size);
+        cy: var(--half-size);
+        r: var(--active-indicator-radius);
+        stroke-width: var(--active-indicator-thickness);
+        stroke-linecap: var(--active-indicator-shape); 
+        stroke-dasharray: var(--active-indicator-dash) calc(var(--active-indicator-circumference) - var(--active-indicator-dash));
+        stroke: var(--active-indicator-color); 
+        fill: none;
+        transform-origin: center;
+        transform: rotate(180deg);
+        animation-name: active-indicator-progress;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: linear;
+    }
+}
+
+@keyframes progress-circular-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes active-indicator-progress {
+    from {
+        stroke-dasharray: var(--active-indicator-dash) calc(var(--active-indicator-circumference) - var(--active-indicator-dash));
+    }
+
+    to {
+        stroke-dasharray: var(--active-indicator-circumference) 0;
+    }
+}
+
+@keyframes track-progress {
+    from {
+        stroke-dasharray: var(--track-dash) calc(var(--track-circumference) - var(--track-dash));
+        stroke-dashoffset: calc(var(--spacing) * -1);
+    }
+
+    to {
+        stroke-dasharray: 0 var(--track-circumference);
+        stroke-dashoffset: calc((var(--track-circumference) * 0.75 - var(--spacing)) * -1);
+    }
+}

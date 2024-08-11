@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "migrate:dev": "dotenv -e .env.development -- prisma migrate dev",
+    "migrate:reset": "dotenv -e .env.development -- prisma migrate reset"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} ./seed.dev.ts"
@@ -18,10 +20,12 @@
     "@apollo/client": "^3.9.11",
     "@apollo/server": "^4.10.4",
     "@as-integrations/next": "^3.0.0",
+    "@auth/prisma-adapter": "^2.4.1",
     "@floating-ui/react": "^0.26.10",
     "@prisma/client": "^5.13.0",
     "@reduxjs/toolkit": "^2.2.3",
     "@tanstack/react-table": "^8.15.3",
+    "bcryptjs": "^2.4.3",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
     "formik": "^2.4.5",
@@ -29,6 +33,7 @@
     "graphql-scalars": "^1.23.0",
     "graphql-tag": "^2.12.6",
     "next": "^14.1.4",
+    "next-auth": "^4.24.7",
     "pm2": "^5.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -48,6 +53,7 @@
     "@graphql-codegen/typescript-resolvers": "^4.0.6",
     "@types/node": "20.11.30",
     "@types/react": "18.2.71",
+    "dotenv-cli": "^7.4.2",
     "prisma": "^5.13.0",
     "raw-loader": "^4.0.2",
     "sass": "^1.72.0",

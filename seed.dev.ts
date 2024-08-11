@@ -20,11 +20,22 @@ import {
     BUDGET_CASH_ACCOUNT,
     BUDGET_EXPENSE_ACCOUNT,
 } from './lib/database/budget-account-task';
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
     await prisma.$transaction(async (tx: PrismaClient) => {
+        const password = await bcrypt.hash("#1234GGaa!!", 10);
+        
+        await tx.user.create({
+            data: {
+                name: "admin",
+                username: "admin",
+                password,
+            },
+        });
+
         await tx.accountType.create({
             data: {
                 name: ASSET,

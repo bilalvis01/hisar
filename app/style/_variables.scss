@@ -1,0 +1,7 @@
+$app-background-expanded: linear-gradient(
+    to bottom,
+    var(--system-color-primary) 16rem,
+    var(--system-color-surface) 16rem,
+);
+
+$app-background-compact: var(--system-color-surface);

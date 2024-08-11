@@ -1,0 +1,5 @@
+@use "../../style/mixins";
+
+.container {
+    @include mixins.page-padding;
+}

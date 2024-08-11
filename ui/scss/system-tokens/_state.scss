@@ -1,0 +1,15 @@
+$state-hover-state-layer-opacity: 0.08 !default;
+$state-focus-state-layer-opacity: 0.1 !default;
+$state-focus-indicator-thickness: 0.1875rem !default;
+$state-focus-indicator-offset: -0.125rem !default;
+$state-pressed-state-layer-opacity: 0.1 !default;
+$state-dragged-state-layer-opacity: 0.16 !default;
+
+$states: (
+    "state-hover-state-layer-opacity": $state-hover-state-layer-opacity,
+    "state-focus-state-layer-opacity": $state-focus-state-layer-opacity,
+    "state-focus-indicator-thickness": $state-focus-indicator-thickness,
+    "state-focus-indicator-offset": $state-focus-indicator-offset,
+    "state-pressed-state-layer-opacity": $state-pressed-state-layer-opacity,
+    "state-dragged-state-layer-opacity": $state-dragged-state-layer-opacity,
+) !default;
